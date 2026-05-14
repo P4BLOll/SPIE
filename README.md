@@ -69,7 +69,7 @@ O aplicativo móvel poderá ser desenvolvido em React Native, permitindo a cria�
 
 A localização será obtida pelo smartphone, utilizando os recursos nativos do aparelho. Essa decisão reduz custo, tamanho e consumo de energia do dispositivo vestível.
 
-Para armazenamento e envio de alertas, poderão ser utilizados serviços como Firebase, Supabase ou uma API própria desenvolvida em Java com Spring Boot. A escolha final dependerá da complexidade do protótipo e do tempo disponível para desenvolvimento.
+Para armazenamento e envio de alertas, poderão ser utilizados serviços como Firebase ou Supabase. A escolha final dependerá da complexidade do protótipo e do tempo disponível para desenvolvimento.
 
 ### Aplicação mobile
 
@@ -97,7 +97,6 @@ Para armazenamento e envio de alertas, poderão ser utilizados serviços como Fi
 | -------------------- | ----------------------------------------------- |
 | Firebase             | Armazenamento, autenticação ou envio de alertas |
 | Supabase             | Alternativa para backend e banco de dados       |
-| Java com Spring Boot | Possível API própria                            |
 
 ## Casos de Uso Principais
 
