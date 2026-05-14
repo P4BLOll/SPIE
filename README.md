@@ -159,7 +159,9 @@ Envio de alerta
 
 Posteriormente, poderão ser adicionadas melhorias, como histórico de acionamentos, feedback por vibração e integração com backend.
 
-```md
+</br>
+</br>
+
 <p align="center">
   <img src="./modeloSPIE.jpg" alt="Representação conceitual do módulo SPIE" width="800"/>
 </p>
@@ -167,7 +169,8 @@ Posteriormente, poderão ser adicionadas melhorias, como histórico de acionamen
 <p align="center">
   <em>Figura 1 — Representação conceitual do módulo SPIE em diferentes formatos de uso.</em>
 </p>
-```
+
+</br>
 
 ## Projeto
 
