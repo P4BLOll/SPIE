@@ -159,6 +159,16 @@ Envio de alerta
 
 Posteriormente, poderão ser adicionadas melhorias, como histórico de acionamentos, feedback por vibração e integração com backend.
 
+```md
+<p align="center">
+  <img src="./modeloSPIE.jpg" alt="Representação conceitual do módulo SPIE" width="800"/>
+</p>
+
+<p align="center">
+  <em>Figura 1 — Representação conceitual do módulo SPIE em diferentes formatos de uso.</em>
+</p>
+```
+
 ## Projeto
 
 O desenvolvimento anual poderá ser organizado em etapas:
