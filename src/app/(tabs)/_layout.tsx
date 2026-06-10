@@ -23,22 +23,32 @@ export default function TabsLayout() {
         },
       }}
     >
-      {/* Aba 1: Home */}
+      {/* Aba 1: Painel SOS */}
       <Tabs.Screen
         name="home"
         options={{
-          tabBarIcon: ({ color, size, focused }) => (
+          tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? "home" : "home-outline"} size={24} color={color} />
           ),
         }}
       />
 
-      {/* Aba 2: Contatos (Nova!) */}
+      {/* Aba 2: Contatos */}
       <Tabs.Screen
         name="contacts"
         options={{
-          tabBarIcon: ({ color, size, focused }) => (
+          tabBarIcon: ({ color, focused }) => (
             <Ionicons name={focused ? "people" : "people-outline"} size={24} color={color} />
+          ),
+        }}
+      />
+
+      {/* Aba 3: Dispositivo/Pulseira (Nova!) */}
+      <Tabs.Screen
+        name="device"
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons name={focused ? "watch" : "watch-outline"} size={24} color={color} />
           ),
         }}
       />

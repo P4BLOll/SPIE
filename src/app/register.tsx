@@ -25,7 +25,7 @@ export default function RegisterScreen() {
     try {
       await registerUser({ fullName, email, phone, password });
       Alert.alert('Sucesso!', 'Conta criada com sucesso!', [
-        { text: 'OK', onPress: () => router.replace('/home') }
+        { text: 'OK', onPress: () => router.replace('/(tabs)/home') }
       ]);
     } catch (error: any) {
       Alert.alert('Erro no cadastro', error.message);
