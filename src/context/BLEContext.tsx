@@ -2,6 +2,11 @@ import React, { createContext, useState, useEffect, useContext, ReactNode } from
 import { Platform, PermissionsAndroid, Vibration } from 'react-native';
 import { BleManager, Device } from 'react-native-ble-plx';
 import { Buffer as ExpoBuffer } from 'buffer';
+import * as Location from 'expo-location'; // 👈 Novo import para o GPS
+
+// Importações do Firebase para buscar a rede de apoio
+import { db, auth } from '../services/firebaseConfig';
+import { collection, getDocs } from 'firebase/firestore';
 
 interface BLEContextData {
   status: string;
@@ -34,6 +39,96 @@ export function BLEProvider({ children }: { children: ReactNode }) {
       return concedida['android.permission.BLUETOOTH_CONNECT'] === PermissionsAndroid.RESULTS.GRANTED;
     }
     return true;
+  };
+
+const enviarMensagemWhatsApp = async () => {
+    const currentUser = auth.currentUser;
+    if (!currentUser) return;
+
+    // 📡 🔑 Buscando credenciais seguras das variáveis de ambiente
+    const ACCOUNT_SID = process.env.EXPO_PUBLIC_TWILIO_ACCOUNT_SID;
+    const AUTH_TOKEN = process.env.EXPO_PUBLIC_TWILIO_AUTH_TOKEN;
+    const NUMERO_SANDBOX_TWILIO = 'whatsapp:+14155238886';
+
+    if (!ACCOUNT_SID || !AUTH_TOKEN) {
+      console.error("[SPIE TWILIO] Erro: Credenciais da Twilio não foram carregadas do .env");
+      return;
+    }
+
+    try {
+      // 🛰️ 1. Captura a localização do GPS do Celular
+      console.log("[SPIE GPS] Solicitando permissão de localização...");
+      let { status: locationStatus } = await Location.requestForegroundPermissionsAsync();
+      
+      let linkGoogleMaps = "Localização não disponível (Permissão negada)";
+
+      if (locationStatus === 'granted') {
+        console.log("[SPIE GPS] Capturando coordenadas atuais...");
+        // Captura a posição com alta precisão
+        let location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.High
+        });
+        
+        const { latitude, longitude } = location.coords;
+        // Gera o link oficial que abre direto no app do Google Maps do contato
+        linkGoogleMaps = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}`;
+      }
+
+      // 2. Busca o contato salvo no Firestore
+      const contactsRef = collection(db, 'users', currentUser.uid, 'emergency_contacts');
+      const snapshot = await getDocs(contactsRef);
+      
+      if (snapshot.empty) {
+        console.log("[SPIE TWILIO] Nenhum contato cadastrado no Firestore.");
+        return;
+      }
+
+      const primeiroContato = snapshot.docs[0].data();
+      let telefoneLimpo = primeiroContato.phone.replace(/[^0-9]/g, '');
+
+      if (telefoneLimpo.length <= 11) {
+        telefoneLimpo = `55${telefoneLimpo}`;
+      }
+
+      const nomeUsuaria = currentUser.displayName || currentUser.email?.split('@')[0];
+      
+      // 🚨 3. Mensagem estruturada incluindo o Link do Mapa
+      const mensagemAlerta = `🛡️ *SISTEMA SPIE — CENTRAL DE SEGURANÇA* 🛡️\n\n` +
+        `⚠️ *ALERTA DE RISCO IMINENTE* ⚠️\n\n` +
+        `A usuária *${nomeUsuaria}* acionou o dispositivo vestível de emergência.\n\n` +
+        `📍 *Localização Atual:* ${linkGoogleMaps}\n\n` +
+        `_Por favor, tente contato imediato ou verifique a integridade física da usuária._`;
+
+      console.log(`[SPIE TWILIO] Enviando requisição HTTP para a Twilio com GPS...`);
+
+      const urlAPI = `https://api.twilio.com/2010-04-01/Accounts/${ACCOUNT_SID}/Messages.json`;
+
+      const formData = new URLSearchParams();
+      formData.append('To', `whatsapp:+${telefoneLimpo}`);
+      formData.append('From', NUMERO_SANDBOX_TWILIO);
+      formData.append('Body', mensagemAlerta);
+
+      const credenciaisCodificadas = btoa(`${ACCOUNT_SID}:${AUTH_TOKEN}`);
+
+      const resposta = await fetch(urlAPI, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Basic ${credenciaisCodificadas}`,
+        },
+        body: formData.toString(),
+      });
+
+      if (resposta.ok) {
+        console.log('[SPIE TWILIO] Mensagem com localização enviada com sucesso!');
+      } else {
+        const txtErro = await resposta.text();
+        console.log('[SPIE TWILIO] Falha na API da Twilio:', txtErro);
+      }
+
+    } catch (error) {
+      console.error("[SPIE TWILIO] Erro geral no fluxo de disparo: ", error);
+    }
   };
 
   const conectarDispositivo = async () => {
@@ -96,6 +191,7 @@ export function BLEProvider({ children }: { children: ReactNode }) {
           if (dadoDecodificado === '1') {
             setAlertaAtivo(true);
             Vibration.vibrate(PADRAO_ALARME_VIBRACAO, true);
+            enviarMensagemWhatsApp();
           }
         }
       }
