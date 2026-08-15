@@ -1,54 +1,121 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors } from '../../constants/Colors';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { cycleColors, TAB_BAR_BASE_HEIGHT } from '@/styles/calendar.styles';
+import { calendarStyles } from '@/styles/calendar.styles';
+
+// A tab bar é `position: absolute`, então toda tela com rolagem
+// precisa reservar TAB_BAR_BASE_HEIGHT + insets.bottom no final do
+// conteúdo (ver CalendarScreen.tsx) — senão o fim da lista some
+// atrás dela.
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+  const tabBarHeight = TAB_BAR_BASE_HEIGHT + insets.bottom;
+
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: Colors.accent,
-        tabBarInactiveTintColor: Colors.textMuted,
+        tabBarActiveTintColor: cycleColors.rose,
+        tabBarInactiveTintColor: cycleColors.textMuted,
         tabBarStyle: {
-          backgroundColor: Colors.surface,
+          backgroundColor: cycleColors.surface,
           borderTopWidth: 0,
           elevation: 10,
           shadowColor: '#000',
           shadowOffset: { width: 0, height: -4 },
           shadowOpacity: 0.2,
           shadowRadius: 8,
-          height: 64,
-          paddingBottom: 0,
+          height: tabBarHeight,
+          paddingTop: 10,
+          paddingBottom: insets.bottom,
+          position: 'absolute',
+        },
+        tabBarItemStyle: {
+          justifyContent: 'center',
+          alignItems: 'center',
+        },
+        tabBarIconStyle: {
+          marginTop: 0,
+          marginBottom: 0,
         },
       }}
     >
-      {/* Aba 1: Painel SOS */}
       <Tabs.Screen
-        name="home"
+        name="index"
         options={{
+          href: null,
+        }}
+      />
+
+      <Tabs.Screen
+        name="calendar"
+        options={{
+          title: 'Calendário',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? "home" : "home-outline"} size={24} color={color} />
+            <Ionicons
+              name={focused ? 'calendar' : 'calendar-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
 
-      {/* Aba 2: Contatos */}
       <Tabs.Screen
-        name="contacts"
+        name="tips"
         options={{
+          title: 'Dicas',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? "people" : "people-outline"} size={24} color={color} />
+            <Ionicons
+              name={focused ? 'heart' : 'heart-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />
 
-      {/* Aba 3: Dispositivo/Pulseira (Nova!) */}
       <Tabs.Screen
-        name="device"
+        name="insights"
         options={{
+          title: 'Estatísticas',
           tabBarIcon: ({ color, focused }) => (
-            <Ionicons name={focused ? "watch" : "watch-outline"} size={24} color={color} />
+            <Ionicons
+              name={focused ? 'stats-chart' : 'stats-chart-outline'}
+              size={24}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="secret"
+        options={{
+          title: 'Secreto',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'lock-closed' : 'lock-closed-outline'}
+              size={24}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Perfil',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'person' : 'person-outline'}
+              size={24}
+              color={color}
+            />
           ),
         }}
       />

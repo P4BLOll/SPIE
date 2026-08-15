@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { getReactNativePersistence } = require('firebase/auth');
 
+<<<<<<< HEAD
 const firebaseConfig = {
 
   apiKey: "AIzaSyDROcLOvoTT9d1MKghOZudFlRGhd_676Hk",
@@ -19,6 +20,15 @@ const firebaseConfig = {
 
   appId: "1:1023558385987:web:22c4450965412cbd0eaff6"
 
+=======
+ const firebaseConfig = {
+  apiKey: "AIzaSyDROcLOvoTT9d1MKghOZudFlRGhd_676Hk",
+  authDomain: "spieproject-b4262.firebaseapp.com",
+  projectId: "spieproject-b4262",
+  storageBucket: "spieproject-b4262.firebasestorage.app",
+  messagingSenderId: "1023558385987",
+  appId: "1:1023558385987:web:22c4450965412cbd0eaff6"
+>>>>>>> 39f5a69 (SPIE ATUALIZADO)
 };
 
 
