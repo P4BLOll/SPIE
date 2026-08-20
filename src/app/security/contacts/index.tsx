@@ -11,29 +11,14 @@ import {
   Alert,
 } from 'react-native';
 
-import {
-  Ionicons,
-} from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
-import {
-  router,
-} from 'expo-router';
+import { Background } from '@/components/Background';
+import { AnimatedPressable } from '@/components/AnimatedPressable';
 
-import {
-  LinearGradient,
-} from 'expo-linear-gradient';
-
-import {
-  Background,
-} from '@/components/Background';
-
-import {
-  AnimatedPressable,
-} from '@/components/AnimatedPressable';
-
-import {
-  cycleColors,
-} from '@/constants/Colors';
+import { cycleColors } from '@/styles/calendar.styles';
 
 import {
   contactsStyles as styles,
@@ -51,9 +36,7 @@ import {
   doc,
 } from 'firebase/firestore';
 
-import {
-  useSecurity,
-} from '@/context/SecurityContext';
+import { useSecurity } from '@/context/SecurityContext';
 
 
 // =====================================================
@@ -73,29 +56,13 @@ interface Contact {
 
 export default function ContactsScreen() {
 
-  // =====================================================
-  // SECURITY
-  // =====================================================
+  const { bloquear } = useSecurity();
 
-  const {
-    bloquear,
-  } = useSecurity();
+  const [contacts, setContacts] =
+    useState<Contact[]>([]);
 
-
-  // =====================================================
-  // ESTADOS
-  // =====================================================
-
-  const [
-    contacts,
-    setContacts,
-  ] = useState<Contact[]>([]);
-
-
-  const [
-    loading,
-    setLoading,
-  ] = useState(true);
+  const [loading, setLoading] =
+    useState(true);
 
 
   // =====================================================
@@ -104,114 +71,71 @@ export default function ContactsScreen() {
 
   useEffect(() => {
 
-    const user =
-      auth.currentUser;
-
-
-    // ===================================================
-    // USUÁRIO NÃO AUTENTICADO
-    // ===================================================
+    const user = auth.currentUser;
 
     if (!user) {
-
       setContacts([]);
-
       setLoading(false);
-
       return;
-
     }
 
+    const contactsRef = collection(
+      db,
+      'users',
+      user.uid,
+      'emergency_contacts'
+    );
 
-    // ===================================================
-    // REFERÊNCIA DOS CONTATOS
-    // ===================================================
+    const unsubscribe = onSnapshot(
+      contactsRef,
 
-    const contactsRef =
-      collection(
-        db,
-        'users',
-        user.uid,
-        'emergency_contacts'
-      );
+      (snapshot) => {
 
+        const data: Contact[] = [];
 
-    // ===================================================
-    // LISTENER DO FIRESTORE
-    // ===================================================
+        snapshot.forEach((item) => {
 
-    const unsubscribe =
-      onSnapshot(
-        contactsRef,
+          const contact = item.data();
 
-        (snapshot) => {
+          data.push({
+            id: item.id,
 
-          const data: Contact[] = [];
+            name:
+              typeof contact.name === 'string'
+                ? contact.name
+                : '',
 
+            phone:
+              typeof contact.phone === 'string'
+                ? contact.phone
+                : '',
+          });
 
-          snapshot.forEach(
-            (item) => {
+        });
 
-              const contact =
-                item.data();
+        setContacts(data);
+        setLoading(false);
+      },
 
+      (error) => {
 
-              data.push({
+        console.log(
+          'Erro ao carregar contatos:',
+          error
+        );
 
-                id: item.id,
+        setContacts([]);
+        setLoading(false);
 
-                name:
-                  typeof contact.name === 'string'
-                    ? contact.name
-                    : '',
-
-                phone:
-                  typeof contact.phone === 'string'
-                    ? contact.phone
-                    : '',
-
-              });
-
-            }
-          );
-
-
-          setContacts(data);
-
-          setLoading(false);
-
-        },
-
-        (error) => {
-
-          console.log(
-            'Erro ao carregar contatos:',
-            error
-          );
-
-
-          setContacts([]);
-
-          setLoading(false);
-
-
-          Alert.alert(
-            'Erro',
-            'Não foi possível carregar seus contatos de emergência.'
-          );
-
-        }
-      );
-
-
-    // ===================================================
-    // LIMPAR LISTENER
-    // ===================================================
+        Alert.alert(
+          'Erro',
+          'Não foi possível carregar seus contatos de emergência.'
+        );
+      }
+    );
 
     return () => {
-
       unsubscribe();
-
     };
 
   }, []);
@@ -223,28 +147,9 @@ export default function ContactsScreen() {
 
   function voltar() {
 
-    /*
-     * A tela de contatos é uma área protegida.
-     *
-     * Ao sair dela, bloqueamos novamente
-     * o acesso à área segura.
-     *
-     * Depois voltamos para o Perfil,
-     * que é o ponto de entrada usado
-     * pelo fluxo atual:
-     *
-     * Perfil
-     * ↓
-     * Secret
-     * ↓
-     * PIN
-     * ↓
-     * Contatos
-     */
-
     bloquear();
 
-    router.replace('/profile');
+    router.back();
 
   }
 
@@ -258,13 +163,7 @@ export default function ContactsScreen() {
     name: string
   ) {
 
-    const user =
-      auth.currentUser;
-
-
-    // ===================================================
-    // USUÁRIO NÃO AUTENTICADO
-    // ===================================================
+    const user = auth.currentUser;
 
     if (!user) {
 
@@ -274,13 +173,7 @@ export default function ContactsScreen() {
       );
 
       return;
-
     }
-
-
-    // ===================================================
-    // CONFIRMAÇÃO
-    // ===================================================
 
     Alert.alert(
       'Excluir contato',
@@ -288,36 +181,28 @@ export default function ContactsScreen() {
       `Deseja remover ${name}?`,
 
       [
-
         {
           text: 'Cancelar',
-
           style: 'cancel',
         },
 
         {
-
           text: 'Excluir',
-
           style: 'destructive',
 
           onPress: async () => {
 
             try {
 
-              const contactRef =
-                doc(
-                  db,
-                  'users',
-                  user.uid,
-                  'emergency_contacts',
-                  id
-                );
-
-
-              await deleteDoc(
-                contactRef
+              const contactRef = doc(
+                db,
+                'users',
+                user.uid,
+                'emergency_contacts',
+                id
               );
+
+              await deleteDoc(contactRef);
 
             } catch (error) {
 
@@ -326,21 +211,15 @@ export default function ContactsScreen() {
                 error
               );
 
-
               Alert.alert(
                 'Erro',
                 'Não foi possível excluir o contato.'
               );
-
             }
-
           },
-
         },
-
       ]
     );
-
   }
 
 
@@ -350,365 +229,381 @@ export default function ContactsScreen() {
 
   return (
 
-    <Background>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: cycleColors.background,
+      }}
+    >
 
-      <View
-        style={
-          styles.root
-        }
+      <Background
+        style={{
+          flex: 1,
+          backgroundColor: cycleColors.background,
+        }}
       >
 
-        {/* =================================================
-            CABEÇALHO
-        ================================================= */}
-
         <View
-          style={
-            styles.fixedHeader
-          }
+          style={[
+            styles.root,
+            {
+              backgroundColor:
+                cycleColors.background,
+            },
+          ]}
         >
 
-          <AnimatedPressable
-            style={
-              styles.backButton
-            }
-            onPress={
-              voltar
-            }
-          >
-
-            <Ionicons
-              name="arrow-back"
-              size={22}
-              color={
-                cycleColors.text
-              }
-            />
-
-          </AnimatedPressable>
-
+          {/* =================================================
+              CABEÇALHO
+          ================================================= */}
 
           <View
-            style={
-              styles.headerTextWrap
-            }
+            style={[
+              styles.fixedHeader,
+              {
+                backgroundColor:
+                  cycleColors.background,
+                borderBottomColor:
+                  'rgba(255,255,255,0.06)',
+              },
+            ]}
           >
 
-            <Text
-              style={
-                styles.title
-              }
-            >
-              Contatos de emergência
-            </Text>
-
-
-            <Text
-              style={
-                styles.subtitle
-              }
-            >
-              Pessoas que receberão alertas do SPIE
-            </Text>
-
-          </View>
-
-        </View>
-
-
-        {/* =================================================
-            BOTÃO ADICIONAR
-        ================================================= */}
-
-        <View
-          style={
-            styles.addButtonWrap
-          }
-        >
-
-          <AnimatedPressable
-            onPress={() =>
-              router.push(
-                '/security/contacts/add'
-              )
-            }
-          >
-
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <AnimatedPressable
+              style={[
+                styles.backButton,
+                {
+                  backgroundColor:
+                    cycleColors.surface,
+                },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 0,
-              }}
-              style={
-                styles.addButton
-              }
+              onPress={voltar}
             >
 
               <Ionicons
-                name="add-circle-outline"
-                size={20}
-                color="#FFFFFF"
+                name="arrow-back"
+                size={22}
+                color={cycleColors.text}
               />
+
+            </AnimatedPressable>
+
+
+            <View
+              style={styles.headerTextWrap}
+            >
+
+              <Text
+                style={[
+                  styles.title,
+                  {
+                    color:
+                      cycleColors.text,
+                  },
+                ]}
+              >
+                Contatos de emergência
+              </Text>
 
 
               <Text
-                style={
-                  styles.addButtonText
-                }
+                style={[
+                  styles.subtitle,
+                  {
+                    color:
+                      cycleColors.textMuted,
+                  },
+                ]}
               >
-                Adicionar contato
+                Pessoas que receberão alertas do SPIE
               </Text>
 
-            </LinearGradient>
-
-          </AnimatedPressable>
-
-        </View>
-
-
-        {/* =================================================
-            CARREGANDO
-        ================================================= */}
-
-        {loading ? (
-
-          <ActivityIndicator
-            size="small"
-            color={
-              cycleColors.rose
-            }
-            style={{
-              marginTop: 40,
-            }}
-          />
-
-        ) : contacts.length === 0 ? (
-
-          /* =================================================
-             LISTA VAZIA
-          ================================================= */
-
-          <View
-            style={
-              styles.emptyState
-            }
-          >
-
-            <Ionicons
-              name="people-outline"
-              size={52}
-              color={
-                cycleColors.textMuted
-              }
-            />
-
-
-            <Text
-              style={
-                styles.emptyTitle
-              }
-            >
-              Nenhum contato cadastrado
-            </Text>
-
-
-            <Text
-              style={
-                styles.emptySubtitle
-              }
-            >
-              Toque em "Adicionar contato" para
-              cadastrar o primeiro.
-            </Text>
+            </View>
 
           </View>
 
-        ) : (
 
-          /* =================================================
-             LISTA
-          ================================================= */
+          {/* =================================================
+              BOTÃO ADICIONAR
+          ================================================= */}
 
-          <FlatList
-            data={
-              contacts
-            }
+          <View
+            style={styles.addButtonWrap}
+          >
 
-            keyExtractor={
-              (item) =>
-                item.id
-            }
+            <AnimatedPressable
+              onPress={() =>
+                router.push(
+                  '/security/contacts/add'
+                )
+              }
+            >
 
-            showsVerticalScrollIndicator={
-              false
-            }
-
-            contentContainerStyle={
-              styles.listContent
-            }
-
-            renderItem={({
-              item,
-            }) => (
-
-              <View
-                style={
-                  styles.contactCard
-                }
+              <LinearGradient
+                colors={[
+                  cycleColors.rose,
+                  cycleColors.lavender,
+                ]}
+                start={{
+                  x: 0,
+                  y: 0,
+                }}
+                end={{
+                  x: 1,
+                  y: 0,
+                }}
+                style={styles.addButton}
               >
 
-                {/* =========================================
-                    INFORMAÇÕES DO CONTATO
-                ========================================= */}
+                <Ionicons
+                  name="add-circle-outline"
+                  size={20}
+                  color="#FFFFFF"
+                />
+
+                <Text
+                  style={styles.addButtonText}
+                >
+                  Adicionar contato
+                </Text>
+
+              </LinearGradient>
+
+            </AnimatedPressable>
+
+          </View>
+
+
+          {/* =================================================
+              CARREGANDO
+          ================================================= */}
+
+          {loading ? (
+
+            <ActivityIndicator
+              size="small"
+              color={cycleColors.rose}
+              style={{
+                marginTop: 40,
+              }}
+            />
+
+          ) : contacts.length === 0 ? (
+
+            /* =================================================
+               ESTADO VAZIO
+            ================================================= */
+
+            <View
+              style={styles.emptyState}
+            >
+
+              <Ionicons
+                name="people-outline"
+                size={52}
+                color={cycleColors.lavender}
+              />
+
+              <Text
+                style={[
+                  styles.emptyTitle,
+                  {
+                    color:
+                      cycleColors.text,
+                  },
+                ]}
+              >
+                Nenhum contato cadastrado
+              </Text>
+
+              <Text
+                style={[
+                  styles.emptySubtitle,
+                  {
+                    color:
+                      cycleColors.textMuted,
+                  },
+                ]}
+              >
+                Toque em "Adicionar contato" para
+                cadastrar o primeiro.
+              </Text>
+
+            </View>
+
+          ) : (
+
+            /* =================================================
+               LISTA
+            ================================================= */
+
+            <FlatList
+              data={contacts}
+
+              keyExtractor={(item) =>
+                item.id
+              }
+
+              showsVerticalScrollIndicator={false}
+
+              contentContainerStyle={
+                styles.listContent
+              }
+
+              renderItem={({ item }) => (
 
                 <View
-                  style={
-                    styles.contactInfo
-                  }
+                  style={[
+                    styles.contactCard,
+                    {
+                      backgroundColor:
+                        cycleColors.surface,
+                    },
+                  ]}
                 >
 
-                  <View
-                    style={
-                      styles.avatarBadge
-                    }
-                  >
-
-                    <Ionicons
-                      name="person"
-                      size={18}
-                      color={
-                        cycleColors.rose
-                      }
-                    />
-
-                  </View>
-
+                  {/* =========================================
+                      INFORMAÇÕES
+                  ========================================= */}
 
                   <View
-                    style={{
-                      flexShrink: 1,
-                    }}
+                    style={styles.contactInfo}
                   >
 
-                    <Text
-                      style={
-                        styles.contactName
-                      }
-                      numberOfLines={1}
-                    >
-                      {item.name}
-                    </Text>
-
-
-                    <Text
-                      style={
-                        styles.contactPhone
-                      }
-                    >
-                      {item.phone}
-                    </Text>
-
-                  </View>
-
-                </View>
-
-
-                {/* =========================================
-                    AÇÕES
-                ========================================= */}
-
-                <View
-                  style={
-                    styles.actionsRow
-                  }
-                >
-
-                  {/* =======================================
-                      EDITAR
-                  ======================================= */}
-
-                  <AnimatedPressable
-                    style={[
-                      styles.actionBadge,
-                      {
-                        backgroundColor:
-                          cycleColors.tealSoft,
-                      },
-                    ]}
-                    onPress={() =>
-                      router.push({
-                        pathname:
-                          '/security/contacts/edit',
-
-                        params: {
-                          id: item.id,
+                    <View
+                      style={[
+                        styles.avatarBadge,
+                        {
+                          backgroundColor:
+                            cycleColors.roseSoft,
                         },
-                      })
-                    }
+                      ]}
+                    >
+
+                      <Ionicons
+                        name="person"
+                        size={18}
+                        color={cycleColors.rose}
+                      />
+
+                    </View>
+
+
+                    <View
+                      style={{
+                        flexShrink: 1,
+                      }}
+                    >
+
+                      <Text
+                        style={[
+                          styles.contactName,
+                          {
+                            color:
+                              cycleColors.text,
+                          },
+                        ]}
+                        numberOfLines={1}
+                      >
+                        {item.name}
+                      </Text>
+
+
+                      <Text
+                        style={[
+                          styles.contactPhone,
+                          {
+                            color:
+                              cycleColors.textMuted,
+                          },
+                        ]}
+                      >
+                        {item.phone}
+                      </Text>
+
+                    </View>
+
+                  </View>
+
+
+                  {/* =========================================
+                      AÇÕES
+                  ========================================= */}
+
+                  <View
+                    style={styles.actionsRow}
                   >
 
-                    <Ionicons
-                      name="create-outline"
-                      size={18}
-                      color={
-                        cycleColors.teal
+                    {/* EDITAR */}
+
+                    <AnimatedPressable
+                      style={[
+                        styles.actionBadge,
+                        {
+                          backgroundColor:
+                            cycleColors.tealSoft,
+                        },
+                      ]}
+                      onPress={() =>
+                        router.push({
+                          pathname:
+                            '/security/contacts/edit',
+                          params: {
+                            id: item.id,
+                          },
+                        })
                       }
-                    />
+                    >
 
-                  </AnimatedPressable>
+                      <Ionicons
+                        name="create-outline"
+                        size={18}
+                        color={cycleColors.teal}
+                      />
+
+                    </AnimatedPressable>
 
 
-                  {/* =======================================
-                      EXCLUIR
-                  ======================================= */}
+                    {/* EXCLUIR */}
 
-                  <AnimatedPressable
-                    style={[
-                      styles.actionBadge,
-                      {
-                        backgroundColor:
-                          cycleColors.dangerSoft,
-                      },
-                    ]}
-                    onPress={() =>
-                      deleteContact(
-                        item.id,
-                        item.name
-                      )
-                    }
-                  >
-
-                    <Ionicons
-                      name="trash-outline"
-                      size={18}
-                      color={
-                        cycleColors.danger
+                    <AnimatedPressable
+                      style={[
+                        styles.actionBadge,
+                        {
+                          backgroundColor:
+                            cycleColors.roseSoft,
+                        },
+                      ]}
+                      onPress={() =>
+                        deleteContact(
+                          item.id,
+                          item.name
+                        )
                       }
-                    />
+                    >
 
-                  </AnimatedPressable>
+                      <Ionicons
+                        name="trash-outline"
+                        size={18}
+                        color={cycleColors.rose}
+                      />
+
+                    </AnimatedPressable>
+
+                  </View>
 
                 </View>
 
-              </View>
+              )}
+            />
 
-            )}
-          />
+          )}
 
-        )}
+        </View>
 
-      </View>
+      </Background>
 
-    </Background>
+    </View>
 
   );
-
 }

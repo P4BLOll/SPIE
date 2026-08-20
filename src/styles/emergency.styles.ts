@@ -2,12 +2,42 @@ import { StyleSheet } from 'react-native';
 
 import { cycleColors } from '@/styles/calendar.styles';
 
+// ============================================================
+// TOKENS DE ELEVAÇÃO / SOMBRA
+// Centralizados aqui para manter consistência visual entre
+// todos os cards da tela (profundidade em camadas, não sombra
+// "achatada" genérica).
+// ============================================================
+
+const shadowSoft = {
+  shadowColor: '#160B12',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.06,
+  shadowRadius: 12,
+  elevation: 2,
+};
+
+const shadowMedium = {
+  shadowColor: '#160B12',
+  shadowOffset: { width: 0, height: 8 },
+  shadowOpacity: 0.1,
+  shadowRadius: 18,
+  elevation: 4,
+};
+
+const shadowRose = {
+  shadowColor: cycleColors.rose,
+  shadowOffset: { width: 0, height: 10 },
+  shadowOpacity: 0.32,
+  shadowRadius: 20,
+  elevation: 8,
+};
+
 export const emergencyStyles = StyleSheet.create({
-  /*
-   * ============================================================
-   * CONTAINER
-   * ============================================================
-   */
+
+  // ============================================================
+  // CONTAINER
+  // ============================================================
 
   container: {
     flex: 1,
@@ -17,17 +47,15 @@ export const emergencyStyles = StyleSheet.create({
   scroll: {
     paddingHorizontal: 20,
     paddingTop: 16,
-    paddingBottom: 40,
+    paddingBottom: 60,
   },
 
-  /*
-   * ============================================================
-   * TOPO
-   * ============================================================
-   */
+  // ============================================================
+  // TOPO
+  // ============================================================
 
   topBar: {
-    height: 58,
+    height: 60,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 16,
@@ -35,87 +63,46 @@ export const emergencyStyles = StyleSheet.create({
   },
 
   backButton: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: cycleColors.surface,
+    borderWidth: 1,
+    borderColor: cycleColors.divider,
+    ...shadowSoft,
   },
 
   pageTitle: {
     flex: 1,
     textAlign: 'center',
     color: cycleColors.text,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '900',
-    letterSpacing: 0.5,
+    letterSpacing: 1.4,
   },
 
   topBarSpacer: {
-    width: 42,
+    width: 44,
   },
 
   headerDivider: {
     height: 1,
     backgroundColor: cycleColors.divider,
     marginHorizontal: 20,
+    opacity: 0.6,
   },
 
-  /*
-   * ============================================================
-   * INTRODUÇÃO
-   * ============================================================
-   */
-
-  alertIntro: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: cycleColors.surface,
-    borderRadius: 22,
-    padding: 16,
-    marginBottom: 24,
-    elevation: 4,
-  },
-
-  alertIntroIcon: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: cycleColors.danger,
-  },
-
-  alertIntroContent: {
-    flex: 1,
-    marginLeft: 13,
-  },
-
-  alertIntroTitle: {
-    color: cycleColors.text,
-    fontSize: 14,
-    fontWeight: '800',
-  },
-
-  alertIntroText: {
-    color: cycleColors.textMuted,
-    fontSize: 12,
-    lineHeight: 18,
-    marginTop: 4,
-  },
-
-  /*
-   * ============================================================
-   * SEÇÕES
-   * ============================================================
-   */
+  // ============================================================
+  // SEÇÕES
+  // ============================================================
 
   sectionHeader: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginBottom: 12,
     paddingHorizontal: 2,
   },
 
@@ -124,10 +111,10 @@ export const emergencyStyles = StyleSheet.create({
   },
 
   sectionLabel: {
-    color: cycleColors.text,
-    fontSize: 12,
+    color: cycleColors.rose,
+    fontSize: 11,
     fontWeight: '900',
-    letterSpacing: 1,
+    letterSpacing: 1.4,
   },
 
   sectionDescription: {
@@ -142,23 +129,23 @@ export const emergencyStyles = StyleSheet.create({
     fontWeight: '800',
   },
 
-  /*
-   * ============================================================
-   * MAPA
-   * ============================================================
-   */
+  // ============================================================
+  // MAPA / LOCALIZAÇÃO
+  // ============================================================
 
   mapCard: {
     backgroundColor: cycleColors.surface,
     borderRadius: 24,
     overflow: 'hidden',
-    marginBottom: 24,
-    elevation: 4,
+    marginBottom: 18,
+    borderWidth: 1,
+    borderColor: cycleColors.divider,
+    ...shadowMedium,
   },
 
   mapWrapper: {
     width: '100%',
-    height: 250,
+    height: 150,
     position: 'relative',
   },
 
@@ -167,95 +154,96 @@ export const emergencyStyles = StyleSheet.create({
     height: '100%',
   },
 
-  /*
-   * ============================================================
-   * ESTADOS DA LOCALIZAÇÃO
-   * ============================================================
-   */
+  // ============================================================
+  // ESTADOS DA LOCALIZAÇÃO
+  // ============================================================
 
   locationState: {
-    minHeight: 250,
+    minHeight: 150,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 30,
-    paddingVertical: 30,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    backgroundColor: cycleColors.surface,
   },
 
   locationLoadingIcon: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    backgroundColor: cycleColors.surfaceAlt,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: cycleColors.roseSoft,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 14,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: cycleColors.roseBorder,
   },
 
   locationStateIcon: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: cycleColors.surfaceAlt,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 14,
+    marginBottom: 12,
   },
 
   locationStateTitle: {
     color: cycleColors.text,
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '800',
     textAlign: 'center',
   },
 
   locationStateText: {
     color: cycleColors.textMuted,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 11,
+    lineHeight: 16,
     textAlign: 'center',
-    marginTop: 7,
+    marginTop: 5,
     maxWidth: 300,
   },
 
   retryButton: {
-    marginTop: 17,
-    minHeight: 44,
+    marginTop: 14,
+    minHeight: 42,
     paddingHorizontal: 18,
-    borderRadius: 16,
+    borderRadius: 14,
     backgroundColor: cycleColors.surfaceAlt,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: cycleColors.divider,
   },
 
   retryButtonText: {
     color: cycleColors.text,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '800',
     marginLeft: 7,
   },
 
   secondaryRetryButton: {
-    marginTop: 11,
+    marginTop: 8,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 7,
+    paddingVertical: 6,
     paddingHorizontal: 10,
   },
 
   secondaryRetryText: {
     color: cycleColors.lavender,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '700',
     marginLeft: 5,
   },
 
-  /*
-   * ============================================================
-   * MAPA — BADGES
-   * ============================================================
-   */
+  // ============================================================
+  // MAPA — BADGES
+  // ============================================================
 
   locationBadge: {
     position: 'absolute',
@@ -263,9 +251,9 @@ export const emergencyStyles = StyleSheet.create({
     left: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(18, 14, 27, 0.88)',
+    backgroundColor: 'rgba(18, 14, 27, 0.86)',
     paddingHorizontal: 11,
-    paddingVertical: 8,
+    paddingVertical: 7,
     borderRadius: 14,
   },
 
@@ -279,36 +267,37 @@ export const emergencyStyles = StyleSheet.create({
 
   locationBadgeText: {
     color: '#FFFFFF',
-    fontSize: 11,
+    fontSize: 10,
     fontWeight: '800',
+    letterSpacing: 0.3,
   },
 
   refreshLocationButton: {
     position: 'absolute',
     right: 12,
     bottom: 12,
-    width: 42,
-    height: 42,
-    borderRadius: 21,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     backgroundColor: cycleColors.surface,
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 4,
+    borderWidth: 1,
+    borderColor: cycleColors.divider,
+    ...shadowSoft,
   },
 
-  /*
-   * ============================================================
-   * LOCALIZAÇÃO ATIVA
-   * ============================================================
-   */
+  // ============================================================
+  // LOCALIZAÇÃO ATIVA
+  // ============================================================
 
   readyIndicator: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: cycleColors.tealSoft,
-    paddingHorizontal: 9,
-    paddingVertical: 5,
-    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 12,
   },
 
   readyDot: {
@@ -325,11 +314,9 @@ export const emergencyStyles = StyleSheet.create({
     fontWeight: '800',
   },
 
-  /*
-   * ============================================================
-   * STATUS DO ENVIO
-   * ============================================================
-   */
+  // ============================================================
+  // STATUS DO ENVIO
+  // ============================================================
 
   alertStatus: {
     flexDirection: 'row',
@@ -337,8 +324,10 @@ export const emergencyStyles = StyleSheet.create({
     backgroundColor: cycleColors.surface,
     borderRadius: 20,
     padding: 14,
-    marginBottom: 24,
-    elevation: 4,
+    marginBottom: 18,
+    borderWidth: 1,
+    borderColor: cycleColors.divider,
+    ...shadowSoft,
   },
 
   alertStatusIcon: {
@@ -351,14 +340,14 @@ export const emergencyStyles = StyleSheet.create({
 
   alertStatusContent: {
     flex: 1,
-    marginLeft: 11,
+    marginLeft: 12,
   },
 
   alertStatusLabel: {
     color: cycleColors.textMuted,
     fontSize: 9,
     fontWeight: '900',
-    letterSpacing: 1,
+    letterSpacing: 1.2,
   },
 
   alertStatusText: {
@@ -368,29 +357,29 @@ export const emergencyStyles = StyleSheet.create({
   },
 
   statusIndicator: {
-    width: 7,
-    height: 7,
+    width: 8,
+    height: 8,
     borderRadius: 4,
   },
 
-  /*
-   * ============================================================
-   * CONTATOS
-   * ============================================================
-   */
+  // ============================================================
+  // CONTATOS
+  // ============================================================
 
   contactsCard: {
     backgroundColor: cycleColors.surface,
-    borderRadius: 22,
+    borderRadius: 24,
     overflow: 'hidden',
-    marginBottom: 24,
-    elevation: 4,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: cycleColors.divider,
+    ...shadowSoft,
   },
 
   contact: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 15,
+    paddingHorizontal: 16,
     paddingVertical: 14,
     borderBottomWidth: 1,
     borderBottomColor: cycleColors.divider,
@@ -401,8 +390,8 @@ export const emergencyStyles = StyleSheet.create({
   },
 
   contactAvatar: {
-    width: 43,
-    height: 43,
+    width: 44,
+    height: 44,
     borderRadius: 22,
     backgroundColor: cycleColors.roseSoft,
     alignItems: 'center',
@@ -411,7 +400,7 @@ export const emergencyStyles = StyleSheet.create({
 
   contactInfo: {
     flex: 1,
-    marginLeft: 11,
+    marginLeft: 12,
   },
 
   contactName: {
@@ -430,10 +419,10 @@ export const emergencyStyles = StyleSheet.create({
     alignSelf: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 8,
+    paddingHorizontal: 9,
     paddingVertical: 4,
     borderRadius: 10,
-    marginTop: 6,
+    marginTop: 7,
   },
 
   contactStatusText: {
@@ -443,8 +432,8 @@ export const emergencyStyles = StyleSheet.create({
   },
 
   contactEdit: {
-    width: 35,
-    height: 35,
+    width: 36,
+    height: 36,
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
@@ -455,7 +444,8 @@ export const emergencyStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 14,
+    paddingVertical: 15,
+    backgroundColor: cycleColors.surfaceAlt,
   },
 
   addAnotherText: {
@@ -465,26 +455,26 @@ export const emergencyStyles = StyleSheet.create({
     marginLeft: 6,
   },
 
-  /*
-   * ============================================================
-   * ESTADO SEM CONTATOS
-   * ============================================================
-   */
+  // ============================================================
+  // ESTADO SEM CONTATOS
+  // ============================================================
 
   emptyContacts: {
     backgroundColor: cycleColors.surface,
-    borderRadius: 22,
-    padding: 24,
+    borderRadius: 24,
+    padding: 26,
     alignItems: 'center',
-    marginBottom: 24,
-    elevation: 4,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: cycleColors.divider,
+    borderStyle: 'dashed',
   },
 
   emptyIcon: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    backgroundColor: cycleColors.surfaceAlt,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: cycleColors.lavenderSoft,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -493,7 +483,7 @@ export const emergencyStyles = StyleSheet.create({
     color: cycleColors.text,
     fontSize: 15,
     fontWeight: '800',
-    marginTop: 12,
+    marginTop: 14,
     textAlign: 'center',
   },
 
@@ -507,13 +497,15 @@ export const emergencyStyles = StyleSheet.create({
   },
 
   addContactButton: {
-    marginTop: 17,
+    marginTop: 18,
     minHeight: 46,
-    paddingHorizontal: 20,
+    paddingHorizontal: 22,
     borderRadius: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: cycleColors.rose,
+    ...shadowRose,
   },
 
   addContactText: {
@@ -523,31 +515,30 @@ export const emergencyStyles = StyleSheet.create({
     marginLeft: 7,
   },
 
-  /*
-   * ============================================================
-   * CANCELAR / DESATIVAR ALERTA
-   * ============================================================
-   */
+  // ============================================================
+  // CANCELAR / DESATIVAR ALERTA
+  // ============================================================
 
   cancelArea: {
-    marginTop: 14,
-    marginBottom: 15,
-    paddingTop: 4,
+    marginTop: 6,
+    marginBottom: 30,
+    paddingTop: 0,
+    paddingBottom: 12,
   },
 
   cancelWarning: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 9,
+    marginBottom: 7,
     paddingHorizontal: 10,
   },
 
   cancelWarningText: {
     color: cycleColors.danger,
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '900',
-    letterSpacing: 1,
+    letterSpacing: 1.2,
     marginLeft: 7,
     textAlign: 'center',
   },
@@ -557,83 +548,87 @@ export const emergencyStyles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 17,
     textAlign: 'center',
-    marginBottom: 13,
-    paddingHorizontal: 20,
+    marginBottom: 12,
+    paddingHorizontal: 18,
   },
 
-  /*
-   * BOTÃO MAIS DESTACADO — agora um wrapper; a cor vem do
-   * LinearGradient aplicado no componente
-   */
-
   cancelButtonWrapper: {
-    borderRadius: 24,
-    elevation: 10,
-    shadowColor: cycleColors.danger,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.55,
-    shadowRadius: 18,
+    width: '100%',
+    borderRadius: 20,
+    marginBottom: 20,
+    shadowColor: cycleColors.rose,
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 22,
+    elevation: 9,
   },
 
   cancelButton: {
     width: '100%',
-    minHeight: 96,
-    borderRadius: 24,
+    minHeight: 56,
+    borderRadius: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    borderWidth: 2,
-    borderColor: 'rgba(255, 65, 108, 0.45)',
+    justifyContent: 'center',
+    paddingHorizontal: 18,
+    backgroundColor: cycleColors.rose,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.18)',
+    overflow: 'hidden',
   },
 
   cancelButtonIcon: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-    backgroundColor: 'rgba(255,255,255,0.20)',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255,255,255,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
   },
 
   cancelButtonContent: {
     flex: 1,
-    marginLeft: 13,
+    marginLeft: 12,
   },
 
   cancelText: {
     color: '#FFFFFF',
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '900',
-    letterSpacing: 0.5,
+    letterSpacing: 0.4,
   },
 
   cancelSub: {
-    color: 'rgba(255,255,255,0.86)',
-    fontSize: 10,
+    color: 'rgba(255,255,255,0.85)',
+    fontSize: 9,
     fontWeight: '600',
-    marginTop: 5,
+    marginTop: 2,
   },
 
-  /*
-   * ============================================================
-   * ALERTA DESATIVADO
-   * ============================================================
-   */
+  // ============================================================
+  // ALERTA DESATIVADO
+  // ============================================================
 
   cancelled: {
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: 18,
+    marginBottom: 30,
+    paddingBottom: 22,
     backgroundColor: cycleColors.surface,
-    borderRadius: 22,
-    padding: 24,
+    borderRadius: 24,
+    padding: 26,
     alignItems: 'center',
-    elevation: 4,
+    borderWidth: 1,
+    borderColor: cycleColors.divider,
+    ...shadowSoft,
   },
 
   cancelledIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
     backgroundColor: cycleColors.tealSoft,
     alignItems: 'center',
     justifyContent: 'center',
@@ -643,13 +638,13 @@ export const emergencyStyles = StyleSheet.create({
     color: cycleColors.text,
     fontSize: 16,
     fontWeight: '800',
-    marginTop: 12,
+    marginTop: 14,
   },
 
   cancelledDescription: {
     color: cycleColors.textMuted,
     fontSize: 12,
     textAlign: 'center',
-    marginTop: 5,
+    marginTop: 6,
   },
 });

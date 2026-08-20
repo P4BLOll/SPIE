@@ -8,8 +8,10 @@ import {
   View,
   TouchableOpacity,
   Alert,
-  StatusBar,
   TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -45,13 +47,23 @@ export default function SecretScreen() {
 
 
   // =====================================================
-  // ROTA DE DESTINO
+  // DESTINO
   // =====================================================
 
   const destinoParam =
     typeof params.destino === 'string'
       ? params.destino
       : '/security';
+
+
+  // =====================================================
+  // ORIGEM
+  // =====================================================
+
+  const origemParam =
+    typeof params.origem === 'string'
+      ? params.origem
+      : '/(tabs)/profile';
 
 
   // =====================================================
@@ -64,6 +76,7 @@ export default function SecretScreen() {
     carregando,
     criarSenha,
     verificarSenha,
+    bloquear,
   } = useSecurity();
 
 
@@ -90,6 +103,40 @@ export default function SecretScreen() {
 
 
   // =====================================================
+  // AUTORIZAÇÃO DESTA ENTRADA
+  //
+  // Esse estado é diferente de acessoLiberado.
+  //
+  // Ele garante que o PIN seja digitado novamente
+  // sempre que o SecretScreen for aberto.
+  // =====================================================
+
+  const [
+    autorizadoNestaEntrada,
+    setAutorizadoNestaEntrada,
+  ] = useState(false);
+
+
+  // =====================================================
+  // BLOQUEAR AO ENTRAR NO SECRET
+  //
+  // Mesmo que o usuário tenha acabado de acessar
+  // outra área protegida, uma nova entrada no Secret
+  // deverá exigir o PIN novamente.
+  // =====================================================
+
+  useEffect(() => {
+
+    bloquear();
+
+    setAutorizadoNestaEntrada(false);
+
+    setSenhaDigitada('');
+
+  }, []);
+
+
+  // =====================================================
   // VERIFICAR SE EXISTE PIN
   // =====================================================
 
@@ -99,7 +146,9 @@ export default function SecretScreen() {
       return;
     }
 
-    setCriandoSenha(!senhaSalva);
+    setCriandoSenha(
+      !senhaSalva
+    );
 
   }, [
     carregando,
@@ -108,31 +157,19 @@ export default function SecretScreen() {
 
 
   // =====================================================
-  // REDIRECIONAR APÓS LIBERAR
+  // REDIRECIONAR APÓS VALIDAR O PIN
   // =====================================================
 
   useEffect(() => {
 
     if (
       carregando ||
-      !acessoLiberado
+      !acessoLiberado ||
+      !autorizadoNestaEntrada
     ) {
       return;
     }
 
-
-    /*
-     * Depois que o PIN for validado,
-     * abre exatamente a rota solicitada.
-     *
-     * Se veio do Perfil para contatos:
-     *
-     * /secret?destino=/security/contacts
-     *
-     * então abre:
-     *
-     * /security/contacts
-     */
 
     const timer =
       setTimeout(() => {
@@ -153,6 +190,7 @@ export default function SecretScreen() {
   }, [
     carregando,
     acessoLiberado,
+    autorizadoNestaEntrada,
     destinoParam,
   ]);
 
@@ -200,7 +238,13 @@ export default function SecretScreen() {
       }
 
 
+      // -----------------------------------------------
+      // PIN CRIADO E ESTA ENTRADA FOI AUTORIZADA
+      // -----------------------------------------------
+
       setSenhaDigitada('');
+
+      setAutorizadoNestaEntrada(true);
 
     } catch (error) {
 
@@ -270,7 +314,13 @@ export default function SecretScreen() {
       }
 
 
+      // -----------------------------------------------
+      // PIN CORRETO
+      // -----------------------------------------------
+
       setSenhaDigitada('');
+
+      setAutorizadoNestaEntrada(true);
 
     } catch (error) {
 
@@ -295,6 +345,34 @@ export default function SecretScreen() {
 
 
   // =====================================================
+  // VOLTAR
+  // =====================================================
+
+  function voltar() {
+
+    // -----------------------------------------------
+    // BLOQUEIA NOVAMENTE A ÁREA SEGURA
+    // -----------------------------------------------
+
+    bloquear();
+
+    setAutorizadoNestaEntrada(false);
+
+    setSenhaDigitada('');
+
+
+    // -----------------------------------------------
+    // VOLTA PARA A TELA QUE ABRIU O SECRET
+    // -----------------------------------------------
+
+    router.replace(
+      origemParam as any
+    );
+
+  }
+
+
+  // =====================================================
   // CARREGANDO
   // =====================================================
 
@@ -311,11 +389,6 @@ export default function SecretScreen() {
         ]}
       >
 
-        <StatusBar
-          barStyle="light-content"
-        />
-
-
         <View
           style={styles.lockBox}
         >
@@ -325,7 +398,6 @@ export default function SecretScreen() {
             size={40}
             color={cycleColors.rose}
           />
-
 
           <Text
             style={styles.lockTitle}
@@ -346,7 +418,10 @@ export default function SecretScreen() {
   // AGUARDANDO REDIRECIONAMENTO
   // =====================================================
 
-  if (acessoLiberado) {
+  if (
+    acessoLiberado &&
+    autorizadoNestaEntrada
+  ) {
 
     return null;
 
@@ -368,162 +443,232 @@ export default function SecretScreen() {
       ]}
     >
 
-      <StatusBar
-        barStyle="light-content"
-      />
-
-
-      <View
-        style={styles.lockBox}
+      <KeyboardAvoidingView
+        style={{
+          flex: 1,
+        }}
+        behavior={
+          Platform.OS === 'ios'
+            ? 'padding'
+            : 'height'
+        }
+        keyboardVerticalOffset={0}
       >
 
-        {/* =================================================
-            ÍCONE
-        ================================================= */}
-
-        <LinearGradient
-          colors={[
-            cycleColors.rose,
-            cycleColors.lavender,
-          ]}
-          start={{
-            x: 0,
-            y: 0,
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            justifyContent: 'center',
           }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={styles.lockIconRing}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
         >
 
-          <Ionicons
-            name="lock-closed"
-            size={38}
-            color="#FFFFFF"
-          />
-
-        </LinearGradient>
-
-
-        {/* =================================================
-            TÍTULO
-        ================================================= */}
-
-        <Text
-          style={styles.lockTitle}
-        >
-
-          {criandoSenha
-            ? 'Crie seu PIN secreto'
-            : 'Digite seu PIN'}
-
-        </Text>
-
-
-        {/* =================================================
-            SUBTÍTULO
-        ================================================= */}
-
-        <Text
-          style={styles.lockSubtitle}
-        >
-
-          {criandoSenha
-            ? 'Essa senha protege sua área de emergência. Use 4 números fáceis de lembrar.'
-            : 'Digite o PIN de 4 números para acessar sua área segura.'}
-
-        </Text>
-
-
-        {/* =================================================
-            CAMPO PIN
-        ================================================= */}
-
-        <View
-          style={styles.pinCard}
-        >
-
-          <TextInput
-            style={styles.pinInput}
-            keyboardType="number-pad"
-            maxLength={4}
-            secureTextEntry
-            placeholder="••••"
-            placeholderTextColor={
-              cycleColors.textMuted
-            }
-            value={senhaDigitada}
-            onChangeText={
-              setSenhaDigitada
-            }
-            autoFocus
-            editable={!processando}
-          />
-
-        </View>
-
-
-        {/* =================================================
-            BOTÃO
-        ================================================= */}
-
-        <TouchableOpacity
-          activeOpacity={0.85}
-          disabled={processando}
-          onPress={
-            criandoSenha
-              ? salvarSenha
-              : entrar
-          }
-        >
-
-          <LinearGradient
-            colors={[
-              cycleColors.rose,
-              cycleColors.lavender,
-            ]}
-            start={{
-              x: 0,
-              y: 0,
-            }}
-            end={{
-              x: 1,
-              y: 0,
-            }}
-            style={styles.pinButton}
+          <View
+            style={styles.lockBox}
           >
 
-            <Ionicons
-              name={
-                criandoSenha
-                  ? 'key-outline'
-                  : 'lock-open-outline'
-              }
-              size={16}
-              color="#FFFFFF"
-            />
+            {/* =================================================
+                BOTÃO VOLTAR
+            ================================================= */}
+
+            <TouchableOpacity
+              style={{
+                position: 'absolute',
+                top: 20,
+                left: 20,
+                width: 42,
+                height: 42,
+                borderRadius: 21,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor:
+                  cycleColors.surfaceAlt,
+              }}
+              activeOpacity={0.7}
+              onPress={voltar}
+            >
+
+              <Ionicons
+                name="chevron-back"
+                size={22}
+                color={
+                  cycleColors.text
+                }
+              />
+
+            </TouchableOpacity>
 
 
-            <Text
+            {/* =================================================
+                ÍCONE
+            ================================================= */}
+
+            <LinearGradient
+              colors={[
+                cycleColors.rose,
+                cycleColors.lavender,
+              ]}
+              start={{
+                x: 0,
+                y: 0,
+              }}
+              end={{
+                x: 1,
+                y: 1,
+              }}
               style={
-                styles.pinButtonText
+                styles.lockIconRing
               }
             >
 
-              {processando
-                ? 'AGUARDE...'
-                : criandoSenha
-                  ? 'CRIAR SENHA'
-                  : 'ENTRAR'}
+              <Ionicons
+                name="lock-closed"
+                size={38}
+                color="#FFFFFF"
+              />
+
+            </LinearGradient>
+
+
+            {/* =================================================
+                TÍTULO
+            ================================================= */}
+
+            <Text
+              style={
+                styles.lockTitle
+              }
+            >
+
+              {criandoSenha
+                ? 'Crie seu PIN secreto'
+                : 'Digite seu PIN'}
 
             </Text>
 
-          </LinearGradient>
 
-        </TouchableOpacity>
+            {/* =================================================
+                SUBTÍTULO
+            ================================================= */}
 
-      </View>
+            <Text
+              style={
+                styles.lockSubtitle
+              }
+            >
+
+              {criandoSenha
+                ? 'Essa senha protege sua área de emergência. Use 4 números fáceis de lembrar.'
+                : 'Digite o PIN de 4 números para acessar sua área segura.'}
+
+            </Text>
+
+
+            {/* =================================================
+                CAMPO PIN
+            ================================================= */}
+
+            <View
+              style={
+                styles.pinCard
+              }
+            >
+
+              <TextInput
+                style={
+                  styles.pinInput
+                }
+                keyboardType="number-pad"
+                maxLength={4}
+                secureTextEntry
+                placeholder="••••"
+                placeholderTextColor={
+                  cycleColors.textMuted
+                }
+                value={
+                  senhaDigitada
+                }
+                onChangeText={
+                  setSenhaDigitada
+                }
+                autoFocus
+                editable={
+                  !processando
+                }
+              />
+
+            </View>
+
+
+            {/* =================================================
+                BOTÃO
+            ================================================= */}
+
+            <TouchableOpacity
+              activeOpacity={0.85}
+              disabled={
+                processando
+              }
+              onPress={
+                criandoSenha
+                  ? salvarSenha
+                  : entrar
+              }
+            >
+
+              <LinearGradient
+                colors={[
+                  cycleColors.rose,
+                  cycleColors.lavender,
+                ]}
+                start={{
+                  x: 0,
+                  y: 0,
+                }}
+                end={{
+                  x: 1,
+                  y: 0,
+                }}
+                style={
+                  styles.pinButton
+                }
+              >
+
+                <Ionicons
+                  name={
+                    criandoSenha
+                      ? 'key-outline'
+                      : 'lock-open-outline'
+                  }
+                  size={16}
+                  color="#FFFFFF"
+                />
+
+
+                <Text
+                  style={
+                    styles.pinButtonText
+                  }
+                >
+
+                  {processando
+                    ? 'AGUARDE...'
+                    : criandoSenha
+                      ? 'CRIAR SENHA'
+                      : 'ENTRAR'}
+
+                </Text>
+
+              </LinearGradient>
+
+            </TouchableOpacity>
+
+          </View>
+
+        </ScrollView>
+
+      </KeyboardAvoidingView>
 
     </SafeAreaView>
 

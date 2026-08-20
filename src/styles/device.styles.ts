@@ -1,37 +1,66 @@
 import { StyleSheet, Platform } from 'react-native';
-import { Colors } from '../constants/Colors';
+import { cycleColors } from './calendar.styles';
 
 export const deviceStyles = StyleSheet.create({
+  // =====================================
+  // CONTAINER
+  // =====================================
+
   container: {
     flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 40,
+    backgroundColor: cycleColors.background,
+    paddingHorizontal: 20,
   },
 
+  // =====================================
+  // CABEÇALHO
+  // =====================================
+
   header: {
-    marginTop: 20,
-    marginBottom: 32,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingTop: 18,
+    paddingBottom: 20,
+  },
+
+  backButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: cycleColors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 14,
+  },
+
+  headerContent: {
+    flex: 1,
   },
 
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: Colors.text,
+    fontSize: 23,
+    fontWeight: '800',
+    color: cycleColors.text,
   },
 
   subtitle: {
     marginTop: 4,
     fontSize: 13,
-    color: Colors.textMuted,
+    color: cycleColors.textMuted,
   },
 
+  // =====================================
+  // CARD DO DISPOSITIVO
+  // =====================================
+
   statusCard: {
-    backgroundColor: Colors.surface,
-    padding: 32,
-    borderRadius: 16,
+    backgroundColor: cycleColors.surface,
+    padding: 30,
+    borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 24,
+
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -44,59 +73,67 @@ export const deviceStyles = StyleSheet.create({
 
   statusCardConnected: {
     borderWidth: 1,
-    borderColor: 'rgba(0, 242, 254, 0.15)',
+    borderColor: cycleColors.roseBorder,
   },
 
   deviceIcon: {
-    marginBottom: 16,
+    marginBottom: 18,
   },
 
   statusLabel: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: Colors.textMuted,
+    fontSize: 13,
+    fontWeight: '600',
+    color: cycleColors.textMuted,
   },
 
   statusValue: {
-    marginTop: 6,
+    marginTop: 7,
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: '800',
     textAlign: 'center',
   },
 
   textOk: {
-    color: Colors.accent,
+    color: cycleColors.teal,
   },
 
   textError: {
-    color: Colors.danger,
+    color: cycleColors.rose,
   },
+
+  // =====================================
+  // INFORMAÇÕES DO HARDWARE
+  // =====================================
 
   hardwareSpecs: {
     width: '100%',
-    marginTop: 16,
+    marginTop: 18,
     paddingTop: 16,
     alignItems: 'center',
     borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.05)',
+    borderTopColor: 'rgba(255,255,255,0.06)',
   },
 
   specText: {
-    marginTop: 2,
+    marginTop: 3,
     fontSize: 12,
-    color: Colors.textMuted,
+    color: cycleColors.textMuted,
     fontFamily:
       Platform.OS === 'ios'
         ? 'Courier'
         : 'monospace',
   },
 
+  // =====================================
+  // CONTROLES
+  // =====================================
+
   controlContainer: {
     width: '100%',
   },
 
   btnWrapper: {
-    borderRadius: 8,
+    borderRadius: 16,
     overflow: 'hidden',
   },
 
@@ -107,21 +144,28 @@ export const deviceStyles = StyleSheet.create({
   },
 
   buttonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: Colors.text,
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#FFFFFF',
   },
 
   row: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
+
+  // =====================================
+  // PAINEL CONECTADO
+  // =====================================
 
   connectedPanel: {
     padding: 20,
-    borderRadius: 12,
-    gap: 12,
-    backgroundColor: 'rgba(22, 31, 48, 0.5)',
+    borderRadius: 18,
+    gap: 14,
+    backgroundColor: cycleColors.surface,
+    borderWidth: 1,
+    borderColor: cycleColors.roseBorder,
   },
 
   infoRow: {
@@ -132,6 +176,7 @@ export const deviceStyles = StyleSheet.create({
 
   infoText: {
     fontSize: 14,
-    color: Colors.text,
+    fontWeight: '600',
+    color: cycleColors.text,
   },
 });

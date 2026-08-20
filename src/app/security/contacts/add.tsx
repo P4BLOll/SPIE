@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   Alert,
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -17,7 +20,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { Background } from '@/components/Background';
 
-import { cycleColors } from '@/constants/Colors';
+import { cycleColors } from '@/styles/calendar.styles';
 
 import {
   addContactStyles as styles,
@@ -41,20 +44,19 @@ import {
 
 export default function AddContact() {
 
-  // ===================================================
-  // ESTADOS
-  // ===================================================
+  const [name, setName] =
+    useState('');
 
-  const [name, setName] = useState('');
+  const [phone, setPhone] =
+    useState('');
 
-  const [phone, setPhone] = useState('');
+  const [loading, setLoading] =
+    useState(false);
 
-  const [loading, setLoading] = useState(false);
 
-
-  // ===================================================
-  // VOLTAR PARA CONTATOS
-  // ===================================================
+  // =====================================================
+  // VOLTAR
+  // =====================================================
 
   function voltarParaContatos() {
 
@@ -62,23 +64,22 @@ export default function AddContact() {
       return;
     }
 
-    router.replace('/security/contacts');
+    router.back();
 
   }
 
 
-  // ===================================================
-  // SALVAR CONTATO
-  // ===================================================
+  // =====================================================
+  // SALVAR
+  // =====================================================
 
   async function salvar() {
 
-    // ================================================
-    // VALIDAR CAMPOS
-    // ================================================
+    const nomeLimpo =
+      name.trim();
 
-    const nomeLimpo = name.trim();
-    const telefoneLimpo = phone.trim();
+    const telefoneLimpo =
+      phone.trim();
 
     if (
       !nomeLimpo ||
@@ -93,12 +94,8 @@ export default function AddContact() {
       return;
     }
 
-
-    // ================================================
-    // USUÁRIO
-    // ================================================
-
-    const user = auth.currentUser;
+    const user =
+      auth.currentUser;
 
     if (!user) {
 
@@ -110,32 +107,21 @@ export default function AddContact() {
       return;
     }
 
-
-    // ================================================
-    // EVITAR DUPLO CLIQUE
-    // ================================================
-
     if (loading) {
       return;
     }
-
-
-    // ================================================
-    // SALVAR
-    // ================================================
 
     try {
 
       setLoading(true);
 
-
-      const contactsRef = collection(
-        db,
-        'users',
-        user.uid,
-        'emergency_contacts'
-      );
-
+      const contactsRef =
+        collection(
+          db,
+          'users',
+          user.uid,
+          'emergency_contacts'
+        );
 
       await addDoc(
         contactsRef,
@@ -146,21 +132,10 @@ export default function AddContact() {
         }
       );
 
-
       Keyboard.dismiss();
-
-
-      // ==============================================
-      // LIMPAR CAMPOS
-      // ==============================================
 
       setName('');
       setPhone('');
-
-
-      // ==============================================
-      // SUCESSO
-      // ==============================================
 
       Alert.alert(
         'Contato salvo',
@@ -170,16 +145,11 @@ export default function AddContact() {
             text: 'OK',
 
             onPress: () => {
-
-              router.replace(
-                '/security/contacts'
-              );
-
+              router.back();
             },
           },
         ]
       );
-
 
     } catch (error) {
 
@@ -188,12 +158,10 @@ export default function AddContact() {
         error
       );
 
-
       Alert.alert(
         'Erro',
         'Não foi possível salvar o contato.'
       );
-
 
     } finally {
 
@@ -210,191 +178,290 @@ export default function AddContact() {
 
   return (
 
-    <Background>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor:
+          cycleColors.background,
+      }}
+    >
 
-      <View style={styles.screen}>
+      <Background
+        style={{
+          flex: 1,
+          backgroundColor:
+            cycleColors.background,
+        }}
+      >
 
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={
+            Platform.OS === 'ios'
+              ? 'padding'
+              : 'height'
+          }
+          keyboardVerticalOffset={0}
+        >
 
-
-          {/* =================================================
-              TOPO
-          ================================================= */}
-
-          <View style={styles.topBar}>
-
-            <TouchableOpacity
-              style={styles.backButton}
-              activeOpacity={0.7}
-              onPress={voltarParaContatos}
-              disabled={loading}
-            >
-
-              <Ionicons
-                name="arrow-back"
-                size={22}
-                color={cycleColors.text}
-              />
-
-            </TouchableOpacity>
-
-
-            <Text style={styles.topBarTitle}>
-              Novo contato
-            </Text>
-
-          </View>
-
-
-          {/* =================================================
-              CABEÇALHO
-          ================================================= */}
-
-          <View style={styles.header}>
-
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
-              ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 1,
-              }}
-              style={styles.iconRing}
-            >
-
-              <Ionicons
-                name="person-add-outline"
-                size={34}
-                color="#FFFFFF"
-              />
-
-            </LinearGradient>
-
-
-            <Text style={styles.title}>
-              Contato de emergência
-            </Text>
-
-
-            <Text style={styles.subtitle}>
-              Essa pessoa poderá receber alertas quando você precisar de ajuda.
-            </Text>
-
-          </View>
-
-
-          {/* =================================================
-              FORMULÁRIO
-          ================================================= */}
-
-          <View style={styles.card}>
-
-            {/* =================================================
-                NOME
-            ================================================= */}
-
-            <TextInput
-              placeholder="Nome completo"
-              placeholderTextColor={
-                cycleColors.textMuted
-              }
-              value={name}
-              onChangeText={setName}
-              style={styles.input}
-              editable={!loading}
-              autoCapitalize="words"
-              autoCorrect={false}
-            />
-
-
-            {/* =================================================
-                TELEFONE
-            ================================================= */}
-
-            <TextInput
-              placeholder="Telefone com DDD"
-              placeholderTextColor={
-                cycleColors.textMuted
-              }
-              keyboardType="phone-pad"
-              value={phone}
-              onChangeText={setPhone}
-              style={[
-                styles.input,
-                styles.inputLast,
-              ]}
-              editable={!loading}
-            />
-
-          </View>
-
-
-          {/* =================================================
-              BOTÃO SALVAR
-          ================================================= */}
-
-          <TouchableOpacity
-            activeOpacity={0.85}
-            disabled={loading}
-            onPress={salvar}
-            style={
-              loading
-                ? styles.buttonDisabled
-                : undefined
-            }
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+            }}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
           >
 
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <View
+              style={[
+                styles.screen,
+                {
+                  backgroundColor:
+                    cycleColors.background,
+                },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 0,
-              }}
-              style={styles.button}
             >
 
-              {!loading && (
+              <View style={styles.container}>
 
-                <Ionicons
-                  name="checkmark"
-                  size={18}
-                  color="#FFFFFF"
-                />
+                {/* =================================================
+                    TOPO
+                ================================================= */}
 
-              )}
+                <View style={styles.topBar}>
+
+                  <TouchableOpacity
+                    style={[
+                      styles.backButton,
+                      {
+                        backgroundColor:
+                          cycleColors.surface,
+                      },
+                    ]}
+                    activeOpacity={0.7}
+                    onPress={
+                      voltarParaContatos
+                    }
+                    disabled={loading}
+                  >
+
+                    <Ionicons
+                      name="arrow-back"
+                      size={22}
+                      color={
+                        cycleColors.text
+                      }
+                    />
+
+                  </TouchableOpacity>
 
 
-              <Text style={styles.buttonText}>
+                  <Text
+                    style={[
+                      styles.topBarTitle,
+                      {
+                        color:
+                          cycleColors.text,
+                      },
+                    ]}
+                  >
+                    Novo contato
+                  </Text>
 
-                {loading
-                  ? 'Salvando...'
-                  : 'Salvar contato'}
+                </View>
 
-              </Text>
 
-            </LinearGradient>
+                {/* =================================================
+                    CABEÇALHO
+                ================================================= */}
 
-          </TouchableOpacity>
+                <View style={styles.header}>
 
-        </View>
+                  <LinearGradient
+                    colors={[
+                      cycleColors.rose,
+                      cycleColors.lavender,
+                    ]}
+                    start={{
+                      x: 0,
+                      y: 0,
+                    }}
+                    end={{
+                      x: 1,
+                      y: 1,
+                    }}
+                    style={styles.iconRing}
+                  >
 
-      </View>
+                    <Ionicons
+                      name="person-add-outline"
+                      size={34}
+                      color="#FFFFFF"
+                    />
 
-    </Background>
+                  </LinearGradient>
+
+
+                  <Text
+                    style={[
+                      styles.title,
+                      {
+                        color:
+                          cycleColors.text,
+                      },
+                    ]}
+                  >
+                    Contato de emergência
+                  </Text>
+
+
+                  <Text
+                    style={[
+                      styles.subtitle,
+                      {
+                        color:
+                          cycleColors.textMuted,
+                      },
+                    ]}
+                  >
+                    Essa pessoa poderá receber alertas
+                    quando você precisar de ajuda.
+                  </Text>
+
+                </View>
+
+
+                {/* =================================================
+                    FORMULÁRIO
+                ================================================= */}
+
+                <View
+                  style={[
+                    styles.card,
+                    {
+                      backgroundColor:
+                        cycleColors.surface,
+                    },
+                  ]}
+                >
+
+                  <TextInput
+                    placeholder="Nome completo"
+                    placeholderTextColor={
+                      cycleColors.textMuted
+                    }
+                    value={name}
+                    onChangeText={setName}
+                    style={[
+                      styles.input,
+                      {
+                        color:
+                          cycleColors.text,
+                      },
+                    ]}
+                    editable={!loading}
+                    autoCapitalize="words"
+                    autoCorrect={false}
+                    returnKeyType="next"
+                  />
+
+
+                  <TextInput
+                    placeholder="Telefone com DDD"
+                    placeholderTextColor={
+                      cycleColors.textMuted
+                    }
+                    keyboardType="phone-pad"
+                    value={phone}
+                    onChangeText={setPhone}
+                    style={[
+                      styles.input,
+                      styles.inputLast,
+                      {
+                        color:
+                          cycleColors.text,
+                      },
+                    ]}
+                    editable={!loading}
+                    returnKeyType="done"
+                    onSubmitEditing={salvar}
+                  />
+
+                </View>
+
+
+                {/* =================================================
+                    BOTÃO SALVAR
+                ================================================= */}
+
+                <TouchableOpacity
+                  activeOpacity={0.85}
+                  disabled={loading}
+                  onPress={salvar}
+                  style={
+                    loading
+                      ? styles.buttonDisabled
+                      : undefined
+                  }
+                >
+
+                  <LinearGradient
+                    colors={[
+                      cycleColors.rose,
+                      cycleColors.lavender,
+                    ]}
+                    start={{
+                      x: 0,
+                      y: 0,
+                    }}
+                    end={{
+                      x: 1,
+                      y: 0,
+                    }}
+                    style={styles.button}
+                  >
+
+                    {!loading && (
+
+                      <Ionicons
+                        name="checkmark"
+                        size={18}
+                        color="#FFFFFF"
+                      />
+
+                    )}
+
+
+                    <Text
+                      style={[
+                        styles.buttonText,
+                        {
+                          color: '#FFFFFF',
+                        },
+                      ]}
+                    >
+
+                      {loading
+                        ? 'Salvando...'
+                        : 'Salvar contato'}
+
+                    </Text>
+
+                  </LinearGradient>
+
+                </TouchableOpacity>
+
+              </View>
+
+            </View>
+
+          </ScrollView>
+
+        </KeyboardAvoidingView>
+
+      </Background>
+
+    </View>
 
   );
-
 }

@@ -27,6 +27,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   collection,
   onSnapshot,
+  addDoc,
+  serverTimestamp,
 } from 'firebase/firestore';
 
 import { cycleColors } from '../../styles/calendar.styles';
@@ -66,17 +68,23 @@ function PulseRing({
 
         Animated.delay(delay),
 
-        Animated.timing(anim, {
-          toValue: 1,
-          duration: 1800,
-          useNativeDriver: true,
-        }),
+        Animated.timing(
+          anim,
+          {
+            toValue: 1,
+            duration: 1800,
+            useNativeDriver: true,
+          }
+        ),
 
-        Animated.timing(anim, {
-          toValue: 0,
-          duration: 0,
-          useNativeDriver: true,
-        }),
+        Animated.timing(
+          anim,
+          {
+            toValue: 0,
+            duration: 0,
+            useNativeDriver: true,
+          }
+        ),
 
       ])
     );
@@ -89,12 +97,13 @@ function PulseRing({
 
   }, [delay, anim]);
 
-
   return (
+
     <Animated.View
       pointerEvents="none"
       style={[
         styles.pulseRing,
+
         {
           opacity:
             anim.interpolate({
@@ -114,7 +123,9 @@ function PulseRing({
         },
       ]}
     />
+
   );
+
 }
 
 
@@ -126,14 +137,29 @@ export default function SecurityScreen() {
 
   const router = useRouter();
 
+
+  // =====================================================
+  // BLE
+  // =====================================================
+
   const {
     status,
     alertaAtivo,
   } = useBLE();
 
+
+  // =====================================================
+  // SEGURANÇA
+  // =====================================================
+
   const {
     bloquear,
   } = useSecurity();
+
+
+  // =====================================================
+  // ESTADOS
+  // =====================================================
 
   const [
     quantidadeContatos,
@@ -141,8 +167,71 @@ export default function SecurityScreen() {
   ] = useState(0);
 
 
+  const [
+    criandoAlerta,
+    setCriandoAlerta,
+  ] = useState(false);
+
+
+  // =====================================================
+  // CONTAGEM DO SOS
+  // =====================================================
+
+  const [
+    pressionandoSOS,
+    setPressionandoSOS,
+  ] = useState(false);
+
+
+  const [
+    contagemSOS,
+    setContagemSOS,
+  ] = useState(3);
+
+
+  const inicioPressaoRef =
+    useRef<number | null>(null);
+
+
+  const timerSOSRef =
+    useRef<ReturnType<typeof setInterval> | null>(
+      null
+    );
+
+
+  const alertaAtivadoRef =
+    useRef(false);
+
+
+  // =====================================================
+  // STATUS DA PULSEIRA
+  // =====================================================
+
   const conectado =
     status === 'Pulseira Conectada';
+
+
+  // =====================================================
+  // LIMPAR TIMER
+  // =====================================================
+
+  useEffect(() => {
+
+    return () => {
+
+      if (timerSOSRef.current) {
+
+        clearInterval(
+          timerSOSRef.current
+        );
+
+        timerSOSRef.current = null;
+
+      }
+
+    };
+
+  }, []);
 
 
   // =====================================================
@@ -151,16 +240,11 @@ export default function SecurityScreen() {
 
   function voltar() {
 
-    // Bloqueia novamente a área segura
-    // antes de voltar para o Calendar.
-
     bloquear();
 
-    // Volta sempre para o Calendar,
-    // sem deixar a tela /security acumulada
-    // na pilha de navegação.
-
-    router.replace('/(tabs)/calendar');
+    router.replace(
+      '/(tabs)/calendar'
+    );
 
   }
 
@@ -171,46 +255,54 @@ export default function SecurityScreen() {
 
   useEffect(() => {
 
-    const user = auth.currentUser;
+    const user =
+      auth.currentUser;
+
 
     if (!user) {
 
       setQuantidadeContatos(0);
 
       return;
+
     }
 
-    const contatosRef = collection(
-      db,
-      'users',
-      user.uid,
-      'emergency_contacts'
-    );
 
-    const unsubscribe = onSnapshot(
+    const contatosRef =
+      collection(
+        db,
+        'users',
+        user.uid,
+        'emergency_contacts'
+      );
 
-      contatosRef,
 
-      (snapshot) => {
+    const unsubscribe =
+      onSnapshot(
 
-        setQuantidadeContatos(
-          snapshot.size
-        );
+        contatosRef,
 
-      },
+        (snapshot) => {
 
-      (error) => {
+          setQuantidadeContatos(
+            snapshot.size
+          );
 
-        console.log(
-          'Erro ao carregar contatos de emergência:',
-          error
-        );
+        },
 
-        setQuantidadeContatos(0);
+        (error) => {
 
-      }
+          console.log(
+            'Erro ao carregar contatos de emergência:',
+            error
+          );
 
-    );
+          setQuantidadeContatos(0);
+
+        }
+
+      );
+
 
     return () => {
       unsubscribe();
@@ -223,25 +315,324 @@ export default function SecurityScreen() {
   // EMERGÊNCIA
   // =====================================================
 
-  function ativarEmergencia() {
+  async function ativarEmergencia() {
 
-    router.push(
-      '/security/emergency'
-    );
+    // -----------------------------------------------------
+    // EVITA DUPLO TOQUE
+    // -----------------------------------------------------
+
+    if (criandoAlerta) {
+      return;
+    }
+
+
+    const user =
+      auth.currentUser;
+
+
+    // -----------------------------------------------------
+    // VERIFICA AUTENTICAÇÃO
+    // -----------------------------------------------------
+
+    if (!user) {
+
+      Alert.alert(
+        'Erro',
+        'Usuário não autenticado.'
+      );
+
+      return;
+
+    }
+
+
+    try {
+
+      setCriandoAlerta(true);
+
+
+      // ===================================================
+      // REFERÊNCIA DO HISTÓRICO
+      // ===================================================
+
+      const alertHistoryRef =
+        collection(
+          db,
+          'users',
+          user.uid,
+          'alert_history'
+        );
+
+
+      // ===================================================
+      // CRIA O ALERTA
+      // ===================================================
+
+      const alertaRef =
+        await addDoc(
+          alertHistoryRef,
+          {
+
+            tipo: 'SOS',
+
+            status: 'Enviado',
+
+            createdAt:
+              serverTimestamp(),
+
+            atualizadoEm:
+              serverTimestamp(),
+
+            latitude: null,
+
+            longitude: null,
+
+            quantidadeContatos:
+              quantidadeContatos,
+
+          }
+        );
+
+
+      console.log(
+        'Alerta criado no Firebase:',
+        alertaRef.id
+      );
+
+
+      // ===================================================
+      // ABRE A EMERGENCY SCREEN
+      // ===================================================
+
+      router.push({
+
+        pathname:
+          '/security/emergency',
+
+        params: {
+
+          alertaId:
+            alertaRef.id,
+
+        },
+
+      });
+
+
+    } catch (error) {
+
+      console.log(
+        'Erro ao criar alerta de emergência:',
+        error
+      );
+
+
+      Alert.alert(
+        'Erro',
+        'Não foi possível registrar o alerta de emergência.'
+      );
+
+    } finally {
+
+      setCriandoAlerta(false);
+
+    }
 
   }
 
 
   // =====================================================
-  // TOQUE CURTO
+  // COMEÇAR CONTAGEM DO SOS
   // =====================================================
 
-  function toqueCurto() {
+  function iniciarContagemSOS() {
 
-    Alert.alert(
-      'Aviso',
-      'Segure o botão SOS por 3 segundos para ativar o alarme.'
-    );
+    if (
+      criandoAlerta ||
+      alertaAtivo
+    ) {
+      return;
+    }
+
+
+    // -----------------------------------------------------
+    // LIMPA TIMER ANTERIOR
+    // -----------------------------------------------------
+
+    if (timerSOSRef.current) {
+
+      clearInterval(
+        timerSOSRef.current
+      );
+
+      timerSOSRef.current = null;
+
+    }
+
+
+    // -----------------------------------------------------
+    // RESETA ESTADOS
+    // -----------------------------------------------------
+
+    alertaAtivadoRef.current = false;
+
+    inicioPressaoRef.current =
+      Date.now();
+
+    setPressionandoSOS(true);
+
+    setContagemSOS(3);
+
+
+    // -----------------------------------------------------
+    // ATUALIZA A CONTAGEM
+    // -----------------------------------------------------
+
+    timerSOSRef.current =
+      setInterval(() => {
+
+        if (
+          inicioPressaoRef.current === null
+        ) {
+          return;
+        }
+
+
+        const tempoDecorrido =
+          Date.now() -
+          inicioPressaoRef.current;
+
+
+        // ===============================================
+        // COMPLETOU 3 SEGUNDOS
+        // ===============================================
+
+        if (
+          tempoDecorrido >= 3000
+        ) {
+
+          if (
+            timerSOSRef.current
+          ) {
+
+            clearInterval(
+              timerSOSRef.current
+            );
+
+            timerSOSRef.current =
+              null;
+
+          }
+
+
+          alertaAtivadoRef.current =
+            true;
+
+          setContagemSOS(0);
+
+          setPressionandoSOS(false);
+
+          inicioPressaoRef.current =
+            null;
+
+
+          // Ativa automaticamente
+          // assim que completar os 3 segundos.
+
+          ativarEmergencia();
+
+          return;
+
+        }
+
+
+        // ===============================================
+        // CALCULA CONTAGEM
+        // ===============================================
+
+        const restante =
+          Math.ceil(
+            (3000 - tempoDecorrido) /
+              1000
+          );
+
+
+        setContagemSOS(
+          Math.max(
+            1,
+            restante
+          )
+        );
+
+      }, 50);
+
+  }
+
+
+  // =====================================================
+  // SOLTAR BOTÃO SOS
+  // =====================================================
+
+  function finalizarPressaoSOS() {
+
+    // -----------------------------------------------------
+    // LIMPA TIMER
+    // -----------------------------------------------------
+
+    if (timerSOSRef.current) {
+
+      clearInterval(
+        timerSOSRef.current
+      );
+
+      timerSOSRef.current = null;
+
+    }
+
+
+    // -----------------------------------------------------
+    // SE JÁ ATIVOU, NÃO FAZ NADA
+    // -----------------------------------------------------
+
+    if (
+      alertaAtivadoRef.current
+    ) {
+
+      alertaAtivadoRef.current =
+        false;
+
+      setPressionandoSOS(false);
+
+      inicioPressaoRef.current =
+        null;
+
+      return;
+
+    }
+
+
+    // -----------------------------------------------------
+    // SE SOLTOU ANTES DOS 3 SEGUNDOS
+    // -----------------------------------------------------
+
+    if (
+      pressionandoSOS
+    ) {
+
+      setPressionandoSOS(false);
+
+      inicioPressaoRef.current =
+        null;
+
+      setContagemSOS(3);
+
+
+      Alert.alert(
+        'Aviso',
+        'Segure o botão SOS por 3 segundos para ativar o alarme.'
+      );
+
+    }
 
   }
 
@@ -252,15 +643,26 @@ export default function SecurityScreen() {
 
   function textoContatos() {
 
-    if (quantidadeContatos === 0) {
+    if (
+      quantidadeContatos === 0
+    ) {
+
       return 'Nenhum contato';
+
     }
 
-    if (quantidadeContatos === 1) {
+
+    if (
+      quantidadeContatos === 1
+    ) {
+
       return '1 contato';
+
     }
+
 
     return `${quantidadeContatos} contatos`;
+
   }
 
 
@@ -283,6 +685,7 @@ export default function SecurityScreen() {
         barStyle="light-content"
       />
 
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={
@@ -300,11 +703,13 @@ export default function SecurityScreen() {
           onPress={voltar}
           style={styles.backButton}
         >
+
           <Ionicons
             name="arrow-back"
             size={22}
             color={cycleColors.text}
           />
+
         </TouchableOpacity>
 
 
@@ -312,11 +717,16 @@ export default function SecurityScreen() {
             CABEÇALHO
         ================================================= */}
 
-        <Text style={styles.eyebrow}>
+        <Text
+          style={styles.eyebrow}
+        >
           ÁREA SEGURA
         </Text>
 
-        <Text style={styles.title}>
+
+        <Text
+          style={styles.title}
+        >
           SPIE
         </Text>
 
@@ -330,14 +740,17 @@ export default function SecurityScreen() {
           <View
             style={[
               styles.connectionDot,
+
               {
                 backgroundColor:
                   conectado
                     ? cycleColors.teal
                     : cycleColors.textMuted,
               },
+
             ]}
           />
+
 
           <Text
             style={
@@ -361,18 +774,22 @@ export default function SecurityScreen() {
         <View
           style={[
             styles.statusCard,
+
             alertaAtivo &&
               styles.alertCard,
+
           ]}
         >
 
           <View
             style={[
               styles.statusIconWrap,
+
               alertaAtivo && {
                 backgroundColor:
                   cycleColors.dangerSoft,
               },
+
             ]}
           >
 
@@ -382,7 +799,9 @@ export default function SecurityScreen() {
                   ? 'alert-circle'
                   : 'shield-checkmark'
               }
+
               size={20}
+
               color={
                 alertaAtivo
                   ? cycleColors.danger
@@ -402,8 +821,10 @@ export default function SecurityScreen() {
             <Text
               style={[
                 styles.statusTitle,
+
                 alertaAtivo &&
                   styles.alertTitle,
+
               ]}
             >
 
@@ -441,13 +862,17 @@ export default function SecurityScreen() {
           }
         >
 
-          {/* PULSEIRA */}
+          {/* =================================================
+              PULSEIRA
+          ================================================= */}
 
           <TouchableOpacity
             style={
               styles.statCard
             }
+
             activeOpacity={0.85}
+
             onPress={() =>
               router.push(
                 '/security/device'
@@ -458,10 +883,12 @@ export default function SecurityScreen() {
             <View
               style={[
                 styles.statIconWrap,
+
                 {
                   backgroundColor:
                     cycleColors.lavenderSoft,
                 },
+
               ]}
             >
 
@@ -496,27 +923,41 @@ export default function SecurityScreen() {
           </TouchableOpacity>
 
 
-          {/* CONTATOS */}
+          {/* =================================================
+              CONTATOS
+          ================================================= */}
 
-                <TouchableOpacity
-        style={styles.statCard}
-        activeOpacity={0.85}
-        onPress={() => {
-          console.log('ABRINDO CONTATOS');
+          <TouchableOpacity
+            style={
+              styles.statCard
+            }
 
-          router.push({
-            pathname: '/security/contacts',
-          });
-        }}
-      >
+            activeOpacity={0.85}
+
+            onPress={() => {
+
+              console.log(
+                'ABRINDO CONTATOS'
+              );
+
+
+              router.push({
+                pathname:
+                  '/security/contacts',
+              });
+
+            }}
+          >
 
             <View
               style={[
                 styles.statIconWrap,
+
                 {
                   backgroundColor:
                     cycleColors.roseSoft,
                 },
+
               ]}
             >
 
@@ -577,7 +1018,9 @@ export default function SecurityScreen() {
               styles.sosInstruction
             }
           >
-            Segure o botão por 3 segundos em caso de perigo
+            {pressionandoSOS
+              ? 'Continue segurando...'
+              : 'Segure o botão por 3 segundos em caso de perigo'}
           </Text>
 
 
@@ -587,18 +1030,32 @@ export default function SecurityScreen() {
             }
           >
 
-            <PulseRing delay={0} />
+            <PulseRing
+              delay={0}
+            />
 
-            <PulseRing delay={900} />
+
+            <PulseRing
+              delay={900}
+            />
 
 
             <TouchableOpacity
               activeOpacity={0.85}
-              onPress={toqueCurto}
-              onLongPress={
-                ativarEmergencia
+
+              onPressIn={
+                iniciarContagemSOS
               }
-              delayLongPress={3000}
+
+              onPressOut={
+                finalizarPressaoSOS
+              }
+
+              disabled={
+                criandoAlerta ||
+                alertaAtivo
+              }
+
               style={
                 styles.sosTouch
               }
@@ -609,43 +1066,116 @@ export default function SecurityScreen() {
                   cycleColors.rose,
                   cycleColors.lavender,
                 ]}
+
                 start={{
                   x: 0,
                   y: 0,
                 }}
+
                 end={{
                   x: 1,
                   y: 1,
                 }}
+
                 style={
                   styles.sosButton
                 }
               >
 
-                <Ionicons
-                  name="warning"
-                  size={30}
-                  color="#FFFFFF"
-                  style={{
-                    marginBottom: 6,
-                  }}
-                />
+                {criandoAlerta ? (
 
-                <Text
-                  style={
-                    styles.sosText
-                  }
-                >
-                  SOS
-                </Text>
+                  <>
 
-                <Text
-                  style={
-                    styles.sosSubText
-                  }
-                >
-                  Segure por 3s
-                </Text>
+                    <Ionicons
+                      name="hourglass-outline"
+                      size={30}
+                      color="#FFFFFF"
+                      style={{
+                        marginBottom: 6,
+                      }}
+                    />
+
+
+                    <Text
+                      style={
+                        styles.sosText
+                      }
+                    >
+                      ENVIANDO
+                    </Text>
+
+
+                    <Text
+                      style={
+                        styles.sosSubText
+                      }
+                    >
+                      Aguarde...
+                    </Text>
+
+                  </>
+
+                ) : pressionandoSOS ? (
+
+                  <>
+
+                    <Text
+                      style={[
+                        styles.sosText,
+                        {
+                          fontSize: 42,
+                          lineHeight: 48,
+                        },
+                      ]}
+                    >
+                      {contagemSOS}
+                    </Text>
+
+
+                    <Text
+                      style={
+                        styles.sosSubText
+                      }
+                    >
+                      Continue segurando
+                    </Text>
+
+                  </>
+
+                ) : (
+
+                  <>
+
+                    <Ionicons
+                      name="warning"
+                      size={30}
+                      color="#FFFFFF"
+                      style={{
+                        marginBottom: 6,
+                      }}
+                    />
+
+
+                    <Text
+                      style={
+                        styles.sosText
+                      }
+                    >
+                      SOS
+                    </Text>
+
+
+                    <Text
+                      style={
+                        styles.sosSubText
+                      }
+                    >
+                      Segure por 3s
+                    </Text>
+
+                  </>
+
+                )}
 
               </LinearGradient>
 
@@ -658,5 +1188,7 @@ export default function SecurityScreen() {
       </ScrollView>
 
     </SafeAreaView>
+
   );
+
 }

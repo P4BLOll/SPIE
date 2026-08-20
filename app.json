@@ -7,26 +7,21 @@
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "dark",
     "newArchEnabled": true,
-
     "splash": {
       "image": "./assets/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#0B111E"
     },
-
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.pablo.spieapp"
     },
-
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#0B111E",
         "foregroundImage": "./assets/logo.png"
       },
-
       "package": "com.pablo.spieapp",
-
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
@@ -34,29 +29,24 @@
         "android.permission.BLUETOOTH_ADMIN",
         "android.permission.BLUETOOTH_CONNECT"
       ],
-
       "statusBar": {
         "backgroundColor": "#0B111E",
         "barStyle": "light-content",
         "translucent": true
       }
     },
-
     "package": "com.pablo.spieapp",
-
     "plugins": [
       "expo-router",
       "expo-splash-screen",
       "expo-web-browser",
       "@react-native-community/datetimepicker",
-
       [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Permitir que o SPIE acesse sua localização para identificar sua posição durante uma emergência."
         }
       ],
-
       [
         "react-native-ble-plx",
         {
@@ -67,10 +57,10 @@
           ],
           "bluetoothAlwaysPermission": "O SPIE precisa de acesso contínuo ao Bluetooth para detectar os sinais de emergência da pulseira."
         }
-      ]
+      ],
+      "expo-image"
     ]
   },
-
   "web": {
     "bundler": "metro"
   }

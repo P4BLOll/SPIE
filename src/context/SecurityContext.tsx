@@ -24,7 +24,7 @@ interface SecurityContextData {
   // Rota que será aberta depois do PIN
   rotaDestino: string | null;
 
-  // Página para onde voltar ao sair dos contatos
+  // Página para onde voltar ao sair da área segura
   rotaAnterior: string | null;
 
   definirRotaDestino: (
@@ -47,7 +47,13 @@ interface SecurityContextData {
     senha: string
   ) => Promise<boolean>;
 
+  alterarSenha: (
+    senhaAtual: string,
+    novaSenha: string
+  ) => Promise<boolean>;
+
   bloquear: () => void;
+
 }
 
 
@@ -139,6 +145,7 @@ export function SecurityProvider({
 
     }
 
+
     carregarSenha();
 
   }, []);
@@ -148,48 +155,54 @@ export function SecurityProvider({
   // DEFINIR ROTA DESTINO
   // =====================================================
 
-  function definirRotaDestino(
-    rota: string
-  ) {
+  const definirRotaDestino =
+    useCallback(
+      (rota: string) => {
 
-    setRotaDestino(rota);
+        setRotaDestino(rota);
 
-  }
+      },
+      []
+    );
 
 
   // =====================================================
   // LIMPAR ROTA DESTINO
   // =====================================================
 
-  function limparRotaDestino() {
+  const limparRotaDestino =
+    useCallback(() => {
 
-    setRotaDestino(null);
+      setRotaDestino(null);
 
-  }
+    }, []);
 
 
   // =====================================================
   // DEFINIR ROTA ANTERIOR
   // =====================================================
 
-  function definirRotaAnterior(
-    rota: string
-  ) {
+  const definirRotaAnterior =
+    useCallback(
+      (rota: string) => {
 
-    setRotaAnterior(rota);
+        setRotaAnterior(rota);
 
-  }
+      },
+      []
+    );
 
 
   // =====================================================
   // LIMPAR ROTA ANTERIOR
   // =====================================================
 
-  function limparRotaAnterior() {
+  const limparRotaAnterior =
+    useCallback(() => {
 
-    setRotaAnterior(null);
+      setRotaAnterior(null);
 
-  }
+    }, []);
 
 
   // =====================================================
@@ -202,6 +215,10 @@ export function SecurityProvider({
 
     try {
 
+      // -----------------------------------------------
+      // VALIDAR PIN
+      // -----------------------------------------------
+
       if (
         senha.length !== 4 ||
         !/^\d{4}$/.test(senha)
@@ -212,6 +229,10 @@ export function SecurityProvider({
       }
 
 
+      // -----------------------------------------------
+      // SALVAR PIN
+      // -----------------------------------------------
+
       await AsyncStorage.setItem(
         'secret_pin',
         senha
@@ -220,7 +241,13 @@ export function SecurityProvider({
 
       setSenhaSalva(senha);
 
+
+      // -----------------------------------------------
+      // LIBERAR ACESSO
+      // -----------------------------------------------
+
       setAcessoLiberado(true);
+
 
       return true;
 
@@ -248,21 +275,35 @@ export function SecurityProvider({
 
     try {
 
+      // -----------------------------------------------
+      // VALIDAR PIN
+      // -----------------------------------------------
+
       if (
         senha.length !== 4 ||
         !/^\d{4}$/.test(senha)
       ) {
+
+        setAcessoLiberado(false);
 
         return false;
 
       }
 
 
+      // -----------------------------------------------
+      // BUSCAR PIN SALVO
+      // -----------------------------------------------
+
       const senhaAtual =
         await AsyncStorage.getItem(
           'secret_pin'
         );
 
+
+      // -----------------------------------------------
+      // PIN NÃO EXISTE
+      // -----------------------------------------------
 
       if (!senhaAtual) {
 
@@ -272,6 +313,10 @@ export function SecurityProvider({
 
       }
 
+
+      // -----------------------------------------------
+      // PIN INCORRETO
+      // -----------------------------------------------
 
       if (
         senha !== senhaAtual
@@ -284,9 +329,16 @@ export function SecurityProvider({
       }
 
 
-      setSenhaSalva(senhaAtual);
+      // -----------------------------------------------
+      // PIN CORRETO
+      // -----------------------------------------------
+
+      setSenhaSalva(
+        senhaAtual
+      );
 
       setAcessoLiberado(true);
+
 
       return true;
 
@@ -307,18 +359,136 @@ export function SecurityProvider({
 
 
   // =====================================================
+  // ALTERAR PIN
+  // =====================================================
+
+  async function alterarSenha(
+    senhaAtual: string,
+    novaSenha: string
+  ): Promise<boolean> {
+
+    try {
+
+      // -----------------------------------------------
+      // VALIDAR PIN ATUAL
+      // -----------------------------------------------
+
+      if (
+        senhaAtual.length !== 4 ||
+        !/^\d{4}$/.test(senhaAtual)
+      ) {
+
+        return false;
+
+      }
+
+
+      // -----------------------------------------------
+      // VALIDAR NOVO PIN
+      // -----------------------------------------------
+
+      if (
+        novaSenha.length !== 4 ||
+        !/^\d{4}$/.test(novaSenha)
+      ) {
+
+        return false;
+
+      }
+
+
+      // -----------------------------------------------
+      // BUSCAR PIN SALVO
+      // -----------------------------------------------
+
+      const senhaAtualSalva =
+        await AsyncStorage.getItem(
+          'secret_pin'
+        );
+
+
+      // -----------------------------------------------
+      // PIN NÃO EXISTE
+      // -----------------------------------------------
+
+      if (!senhaAtualSalva) {
+
+        return false;
+
+      }
+
+
+      // -----------------------------------------------
+      // VERIFICAR PIN ATUAL
+      // -----------------------------------------------
+
+      if (
+        senhaAtual !== senhaAtualSalva
+      ) {
+
+        return false;
+
+      }
+
+
+      // -----------------------------------------------
+      // SALVAR NOVO PIN
+      // -----------------------------------------------
+
+      await AsyncStorage.setItem(
+        'secret_pin',
+        novaSenha
+      );
+
+
+      // -----------------------------------------------
+      // ATUALIZAR ESTADO
+      // -----------------------------------------------
+
+      setSenhaSalva(
+        novaSenha
+      );
+
+
+      return true;
+
+    } catch (error) {
+
+      console.log(
+        'Erro ao alterar PIN:',
+        error
+      );
+
+      return false;
+
+    }
+
+  }
+
+
+  // =====================================================
   // BLOQUEAR ÁREA SEGURA
   // =====================================================
 
-  const bloquear = useCallback(() => {
+  const bloquear =
+    useCallback(() => {
 
-    setAcessoLiberado(false);
+      // -----------------------------------------------
+      // BLOQUEIA IMEDIATAMENTE
+      // -----------------------------------------------
 
-    setRotaDestino(null);
+      setAcessoLiberado(false);
 
-    setRotaAnterior(null);
 
-  }, []);
+      // -----------------------------------------------
+      // LIMPA NAVEGAÇÃO TEMPORÁRIA
+      // -----------------------------------------------
+
+      setRotaDestino(null);
+
+      setRotaAnterior(null);
+
+    }, []);
 
 
   // =====================================================
@@ -351,6 +521,8 @@ export function SecurityProvider({
         criarSenha,
 
         verificarSenha,
+
+        alterarSenha,
 
         bloquear,
 
@@ -390,3 +562,4 @@ export function useSecurity() {
   return context;
 
 }
+

@@ -395,33 +395,53 @@ const categorias: Category[] = [
   // CUIDADOS ÍNTIMOS
   // ==========================================
 
-  {
-    icon: 'sparkles-outline',
-    title: 'Cuidados íntimos',
-    description:
-      'Hábitos e cuidados para manter a saúde da região íntima.',
-    color: cycleColors.gold,
-    softColor: cycleColors.goldSoft,
+ {
+  icon: 'sparkles-outline',
+  title: 'Cuidados íntimos',
+  description:
+    'Hábitos e cuidados para manter a saúde da região íntima.',
+  color: cycleColors.gold,
+  softColor: cycleColors.goldSoft,
 
-    items: [
-      {
-        icon: 'water-outline',
-        title: 'Higiene íntima',
-        route: '/tips/intimate-care/menstrual-hygiene',
-      },
-      {
-        icon: 'shirt-outline',
-        title: 'Coceira e Irritação',
-        route: '/tips/intimate-care/vaginal-irritation',
-      },
-      {
-        icon: 'heart-outline',
-        title: 'Alteração no Odor',
-        route: '/tips/intimate-care/vaginal-odor',
-      },
-    ],
-  },
-];
+  items: [
+    {
+      icon: 'water-outline',
+      title: 'Higiene íntima',
+      route: '/tips/intimate-care/menstrual-hygiene',
+    },
+
+    {
+      icon: 'bandage-outline',
+      title: 'Coceira e Irritação',
+      route: '/tips/intimate-care/vaginal-irritation',
+    },
+
+    {
+      icon: 'flower-outline',
+      title: 'Alteração no Odor',
+      route: '/tips/intimate-care/vaginal-odor',
+    },
+
+    {
+      icon: 'calendar-outline',
+      title: 'Cuidados com absorventes',
+      route: '/tips/intimate-care/menstrual-pads-care',
+    },
+
+    {
+      icon: 'shirt-outline',
+      title: 'Higiene da roupa íntima',
+      route: '/tips/intimate-care/underwear-hygiene',
+    },
+
+    {
+      icon: 'body-outline',
+      title: 'Cuidados íntimos no dia a dia',
+      route: '/tips/intimate-care/intimate-care-daily',
+    },
+  ],
+},
+]
 
 export default function TipsScreen() {
   // acordeão: só uma categoria aberta por vez. null = tudo fechado.

@@ -10,6 +10,9 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -25,7 +28,7 @@ import { Background } from '@/components/Background';
 
 import { AnimatedPressable } from '@/components/AnimatedPressable';
 
-import { cycleColors } from '@/constants/Colors';
+import { cycleColors } from '@/styles/calendar.styles';
 
 import {
   editContactStyles as styles,
@@ -49,11 +52,8 @@ import {
 
 export default function EditContact() {
 
-  // ===================================================
-  // PARÂMETROS
-  // ===================================================
-
-  const params = useLocalSearchParams();
+  const params =
+    useLocalSearchParams();
 
   const id =
     typeof params.id === 'string'
@@ -61,9 +61,9 @@ export default function EditContact() {
       : '';
 
 
-  // ===================================================
+  // =====================================================
   // ESTADOS
-  // ===================================================
+  // =====================================================
 
   const [name, setName] =
     useState('');
@@ -78,9 +78,9 @@ export default function EditContact() {
     useState(false);
 
 
-  // ===================================================
-  // VOLTAR PARA CONTATOS
-  // ===================================================
+  // =====================================================
+  // VOLTAR
+  // =====================================================
 
   function voltarParaContatos() {
 
@@ -88,14 +88,12 @@ export default function EditContact() {
       return;
     }
 
-    router.replace(
-      '/security/contacts'
-    );
+    router.back();
 
   }
 
 
-  // ===================================================
+  // =====================================================
   // CARREGAR CONTATO
   // =====================================================
 
@@ -103,16 +101,10 @@ export default function EditContact() {
 
     let ativo = true;
 
-
     async function carregarContato() {
 
       const user =
         auth.currentUser;
-
-
-      // ================================================
-      // VERIFICAR USUÁRIO
-      // ================================================
 
       if (!user) {
 
@@ -128,6 +120,7 @@ export default function EditContact() {
           [
             {
               text: 'OK',
+
               onPress: () => {
                 router.replace('/login');
               },
@@ -136,13 +129,7 @@ export default function EditContact() {
         );
 
         return;
-
       }
-
-
-      // ================================================
-      // VERIFICAR ID
-      // ================================================
 
       if (!id) {
 
@@ -158,15 +145,14 @@ export default function EditContact() {
           [
             {
               text: 'OK',
-              onPress: voltarParaContatos,
+              onPress:
+                voltarParaContatos,
             },
           ]
         );
 
         return;
-
       }
-
 
       try {
 
@@ -179,27 +165,19 @@ export default function EditContact() {
             id
           );
 
-
         const snapshot =
           await getDoc(
             contactRef
           );
 
-
         if (!ativo) {
           return;
         }
-
-
-        // ==============================================
-        // CONTATO ENCONTRADO
-        // ==============================================
 
         if (snapshot.exists()) {
 
           const data =
             snapshot.data();
-
 
           setName(
             typeof data.name === 'string'
@@ -207,13 +185,11 @@ export default function EditContact() {
               : ''
           );
 
-
           setPhone(
             typeof data.phone === 'string'
               ? data.phone
               : ''
           );
-
 
         } else {
 
@@ -223,11 +199,11 @@ export default function EditContact() {
             [
               {
                 text: 'OK',
-                onPress: voltarParaContatos,
+                onPress:
+                  voltarParaContatos,
               },
             ]
           );
-
         }
 
       } catch (error) {
@@ -241,7 +217,6 @@ export default function EditContact() {
           error
         );
 
-
         Alert.alert(
           'Erro',
           'Não foi possível carregar o contato.'
@@ -254,44 +229,29 @@ export default function EditContact() {
         }
 
       }
-
     }
-
 
     carregarContato();
 
-
     return () => {
-
       ativo = false;
-
     };
 
   }, [id]);
 
 
-  // ===================================================
+  // =====================================================
   // SALVAR ALTERAÇÕES
-  // ===================================================
+  // =====================================================
 
   async function salvar() {
-
-    // ================================================
-    // EVITAR DUPLO CLIQUE
-    // ================================================
 
     if (saving) {
       return;
     }
 
-
-    // ================================================
-    // USUÁRIO
-    // ================================================
-
     const user =
       auth.currentUser;
-
 
     if (!user) {
 
@@ -301,13 +261,7 @@ export default function EditContact() {
       );
 
       return;
-
     }
-
-
-    // ================================================
-    // ID
-    // ================================================
 
     if (!id) {
 
@@ -317,24 +271,13 @@ export default function EditContact() {
       );
 
       return;
-
     }
-
-
-    // ================================================
-    // LIMPAR CAMPOS
-    // ================================================
 
     const nomeLimpo =
       name.trim();
 
     const telefoneLimpo =
       phone.trim();
-
-
-    // ================================================
-    // VALIDAR CAMPOS
-    // ================================================
 
     if (
       !nomeLimpo ||
@@ -347,18 +290,11 @@ export default function EditContact() {
       );
 
       return;
-
     }
-
 
     try {
 
       setSaving(true);
-
-
-      // ==============================================
-      // REFERÊNCIA
-      // ==============================================
 
       const contactRef =
         doc(
@@ -369,11 +305,6 @@ export default function EditContact() {
           id
         );
 
-
-      // ==============================================
-      // ATUALIZAR
-      // ==============================================
-
       await updateDoc(
         contactRef,
         {
@@ -381,11 +312,6 @@ export default function EditContact() {
           phone: telefoneLimpo,
         }
       );
-
-
-      // ==============================================
-      // SUCESSO
-      // ==============================================
 
       Alert.alert(
         'Atualizado',
@@ -395,17 +321,11 @@ export default function EditContact() {
             text: 'OK',
 
             onPress: () => {
-
-              router.replace(
-                '/security/contacts'
-              );
-
+              router.back();
             },
-
           },
         ]
       );
-
 
     } catch (error) {
 
@@ -414,218 +334,296 @@ export default function EditContact() {
         error
       );
 
-
       Alert.alert(
         'Erro',
         'Não foi possível atualizar o contato.'
       );
-
 
     } finally {
 
       setSaving(false);
 
     }
-
   }
 
 
-  // ===================================================
+  // =====================================================
   // CARREGANDO
-  // ===================================================
+  // =====================================================
 
   if (loading) {
 
     return (
 
-      <Background>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor:
+            cycleColors.background,
+        }}
+      >
 
-        <View
-          style={[
-            styles.screen,
-            styles.centered,
-          ]}
+        <Background
+          style={{
+            flex: 1,
+            backgroundColor:
+              cycleColors.background,
+          }}
         >
 
-          <ActivityIndicator
-            size="large"
-            color={
-              cycleColors.rose
-            }
-          />
+          <View
+            style={[
+              styles.screen,
+              styles.centered,
+              {
+                backgroundColor:
+                  cycleColors.background,
+              },
+            ]}
+          >
 
-        </View>
+            <ActivityIndicator
+              size="large"
+              color={
+                cycleColors.rose
+              }
+            />
 
-      </Background>
+          </View>
 
+        </Background>
+
+      </View>
     );
-
   }
 
 
-  // ===================================================
+  // =====================================================
   // TELA
-  // ===================================================
+  // =====================================================
 
   return (
 
-    <Background>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor:
+          cycleColors.background,
+      }}
+    >
 
-      <View style={styles.screen}>
+      <Background
+        style={{
+          flex: 1,
+          backgroundColor:
+            cycleColors.background,
+        }}
+      >
 
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={
+            Platform.OS === 'ios'
+              ? 'padding'
+              : 'height'
+          }
+          keyboardVerticalOffset={0}
+        >
 
-
-          {/* =================================================
-              TOPO
-          ================================================= */}
-
-          <View style={styles.topBar}>
-
-            <AnimatedPressable
-              style={
-                styles.backButton
-              }
-              onPress={
-                voltarParaContatos
-              }
-              disabled={saving}
-            >
-
-              <Ionicons
-                name="arrow-back"
-                size={22}
-                color={
-                  cycleColors.text
-                }
-              />
-
-            </AnimatedPressable>
-
-
-            <Text
-              style={
-                styles.topBarTitle
-              }
-            >
-              Editar contato
-            </Text>
-
-          </View>
-
-
-          {/* =================================================
-              FORMULÁRIO
-          ================================================= */}
-
-          <View style={styles.card}>
-
-            {/* =================================================
-                NOME
-            ================================================= */}
-
-            <TextInput
-              value={name}
-              onChangeText={setName}
-              placeholder="Nome completo"
-              placeholderTextColor={
-                cycleColors.textMuted
-              }
-              style={styles.input}
-              editable={!saving}
-              autoCapitalize="words"
-              autoCorrect={false}
-            />
-
-
-            {/* =================================================
-                TELEFONE
-            ================================================= */}
-
-            <TextInput
-              value={phone}
-              onChangeText={setPhone}
-              placeholder="Telefone"
-              placeholderTextColor={
-                cycleColors.textMuted
-              }
-              keyboardType="phone-pad"
-              style={[
-                styles.input,
-                styles.inputLast,
-              ]}
-              editable={!saving}
-            />
-
-          </View>
-
-
-          {/* =================================================
-              BOTÃO SALVAR
-          ================================================= */}
-
-          <TouchableOpacity
-            activeOpacity={0.85}
-            disabled={saving}
-            onPress={salvar}
-            style={
-              saving
-                ? styles.buttonDisabled
-                : undefined
-            }
+          <ScrollView
+            contentContainerStyle={{
+              flexGrow: 1,
+            }}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
           >
 
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <View
+              style={[
+                styles.screen,
+                {
+                  backgroundColor:
+                    cycleColors.background,
+                },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 0,
-              }}
-              style={
-                styles.button
-              }
             >
 
-              {!saving && (
+              <View style={styles.container}>
 
-                <Ionicons
-                  name="checkmark"
-                  size={18}
-                  color="#FFFFFF"
-                />
+                {/* =================================================
+                    TOPO
+                ================================================= */}
 
-              )}
+                <View style={styles.topBar}>
+
+                  <AnimatedPressable
+                    style={[
+                      styles.backButton,
+                      {
+                        backgroundColor:
+                          cycleColors.surface,
+                      },
+                    ]}
+                    onPress={
+                      voltarParaContatos
+                    }
+                    disabled={saving}
+                  >
+
+                    <Ionicons
+                      name="arrow-back"
+                      size={22}
+                      color={
+                        cycleColors.text
+                      }
+                    />
+
+                  </AnimatedPressable>
 
 
-              <Text
-                style={
-                  styles.buttonText
-                }
-              >
+                  <Text
+                    style={[
+                      styles.topBarTitle,
+                      {
+                        color:
+                          cycleColors.text,
+                      },
+                    ]}
+                  >
+                    Editar contato
+                  </Text>
 
-                {saving
-                  ? 'Salvando...'
-                  : 'Salvar alterações'}
+                </View>
 
-              </Text>
 
-            </LinearGradient>
+                {/* =================================================
+                    FORMULÁRIO
+                ================================================= */}
 
-          </TouchableOpacity>
+                <View
+                  style={[
+                    styles.card,
+                    {
+                      backgroundColor:
+                        cycleColors.surface,
+                    },
+                  ]}
+                >
 
-        </View>
+                  <TextInput
+                    value={name}
+                    onChangeText={setName}
+                    placeholder="Nome completo"
+                    placeholderTextColor={
+                      cycleColors.textMuted
+                    }
+                    style={[
+                      styles.input,
+                      {
+                        color:
+                          cycleColors.text,
+                      },
+                    ]}
+                    editable={!saving}
+                    autoCapitalize="words"
+                    autoCorrect={false}
+                  />
 
-      </View>
 
-    </Background>
+                  <TextInput
+                    value={phone}
+                    onChangeText={setPhone}
+                    placeholder="Telefone"
+                    placeholderTextColor={
+                      cycleColors.textMuted
+                    }
+                    keyboardType="phone-pad"
+                    style={[
+                      styles.input,
+                      styles.inputLast,
+                      {
+                        color:
+                          cycleColors.text,
+                      },
+                    ]}
+                    editable={!saving}
+                  />
 
+                </View>
+
+
+                {/* =================================================
+                    BOTÃO SALVAR
+                ================================================= */}
+
+                <TouchableOpacity
+                  activeOpacity={0.85}
+                  disabled={saving}
+                  onPress={salvar}
+                  style={
+                    saving
+                      ? styles.buttonDisabled
+                      : undefined
+                  }
+                >
+
+                  <LinearGradient
+                    colors={[
+                      cycleColors.rose,
+                      cycleColors.lavender,
+                    ]}
+                    start={{
+                      x: 0,
+                      y: 0,
+                    }}
+                    end={{
+                      x: 1,
+                      y: 0,
+                    }}
+                    style={styles.button}
+                  >
+
+                    {!saving && (
+
+                      <Ionicons
+                        name="checkmark"
+                        size={18}
+                        color="#FFFFFF"
+                      />
+
+                    )}
+
+
+                    <Text
+                      style={[
+                        styles.buttonText,
+                        {
+                          color:
+                            '#FFFFFF',
+                        },
+                      ]}
+                    >
+
+                      {saving
+                        ? 'Salvando...'
+                        : 'Salvar alterações'}
+
+                    </Text>
+
+                  </LinearGradient>
+
+                </TouchableOpacity>
+
+              </View>
+
+            </View>
+
+          </ScrollView>
+
+        </KeyboardAvoidingView>
+
+      </Background>
+
+    </View>
   );
-
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   View,
   Text,
@@ -6,105 +7,152 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import {useRouter} from 'expo-router';
-import {Ionicons} from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
-import {Background} from '@/components/Background';
-import {privacyStyles} from '@/styles/privacy.styles';
+import { Background } from '@/components/Background';
 
-export default function PrivacyScreen(){
+import {
+  cycleColors,
+} from '@/styles/calendar.styles';
+
+import {
+  privacyStyles,
+} from '@/styles/privacy.styles';
+
+export default function PrivacyScreen() {
 
   const router = useRouter();
 
-  return(
-    <Background>
+  return (
+    <View
+      style={{
+        flex: 1,
+        backgroundColor:
+          cycleColors.background,
+      }}
+    >
 
-      <View style={privacyStyles.container}>
+      <Background
+        style={{
+          flex: 1,
+          backgroundColor:
+            cycleColors.background,
+        }}
+      >
 
-        <TouchableOpacity
-          style={privacyStyles.backButton}
-          onPress={()=>router.back()}
+        <View
+          style={[
+            privacyStyles.container,
+            {
+              backgroundColor:
+                cycleColors.background,
+            },
+          ]}
         >
-          <Ionicons
-            name="arrow-back"
-            size={24}
-            color="#FFFFFF"
-          />
-        </TouchableOpacity>
 
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{
-            paddingBottom:20
-          }}
-        >
+          {/* HEADER FIXO */}
 
-          <Text style={privacyStyles.title}>
-            Política de Privacidade
-          </Text>
+          <View
+            style={privacyStyles.header}
+          >
 
-          <Text style={privacyStyles.text}>
-            O SPIE respeita a privacidade e a segurança das informações fornecidas pelas usuárias.
+            <TouchableOpacity
+              style={
+                privacyStyles.backButton
+              }
+              onPress={() =>
+                router.back()
+              }
+            >
 
-            {'\n\n'}
+              <Ionicons
+                name="arrow-back"
+                size={24}
+                color="#FFFFFF"
+              />
 
-            Durante o uso do aplicativo podem ser coletadas informações como nome, e-mail, idade, dados relacionados ao ciclo menstrual, sintomas, registros de saúde íntima e informações fornecidas voluntariamente.
+            </TouchableOpacity>
 
-            {'\n\n'}
+            <Text
+              style={
+                privacyStyles.title
+              }
+            >
+              Política de Privacidade
+            </Text>
 
-            Essas informações são utilizadas para:
+          </View>
 
-            {'\n\n'}
+          {/* SOMENTE O TEXTO ROLA */}
 
-            • Personalizar o acompanhamento do ciclo.
+          <ScrollView
+            showsVerticalScrollIndicator={
+              false
+            }
+            contentContainerStyle={
+              privacyStyles.scrollContent
+            }
+          >
 
-            {'\n'}
+            <Text
+              style={privacyStyles.text}
+            >
 
-            • Melhorar previsões e análises.
+              O SPIE respeita a privacidade e a segurança das informações fornecidas pelas usuárias.
 
-            {'\n'}
+              {'\n\n'}
 
-            • Disponibilizar recursos de segurança e acompanhamento menstrual.
+              Durante o uso do aplicativo podem ser coletadas informações como nome, e-mail, idade, dados relacionados ao ciclo menstrual, sintomas, registros de saúde íntima e informações fornecidas voluntariamente.
 
-            {'\n\n'}
+              {'\n\n'}
 
-            Informações relacionadas à saúde menstrual são consideradas dados sensíveis e recebem medidas de proteção adequadas.
+              Essas informações são utilizadas para:
 
-            {'\n\n'}
+              {'\n\n'}
 
-            O SPIE não vende dados pessoais e não compartilha informações das usuárias sem autorização ou sem uma base legal adequada.
+              • Personalizar o acompanhamento do ciclo.
 
-            {'\n\n'}
+              {'\n'}
 
-            A usuária pode solicitar:
+              • Melhorar previsões e análises.
 
-            {'\n\n'}
+              {'\n'}
 
-            • Acesso aos seus dados.
+              • Disponibilizar recursos de segurança e acompanhamento menstrual.
 
-            {'\n'}
+              {'\n\n'}
 
-            • Correção de informações.
+              Informações relacionadas à saúde menstrual são consideradas dados sensíveis e recebem medidas de proteção adequadas.
 
-            {'\n'}
+              {'\n\n'}
 
-            • Exclusão da conta e dos dados associados.
+              O SPIE não vende dados pessoais e não compartilha informações das usuárias sem autorização ou sem uma base legal adequada.
 
-          </Text>
+              {'\n\n'}
 
-        </ScrollView>
+              A usuária pode solicitar:
 
-        <TouchableOpacity
-          style={privacyStyles.bottomButton}
-          onPress={()=>router.back()}
-        >
-          <Text style={privacyStyles.bottomButtonText}>
-            Voltar
-          </Text>
-        </TouchableOpacity>
+              {'\n\n'}
 
-      </View>
+              • Acesso aos seus dados.
 
-    </Background>
+              {'\n'}
+
+              • Correção de informações.
+
+              {'\n'}
+
+              • Exclusão da conta e dos dados associados.
+
+            </Text>
+
+          </ScrollView>
+
+        </View>
+
+      </Background>
+
+    </View>
   );
 }

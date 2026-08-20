@@ -1,7 +1,26 @@
 import { StyleSheet } from 'react-native';
-import { cycleColors } from '../constants/Colors';
+import { cycleColors } from './calendar.styles';
 
 export const registerStyles = StyleSheet.create({
+
+  /* ==========================================================
+   * ESTRUTURA DA TELA
+   * ========================================================== */
+
+  screen: {
+    flex: 1,
+    backgroundColor: cycleColors.background,
+  },
+
+  keyboardContainer: {
+    flex: 1,
+    backgroundColor: cycleColors.background,
+  },
+
+  scroll: {
+    flex: 1,
+    backgroundColor: cycleColors.background,
+  },
 
   /* ==========================================================
    * CONTAINER DA TELA
@@ -27,9 +46,11 @@ export const registerStyles = StyleSheet.create({
    * ========================================================== */
 
   headerContainer: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
+  alignItems: 'center',
+  marginTop: 20,
+  marginBottom: 20,
+  backgroundColor: cycleColors.background,
+},
 
   registerTitle: {
     fontSize: 30,
@@ -83,7 +104,7 @@ export const registerStyles = StyleSheet.create({
   stepNumber: {
     fontSize: 16,
     fontWeight: '700',
-    color: cycleColors.textMuted,
+    color: cycleColors.text,
   },
 
   stepNumberActive: {
@@ -379,14 +400,14 @@ export const registerStyles = StyleSheet.create({
   },
 
   /* ==========================================================
-   * CAMPOS DE MEDIDAS (PESO E ALTURA) — passo 4
+   * CAMPOS DE MEDIDAS — passo 4
    * ========================================================== */
 
   measureContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     height: 58,
-    backgroundColor: cycleColors.background,
+    backgroundColor: cycleColors.surface,
     borderRadius: 14,
     borderWidth: 1,
     borderColor: cycleColors.border,
@@ -429,7 +450,7 @@ export const registerStyles = StyleSheet.create({
    * ========================================================== */
 
   summaryContainer: {
-    backgroundColor: cycleColors.background,
+    backgroundColor: cycleColors.surface,
     borderRadius: 16,
     padding: 18,
     marginTop: 25,

@@ -3,6 +3,10 @@ import { cycleColors } from '@/constants/Colors';
 
 export const contactsStyles = StyleSheet.create({
 
+    // ===============================
+    // TELA
+    // ===============================
+
     root: {
         flex: 1,
         backgroundColor: cycleColors.background,
@@ -19,15 +23,20 @@ export const contactsStyles = StyleSheet.create({
         paddingTop: 18,
         paddingBottom: 16,
         gap: 14,
+
+        backgroundColor: cycleColors.background,
+
         borderBottomWidth: 1,
-        borderBottomColor: cycleColors.divider,
+        borderBottomColor: 'rgba(255,255,255,0.06)',
     },
 
     backButton: {
         width: 42,
         height: 42,
         borderRadius: 21,
+
         backgroundColor: cycleColors.surface,
+
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -60,9 +69,11 @@ export const contactsStyles = StyleSheet.create({
     addButton: {
         height: 54,
         borderRadius: 18,
+
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+
         gap: 8,
     },
 
@@ -84,20 +95,27 @@ export const contactsStyles = StyleSheet.create({
 
     contactCard: {
         backgroundColor: cycleColors.surface,
+
         borderRadius: 20,
+
         paddingVertical: 14,
         paddingHorizontal: 16,
+
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+
         marginBottom: 12,
+
         elevation: 3,
     },
 
     contactInfo: {
         flexDirection: 'row',
         alignItems: 'center',
+
         gap: 12,
+
         flexShrink: 1,
     },
 
@@ -105,7 +123,9 @@ export const contactsStyles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 20,
+
         backgroundColor: cycleColors.roseSoft,
+
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -122,6 +142,10 @@ export const contactsStyles = StyleSheet.create({
         marginTop: 3,
     },
 
+    // ===============================
+    // AÇÕES
+    // ===============================
+
     actionsRow: {
         flexDirection: 'row',
         gap: 8,
@@ -131,6 +155,7 @@ export const contactsStyles = StyleSheet.create({
         width: 36,
         height: 36,
         borderRadius: 18,
+
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -141,10 +166,14 @@ export const contactsStyles = StyleSheet.create({
 
     emptyState: {
         flex: 1,
+
         alignItems: 'center',
         justifyContent: 'center',
+
         paddingHorizontal: 40,
         paddingTop: 40,
+
+        backgroundColor: cycleColors.background,
     },
 
     emptyTitle: {
@@ -157,7 +186,9 @@ export const contactsStyles = StyleSheet.create({
     emptySubtitle: {
         color: cycleColors.textMuted,
         fontSize: 13,
+
         textAlign: 'center',
+
         marginTop: 6,
     },
 

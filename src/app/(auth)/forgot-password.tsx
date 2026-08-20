@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   View,
   Text,
@@ -7,7 +8,11 @@ import {
   Alert,
   Image,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
 } from 'react-native';
+
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { sendPasswordResetEmail } from 'firebase/auth';
@@ -61,77 +66,89 @@ export default function ForgotPassword() {
 
   return (
     <Background>
-      <View style={loginStyles.inner}>
-        <Image
-        source={require('@/assets/logo.png')}
-        style={loginStyles.logo}
-        />
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={0}
+      >
+        <ScrollView
+          contentContainerStyle={loginStyles.inner}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
 
-        <View style={loginStyles.header}>
-          <Text style={loginStyles.title}>
-            Recuperar senha
-          </Text>
+          <Image
+            source={require('@/assets/logo.png')}
+            style={loginStyles.logo}
+          />
 
-          <Text style={loginStyles.subtitle}>
-            Digite seu e-mail e enviaremos um link para criar uma nova senha.
-          </Text>
-        </View>
+          <View style={loginStyles.header}>
+            <Text style={loginStyles.title}>
+              Recuperar senha
+            </Text>
 
-        <View style={loginStyles.form}>
-          <Text style={loginStyles.label}>
-            E-mail
-          </Text>
-
-          <View style={loginStyles.inputContainer}>
-            <TextInput
-              style={loginStyles.input}
-              placeholder="Digite seu e-mail"
-              placeholderTextColor={Colors.textMuted}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              value={email}
-              onChangeText={setEmail}
-            />
+            <Text style={loginStyles.subtitle}>
+              Digite seu e-mail e enviaremos um link para criar uma nova senha.
+            </Text>
           </View>
 
-          <TouchableOpacity
-            style={loginStyles.buttonWrapper}
-            disabled={loading}
-            onPress={handleReset}
-          >
-            <LinearGradient
-              colors={[
-                Colors.primary,
-                Colors.secondary,
-              ]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={loginStyles.button}
-            >
-              {loading ? (
-                <ActivityIndicator color={Colors.white} />
-              ) : (
-                <Text style={loginStyles.buttonText}>
-                  Enviar link
-                </Text>
-              )}
-            </LinearGradient>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={loginStyles.footerLink}
-            onPress={() => router.back()}
-          >
-            <Text style={loginStyles.footerText}>
-              Lembrou sua senha?{' '}
-              <Text style={loginStyles.footerTextAccent}>
-                Entrar
-              </Text>
+          <View style={loginStyles.form}>
+            <Text style={loginStyles.label}>
+              E-mail
             </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+
+            <View style={loginStyles.inputContainer}>
+              <TextInput
+                style={loginStyles.input}
+                placeholder="Digite seu e-mail"
+                placeholderTextColor={Colors.textMuted}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                value={email}
+                onChangeText={setEmail}
+              />
+            </View>
+
+            <TouchableOpacity
+              style={loginStyles.buttonWrapper}
+              disabled={loading}
+              onPress={handleReset}
+            >
+              <LinearGradient
+                colors={[
+                  Colors.primary,
+                  Colors.secondary,
+                ]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={loginStyles.button}
+              >
+                {loading ? (
+                  <ActivityIndicator color={Colors.white} />
+                ) : (
+                  <Text style={loginStyles.buttonText}>
+                    Enviar link
+                  </Text>
+                )}
+              </LinearGradient>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={loginStyles.footerLink}
+              onPress={() => router.back()}
+            >
+              <Text style={loginStyles.footerText}>
+                Lembrou sua senha?{' '}
+                <Text style={loginStyles.footerTextAccent}>
+                  Entrar
+                </Text>
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Background>
   );
 }

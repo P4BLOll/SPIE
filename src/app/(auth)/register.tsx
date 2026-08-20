@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   SafeAreaView,
   KeyboardAvoidingView,
@@ -46,37 +47,43 @@ export default function RegisterScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   function nextStep() {
-    if(step < 5){
+    if (step < 5) {
       setStep(step + 1);
     }
   }
 
   function previousStep() {
-    if(step > 1){
+    if (step > 1) {
       setStep(step - 1);
     }
   }
 
-  function goToStep(number:number){
+  function goToStep(number: number) {
     setStep(number);
   }
 
   return (
     <Background>
-      <SafeAreaView style={{flex:1}}>
+      <SafeAreaView style={registerStyles.screen}>
         <KeyboardAvoidingView
-          style={{flex:1}}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={registerStyles.keyboardContainer}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={0}
         >
+
+          {/* HEADER FIXO */}
+          <RegisterHeader
+            currentStep={step}
+            totalSteps={5}
+          />
+
+          {/* APENAS O CONTEÚDO ROLA */}
           <ScrollView
+            style={registerStyles.scroll}
             contentContainerStyle={registerStyles.container}
             showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
           >
-
-            <RegisterHeader
-              currentStep={step}
-              totalSteps={5}
-            />
 
             {step === 1 && (
               <StepOne
@@ -155,6 +162,7 @@ export default function RegisterScreen() {
             )}
 
           </ScrollView>
+
         </KeyboardAvoidingView>
       </SafeAreaView>
     </Background>

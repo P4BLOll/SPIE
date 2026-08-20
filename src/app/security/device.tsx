@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   View,
   Text,
@@ -8,12 +9,17 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
+
 import { Background } from '../../components/Background';
-import { Colors } from '../../constants/Colors';
 import { useBLE } from '../../context/BLEContext';
 import { deviceStyles } from '../../styles/device.styles';
 
+import { cycleColors } from '../../styles/calendar.styles';
+
 export default function DeviceScreen() {
+  const router = useRouter();
+
   const {
     status,
     conectarDispositivo,
@@ -28,155 +34,298 @@ export default function DeviceScreen() {
     status === 'Pulseira Conectada' &&
     deviceConectado !== null;
 
+  // Volta para a página anterior
+  function voltar() {
+    router.back();
+  }
+
   return (
-    <Background style={deviceStyles.container}>
-      <View style={deviceStyles.header}>
-        <Text style={deviceStyles.title}>
-          Meu Dispositivo
-        </Text>
-
-        <Text style={deviceStyles.subtitle}>
-          Gerencie a conexão com a sua pulseira SPIE
-        </Text>
-      </View>
-
-      <View
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: cycleColors.background,
+      }}
+    >
+      <Background
         style={[
-          deviceStyles.statusCard,
-          isConnected &&
-            deviceStyles.statusCardConnected,
+          deviceStyles.container,
+          {
+            backgroundColor: cycleColors.background,
+          },
         ]}
       >
-        <Ionicons
-          name={
-            isConnected
-              ? 'watch'
-              : 'watch-outline'
-          }
-          size={64}
-          color={
-            isConnected
-              ? Colors.accent
-              : Colors.textMuted
-          }
-          style={deviceStyles.deviceIcon}
-        />
+        {/* ==============================
+            HEADER
+        ============================== */}
 
-        <Text style={deviceStyles.statusLabel}>
-          Status do Hardware
-        </Text>
+        <View style={deviceStyles.header}>
+          <TouchableOpacity
+            onPress={voltar}
+            activeOpacity={0.7}
+            style={[
+              deviceStyles.backButton,
+              {
+                backgroundColor: cycleColors.surface,
+              },
+            ]}
+          >
+            <Ionicons
+              name="arrow-back"
+              size={22}
+              color={cycleColors.text}
+            />
+          </TouchableOpacity>
 
-        <Text
+          <View style={deviceStyles.headerContent}>
+            <Text
+              style={[
+                deviceStyles.title,
+                {
+                  color: cycleColors.text,
+                },
+              ]}
+            >
+              Meu Dispositivo
+            </Text>
+
+            <Text
+              style={[
+                deviceStyles.subtitle,
+                {
+                  color: cycleColors.textMuted,
+                },
+              ]}
+            >
+              Gerencie a conexão com a sua pulseira SPIE
+            </Text>
+          </View>
+        </View>
+
+        {/* ==============================
+            STATUS DO DISPOSITIVO
+        ============================== */}
+
+        <View
           style={[
-            deviceStyles.statusValue,
-            isConnected
-              ? deviceStyles.textOk
-              : deviceStyles.textError,
+            deviceStyles.statusCard,
+            {
+              backgroundColor: cycleColors.surface,
+              borderWidth: isConnected ? 1 : 0,
+              borderColor: isConnected
+                ? cycleColors.roseBorder
+                : 'transparent',
+            },
           ]}
         >
-          {status}
-        </Text>
+          <Ionicons
+            name={
+              isConnected
+                ? 'watch'
+                : 'watch-outline'
+            }
+            size={64}
+            color={
+              isConnected
+                ? cycleColors.rose
+                : cycleColors.textMuted
+            }
+            style={deviceStyles.deviceIcon}
+          />
 
-        {isConnected && (
-          <View style={deviceStyles.hardwareSpecs}>
-            <Text style={deviceStyles.specText}>
-              Nome: {deviceConectado?.name}
-            </Text>
-
-            <Text style={deviceStyles.specText}>
-              ID: {deviceConectado?.id}
-            </Text>
-          </View>
-        )}
-      </View>
-
-      <View style={deviceStyles.controlContainer}>
-        {!isConnected ? (
-          <TouchableOpacity
-            onPress={conectarDispositivo}
-            disabled={isConnecting}
-            activeOpacity={0.8}
-            style={deviceStyles.btnWrapper}
+          <Text
+            style={[
+              deviceStyles.statusLabel,
+              {
+                color: cycleColors.textMuted,
+              },
+            ]}
           >
-            <LinearGradient
-              colors={
-                isConnecting
-                  ? [
-                      Colors.surface,
-                      Colors.surface,
-                    ]
-                  : [
-                      Colors.primary,
-                      Colors.secondary,
-                    ]
-              }
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 0 }}
-              style={deviceStyles.button}
+            Status do Hardware
+          </Text>
+
+          <Text
+            style={[
+              deviceStyles.statusValue,
+              {
+                color: isConnected
+                  ? cycleColors.rose
+                  : cycleColors.textMuted,
+              },
+            ]}
+          >
+            {status}
+          </Text>
+
+          {/* INFORMAÇÕES DO DISPOSITIVO */}
+
+          {isConnected && (
+            <View
+              style={[
+                deviceStyles.hardwareSpecs,
+                {
+                  backgroundColor: cycleColors.surfaceAlt,
+                },
+              ]}
             >
-              {isConnecting ? (
-                <View style={deviceStyles.row}>
-                  <ActivityIndicator
-                    color={Colors.accent}
-                    style={{ marginRight: 10 }}
-                  />
+              <Text
+                style={[
+                  deviceStyles.specText,
+                  {
+                    color: cycleColors.textMuted,
+                  },
+                ]}
+              >
+                Nome: {deviceConectado?.name}
+              </Text>
 
-                  <Text
-                    style={[
-                      deviceStyles.buttonText,
-                      {
-                        color:
-                          Colors.textMuted,
-                      },
-                    ]}
-                  >
-                    Sincronizando...
-                  </Text>
-                </View>
-              ) : (
-                <View style={deviceStyles.row}>
-                  <Ionicons
-                    name="bluetooth"
-                    size={20}
-                    color={Colors.text}
-                    style={{ marginRight: 8 }}
-                  />
-
-                  <Text style={deviceStyles.buttonText}>
-                    Emparelhar Pulseira
-                  </Text>
-                </View>
-              )}
-            </LinearGradient>
-          </TouchableOpacity>
-        ) : (
-          <View style={deviceStyles.connectedPanel}>
-            <View style={deviceStyles.infoRow}>
-              <Ionicons
-                name="wifi"
-                size={20}
-                color={Colors.accent}
-              />
-
-              <Text style={deviceStyles.infoText}>
-                Sinal BLE está estável
+              <Text
+                style={[
+                  deviceStyles.specText,
+                  {
+                    color: cycleColors.textMuted,
+                  },
+                ]}
+              >
+                ID: {deviceConectado?.id}
               </Text>
             </View>
+          )}
+        </View>
 
-            <View style={deviceStyles.infoRow}>
-              <Ionicons
-                name="checkmark-circle"
-                size={20}
-                color="#00b37e"
-              />
+        {/* ==============================
+            CONTROLES
+        ============================== */}
 
-              <Text style={deviceStyles.infoText}>
-                Monitoramento ativo
-              </Text>
+        <View style={deviceStyles.controlContainer}>
+          {!isConnected ? (
+            <TouchableOpacity
+              onPress={conectarDispositivo}
+              disabled={isConnecting}
+              activeOpacity={0.8}
+              style={deviceStyles.btnWrapper}
+            >
+              <LinearGradient
+                colors={
+                  isConnecting
+                    ? [
+                        cycleColors.surface,
+                        cycleColors.surface,
+                      ]
+                    : [
+                        cycleColors.rose,
+                        cycleColors.lavender,
+                      ]
+                }
+                start={{
+                  x: 0,
+                  y: 0,
+                }}
+                end={{
+                  x: 1,
+                  y: 0,
+                }}
+                style={deviceStyles.button}
+              >
+                {isConnecting ? (
+                  <View style={deviceStyles.row}>
+                    <ActivityIndicator
+                      color={cycleColors.rose}
+                      style={{
+                        marginRight: 10,
+                      }}
+                    />
+
+                    <Text
+                      style={[
+                        deviceStyles.buttonText,
+                        {
+                          color: cycleColors.textMuted,
+                        },
+                      ]}
+                    >
+                      Sincronizando...
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={deviceStyles.row}>
+                    <Ionicons
+                      name="bluetooth"
+                      size={20}
+                      color="#FFFFFF"
+                      style={{
+                        marginRight: 8,
+                      }}
+                    />
+
+                    <Text
+                      style={[
+                        deviceStyles.buttonText,
+                        {
+                          color: '#FFFFFF',
+                        },
+                      ]}
+                    >
+                      Emparelhar Pulseira
+                    </Text>
+                  </View>
+                )}
+              </LinearGradient>
+            </TouchableOpacity>
+          ) : (
+            <View
+              style={[
+                deviceStyles.connectedPanel,
+                {
+                  backgroundColor: cycleColors.surface,
+                  borderColor: cycleColors.roseBorder,
+                },
+              ]}
+            >
+              {/* SINAL BLE */}
+
+              <View style={deviceStyles.infoRow}>
+                <Ionicons
+                  name="bluetooth"
+                  size={20}
+                  color={cycleColors.rose}
+                />
+
+                <Text
+                  style={[
+                    deviceStyles.infoText,
+                    {
+                      color: cycleColors.text,
+                    },
+                  ]}
+                >
+                  Sinal BLE está estável
+                </Text>
+              </View>
+
+              {/* MONITORAMENTO */}
+
+              <View style={deviceStyles.infoRow}>
+                <Ionicons
+                  name="checkmark-circle"
+                  size={20}
+                  color={cycleColors.teal}
+                />
+
+                <Text
+                  style={[
+                    deviceStyles.infoText,
+                    {
+                      color: cycleColors.text,
+                    },
+                  ]}
+                >
+                  Monitoramento ativo
+                </Text>
+              </View>
             </View>
-          </View>
-        )}
-      </View>
-    </Background>
+          )}
+        </View>
+      </Background>
+    </View>
   );
 }
