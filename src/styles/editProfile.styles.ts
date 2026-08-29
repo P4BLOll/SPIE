@@ -463,6 +463,13 @@ export const styles = StyleSheet.create({
   },
 
 
+  measureInputNotInformed: {
+    color: cycleColors.textMuted,
+
+    fontStyle: 'italic',
+  },
+
+
   measureUnit: {
     color: cycleColors.textMuted,
 

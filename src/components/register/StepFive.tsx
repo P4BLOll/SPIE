@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {View,Text,TextInput,TouchableOpacity,ActivityIndicator,Alert,} from 'react-native';
+import {View,Text,TextInput,TouchableOpacity,ActivityIndicator} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { registerUser } from '../../services/authService';
-import { registerStyles } from '../../styles/register.styles';
-import { Colors } from '../../constants/Colors';
+import { registerUser } from '@/modules/auth/services/authService';
+import { registerStyles } from '@/styles/register.styles';
+import { Colors } from '@/constants/Colors';
+import { useDialog } from '@/context/DialogContext';
 
 type Props = {
   email: string;
@@ -53,6 +54,7 @@ export default function StepFive({
 }:Props){
 
   const router = useRouter();
+  const { showAlert } = useDialog();
 
   const [loading,setLoading] = useState(false);
   const [showPassword,setShowPassword] = useState(false);
@@ -87,27 +89,24 @@ export default function StepFive({
     }
 
     if(password !== confirmPassword){
-
-      Alert.alert(
-        'Atenção',
-        'As senhas não coincidem.'
-      );
-
+      showAlert({
+        title: 'Atenção',
+        message: 'As senhas digitadas não coincidem. Por favor, verifique.',
+        type: 'warning',
+      });
       return;
     }
 
     if(!acceptedTerms){
-
-      Alert.alert(
-        'Atenção',
-        'Aceite os Termos de Uso e a Política de Privacidade.'
-      );
-
+      showAlert({
+        title: 'Termos de Uso',
+        message: 'Por favor, aceite os Termos de Uso e a Política de Privacidade para continuar.',
+        type: 'warning',
+      });
       return;
     }
 
     try{
-
       setLoading(true);
 
       await registerUser({
@@ -127,28 +126,22 @@ export default function StepFive({
         healthConditions,
       });
 
-      Alert.alert(
-        'Sucesso!',
-        'Cadastro realizado com sucesso.',
-        [
-          {
-            text:'Entrar',
-            onPress:()=>router.replace('/login')
-          }
-        ]
-      );
+      showAlert({
+        title: 'Sucesso!',
+        message: 'Cadastro realizado com sucesso. Faça login para continuar.',
+        type: 'success',
+        buttonText: 'Entrar',
+        onDismiss: () => router.replace('/(auth)/login'),
+      });
 
     }catch(error:any){
-
-      Alert.alert(
-        'Erro',
-        error.message
-      );
-
+      showAlert({
+        title: 'Erro no Cadastro',
+        message: error.message || 'Não foi possível concluir o cadastro.',
+        type: 'error',
+      });
     }finally{
-
       setLoading(false);
-
     }
 
   }

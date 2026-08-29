@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   ViewStyle,
+  StyleProp,
   StatusBar,
 } from 'react-native';
 
@@ -18,7 +19,7 @@ import { Colors } from '../constants/Colors';
 
 interface BackgroundProps {
   children: React.ReactNode;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
   colors?: readonly [string, string] | readonly [string, string, string];
 }
 

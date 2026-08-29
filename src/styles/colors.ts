@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { cycleColors } from './colors';
+import { cycleColors } from '@/constants/Colors';
 
 export const addContactStyles = StyleSheet.create({
 

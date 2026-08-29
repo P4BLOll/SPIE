@@ -8,10 +8,10 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Alert,
   StatusBar,
   Animated,
   ScrollView,
+  Switch,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -24,27 +24,13 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import {
-  collection,
-  onSnapshot,
-  addDoc,
-  serverTimestamp,
-} from 'firebase/firestore';
-
-import { cycleColors } from '../../styles/calendar.styles';
-
-import { useBLE } from '../../context/BLEContext';
-
-import { useSecurity } from '../../context/SecurityContext';
-
-import {
-  secretStyles as styles,
-} from '../../styles/secret.styles';
-
-import {
-  db,
-  auth,
-} from '../../services/firebaseConfig';
+import { useEmergency } from '@/modules/emergency/contexts/EmergencyContext';
+import { useSecurity } from '@/modules/security-vault/contexts/SecurityContext';
+import { useDevice } from '@/modules/device/hooks/useDevice';
+import { emergencyRepository } from '@/modules/emergency/services/emergencyRepository';
+import { secretStyles as styles } from '@/styles/secret.styles';
+import { cycleColors } from '@/styles/calendar.styles';
+import { useDialog } from '@/context/DialogContext';
 
 
 // =====================================================
@@ -116,7 +102,7 @@ function PulseRing({
               scale:
                 anim.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [1, 1.35],
+                  outputRange: [1, 1.45],
                 }),
             },
           ],
@@ -136,25 +122,17 @@ function PulseRing({
 export default function SecurityScreen() {
 
   const router = useRouter();
-
-
-  // =====================================================
-  // BLE
-  // =====================================================
-
+  const { showAlert } = useDialog();
+  const { status: bleStatus } = useDevice();
   const {
-    status,
     alertaAtivo,
-  } = useBLE();
+    dispararAlerta,
+    ligacaoEmergenciaAtiva,
+    alternarLigacaoEmergencia,
+  } = useEmergency();
+  const { bloquear } = useSecurity();
 
-
-  // =====================================================
-  // SEGURANÇA
-  // =====================================================
-
-  const {
-    bloquear,
-  } = useSecurity();
+  const conectado = bleStatus === 'connected';
 
 
   // =====================================================
@@ -207,8 +185,12 @@ export default function SecurityScreen() {
   // STATUS DA PULSEIRA
   // =====================================================
 
-  const conectado =
-    status === 'Pulseira Conectada';
+  const status =
+    bleStatus === 'connected'
+      ? 'Pulseira Conectada'
+      : bleStatus === 'connecting'
+      ? 'Conectando...'
+      : 'Desconectado';
 
 
   // =====================================================
@@ -255,57 +237,12 @@ export default function SecurityScreen() {
 
   useEffect(() => {
 
-    const user =
-      auth.currentUser;
-
-
-    if (!user) {
-
-      setQuantidadeContatos(0);
-
-      return;
-
-    }
-
-
-    const contatosRef =
-      collection(
-        db,
-        'users',
-        user.uid,
-        'emergency_contacts'
-      );
-
-
-    const unsubscribe =
-      onSnapshot(
-
-        contatosRef,
-
-        (snapshot) => {
-
-          setQuantidadeContatos(
-            snapshot.size
-          );
-
-        },
-
-        (error) => {
-
-          console.log(
-            'Erro ao carregar contatos de emergência:',
-            error
-          );
-
-          setQuantidadeContatos(0);
-
-        }
-
-      );
-
+    const unsubscribe = emergencyRepository.subscribeContacts((list) => {
+      setQuantidadeContatos(list.length);
+    });
 
     return () => {
-      unsubscribe();
+      unsubscribe?.();
     };
 
   }, []);
@@ -317,32 +254,8 @@ export default function SecurityScreen() {
 
   async function ativarEmergencia() {
 
-    // -----------------------------------------------------
-    // EVITA DUPLO TOQUE
-    // -----------------------------------------------------
-
     if (criandoAlerta) {
       return;
-    }
-
-
-    const user =
-      auth.currentUser;
-
-
-    // -----------------------------------------------------
-    // VERIFICA AUTENTICAÇÃO
-    // -----------------------------------------------------
-
-    if (!user) {
-
-      Alert.alert(
-        'Erro',
-        'Usuário não autenticado.'
-      );
-
-      return;
-
     }
 
 
@@ -352,52 +265,10 @@ export default function SecurityScreen() {
 
 
       // ===================================================
-      // REFERÊNCIA DO HISTÓRICO
-      // ===================================================
-
-      const alertHistoryRef =
-        collection(
-          db,
-          'users',
-          user.uid,
-          'alert_history'
-        );
-
-
-      // ===================================================
       // CRIA O ALERTA
       // ===================================================
 
-      const alertaRef =
-        await addDoc(
-          alertHistoryRef,
-          {
-
-            tipo: 'SOS',
-
-            status: 'Enviado',
-
-            createdAt:
-              serverTimestamp(),
-
-            atualizadoEm:
-              serverTimestamp(),
-
-            latitude: null,
-
-            longitude: null,
-
-            quantidadeContatos:
-              quantidadeContatos,
-
-          }
-        );
-
-
-      console.log(
-        'Alerta criado no Firebase:',
-        alertaRef.id
-      );
+      const alertId = await dispararAlerta('SOS', 'APP_BUTTON');
 
 
       // ===================================================
@@ -412,7 +283,7 @@ export default function SecurityScreen() {
         params: {
 
           alertaId:
-            alertaRef.id,
+            alertId || '',
 
         },
 
@@ -426,11 +297,11 @@ export default function SecurityScreen() {
         error
       );
 
-
-      Alert.alert(
-        'Erro',
-        'Não foi possível registrar o alerta de emergência.'
-      );
+      showAlert({
+        title: 'Erro',
+        message: 'Não foi possível registrar o alerta de emergência.',
+        type: 'error',
+      });
 
     } finally {
 
@@ -626,11 +497,11 @@ export default function SecurityScreen() {
 
       setContagemSOS(3);
 
-
-      Alert.alert(
-        'Aviso',
-        'Segure o botão SOS por 3 segundos para ativar o alarme.'
-      );
+      showAlert({
+        title: 'Aviso',
+        message: 'Segure o botão SOS por 3 segundos para ativar o alarme de socorro.',
+        type: 'warning',
+      });
 
     }
 
@@ -995,6 +866,50 @@ export default function SecurityScreen() {
 
 
         {/* =================================================
+            CONFIGURAÇÃO DE DISCAGEM SOS
+        ================================================= */}
+
+        <View style={styles.settingCard}>
+          <View style={styles.settingLeft}>
+            <View
+              style={[
+                styles.settingIconWrap,
+                {
+                  backgroundColor: ligacaoEmergenciaAtiva
+                    ? 'rgba(61, 220, 151, 0.15)'
+                    : 'rgba(255, 92, 141, 0.15)',
+                },
+              ]}
+            >
+              <Ionicons
+                name={ligacaoEmergenciaAtiva ? 'call' : 'call-outline'}
+                size={20}
+                color={ligacaoEmergenciaAtiva ? cycleColors.teal : cycleColors.rose}
+              />
+            </View>
+            <View style={styles.settingContent}>
+              <Text style={styles.settingTitle}>Ligação de Emergência</Text>
+              <Text style={styles.settingDesc}>
+                {ligacaoEmergenciaAtiva
+                  ? 'Discar automaticamente após envio do SMS'
+                  : 'Modo silencioso (apenas SMS com GPS)'}
+              </Text>
+            </View>
+          </View>
+
+          <Switch
+            value={ligacaoEmergenciaAtiva}
+            onValueChange={(val) => alternarLigacaoEmergencia(val)}
+            trackColor={{
+              false: 'rgba(255, 255, 255, 0.15)',
+              true: cycleColors.teal,
+            }}
+            thumbColor="#FFFFFF"
+          />
+        </View>
+
+
+        {/* =================================================
             SOS
         ================================================= */}
 
@@ -1061,31 +976,14 @@ export default function SecurityScreen() {
               }
             >
 
-              <LinearGradient
-                colors={[
-                  cycleColors.rose,
-                  cycleColors.lavender,
+              <View
+                style={[
+                  styles.sosButton,
+                  { backgroundColor: '#EF4444' },
                 ]}
-
-                start={{
-                  x: 0,
-                  y: 0,
-                }}
-
-                end={{
-                  x: 1,
-                  y: 1,
-                }}
-
-                style={
-                  styles.sosButton
-                }
               >
-
                 {criandoAlerta ? (
-
                   <>
-
                     <Ionicons
                       name="hourglass-outline"
                       size={30}
@@ -1095,7 +993,6 @@ export default function SecurityScreen() {
                       }}
                     />
 
-
                     <Text
                       style={
                         styles.sosText
@@ -1104,7 +1001,6 @@ export default function SecurityScreen() {
                       ENVIANDO
                     </Text>
 
-
                     <Text
                       style={
                         styles.sosSubText
@@ -1112,13 +1008,9 @@ export default function SecurityScreen() {
                     >
                       Aguarde...
                     </Text>
-
                   </>
-
                 ) : pressionandoSOS ? (
-
                   <>
-
                     <Text
                       style={[
                         styles.sosText,
@@ -1131,7 +1023,6 @@ export default function SecurityScreen() {
                       {contagemSOS}
                     </Text>
 
-
                     <Text
                       style={
                         styles.sosSubText
@@ -1139,13 +1030,9 @@ export default function SecurityScreen() {
                     >
                       Continue segurando
                     </Text>
-
                   </>
-
                 ) : (
-
                   <>
-
                     <Ionicons
                       name="warning"
                       size={30}
@@ -1155,7 +1042,6 @@ export default function SecurityScreen() {
                       }}
                     />
 
-
                     <Text
                       style={
                         styles.sosText
@@ -1164,7 +1050,6 @@ export default function SecurityScreen() {
                       SOS
                     </Text>
 
-
                     <Text
                       style={
                         styles.sosSubText
@@ -1172,13 +1057,9 @@ export default function SecurityScreen() {
                     >
                       Segure por 3s
                     </Text>
-
                   </>
-
                 )}
-
-              </LinearGradient>
-
+              </View>
             </TouchableOpacity>
 
           </View>

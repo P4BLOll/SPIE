@@ -84,7 +84,7 @@ export default function StepOne({
 
       <TouchableOpacity
         style={registerStyles.loginLink}
-        onPress={() => router.replace('/login')}
+        onPress={() => router.replace('/(auth)/login')}
       >
         <Text style={registerStyles.loginLinkText}>
           Voltar para o login

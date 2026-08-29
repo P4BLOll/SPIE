@@ -25,7 +25,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useCycle } from '@/context/CycleContext';
+import { useCycle } from '@/modules/cycle/hooks/useCycle';
 import { Background } from '@/components/Background';
 
 import {
@@ -151,7 +151,7 @@ LocaleConfig.defaultLocale = 'pt-br';
 // ROTAS
 // =====================================
 
-const ROTA_PERFIL = '../profile';
+const ROTA_PERFIL = '/(tabs)/profile';
 
 const ROTA_EDITAR_CALENDARIO =
   '/calendar/register-period';
@@ -1098,6 +1098,7 @@ export default function CalendarScreen() {
           style={[
             calendarStyles.fixedHeader,
             {
+              paddingTop: Math.max(insets.top, 20) + 8,
               opacity: headerFade,
               transform: [
                 {
@@ -2024,9 +2025,7 @@ export default function CalendarScreen() {
                     calendarStyles.modalChipsRow
                   }
                 >
-                  {registroDiaSelecionado
-                    .sintomas!
-                    .map((sintoma) => (
+                  {registroDiaSelecionado?.sintomas?.map((sintoma) => (
                       <View
                         key={`sintoma-${nomeDoSintoma(sintoma.id)}`}
                         style={

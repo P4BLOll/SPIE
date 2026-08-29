@@ -276,25 +276,14 @@ export function AppTutorial({
               marginBottom: 22,
             }}
           >
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
-              ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 1,
-              }}
+            <View
               style={{
                 width: 86,
                 height: 86,
                 borderRadius: 43,
                 alignItems: 'center',
                 justifyContent: 'center',
+                backgroundColor: cycleColors.rose,
               }}
             >
               <Ionicons
@@ -302,7 +291,7 @@ export function AppTutorial({
                 size={42}
                 color="#FFFFFF"
               />
-            </LinearGradient>
+            </View>
           </View>
 
           {/* TÍTULO */}
@@ -409,19 +398,7 @@ export function AppTutorial({
                 flex: 1,
               }}
             >
-              <LinearGradient
-                colors={[
-                  cycleColors.rose,
-                  cycleColors.lavender,
-                ]}
-                start={{
-                  x: 0,
-                  y: 0,
-                }}
-                end={{
-                  x: 1,
-                  y: 0,
-                }}
+              <View
                 style={{
                   height: 50,
                   borderRadius: 16,
@@ -429,6 +406,7 @@ export function AppTutorial({
                   justifyContent: 'center',
                   flexDirection: 'row',
                   gap: 8,
+                  backgroundColor: cycleColors.rose,
                 }}
               >
                 <Text
@@ -452,7 +430,7 @@ export function AppTutorial({
                   size={18}
                   color="#FFFFFF"
                 />
-              </LinearGradient>
+              </View>
             </TouchableOpacity>
           </View>
 

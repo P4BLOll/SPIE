@@ -39,7 +39,7 @@ export default function SecurityLayout() {
 
     return (
       <Redirect
-        href="/secret"
+        href="/(tabs)/secret"
       />
     );
 

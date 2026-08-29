@@ -339,6 +339,12 @@ export const registerStyles = StyleSheet.create({
     lineHeight: 22,
   },
 
+  linkText: {
+    color: cycleColors.rose,
+    fontWeight: '700',
+    textDecorationLine: 'underline',
+  },
+
   /* ==========================================================
    * LINK PARA LOGIN
    * ========================================================== */

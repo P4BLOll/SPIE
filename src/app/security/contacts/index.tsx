@@ -8,12 +8,11 @@ import {
   Text,
   FlatList,
   ActivityIndicator,
-  Alert,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Background } from '@/components/Background';
 import { AnimatedPressable } from '@/components/AnimatedPressable';
@@ -24,202 +23,74 @@ import {
   contactsStyles as styles,
 } from '@/styles/contacts.styles';
 
-import {
-  db,
-  auth,
-} from '@/services/firebaseConfig';
-
-import {
-  collection,
-  onSnapshot,
-  deleteDoc,
-  doc,
-} from 'firebase/firestore';
-
-import { useSecurity } from '@/context/SecurityContext';
-
-
-// =====================================================
-// TIPAGEM
-// =====================================================
-
-interface Contact {
-  id: string;
-  name: string;
-  phone: string;
-}
-
+import { useSecurity } from '@/modules/security-vault/contexts/SecurityContext';
+import { useDialog } from '@/context/DialogContext';
+import { emergencyRepository } from '@/modules/emergency/services/emergencyRepository';
+import { EmergencyContact } from '@/modules/emergency/types/emergency.types';
 
 // =====================================================
 // TELA DE CONTATOS
 // =====================================================
 
 export default function ContactsScreen() {
-
   const { bloquear } = useSecurity();
-
-  const [contacts, setContacts] =
-    useState<Contact[]>([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
+  const { showConfirm, showAlert } = useDialog();
+  const [contacts, setContacts] = useState<EmergencyContact[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // =====================================================
   // CARREGAR CONTATOS
   // =====================================================
 
   useEffect(() => {
+    const unsubscribe = emergencyRepository.subscribeContacts((data) => {
+      setContacts(data);
+      setLoading(false);
+    });
 
-    const user = auth.currentUser;
-
-    if (!user) {
+    if (!unsubscribe) {
       setContacts([]);
       setLoading(false);
-      return;
     }
 
-    const contactsRef = collection(
-      db,
-      'users',
-      user.uid,
-      'emergency_contacts'
-    );
-
-    const unsubscribe = onSnapshot(
-      contactsRef,
-
-      (snapshot) => {
-
-        const data: Contact[] = [];
-
-        snapshot.forEach((item) => {
-
-          const contact = item.data();
-
-          data.push({
-            id: item.id,
-
-            name:
-              typeof contact.name === 'string'
-                ? contact.name
-                : '',
-
-            phone:
-              typeof contact.phone === 'string'
-                ? contact.phone
-                : '',
-          });
-
-        });
-
-        setContacts(data);
-        setLoading(false);
-      },
-
-      (error) => {
-
-        console.log(
-          'Erro ao carregar contatos:',
-          error
-        );
-
-        setContacts([]);
-        setLoading(false);
-
-        Alert.alert(
-          'Erro',
-          'Não foi possível carregar seus contatos de emergência.'
-        );
-      }
-    );
-
     return () => {
-      unsubscribe();
+      unsubscribe?.();
     };
-
   }, []);
-
 
   // =====================================================
   // VOLTAR
   // =====================================================
 
   function voltar() {
-
     bloquear();
-
     router.back();
-
   }
-
 
   // =====================================================
   // EXCLUIR CONTATO
   // =====================================================
 
-  function deleteContact(
-    id: string,
-    name: string
-  ) {
-
-    const user = auth.currentUser;
-
-    if (!user) {
-
-      Alert.alert(
-        'Erro',
-        'Usuário não autenticado.'
-      );
-
-      return;
-    }
-
-    Alert.alert(
-      'Excluir contato',
-
-      `Deseja remover ${name}?`,
-
-      [
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-
-        {
-          text: 'Excluir',
-          style: 'destructive',
-
-          onPress: async () => {
-
-            try {
-
-              const contactRef = doc(
-                db,
-                'users',
-                user.uid,
-                'emergency_contacts',
-                id
-              );
-
-              await deleteDoc(contactRef);
-
-            } catch (error) {
-
-              console.log(
-                'Erro ao excluir contato:',
-                error
-              );
-
-              Alert.alert(
-                'Erro',
-                'Não foi possível excluir o contato.'
-              );
-            }
-          },
-        },
-      ]
-    );
+  function deleteContact(id: string, name: string) {
+    showConfirm({
+      title: 'Excluir Contato',
+      message: `Deseja realmente remover ${name} dos seus contatos de emergência?`,
+      type: 'danger',
+      confirmText: 'Excluir',
+      cancelText: 'Cancelar',
+      onConfirm: async () => {
+        try {
+          await emergencyRepository.deleteContact(id);
+        } catch (error) {
+          console.log('Erro ao excluir contato:', error);
+          showAlert({
+            title: 'Erro',
+            message: 'Não foi possível excluir o contato.',
+            type: 'error',
+          });
+        }
+      },
+    });
   }
 
 
@@ -228,14 +99,13 @@ export default function ContactsScreen() {
   // =====================================================
 
   return (
-
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: cycleColors.background,
       }}
+      edges={['top', 'left', 'right']}
     >
-
       <Background
         style={{
           flex: 1,
@@ -339,22 +209,12 @@ export default function ContactsScreen() {
               }
             >
 
-              <LinearGradient
-                colors={[
-                  cycleColors.rose,
-                  cycleColors.lavender,
+              <View
+                style={[
+                  styles.addButton,
+                  { backgroundColor: cycleColors.rose },
                 ]}
-                start={{
-                  x: 0,
-                  y: 0,
-                }}
-                end={{
-                  x: 1,
-                  y: 0,
-                }}
-                style={styles.addButton}
               >
-
                 <Ionicons
                   name="add-circle-outline"
                   size={20}
@@ -366,9 +226,7 @@ export default function ContactsScreen() {
                 >
                   Adicionar contato
                 </Text>
-
-              </LinearGradient>
-
+              </View>
             </AnimatedPressable>
 
           </View>
@@ -439,17 +297,9 @@ export default function ContactsScreen() {
 
             <FlatList
               data={contacts}
-
-              keyExtractor={(item) =>
-                item.id
-              }
-
+              keyExtractor={(item, index) => (item as any).id || `contact-${index}`}
               showsVerticalScrollIndicator={false}
-
-              contentContainerStyle={
-                styles.listContent
-              }
-
+              contentContainerStyle={styles.listContent}
               renderItem={({ item }) => (
 
                 <View
@@ -505,9 +355,8 @@ export default function ContactsScreen() {
                         ]}
                         numberOfLines={1}
                       >
-                        {item.name}
+                        {item.nome || 'Contato'}
                       </Text>
-
 
                       <Text
                         style={[
@@ -518,7 +367,7 @@ export default function ContactsScreen() {
                           },
                         ]}
                       >
-                        {item.phone}
+                        {item.telefone || ''}
                       </Text>
 
                     </View>
@@ -549,14 +398,14 @@ export default function ContactsScreen() {
                           pathname:
                             '/security/contacts/edit',
                           params: {
-                            id: item.id,
+                            id: (item as any).id || '',
                           },
                         })
                       }
                     >
 
                       <Ionicons
-                        name="create-outline"
+                        name="pencil-outline"
                         size={18}
                         color={cycleColors.teal}
                       />
@@ -576,8 +425,8 @@ export default function ContactsScreen() {
                       ]}
                       onPress={() =>
                         deleteContact(
-                          item.id,
-                          item.name
+                          (item as any).id || '',
+                          (item as any).nome || (item as any).name || 'Contato'
                         )
                       }
                     >
@@ -600,10 +449,7 @@ export default function ContactsScreen() {
           )}
 
         </View>
-
       </Background>
-
-    </View>
-
+    </SafeAreaView>
   );
 }

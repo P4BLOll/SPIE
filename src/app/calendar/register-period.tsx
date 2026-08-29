@@ -11,7 +11,7 @@ import {
 import { Calendar } from 'react-native-calendars';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Background } from '@/components/Background';
 
@@ -29,7 +29,7 @@ import {
   DURACAO_MENSTRUACAO_MAX,
   DURACAO_CICLO_MIN,
   DURACAO_CICLO_MAX,
-} from '@/context/CycleContext';
+} from '@/modules/cycle/contexts/CycleContext';
 
 // =====================================
 // FORMATAR DATA
@@ -394,10 +394,9 @@ export default function RegisterPeriod() {
 
   return (
     <Background>
-      <View
-        style={
-          registerPeriodStyles.screen
-        }
+      <SafeAreaView
+        style={registerPeriodStyles.screen}
+        edges={['top', 'left', 'right']}
       >
 
         {/* =====================================
@@ -464,29 +463,18 @@ export default function RegisterPeriod() {
               registerPeriodStyles.header
             }
           >
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <View
+              style={[
+                registerPeriodStyles.iconRing,
+                { backgroundColor: cycleColors.rose },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 1,
-              }}
-              style={
-                registerPeriodStyles.iconRing
-              }
             >
               <Ionicons
                 name="water-outline"
                 size={34}
                 color="#FFFFFF"
               />
-            </LinearGradient>
+            </View>
 
             <Text
               style={
@@ -985,22 +973,11 @@ export default function RegisterPeriod() {
                 : undefined
             }
           >
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <View
+              style={[
+                registerPeriodStyles.button,
+                { backgroundColor: cycleColors.rose },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 0,
-              }}
-              style={
-                registerPeriodStyles.button
-              }
             >
               <Ionicons
                 name="checkmark"
@@ -1015,11 +992,11 @@ export default function RegisterPeriod() {
               >
                 Salvar configurações
               </Text>
-            </LinearGradient>
+            </View>
           </TouchableOpacity>
 
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </Background>
   );
 }

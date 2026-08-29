@@ -14,13 +14,13 @@ import {
 } from 'react-native';
 
 import { useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
-import { sendPasswordResetEmail } from 'firebase/auth';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Background } from '../../components/Background';
-import { Colors } from '../../constants/Colors';
-import { loginStyles } from '../../styles/login.styles';
-import { auth } from '../../services/firebaseConfig';
+import { Background } from '@/components/Background';
+import { Colors } from '@/constants/Colors';
+import { cycleColors } from '@/styles/calendar.styles';
+import { loginStyles } from '@/styles/login.styles';
+import { recoverPassword } from '@/modules/auth/services/authService';
 
 export default function ForgotPassword() {
   const router = useRouter();
@@ -28,36 +28,39 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // ==========================================================
+  // DISPARAR RECUPERAÇÃO DE SENHA
+  // ==========================================================
   async function handleReset() {
-    if (!email) {
-      Alert.alert(
-        'Atenção',
-        'Digite seu e-mail.'
-      );
+    const emailLimpo = email.trim();
+
+    if (!emailLimpo) {
+      Alert.alert('Atenção', 'Digite seu endereço de e-mail.');
       return;
     }
 
     try {
       setLoading(true);
 
-      await sendPasswordResetEmail(auth, email);
+      // Envia o link de redefinição de senha via Firebase Auth
+      await recoverPassword(emailLimpo);
 
       Alert.alert(
-        'E-mail enviado',
-        'Enviamos um link para redefinir sua senha.',
+        'E-mail enviado!',
+        `Enviamos um link para ${emailLimpo}. Verifique sua caixa de entrada ou pasta de spam para redefinir sua senha.`,
         [
           {
-            text: 'Voltar',
+            text: 'Ir para Login',
             onPress: () => router.replace('/(auth)/login'),
           },
         ]
       );
     } catch (error: any) {
-      console.log(error);
+      console.log('Erro ao recuperar senha:', error);
 
       Alert.alert(
-        'Erro',
-        'Não foi possível enviar o e-mail de recuperação.'
+        'Erro na recuperação',
+        error?.message || 'Não foi possível enviar o e-mail de recuperação.'
       );
     } finally {
       setLoading(false);
@@ -66,8 +69,15 @@ export default function ForgotPassword() {
 
   return (
     <Background>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
+      <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: cycleColors.background,
+        }}
+        edges={['top', 'left', 'right']}
+      >
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={0}
       >
@@ -111,19 +121,11 @@ export default function ForgotPassword() {
             </View>
 
             <TouchableOpacity
-              style={loginStyles.buttonWrapper}
+              style={[loginStyles.buttonWrapper, { backgroundColor: Colors.primary }]}
               disabled={loading}
               onPress={handleReset}
             >
-              <LinearGradient
-                colors={[
-                  Colors.primary,
-                  Colors.secondary,
-                ]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                style={loginStyles.button}
-              >
+              <View style={loginStyles.button}>
                 {loading ? (
                   <ActivityIndicator color={Colors.white} />
                 ) : (
@@ -131,7 +133,7 @@ export default function ForgotPassword() {
                     Enviar link
                   </Text>
                 )}
-              </LinearGradient>
+              </View>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -149,6 +151,7 @@ export default function ForgotPassword() {
 
         </ScrollView>
       </KeyboardAvoidingView>
+      </SafeAreaView>
     </Background>
   );
 }

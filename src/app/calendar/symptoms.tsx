@@ -13,8 +13,7 @@ import {
   router,
   useLocalSearchParams,
 } from 'expo-router';
-
-import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Background } from '@/components/Background';
 
@@ -28,7 +27,7 @@ import {
 
 import {
   useCycle,
-} from '@/context/CycleContext';
+} from '@/modules/cycle/hooks/useCycle';
 
 // =====================================
 // TIPOS
@@ -306,10 +305,9 @@ export default function Symptoms() {
 
   return (
     <Background>
-      <View
-        style={
-          symptomsStyles.screen
-        }
+      <SafeAreaView
+        style={symptomsStyles.screen}
+        edges={['top', 'left', 'right']}
       >
 
         {/* =====================================
@@ -382,29 +380,18 @@ export default function Symptoms() {
               symptomsStyles.header
             }
           >
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <View
+              style={[
+                symptomsStyles.iconRing,
+                { backgroundColor: cycleColors.rose },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 1,
-              }}
-              style={
-                symptomsStyles.iconRing
-              }
             >
               <Ionicons
                 name="fitness-outline"
                 size={34}
                 color="#FFFFFF"
               />
-            </LinearGradient>
+            </View>
 
             <Text
               style={
@@ -659,22 +646,11 @@ export default function Symptoms() {
                 : undefined
             }
           >
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <View
+              style={[
+                symptomsStyles.button,
+                { backgroundColor: cycleColors.rose },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 0,
-              }}
-              style={
-                symptomsStyles.button
-              }
             >
               <Ionicons
                 name="checkmark"
@@ -689,11 +665,11 @@ export default function Symptoms() {
               >
                 Salvar sintomas
               </Text>
-            </LinearGradient>
+            </View>
           </TouchableOpacity>
 
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </Background>
   );
 }

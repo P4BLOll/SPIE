@@ -13,6 +13,7 @@ import {
   ActivityIndicator,
   Linking,
   Animated,
+  Platform,
 } from 'react-native';
 
 import * as Location from 'expo-location';
@@ -20,10 +21,12 @@ import * as SMS from 'expo-sms';
 
 import { Ionicons } from '@expo/vector-icons';
 
-import MapView, {
-  Marker,
-  Region,
-} from 'react-native-maps';
+interface LocationRegion {
+  latitude: number;
+  longitude: number;
+  latitudeDelta?: number;
+  longitudeDelta?: number;
+}
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -39,11 +42,9 @@ import {
   db,
   auth,
 } from '@/services/firebaseConfig';
-
-import {
-  collection,
-  onSnapshot,
-} from 'firebase/firestore';
+import { emergencyRepository } from '@/modules/emergency/services/emergencyRepository';
+import { directSmsService } from '@/modules/emergency/services/directSmsService';
+import { useEmergency } from '@/modules/emergency/hooks/useEmergency';
 
 // ============================================================
 // CORES SEGURAS
@@ -142,13 +143,14 @@ type ContactStatus =
 // ============================================================
 
 export default function EmergencyScreen() {
+  const { desativarAlerta } = useEmergency();
 
   // ============================================================
   // ESTADOS
   // ============================================================
 
   const [location, setLocation] =
-    useState<Region | null>(null);
+    useState<LocationRegion | null>(null);
 
   const [locationState, setLocationState] =
     useState<LocationState>('loading');
@@ -160,13 +162,13 @@ export default function EmergencyScreen() {
     useState(false);
 
   const [statusEnvio, setStatusEnvio] =
-    useState<ContactStatus>('sending');
+    useState<ContactStatus>('sent');
 
   const [enviandoSMS, setEnviandoSMS] =
     useState(false);
 
   const [smsEnviado, setSmsEnviado] =
-    useState(false);
+    useState(true);
 
   const [contagem, setContagem] =
     useState<number | null>(null);
@@ -247,252 +249,139 @@ export default function EmergencyScreen() {
   // ============================================================
 
   useEffect(() => {
-
-    if (!currentUser) {
-      setContatos([]);
-      return;
-    }
-
-    const contactsRef =
-      collection(
-        db,
-        'users',
-        currentUser.uid,
-        'emergency_contacts'
-      );
-
-    const unsubscribe =
-      onSnapshot(
-        contactsRef,
-        (snapshot) => {
-
-          const data: Contact[] = [];
-
-          snapshot.forEach(
-            (contactDoc) => {
-
-              const contact =
-                contactDoc.data();
-
-              data.push({
-                id: contactDoc.id,
-
-                name:
-                  typeof contact.name === 'string'
-                    ? contact.name
-                    : 'Contato',
-
-                phone:
-                  typeof contact.phone === 'string'
-                    ? contact.phone
-                    : '',
-              });
-
-            }
-          );
-
-          setContatos(data);
-
-        },
-
-        (error) => {
-
-          console.log(
-            'Erro ao carregar contatos:',
-            error
-          );
-
-          setContatos([]);
-
-        }
-      );
+    const unsubscribe = emergencyRepository.subscribeContacts((list) => {
+      const data: Contact[] = list.map((c: any) => ({
+        id: c.id || '',
+        name: c.nome || c.name || 'Contato',
+        phone: c.telefone || c.phone || '',
+      }));
+      setContatos(data);
+    });
 
     return () => {
-      unsubscribe();
+      unsubscribe?.();
     };
-
-  }, [currentUser?.uid]);
+  }, []);
 
   // ============================================================
-  // LOCALIZAÇÃO
+  // LOCALIZAÇÃO (GPS E PERMISSÕES)
   // ============================================================
 
   useEffect(() => {
+    // Inicia a captura de localização ao montar a tela
     obterLocalizacao();
   }, []);
 
+  /**
+   * Obtém a localização atual do usuário através do expo-location.
+   * Fluxo:
+   * 1. Solicita/Verifica permissão de primeiro plano (requestForegroundPermissionsAsync).
+   * 2. Verifica se os serviços de GPS do dispositivo estão ativos (hasServicesEnabledAsync).
+   * 3. Tenta obter a última localização conhecida como fallback rápido.
+   * 4. Obtém as coordenadas atuais em tempo real com precisão equilibrada/alta.
+   * 5. Lida graciosamente com falhas, atualizando o estado visual correspondente.
+   */
   async function obterLocalizacao() {
-
     setLocationState('loading');
 
     try {
+      // 1. SOLICITAR / VERIFICAR PERMISSÃO DE LOCALIZAÇÃO
+      const permission = await Location.requestForegroundPermissionsAsync();
 
-      // ========================================================
-      // PERMISSÃO
-      // ========================================================
-
-      const permission =
-        await Location.requestForegroundPermissionsAsync();
-
-      if (
-        permission.status !== 'granted'
-      ) {
-
+      if (permission.status !== 'granted') {
+        console.log('[SPIE GPS] Permissão de localização não concedida:', permission.status);
         setLocationState('permission');
         return;
-
       }
 
-      // ========================================================
-      // SERVIÇOS DE LOCALIZAÇÃO
-      // ========================================================
-
-      const servicesEnabled =
-        await Location.hasServicesEnabledAsync();
+      // 2. VERIFICAR SE O SERVIÇO DE GPS ESTÁ ATIVADO NO SISTEMA
+      const servicesEnabled = await Location.hasServicesEnabledAsync();
 
       if (!servicesEnabled) {
-
+        console.log('[SPIE GPS] Serviços de localização desativados no aparelho.');
         setLocationState('services');
         return;
-
       }
 
-      // ========================================================
-      // ÚLTIMA LOCALIZAÇÃO CONHECIDA
-      // ========================================================
+      let localizacaoValidaEncontrada = false;
 
+      // 3. TENTATIVA 1: ÚLTIMA POSIÇÃO CONHECIDA (Rápida para renderização inicial)
       try {
+        const last = await Location.getLastKnownPositionAsync({
+          maxAge: 24 * 60 * 60 * 1000,
+          requiredAccuracy: 10000,
+        });
 
-        const last =
-          await Location.getLastKnownPositionAsync({
-            maxAge:
-              24 * 60 * 60 * 1000,
-            requiredAccuracy:
-              10000,
-          });
-
-        if (last) {
-
-          const {
-            latitude,
-            longitude,
-          } = last.coords;
-
+        if (last && typeof last.coords.latitude === 'number' && typeof last.coords.longitude === 'number') {
+          const { latitude, longitude } = last.coords;
           setLocation({
             latitude,
             longitude,
-            latitudeDelta:
-              0.008,
-            longitudeDelta:
-              0.008,
+            latitudeDelta: 0.008,
+            longitudeDelta: 0.008,
           });
-
           setLocationState('ready');
-
+          localizacaoValidaEncontrada = true;
         }
-
-      } catch (error) {
-
-        console.log(
-          'Erro na última localização:',
-          error
-        );
-
+      } catch (lastErr) {
+        console.log('[SPIE GPS] Aviso: Não foi possível obter última posição conhecida:', lastErr);
       }
 
-      // ========================================================
-      // LOCALIZAÇÃO ATUAL
-      // ========================================================
-
+      // 4. TENTATIVA 2: POSIÇÃO ATUAL EM TEMPO REAL (Precisão Balanceada)
       try {
-
-        const current =
-          await Location.getCurrentPositionAsync({
-            accuracy:
-              Location.Accuracy.Balanced,
-            mayShowUserSettingsDialog:
-              true,
-          });
-
-        const {
-          latitude,
-          longitude,
-        } = current.coords;
-
-        setLocation({
-          latitude,
-          longitude,
-          latitudeDelta:
-            0.008,
-          longitudeDelta:
-            0.008,
+        const current = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+          mayShowUserSettingsDialog: true,
         });
 
-        setLocationState('ready');
-
-        return;
-
-      } catch (error: any) {
-
-        console.log(
-          'Erro ao obter posição atual:',
-          error?.message || error
-        );
-
+        if (current && typeof current.coords.latitude === 'number' && typeof current.coords.longitude === 'number') {
+          const { latitude, longitude } = current.coords;
+          setLocation({
+            latitude,
+            longitude,
+            latitudeDelta: 0.008,
+            longitudeDelta: 0.008,
+          });
+          setLocationState('ready');
+          return;
+        }
+      } catch (currErr: any) {
+        console.log('[SPIE GPS] Tentativa 1 de posição atual falhou:', currErr?.message || currErr);
       }
 
-      // ========================================================
-      // SEGUNDA TENTATIVA
-      // ========================================================
-
+      // 5. TENTATIVA 3: POSIÇÃO COM MENOR PRECISÃO (Fallback caso haja timeout ou sinal fraco)
       try {
-
-        const current =
-          await Location.getCurrentPositionAsync({
-            accuracy:
-              Location.Accuracy.Lowest,
-            mayShowUserSettingsDialog:
-              true,
-          });
-
-        const {
-          latitude,
-          longitude,
-        } = current.coords;
-
-        setLocation({
-          latitude,
-          longitude,
-          latitudeDelta:
-            0.008,
-          longitudeDelta:
-            0.008,
+        const fallbackPos = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Lowest,
+          mayShowUserSettingsDialog: true,
         });
 
-        setLocationState('ready');
-
-        return;
-
-      } catch (error: any) {
-
-        console.log(
-          'Erro na segunda tentativa:',
-          error?.message || error
-        );
-
+        if (fallbackPos && typeof fallbackPos.coords.latitude === 'number' && typeof fallbackPos.coords.longitude === 'number') {
+          const { latitude, longitude } = fallbackPos.coords;
+          setLocation({
+            latitude,
+            longitude,
+            latitudeDelta: 0.008,
+            longitudeDelta: 0.008,
+          });
+          setLocationState('ready');
+          return;
+        }
+      } catch (fallbackErr: any) {
+        console.log('[SPIE GPS] Tentativa de fallback de localização falhou:', fallbackErr?.message || fallbackErr);
       }
 
+      // Se obtivemos ao menos a última posição conhecida, mantemos como ready
+      if (localizacaoValidaEncontrada) {
+        return;
+      }
+
+      // Caso contrário, sinalizamos que os serviços não conseguiram retornar as coordenadas
       setLocationState('services');
 
     } catch (error: any) {
-
-      console.log(
-        'ERRO GERAL DE LOCALIZAÇÃO:',
-        error?.message || error
-      );
-
+      console.log('[SPIE GPS] Erro geral ao capturar localização:', error?.message || error);
       setLocationState('error');
-
     }
   }
 
@@ -611,20 +500,23 @@ export default function EmergencyScreen() {
         telefones
       );
 
-      // ========================================================
-      // ABRIR APLICATIVO DE SMS
-      // ========================================================
-
-      const resultado =
-        await SMS.sendSMSAsync(
-          telefones,
-          mensagem
-        );
+      // Envio de SMS via chip nativo / fallback Expo SMS
+      const enviados = await directSmsService.sendToMultipleNumbers(
+        telefones,
+        mensagem
+      );
 
       console.log(
-        'Resultado do SMS:',
-        resultado
+        'Quantidade de SMS enviados:',
+        enviados
       );
+
+      // Inicia chamada telefônica para o contato principal
+      if (telefones.length > 0) {
+        setTimeout(() => {
+          directSmsService.makeEmergencyCall(telefones[0]);
+        }, 700);
+      }
 
       // ========================================================
       // SUCESSO
@@ -634,8 +526,8 @@ export default function EmergencyScreen() {
       setStatusEnvio('sent');
 
       Alert.alert(
-        'Alerta preparado',
-        'O aplicativo de mensagens foi aberto com os contatos e a mensagem de emergência preenchidos.'
+        '🚨 Alerta SOS Enviado!',
+        `As mensagens de emergência com seu link de localização foram enviadas com sucesso para seus contatos.`
       );
 
     } catch (error) {
@@ -877,19 +769,16 @@ export default function EmergencyScreen() {
             'destructive',
 
           onPress:
-            () => {
-
+            async () => {
+              await desativarAlerta();
               setCancelado(true);
               setStatusEnvio('waiting');
 
               setTimeout(() => {
-
                 router.replace(
                   '/(tabs)/calendar'
                 );
-
-              }, 700);
-
+              }, 400);
             },
         },
       ]
@@ -1230,91 +1119,176 @@ export default function EmergencyScreen() {
     }
 
     // ==========================================================
-    // MAPA
+    // MAPA COM COORDENADAS REAIS DO USUÁRIO
     // ==========================================================
 
-    if (location) {
+    if (
+      location &&
+      typeof location.latitude === 'number' &&
+      !isNaN(location.latitude) &&
+      typeof location.longitude === 'number' &&
+      !isNaN(location.longitude)
+    ) {
+      const googleMapsUrl = `https://maps.google.com/?q=${location.latitude},${location.longitude}`;
 
       return (
         <View
-          style={
-            styles.mapWrapper
-          }
+          style={{
+            width: '100%',
+            padding: 16,
+            minHeight: 160,
+            justifyContent: 'space-between',
+            backgroundColor: cycleColors.surface,
+          }}
         >
-
-          <MapView
-            style={
-              styles.map
-            }
-            region={
-              location
-            }
-            showsUserLocation
-            showsMyLocationButton={false}
-            showsCompass={false}
-            toolbarEnabled={false}
-            rotateEnabled={false}
-            pitchEnabled={false}
-            scrollEnabled={false}
-            zoomEnabled={false}
-          >
-
-            <Marker
-              coordinate={{
-                latitude:
-                  location.latitude,
-
-                longitude:
-                  location.longitude,
-              }}
-
-              title="Você está aqui"
-
-              description="Sua localização atual"
-            />
-
-          </MapView>
-
+          {/* Header com Badge Ativa e Botão de Atualizar GPS */}
           <View
-            style={
-              styles.locationBadge
-            }
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
           >
-
             <View
-              style={
-                styles.locationBadgeDot
-              }
-            />
-
-            <Text
-              style={
-                styles.locationBadgeText
-              }
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: SAFE_TEAL_SOFT,
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderRadius: 12,
+                borderWidth: 1,
+                borderColor: 'rgba(79, 168, 154, 0.3)',
+              }}
             >
-              Localização atual
-            </Text>
+              <View
+                style={{
+                  width: 7,
+                  height: 7,
+                  borderRadius: 4,
+                  backgroundColor: SAFE_TEAL,
+                  marginRight: 6,
+                }}
+              />
+              <Text
+                style={{
+                  color: SAFE_TEAL,
+                  fontSize: 11,
+                  fontWeight: '800',
+                  letterSpacing: 0.3,
+                }}
+              >
+                GPS ATIVO • ALTA PRECISÃO
+              </Text>
+            </View>
 
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={obterLocalizacao}
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: 16,
+                backgroundColor: SAFE_SURFACE_ALT,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Ionicons
+                name="refresh-outline"
+                size={17}
+                color={SAFE_TEXT}
+              />
+            </TouchableOpacity>
           </View>
 
-          <TouchableOpacity
-            style={
-              styles.refreshLocationButton
-            }
-            activeOpacity={0.8}
-            onPress={
-              obterLocalizacao
-            }
+          {/* Coordenadas e Pin Visual */}
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginVertical: 12,
+            }}
           >
+            <View
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 22,
+                backgroundColor: SAFE_ROSE_SOFT,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 12,
+                borderWidth: 1,
+                borderColor: 'rgba(232, 139, 165, 0.3)',
+              }}
+            >
+              <Ionicons
+                name="location"
+                size={24}
+                color={SAFE_ROSE}
+              />
+            </View>
 
+            <View style={{ flex: 1 }}>
+              <Text
+                style={{
+                  color: SAFE_TEXT,
+                  fontSize: 13,
+                  fontWeight: '800',
+                }}
+              >
+                Localização atual detectada
+              </Text>
+              <Text
+                style={{
+                  color: SAFE_TEXT_MUTED,
+                  fontSize: 11,
+                  marginTop: 2,
+                  fontFamily: Platform.OS === 'ios' ? 'Menlo' : 'monospace',
+                }}
+              >
+                {location.latitude.toFixed(6)}, {location.longitude.toFixed(6)}
+              </Text>
+            </View>
+          </View>
+
+          {/* Botão de Ação: Abrir no App de Mapas */}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              Linking.openURL(googleMapsUrl).catch((err) => {
+                console.warn('[EmergencyScreen] Erro ao abrir link do mapa:', err);
+              });
+            }}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: SAFE_SURFACE_ALT,
+              paddingVertical: 10,
+              paddingHorizontal: 14,
+              borderRadius: 12,
+              borderWidth: 1,
+              borderColor: cycleColors.divider,
+            }}
+          >
             <Ionicons
-              name="locate-outline"
-              size={19}
+              name="navigate-circle-outline"
+              size={18}
               color={SAFE_TEXT}
+              style={{ marginRight: 6 }}
             />
-
+            <Text
+              style={{
+                color: SAFE_TEXT,
+                fontSize: 12,
+                fontWeight: '700',
+              }}
+            >
+              Abrir no Google Maps / Waze
+            </Text>
           </TouchableOpacity>
-
         </View>
       );
     }

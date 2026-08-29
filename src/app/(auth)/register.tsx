@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 
 import {
-  SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
 } from 'react-native';
+
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Background } from '../../components/Background';
 import RegisterHeader from '../../components/register/RegisterHeader';
@@ -64,7 +65,7 @@ export default function RegisterScreen() {
 
   return (
     <Background>
-      <SafeAreaView style={registerStyles.screen}>
+      <SafeAreaView style={registerStyles.screen} edges={['top', 'left', 'right']}>
         <KeyboardAvoidingView
           style={registerStyles.keyboardContainer}
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

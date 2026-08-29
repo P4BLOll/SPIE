@@ -9,6 +9,7 @@ import {
 
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Background } from '@/components/Background';
 
@@ -25,12 +26,12 @@ export default function PrivacyScreen() {
   const router = useRouter();
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor:
-          cycleColors.background,
+        backgroundColor: cycleColors.background,
       }}
+      edges={['top', 'left', 'right']}
     >
 
       <Background
@@ -150,9 +151,7 @@ export default function PrivacyScreen() {
           </ScrollView>
 
         </View>
-
       </Background>
-
-    </View>
+    </SafeAreaView>
   );
 }

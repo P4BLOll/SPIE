@@ -6,7 +6,6 @@ import {
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
-  Alert,
   Image,
   KeyboardAvoidingView,
   Platform,
@@ -14,16 +13,17 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { cycleColors } from '@/styles/calendar.styles';
-
-import { loginUser } from '../../services/authService';
-import { loginStyles } from '../../styles/login.styles';
-import { Background } from '../../components/Background';
+import { loginUser } from '@/modules/auth/services/authService';
+import { loginStyles } from '@/styles/login.styles';
+import { Background } from '@/components/Background';
+import { useDialog } from '@/context/DialogContext';
 
 export default function LoginScreen() {
   const router = useRouter();
+  const { showAlert } = useDialog();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,11 +31,12 @@ export default function LoginScreen() {
   const [showPassword, setShowPassword] = useState(false);
 
   async function handleLogin() {
-    if (!email || !password) {
-      Alert.alert(
-        'Atenção',
-        'Preencha todos os campos.'
-      );
+    if (!email.trim() || !password.trim()) {
+      showAlert({
+        title: 'Atenção',
+        message: 'Por favor, preencha o e-mail e a senha para entrar.',
+        type: 'warning',
+      });
       return;
     }
 
@@ -43,16 +44,17 @@ export default function LoginScreen() {
       setLoading(true);
 
       await loginUser({
-        email,
-        password,
+        email: email.trim(),
+        password: password.trim(),
       });
 
       router.replace('/(tabs)/calendar');
     } catch (error: any) {
-      Alert.alert(
-        'Erro ao entrar',
-        'E-mail ou senha incorretos.'
-      );
+      showAlert({
+        title: 'Erro ao Entrar',
+        message: 'E-mail ou senha incorretos. Verifique seus dados e tente novamente.',
+        type: 'error',
+      });
 
       console.log(error.message);
     } finally {
@@ -62,11 +64,12 @@ export default function LoginScreen() {
 
   return (
     <Background>
-      <View
+      <SafeAreaView
         style={{
           flex: 1,
           backgroundColor: cycleColors.background,
         }}
+        edges={['top', 'left', 'right']}
       >
         <KeyboardAvoidingView
           style={loginStyles.inner}
@@ -162,24 +165,10 @@ export default function LoginScreen() {
             <TouchableOpacity
               activeOpacity={0.8}
               disabled={loading}
-              style={loginStyles.buttonWrapper}
+              style={[loginStyles.buttonWrapper, { backgroundColor: cycleColors.rose }]}
               onPress={handleLogin}
             >
-              <LinearGradient
-                colors={[
-                  cycleColors.rose,
-                  cycleColors.lavender,
-                ]}
-                start={{
-                  x: 0,
-                  y: 0,
-                }}
-                end={{
-                  x: 1,
-                  y: 0,
-                }}
-                style={loginStyles.button}
-              >
+              <View style={loginStyles.button}>
                 {loading ? (
                   <ActivityIndicator
                     color={cycleColors.white}
@@ -189,7 +178,7 @@ export default function LoginScreen() {
                     Entrar
                   </Text>
                 )}
-              </LinearGradient>
+              </View>
             </TouchableOpacity>
           </View>
 
@@ -212,7 +201,7 @@ export default function LoginScreen() {
             </Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
-      </View>
+      </SafeAreaView>
     </Background>
   );
 }

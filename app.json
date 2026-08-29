@@ -18,13 +18,16 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#0B111E",
+        "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/logo.png"
       },
       "package": "com.pablo.spieapp",
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
         "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_BACKGROUND_LOCATION",
+        "android.permission.SEND_SMS",
+        "android.permission.CALL_PHONE",
         "android.permission.BLUETOOTH",
         "android.permission.BLUETOOTH_ADMIN",
         "android.permission.BLUETOOTH_CONNECT"

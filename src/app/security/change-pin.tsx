@@ -28,17 +28,9 @@ import {
   SafeAreaView,
 } from 'react-native-safe-area-context';
 
-import {
-  cycleColors,
-} from '../../styles/calendar.styles';
-
-import {
-  useSecurity,
-} from '../../context/SecurityContext';
-
-import {
-  changePinStyles as styles,
-} from '../../styles/changePin.styles';
+import { cycleColors } from '@/styles/calendar.styles';
+import { useSecurity } from '@/modules/security-vault/contexts/SecurityContext';
+import { changePinStyles as styles } from '@/styles/changePin.styles';
 
 
 // =====================================================
@@ -447,24 +439,12 @@ export default function ChangePinScreen() {
               ÍCONE
           ================================================= */}
 
-          <LinearGradient
-            colors={[
-              cycleColors.rose,
-              cycleColors.lavender,
+          <View
+            style={[
+              styles.iconRing,
+              { backgroundColor: cycleColors.rose },
             ]}
-            start={{
-              x: 0,
-              y: 0,
-            }}
-            end={{
-              x: 1,
-              y: 1,
-            }}
-            style={
-              styles.iconRing
-            }
           >
-
             <Ionicons
               name="lock-closed-outline"
               size={36}
@@ -472,8 +452,7 @@ export default function ChangePinScreen() {
                 cycleColors.white
               }
             />
-
-          </LinearGradient>
+          </View>
 
 
           {/* =================================================
@@ -581,36 +560,20 @@ export default function ChangePinScreen() {
             }
           >
 
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <View
+              style={[
+                styles.saveButton,
+                { backgroundColor: cycleColors.rose },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 0,
-              }}
-              style={
-                styles.saveButton
-              }
             >
-
               {processando ? (
-
                 <ActivityIndicator
                   color={
                     cycleColors.white
                   }
                 />
-
               ) : (
-
                 <>
-
                   <Ionicons
                     name="checkmark-circle-outline"
                     size={21}
@@ -619,7 +582,6 @@ export default function ChangePinScreen() {
                     }
                   />
 
-
                   <Text
                     style={
                       styles.saveButtonText
@@ -627,13 +589,9 @@ export default function ChangePinScreen() {
                   >
                     Alterar PIN
                   </Text>
-
                 </>
-
               )}
-
-            </LinearGradient>
-
+            </View>
           </TouchableOpacity>
 
 

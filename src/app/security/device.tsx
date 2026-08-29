@@ -1,50 +1,100 @@
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Background } from '../../components/Background';
-import { useBLE } from '../../context/BLEContext';
-import { deviceStyles } from '../../styles/device.styles';
-
-import { cycleColors } from '../../styles/calendar.styles';
+import { Background } from '@/components/Background';
+import { useDevice } from '@/modules/device/hooks/useDevice';
+import { useDialog } from '@/context/DialogContext';
+import { deviceStyles } from '@/styles/device.styles';
+import { cycleColors } from '@/styles/calendar.styles';
 
 export default function DeviceScreen() {
   const router = useRouter();
+  const { showConfirm, showAlert } = useDialog();
 
   const {
     status,
-    conectarDispositivo,
-    deviceConectado,
-  } = useBLE();
+    connect,
+    disconnect,
+    device,
+    isScanning,
+    startScan,
+    stopScan,
+    discoveredDevices,
+  } = useDevice();
 
-  const isConnecting =
-    status === 'Buscando pulseira...' ||
-    status === 'Conectando...';
+  const [connectingId, setConnectingId] = useState<string | null>(null);
 
-  const isConnected =
-    status === 'Pulseira Conectada' &&
-    deviceConectado !== null;
+  const isConnected = status === 'connected' && device !== null;
 
-  // Volta para a página anterior
+  // Inicia a varredura ao entrar na tela se não estiver conectado
+  useEffect(() => {
+    if (!isConnected) {
+      startScan();
+    }
+
+    return () => {
+      stopScan();
+    };
+  }, [isConnected, startScan, stopScan]);
+
   function voltar() {
     router.back();
   }
 
+  async function handleConnect(deviceId: string) {
+    if (connectingId) return;
+    try {
+      setConnectingId(deviceId);
+      const success = await connect(deviceId);
+      if (!success) {
+        showAlert({
+          title: 'Falha na Conexão',
+          message: 'Não foi possível conectar ao dispositivo selecionado. Verifique se ele está ligado e próximo.',
+          type: 'warning',
+        });
+      }
+    } finally {
+      setConnectingId(null);
+    }
+  }
+
+  function handleDisconnect() {
+    showConfirm({
+      title: 'Desconectar Pulseira',
+      message: 'Deseja realmente desconectar da pulseira atual?',
+      type: 'danger',
+      confirmText: 'Desconectar',
+      cancelText: 'Cancelar',
+      onConfirm: async () => {
+        await disconnect();
+        startScan();
+      },
+    });
+  }
+
+  function getStatusLabel() {
+    if (isConnected) return 'Conectada';
+    if (isScanning || status === 'connecting') return 'Buscando / Conectando...';
+    return 'Desconectada';
+  }
+
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: cycleColors.background,
       }}
+      edges={['top', 'left', 'right']}
     >
       <Background
         style={[
@@ -57,7 +107,6 @@ export default function DeviceScreen() {
         {/* ==============================
             HEADER
         ============================== */}
-
         <View style={deviceStyles.header}>
           <TouchableOpacity
             onPress={voltar}
@@ -101,231 +150,228 @@ export default function DeviceScreen() {
           </View>
         </View>
 
-        {/* ==============================
-            STATUS DO DISPOSITIVO
-        ============================== */}
-
-        <View
-          style={[
-            deviceStyles.statusCard,
-            {
-              backgroundColor: cycleColors.surface,
-              borderWidth: isConnected ? 1 : 0,
-              borderColor: isConnected
-                ? cycleColors.roseBorder
-                : 'transparent',
-            },
-          ]}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 40 }}
         >
-          <Ionicons
-            name={
-              isConnected
-                ? 'watch'
-                : 'watch-outline'
-            }
-            size={64}
-            color={
-              isConnected
-                ? cycleColors.rose
-                : cycleColors.textMuted
-            }
-            style={deviceStyles.deviceIcon}
-          />
-
-          <Text
+          {/* ==============================
+              STATUS DO DISPOSITIVO ATUAL
+          ============================== */}
+          <View
             style={[
-              deviceStyles.statusLabel,
+              deviceStyles.statusCard,
               {
-                color: cycleColors.textMuted,
+                backgroundColor: cycleColors.surface,
+                borderWidth: isConnected ? 1 : 0,
+                borderColor: isConnected
+                  ? cycleColors.roseBorder
+                  : 'transparent',
               },
             ]}
           >
-            Status do Hardware
-          </Text>
+            <Ionicons
+              name={isConnected ? 'watch' : 'watch-outline'}
+              size={56}
+              color={isConnected ? cycleColors.teal : cycleColors.textMuted}
+              style={deviceStyles.deviceIcon}
+            />
 
-          <Text
-            style={[
-              deviceStyles.statusValue,
-              {
-                color: isConnected
-                  ? cycleColors.rose
-                  : cycleColors.textMuted,
-              },
-            ]}
-          >
-            {status}
-          </Text>
+            <Text style={deviceStyles.statusLabel}>
+              Status do Hardware
+            </Text>
 
-          {/* INFORMAÇÕES DO DISPOSITIVO */}
-
-          {isConnected && (
-            <View
+            <Text
               style={[
-                deviceStyles.hardwareSpecs,
+                deviceStyles.statusValue,
                 {
-                  backgroundColor: cycleColors.surfaceAlt,
+                  color: isConnected
+                    ? cycleColors.teal
+                    : isScanning
+                    ? cycleColors.rose
+                    : cycleColors.textMuted,
                 },
               ]}
             >
-              <Text
-                style={[
-                  deviceStyles.specText,
-                  {
-                    color: cycleColors.textMuted,
-                  },
-                ]}
-              >
-                Nome: {deviceConectado?.name}
-              </Text>
+              {getStatusLabel()}
+            </Text>
 
-              <Text
-                style={[
-                  deviceStyles.specText,
-                  {
-                    color: cycleColors.textMuted,
-                  },
-                ]}
-              >
-                ID: {deviceConectado?.id}
+            {/* DETALHES DO DISPOSITIVO CONECTADO */}
+            {isConnected && (
+              <View style={deviceStyles.hardwareSpecs}>
+                <Text style={deviceStyles.specText}>
+                  Nome: {device?.name || 'Pulseira SPIE'}
+                </Text>
+                <Text style={deviceStyles.specText}>
+                  ID: {device?.id}
+                </Text>
+
+                <TouchableOpacity
+                  style={deviceStyles.disconnectButton}
+                  onPress={handleDisconnect}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="close-circle-outline" size={16} color={cycleColors.rose} />
+                  <Text style={deviceStyles.disconnectButtonText}>
+                    Desconectar Pulseira
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          </View>
+
+          {/* ==============================
+              SEÇÃO: DISPOSITIVOS DISPONÍVEIS
+          ============================== */}
+          <View style={deviceStyles.sectionHeader}>
+            <View style={deviceStyles.sectionTitleRow}>
+              <Text style={deviceStyles.sectionTitle}>
+                Dispositivos Próximos
               </Text>
+              <View style={deviceStyles.countBadge}>
+                <Text style={deviceStyles.countBadgeText}>
+                  {discoveredDevices.length}
+                </Text>
+              </View>
             </View>
-          )}
-        </View>
 
-        {/* ==============================
-            CONTROLES
-        ============================== */}
-
-        <View style={deviceStyles.controlContainer}>
-          {!isConnected ? (
             <TouchableOpacity
-              onPress={conectarDispositivo}
-              disabled={isConnecting}
-              activeOpacity={0.8}
-              style={deviceStyles.btnWrapper}
-            >
-              <LinearGradient
-                colors={
-                  isConnecting
-                    ? [
-                        cycleColors.surface,
-                        cycleColors.surface,
-                      ]
-                    : [
-                        cycleColors.rose,
-                        cycleColors.lavender,
-                      ]
+              style={deviceStyles.scanActionButton}
+              onPress={() => {
+                if (isScanning) {
+                  stopScan();
+                } else {
+                  startScan();
                 }
-                start={{
-                  x: 0,
-                  y: 0,
-                }}
-                end={{
-                  x: 1,
-                  y: 0,
-                }}
-                style={deviceStyles.button}
-              >
-                {isConnecting ? (
-                  <View style={deviceStyles.row}>
-                    <ActivityIndicator
-                      color={cycleColors.rose}
-                      style={{
-                        marginRight: 10,
-                      }}
-                    />
-
-                    <Text
-                      style={[
-                        deviceStyles.buttonText,
-                        {
-                          color: cycleColors.textMuted,
-                        },
-                      ]}
-                    >
-                      Sincronizando...
-                    </Text>
-                  </View>
-                ) : (
-                  <View style={deviceStyles.row}>
-                    <Ionicons
-                      name="bluetooth"
-                      size={20}
-                      color="#FFFFFF"
-                      style={{
-                        marginRight: 8,
-                      }}
-                    />
-
-                    <Text
-                      style={[
-                        deviceStyles.buttonText,
-                        {
-                          color: '#FFFFFF',
-                        },
-                      ]}
-                    >
-                      Emparelhar Pulseira
-                    </Text>
-                  </View>
-                )}
-              </LinearGradient>
-            </TouchableOpacity>
-          ) : (
-            <View
-              style={[
-                deviceStyles.connectedPanel,
-                {
-                  backgroundColor: cycleColors.surface,
-                  borderColor: cycleColors.roseBorder,
-                },
-              ]}
+              }}
+              activeOpacity={0.7}
             >
-              {/* SINAL BLE */}
+              {isScanning ? (
+                <>
+                  <ActivityIndicator size="small" color={cycleColors.rose} />
+                  <Text style={deviceStyles.scanActionButtonText}>Buscando...</Text>
+                </>
+              ) : (
+                <>
+                  <Ionicons name="refresh" size={16} color={cycleColors.rose} />
+                  <Text style={deviceStyles.scanActionButtonText}>Buscar</Text>
+                </>
+              )}
+            </TouchableOpacity>
+          </View>
 
-              <View style={deviceStyles.infoRow}>
-                <Ionicons
-                  name="bluetooth"
-                  size={20}
-                  color={cycleColors.rose}
-                />
+          {/* ==============================
+              LISTAGEM DE DISPOSITIVOS
+          ============================== */}
+          <View style={deviceStyles.deviceListContainer}>
+            {discoveredDevices.length > 0 ? (
+              discoveredDevices.map((item) => {
+                const isThisConnected = isConnected && device?.id === item.id;
+                const isThisConnecting = connectingId === item.id;
 
-                <Text
-                  style={[
-                    deviceStyles.infoText,
-                    {
-                      color: cycleColors.text,
-                    },
-                  ]}
-                >
-                  Sinal BLE está estável
+                return (
+                  <View
+                    key={item.id}
+                    style={[
+                      deviceStyles.deviceItemCard,
+                      isThisConnected && deviceStyles.deviceItemCardActive,
+                    ]}
+                  >
+                    <View style={deviceStyles.deviceItemLeft}>
+                      <View style={deviceStyles.deviceIconWrapper}>
+                        <Ionicons
+                          name="bluetooth"
+                          size={22}
+                          color={isThisConnected ? cycleColors.teal : cycleColors.rose}
+                        />
+                      </View>
+
+                      <View style={deviceStyles.deviceItemDetails}>
+                        <Text style={deviceStyles.deviceItemName}>
+                          {item.name || 'Dispositivo SPIE'}
+                        </Text>
+                        <Text style={deviceStyles.deviceItemMac}>
+                          {item.id}
+                        </Text>
+                        {item.rssi !== null && item.rssi !== undefined && (
+                          <View style={deviceStyles.deviceSignalBadge}>
+                            <Ionicons name="cellular" size={12} color={cycleColors.textMuted} />
+                            <Text style={deviceStyles.deviceSignalText}>
+                              Sinal: {item.rssi} dBm
+                            </Text>
+                          </View>
+                        )}
+                      </View>
+                    </View>
+
+                    {isThisConnected ? (
+                      <View
+                        style={[
+                          deviceStyles.deviceItemButton,
+                          deviceStyles.deviceItemButtonConnected,
+                        ]}
+                      >
+                        <Text
+                          style={[
+                            deviceStyles.deviceItemButtonText,
+                            deviceStyles.deviceItemButtonTextConnected,
+                          ]}
+                        >
+                          Conectado
+                        </Text>
+                      </View>
+                    ) : (
+                      <TouchableOpacity
+                        style={deviceStyles.deviceItemButton}
+                        onPress={() => handleConnect(item.id)}
+                        disabled={isThisConnecting || isConnected}
+                        activeOpacity={0.8}
+                      >
+                        {isThisConnecting ? (
+                          <ActivityIndicator size="small" color="#FFFFFF" />
+                        ) : (
+                          <Text style={deviceStyles.deviceItemButtonText}>
+                            Conectar
+                          </Text>
+                        )}
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                );
+              })
+            ) : isScanning ? (
+              <View style={deviceStyles.emptyCard}>
+                <ActivityIndicator size="large" color={cycleColors.rose} />
+                <Text style={deviceStyles.emptyCardText}>
+                  Procurando pulseiras SPIE próximas...
+                </Text>
+                <Text style={deviceStyles.emptyCardSubtext}>
+                  Certifique-se de que sua pulseira ou simulador ESP32 está ligado e com o Bluetooth ativado.
                 </Text>
               </View>
-
-              {/* MONITORAMENTO */}
-
-              <View style={deviceStyles.infoRow}>
-                <Ionicons
-                  name="checkmark-circle"
-                  size={20}
-                  color={cycleColors.teal}
-                />
-
-                <Text
-                  style={[
-                    deviceStyles.infoText,
-                    {
-                      color: cycleColors.text,
-                    },
-                  ]}
-                >
-                  Monitoramento ativo
+            ) : (
+              <View style={deviceStyles.emptyCard}>
+                <Ionicons name="bluetooth-outline" size={48} color={cycleColors.textMuted} />
+                <Text style={deviceStyles.emptyCardText}>
+                  Nenhuma pulseira encontrada
                 </Text>
+                <Text style={deviceStyles.emptyCardSubtext}>
+                  Toque no botão abaixo para buscar dispositivos Bluetooth por perto.
+                </Text>
+                <TouchableOpacity
+                  style={deviceStyles.fullScanButton}
+                  onPress={() => startScan()}
+                  activeOpacity={0.8}
+                >
+                  <Ionicons name="search" size={16} color="#FFFFFF" />
+                  <Text style={deviceStyles.fullScanButtonText}>
+                    Buscar Dispositivos
+                  </Text>
+                </TouchableOpacity>
               </View>
-            </View>
-          )}
-        </View>
+            )}
+          </View>
+        </ScrollView>
       </Background>
-    </View>
+    </SafeAreaView>
   );
 }

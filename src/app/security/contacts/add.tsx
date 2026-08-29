@@ -5,7 +5,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -15,8 +14,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 
 import { router } from 'expo-router';
-
-import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Background } from '@/components/Background';
 
@@ -26,149 +24,78 @@ import {
   addContactStyles as styles,
 } from '@/styles/add-contact.styles';
 
-import {
-  db,
-  auth,
-} from '@/services/firebaseConfig';
-
-import {
-  collection,
-  addDoc,
-  serverTimestamp,
-} from 'firebase/firestore';
-
+import { useDialog } from '@/context/DialogContext';
+import { emergencyRepository } from '@/modules/emergency/services/emergencyRepository';
 
 // =====================================================
 // ADICIONAR CONTATO
 // =====================================================
 
 export default function AddContact() {
-
-  const [name, setName] =
-    useState('');
-
-  const [phone, setPhone] =
-    useState('');
-
-  const [loading, setLoading] =
-    useState(false);
-
+  const { showAlert } = useDialog();
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // =====================================================
   // VOLTAR
   // =====================================================
 
   function voltarParaContatos() {
-
-    if (loading) {
-      return;
-    }
-
+    if (loading) return;
     router.back();
-
   }
-
 
   // =====================================================
   // SALVAR
   // =====================================================
 
   async function salvar() {
+    const nomeLimpo = name.trim();
+    const telefoneLimpo = phone.trim();
 
-    const nomeLimpo =
-      name.trim();
-
-    const telefoneLimpo =
-      phone.trim();
-
-    if (
-      !nomeLimpo ||
-      !telefoneLimpo
-    ) {
-
-      Alert.alert(
-        'Campos obrigatórios',
-        'Preencha o nome e o telefone.'
-      );
-
+    if (!nomeLimpo || !telefoneLimpo) {
+      showAlert({
+        title: 'Campos Obrigatórios',
+        message: 'Por favor, preencha o nome e o telefone do contato.',
+        type: 'warning',
+      });
       return;
     }
 
-    const user =
-      auth.currentUser;
-
-    if (!user) {
-
-      Alert.alert(
-        'Erro',
-        'Usuário não autenticado.'
-      );
-
-      return;
-    }
-
-    if (loading) {
-      return;
-    }
+    if (loading) return;
 
     try {
-
       setLoading(true);
 
-      const contactsRef =
-        collection(
-          db,
-          'users',
-          user.uid,
-          'emergency_contacts'
-        );
-
-      await addDoc(
-        contactsRef,
-        {
-          name: nomeLimpo,
-          phone: telefoneLimpo,
-          createdAt: serverTimestamp(),
-        }
-      );
+      await emergencyRepository.addContact({
+        nome: nomeLimpo,
+        telefone: telefoneLimpo,
+      });
 
       Keyboard.dismiss();
-
       setName('');
       setPhone('');
 
-      Alert.alert(
-        'Contato salvo',
-        'Contato adicionado com sucesso.',
-        [
-          {
-            text: 'OK',
-
-            onPress: () => {
-              router.back();
-            },
-          },
-        ]
-      );
-
+      showAlert({
+        title: 'Contato Salvo',
+        message: 'Contato de emergência adicionado com sucesso.',
+        type: 'success',
+        buttonText: 'Concluir',
+        onDismiss: () => {
+          router.back();
+        },
+      });
     } catch (error) {
-
-      console.log(
-        'Erro ao salvar contato:',
-        error
-      );
-
-      Alert.alert(
-        'Erro',
-        'Não foi possível salvar o contato.'
-      );
-
+      console.log('Erro ao salvar contato:', error);
+      showAlert({
+        title: 'Erro',
+        message: 'Não foi possível salvar o contato.',
+        type: 'error',
+      });
     } finally {
-
       setLoading(false);
-
     }
-
   }
 
 
@@ -177,20 +104,17 @@ export default function AddContact() {
   // =====================================================
 
   return (
-
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor:
-          cycleColors.background,
+        backgroundColor: cycleColors.background,
       }}
+      edges={['top', 'left', 'right']}
     >
-
       <Background
         style={{
           flex: 1,
-          backgroundColor:
-            cycleColors.background,
+          backgroundColor: cycleColors.background,
         }}
       >
 
@@ -277,29 +201,15 @@ export default function AddContact() {
 
                 <View style={styles.header}>
 
-                  <LinearGradient
-                    colors={[
-                      cycleColors.rose,
-                      cycleColors.lavender,
-                    ]}
-                    start={{
-                      x: 0,
-                      y: 0,
-                    }}
-                    end={{
-                      x: 1,
-                      y: 1,
-                    }}
-                    style={styles.iconRing}
+                  <View
+                    style={[styles.iconRing, { backgroundColor: cycleColors.rose }]}
                   >
-
                     <Ionicons
                       name="person-add-outline"
                       size={34}
                       color="#FFFFFF"
                     />
-
-                  </LinearGradient>
+                  </View>
 
 
                   <Text
@@ -405,32 +315,19 @@ export default function AddContact() {
                   }
                 >
 
-                  <LinearGradient
-                    colors={[
-                      cycleColors.rose,
-                      cycleColors.lavender,
+                  <View
+                    style={[
+                      styles.button,
+                      { backgroundColor: cycleColors.rose },
                     ]}
-                    start={{
-                      x: 0,
-                      y: 0,
-                    }}
-                    end={{
-                      x: 1,
-                      y: 0,
-                    }}
-                    style={styles.button}
                   >
-
                     {!loading && (
-
                       <Ionicons
                         name="checkmark"
                         size={18}
                         color="#FFFFFF"
                       />
-
                     )}
-
 
                     <Text
                       style={[
@@ -440,15 +337,11 @@ export default function AddContact() {
                         },
                       ]}
                     >
-
                       {loading
                         ? 'Salvando...'
                         : 'Salvar contato'}
-
                     </Text>
-
-                  </LinearGradient>
-
+                  </View>
                 </TouchableOpacity>
 
               </View>
@@ -458,10 +351,7 @@ export default function AddContact() {
           </ScrollView>
 
         </KeyboardAvoidingView>
-
       </Background>
-
-    </View>
-
+    </SafeAreaView>
   );
 }

@@ -12,10 +12,8 @@ import {
   router,
   useLocalSearchParams,
 } from 'expo-router';
-
 import { Ionicons } from '@expo/vector-icons';
-
-import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Background } from '@/components/Background';
 
@@ -29,7 +27,7 @@ import {
 
 import {
   useCycle,
-} from '@/context/CycleContext';
+} from '@/modules/cycle/hooks/useCycle';
 
 // =====================================
 // TIPO
@@ -164,10 +162,9 @@ export default function RegisterSecretion() {
 
   return (
     <Background>
-      <View
-        style={
-          registerSecretionStyles.screen
-        }
+      <SafeAreaView
+        style={registerSecretionStyles.screen}
+        edges={['top', 'left', 'right']}
       >
 
         {/* =====================================
@@ -234,29 +231,18 @@ export default function RegisterSecretion() {
               registerSecretionStyles.header
             }
           >
-            <LinearGradient
-              colors={[
-                cycleColors.lavender,
-                cycleColors.rose,
+            <View
+              style={[
+                registerSecretionStyles.iconRing,
+                { backgroundColor: cycleColors.rose },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 1,
-              }}
-              style={
-                registerSecretionStyles.iconRing
-              }
             >
               <Ionicons
                 name="water-outline"
                 size={34}
                 color="#FFFFFF"
               />
-            </LinearGradient>
+            </View>
 
             <Text
               style={
@@ -367,22 +353,11 @@ export default function RegisterSecretion() {
                 registerSecretionStyles.buttonDisabled,
             ]}
           >
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <View
+              style={[
+                registerSecretionStyles.button,
+                { backgroundColor: cycleColors.rose },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 0,
-              }}
-              style={
-                registerSecretionStyles.button
-              }
             >
               <Ionicons
                 name="checkmark"
@@ -397,11 +372,11 @@ export default function RegisterSecretion() {
               >
                 Salvar registro
               </Text>
-            </LinearGradient>
+            </View>
           </TouchableOpacity>
 
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </Background>
   );
 }

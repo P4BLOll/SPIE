@@ -25,13 +25,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { cycleColors } from '../../styles/calendar.styles';
-
-import { useSecurity } from '../../context/SecurityContext';
-
-import {
-  secretStyles as styles,
-} from '../../styles/secret.styles';
+import { cycleColors } from '@/styles/calendar.styles';
+import { useSecurity } from '@/modules/security-vault/contexts/SecurityContext';
+import { secretStyles as styles } from '@/styles/secret.styles';
 
 
 // =====================================================
@@ -504,31 +500,18 @@ export default function SecretScreen() {
                 ÍCONE
             ================================================= */}
 
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <View
+              style={[
+                styles.lockIconRing,
+                { backgroundColor: cycleColors.rose },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 1,
-              }}
-              style={
-                styles.lockIconRing
-              }
             >
-
               <Ionicons
                 name="lock-closed"
                 size={38}
                 color="#FFFFFF"
               />
-
-            </LinearGradient>
+            </View>
 
 
             {/* =================================================
@@ -606,7 +589,7 @@ export default function SecretScreen() {
             ================================================= */}
 
             <TouchableOpacity
-              activeOpacity={0.85}
+              activeOpacity={0.8}
               disabled={
                 processando
               }
@@ -616,25 +599,12 @@ export default function SecretScreen() {
                   : entrar
               }
             >
-
-              <LinearGradient
-                colors={[
-                  cycleColors.rose,
-                  cycleColors.lavender,
+              <View
+                style={[
+                  styles.pinButton,
+                  { backgroundColor: cycleColors.rose },
                 ]}
-                start={{
-                  x: 0,
-                  y: 0,
-                }}
-                end={{
-                  x: 1,
-                  y: 0,
-                }}
-                style={
-                  styles.pinButton
-                }
               >
-
                 <Ionicons
                   name={
                     criandoSenha
@@ -645,23 +615,18 @@ export default function SecretScreen() {
                   color="#FFFFFF"
                 />
 
-
                 <Text
                   style={
                     styles.pinButtonText
                   }
                 >
-
                   {processando
                     ? 'AGUARDE...'
                     : criandoSenha
                       ? 'CRIAR SENHA'
                       : 'ENTRAR'}
-
                 </Text>
-
-              </LinearGradient>
-
+              </View>
             </TouchableOpacity>
 
           </View>

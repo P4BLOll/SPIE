@@ -8,7 +8,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
@@ -21,8 +20,7 @@ import {
   router,
   useLocalSearchParams,
 } from 'expo-router';
-
-import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Background } from '@/components/Background';
 
@@ -34,200 +32,82 @@ import {
   editContactStyles as styles,
 } from '@/styles/edit-contact.styles';
 
-import {
-  db,
-  auth,
-} from '@/services/firebaseConfig';
-
-import {
-  doc,
-  getDoc,
-  updateDoc,
-} from 'firebase/firestore';
-
+import { useDialog } from '@/context/DialogContext';
+import { emergencyRepository } from '@/modules/emergency/services/emergencyRepository';
 
 // =====================================================
 // EDITAR CONTATO
 // =====================================================
 
 export default function EditContact() {
-
-  const params =
-    useLocalSearchParams();
-
-  const id =
-    typeof params.id === 'string'
-      ? params.id
-      : '';
-
+  const { showAlert } = useDialog();
+  const params = useLocalSearchParams();
+  const id = typeof params.id === 'string' ? params.id : '';
 
   // =====================================================
   // ESTADOS
   // =====================================================
 
-  const [name, setName] =
-    useState('');
-
-  const [phone, setPhone] =
-    useState('');
-
-  const [loading, setLoading] =
-    useState(true);
-
-  const [saving, setSaving] =
-    useState(false);
-
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   // =====================================================
   // VOLTAR
   // =====================================================
 
   function voltarParaContatos() {
-
-    if (saving) {
-      return;
-    }
-
+    if (saving) return;
     router.back();
-
   }
-
 
   // =====================================================
   // CARREGAR CONTATO
   // =====================================================
 
   useEffect(() => {
-
     let ativo = true;
 
     async function carregarContato() {
-
-      const user =
-        auth.currentUser;
-
-      if (!user) {
-
-        if (!ativo) {
-          return;
-        }
-
-        setLoading(false);
-
-        Alert.alert(
-          'Erro',
-          'Usuário não autenticado.',
-          [
-            {
-              text: 'OK',
-
-              onPress: () => {
-                router.replace('/login');
-              },
-            },
-          ]
-        );
-
-        return;
-      }
-
       if (!id) {
-
-        if (!ativo) {
-          return;
-        }
-
-        setLoading(false);
-
-        Alert.alert(
-          'Erro',
-          'Contato não encontrado.',
-          [
-            {
-              text: 'OK',
-              onPress:
-                voltarParaContatos,
-            },
-          ]
-        );
-
+        if (ativo) setLoading(false);
+        showAlert({
+          title: 'Erro',
+          message: 'Contato não encontrado.',
+          type: 'error',
+          onDismiss: voltarParaContatos,
+        });
         return;
       }
 
       try {
+        const contacts = await emergencyRepository.getContacts();
+        const found = contacts.find((c) => c.id === id);
 
-        const contactRef =
-          doc(
-            db,
-            'users',
-            user.uid,
-            'emergency_contacts',
-            id
-          );
+        if (!ativo) return;
 
-        const snapshot =
-          await getDoc(
-            contactRef
-          );
-
-        if (!ativo) {
-          return;
-        }
-
-        if (snapshot.exists()) {
-
-          const data =
-            snapshot.data();
-
-          setName(
-            typeof data.name === 'string'
-              ? data.name
-              : ''
-          );
-
-          setPhone(
-            typeof data.phone === 'string'
-              ? data.phone
-              : ''
-          );
-
+        if (found) {
+          setName(found.nome || '');
+          setPhone(found.telefone || '');
         } else {
-
-          Alert.alert(
-            'Contato não encontrado',
-            'Esse contato não existe mais.',
-            [
-              {
-                text: 'OK',
-                onPress:
-                  voltarParaContatos,
-              },
-            ]
-          );
+          showAlert({
+            title: 'Contato Não Encontrado',
+            message: 'Esse contato não existe mais.',
+            type: 'warning',
+            onDismiss: voltarParaContatos,
+          });
         }
-
       } catch (error) {
-
-        if (!ativo) {
-          return;
-        }
-
-        console.log(
-          'Erro ao carregar contato:',
-          error
-        );
-
-        Alert.alert(
-          'Erro',
-          'Não foi possível carregar o contato.'
-        );
-
+        if (!ativo) return;
+        console.log('Erro ao carregar contato:', error);
+        showAlert({
+          title: 'Erro',
+          message: 'Não foi possível carregar o contato.',
+          type: 'error',
+        });
       } finally {
-
-        if (ativo) {
-          setLoading(false);
-        }
-
+        if (ativo) setLoading(false);
       }
     }
 
@@ -236,113 +116,62 @@ export default function EditContact() {
     return () => {
       ativo = false;
     };
-
   }, [id]);
-
 
   // =====================================================
   // SALVAR ALTERAÇÕES
   // =====================================================
 
   async function salvar() {
-
-    if (saving) {
-      return;
-    }
-
-    const user =
-      auth.currentUser;
-
-    if (!user) {
-
-      Alert.alert(
-        'Erro',
-        'Usuário não autenticado.'
-      );
-
-      return;
-    }
+    if (saving) return;
 
     if (!id) {
-
-      Alert.alert(
-        'Erro',
-        'Contato não encontrado.'
-      );
-
+      showAlert({
+        title: 'Erro',
+        message: 'Contato não encontrado.',
+        type: 'error',
+      });
       return;
     }
 
-    const nomeLimpo =
-      name.trim();
+    const nomeLimpo = name.trim();
+    const telefoneLimpo = phone.trim();
 
-    const telefoneLimpo =
-      phone.trim();
-
-    if (
-      !nomeLimpo ||
-      !telefoneLimpo
-    ) {
-
-      Alert.alert(
-        'Campos obrigatórios',
-        'Preencha nome e telefone.'
-      );
-
+    if (!nomeLimpo || !telefoneLimpo) {
+      showAlert({
+        title: 'Campos Obrigatórios',
+        message: 'Por favor, preencha o nome e o telefone.',
+        type: 'warning',
+      });
       return;
     }
 
     try {
-
       setSaving(true);
 
-      const contactRef =
-        doc(
-          db,
-          'users',
-          user.uid,
-          'emergency_contacts',
-          id
-        );
+      await emergencyRepository.updateContact(id, {
+        nome: nomeLimpo,
+        telefone: telefoneLimpo,
+      });
 
-      await updateDoc(
-        contactRef,
-        {
-          name: nomeLimpo,
-          phone: telefoneLimpo,
-        }
-      );
-
-      Alert.alert(
-        'Atualizado',
-        'Contato alterado com sucesso.',
-        [
-          {
-            text: 'OK',
-
-            onPress: () => {
-              router.back();
-            },
-          },
-        ]
-      );
-
+      showAlert({
+        title: 'Atualizado',
+        message: 'Contato alterado com sucesso.',
+        type: 'success',
+        buttonText: 'Concluir',
+        onDismiss: () => {
+          router.back();
+        },
+      });
     } catch (error) {
-
-      console.log(
-        'Erro ao atualizar contato:',
-        error
-      );
-
-      Alert.alert(
-        'Erro',
-        'Não foi possível atualizar o contato.'
-      );
-
+      console.log('Erro ao atualizar contato:', error);
+      showAlert({
+        title: 'Erro',
+        message: 'Não foi possível atualizar o contato.',
+        type: 'error',
+      });
     } finally {
-
       setSaving(false);
-
     }
   }
 
@@ -403,20 +232,17 @@ export default function EditContact() {
   // =====================================================
 
   return (
-
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor:
-          cycleColors.background,
+        backgroundColor: cycleColors.background,
       }}
+      edges={['top', 'left', 'right']}
     >
-
       <Background
         style={{
           flex: 1,
-          backgroundColor:
-            cycleColors.background,
+          backgroundColor: cycleColors.background,
         }}
       >
 
@@ -567,51 +393,33 @@ export default function EditContact() {
                   }
                 >
 
-                  <LinearGradient
-                    colors={[
-                      cycleColors.rose,
-                      cycleColors.lavender,
+                  <View
+                    style={[
+                      styles.button,
+                      { backgroundColor: cycleColors.rose },
                     ]}
-                    start={{
-                      x: 0,
-                      y: 0,
-                    }}
-                    end={{
-                      x: 1,
-                      y: 0,
-                    }}
-                    style={styles.button}
                   >
-
                     {!saving && (
-
                       <Ionicons
                         name="checkmark"
                         size={18}
                         color="#FFFFFF"
                       />
-
                     )}
-
 
                     <Text
                       style={[
                         styles.buttonText,
                         {
-                          color:
-                            '#FFFFFF',
+                          color: '#FFFFFF',
                         },
                       ]}
                     >
-
                       {saving
                         ? 'Salvando...'
                         : 'Salvar alterações'}
-
                     </Text>
-
-                  </LinearGradient>
-
+                  </View>
                 </TouchableOpacity>
 
               </View>
@@ -621,9 +429,7 @@ export default function EditContact() {
           </ScrollView>
 
         </KeyboardAvoidingView>
-
       </Background>
-
-    </View>
+    </SafeAreaView>
   );
 }

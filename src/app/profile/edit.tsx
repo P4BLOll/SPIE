@@ -19,8 +19,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 
 import { router } from 'expo-router';
-
-import { LinearGradient } from 'expo-linear-gradient';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Background } from '@/components/Background';
 
@@ -35,8 +34,7 @@ import {
 } from 'firebase/firestore';
 
 import { styles } from '@/styles/editProfile.styles';
-
-import { useSecurity } from '@/context/SecurityContext';
+import { useSecurity } from '@/modules/security-vault/contexts/SecurityContext';
 
 
 // =====================================================
@@ -267,7 +265,7 @@ export default function EditProfile() {
             'Usuário não autenticado.'
           );
 
-          router.replace('/login');
+          router.replace('/(auth)/login');
 
           return;
 
@@ -885,13 +883,13 @@ export default function EditProfile() {
   // =====================================================
 
   return (
-
     <Background>
-
-      <KeyboardAvoidingView
-        style={
-          styles.keyboard
-        }
+      <SafeAreaView
+        style={{ flex: 1 }}
+        edges={['top', 'left', 'right']}
+      >
+        <KeyboardAvoidingView
+          style={styles.keyboard}
         behavior={
           Platform.OS === 'ios'
             ? 'padding'
@@ -1458,7 +1456,7 @@ export default function EditProfile() {
 
 
             <TouchableOpacity
-              activeOpacity={0.85}
+              activeOpacity={0.8}
               disabled={
                 alterandoSenha
               }
@@ -1466,37 +1464,20 @@ export default function EditProfile() {
                 handleAlterarSenha
               }
             >
-
-              <LinearGradient
-                colors={[
-                  cycleColors.rose,
-                  cycleColors.lavender,
+              <View
+                style={[
+                  styles.saveButton,
+                  { backgroundColor: cycleColors.rose },
                 ]}
-                start={{
-                  x: 0,
-                  y: 0,
-                }}
-                end={{
-                  x: 1,
-                  y: 0,
-                }}
-                style={
-                  styles.saveButton
-                }
               >
-
                 {alterandoSenha ? (
-
                   <ActivityIndicator
                     color={
                       cycleColors.white
                     }
                   />
-
                 ) : (
-
                   <>
-
                     <Ionicons
                       name="key-outline"
                       size={21}
@@ -1505,7 +1486,6 @@ export default function EditProfile() {
                       }
                     />
 
-
                     <Text
                       style={
                         styles.saveButtonText
@@ -1513,13 +1493,9 @@ export default function EditProfile() {
                     >
                       Alterar senha
                     </Text>
-
                   </>
-
                 )}
-
-              </LinearGradient>
-
+              </View>
             </TouchableOpacity>
 
           </Section>
@@ -2102,7 +2078,7 @@ export default function EditProfile() {
           ================================================= */}
 
           <TouchableOpacity
-            activeOpacity={0.85}
+            activeOpacity={0.8}
             disabled={
               saving
             }
@@ -2110,37 +2086,20 @@ export default function EditProfile() {
               salvarAlteracoes
             }
           >
-
-            <LinearGradient
-              colors={[
-                cycleColors.rose,
-                cycleColors.lavender,
+            <View
+              style={[
+                styles.saveButton,
+                { backgroundColor: cycleColors.rose },
               ]}
-              start={{
-                x: 0,
-                y: 0,
-              }}
-              end={{
-                x: 1,
-                y: 0,
-              }}
-              style={
-                styles.saveButton
-              }
             >
-
               {saving ? (
-
                 <ActivityIndicator
                   color={
                     cycleColors.white
                   }
                 />
-
               ) : (
-
                 <>
-
                   <Ionicons
                     name="checkmark-circle-outline"
                     size={21}
@@ -2149,7 +2108,6 @@ export default function EditProfile() {
                     }
                   />
 
-
                   <Text
                     style={
                       styles.saveButtonText
@@ -2157,13 +2115,9 @@ export default function EditProfile() {
                   >
                     Salvar alterações
                   </Text>
-
                 </>
-
               )}
-
-            </LinearGradient>
-
+            </View>
           </TouchableOpacity>
 
 
@@ -2205,7 +2159,7 @@ export default function EditProfile() {
         </TouchableOpacity>
 
       </KeyboardAvoidingView>
-
+      </SafeAreaView>
     </Background>
 
   );

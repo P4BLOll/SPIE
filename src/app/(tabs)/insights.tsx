@@ -20,7 +20,7 @@ import {
 
 import { Background } from '@/components/Background';
 
-import { useCycle } from '@/context/CycleContext';
+import { useCycle } from '@/modules/cycle/hooks/useCycle';
 
 import {
   cycleColors,

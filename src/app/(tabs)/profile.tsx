@@ -9,9 +9,10 @@ import {
   Text,
   TouchableOpacity,
   Image,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
+
+import { useDialog } from '@/context/DialogContext';
 
 import { Ionicons } from '@expo/vector-icons';
 
@@ -145,10 +146,11 @@ function MenuItem({
 // =====================================================
 
 export default function ProfileScreen() {
+  const { showConfirm, showAlert } = useDialog();
 
   // =====================================================
   // ESTADOS DO USUÁRIO
-  // =====================================================
+  // ======================================================
 
   const [
     userName,
@@ -650,72 +652,30 @@ export default function ProfileScreen() {
   // =====================================================
 
   function handleLogout() {
-
     if (carregando) {
       return;
     }
 
-
-    Alert.alert(
-
-      'Sair da conta',
-
-      'Deseja realmente sair?',
-
-      [
-
-        // -------------------------------------------------
-        // CANCELAR
-        // -------------------------------------------------
-
-        {
-          text: 'Cancelar',
-          style: 'cancel',
-        },
-
-
-        // -------------------------------------------------
-        // SAIR
-        // -------------------------------------------------
-
-        {
-          text: 'Sair',
-          style: 'destructive',
-
-          onPress: async () => {
-
-            try {
-
-              await signOut(auth);
-
-
-              router.replace(
-                '/login'
-              );
-
-            } catch (error) {
-
-              console.log(
-                'Erro ao sair da conta:',
-                error
-              );
-
-
-              Alert.alert(
-                'Erro',
-                'Não foi possível sair da conta.'
-              );
-
-            }
-
-          },
-
-        },
-
-      ],
-
-    );
-
+    showConfirm({
+      title: 'Sair da Conta',
+      message: 'Deseja realmente encerrar a sua sessão no SPIE?',
+      type: 'danger',
+      confirmText: 'Sair',
+      cancelText: 'Cancelar',
+      onConfirm: async () => {
+        try {
+          await signOut(auth);
+          router.replace('/(auth)/login');
+        } catch (error) {
+          console.log('Erro ao sair da conta:', error);
+          showAlert({
+            title: 'Erro',
+            message: 'Não foi possível sair da conta.',
+            type: 'error',
+          });
+        }
+      },
+    });
   }
 
 
@@ -790,32 +750,18 @@ export default function ProfileScreen() {
             AVATAR
         ================================================= */}
 
-        <LinearGradient
-          colors={[
-            cycleColors.rose,
-            cycleColors.lavender,
+        <View
+          style={[
+            profileStyles.avatarRing,
+            { backgroundColor: cycleColors.rose },
           ]}
-          start={{
-            x: 0,
-            y: 0,
-          }}
-          end={{
-            x: 1,
-            y: 1,
-          }}
-          style={
-            profileStyles.avatarRing
-          }
         >
-
           <View
             style={
               profileStyles.avatar
             }
           >
-
             {avatarCarregado ? (
-
               <Image
                 key={avatarUrl}
                 source={{
@@ -825,9 +771,7 @@ export default function ProfileScreen() {
                   profileStyles.avatarImage
                 }
               />
-
             ) : (
-
               <View
                 style={{
                   flex: 1,
@@ -837,94 +781,45 @@ export default function ProfileScreen() {
                     cycleColors.surface,
                 }}
               >
-
                 <ActivityIndicator
                   size="small"
                   color={
                     cycleColors.rose
                   }
                 />
-
               </View>
-
             )}
-
           </View>
-
-        </LinearGradient>
-
+        </View>
 
         {/* =================================================
             DADOS DO USUÁRIO
         ================================================= */}
 
-        {carregando ? (
+        <Text
+          style={
+            profileStyles.name
+          }
+        >
+          {userName}
+        </Text>
 
-          <View
-            style={{
-              alignItems: 'center',
-              marginTop: 12,
-              marginBottom: 4,
-            }}
-          >
-
-            <ActivityIndicator
-              size="small"
-              color={
-                cycleColors.rose
-              }
-            />
-
-            <Text
-              style={[
-                profileStyles.email,
-                {
-                  marginTop: 6,
-                },
-              ]}
-            >
-              Carregando seus dados...
-            </Text>
-
-          </View>
-
-        ) : (
-
-          <>
-
-            <Text
-              style={
-                profileStyles.name
-              }
-            >
-              {userName}
-            </Text>
-
-
-            <Text
-              style={
-                profileStyles.email
-              }
-            >
-              {userEmail ||
-                'E-mail não informado'}
-            </Text>
-
-          </>
-
-        )}
-
+        <Text
+          style={
+            profileStyles.email
+          }
+        >
+          {userEmail}
+        </Text>
 
         {/* =================================================
-            EDITAR PERFIL
+            BOTÃO EDITAR PERFIL
         ================================================= */}
 
         <TouchableOpacity
-          activeOpacity={0.85}
-          onPress={
-            abrirEditarPerfil
-          }
+          activeOpacity={0.8}
           disabled={carregando}
+          onPress={abrirEditarPerfil}
           style={{
             opacity:
               carregando
@@ -932,25 +827,12 @@ export default function ProfileScreen() {
                 : 1,
           }}
         >
-
-          <LinearGradient
-            colors={[
-              cycleColors.rose,
-              cycleColors.lavender,
+          <View
+            style={[
+              profileStyles.editButton,
+              { backgroundColor: cycleColors.rose },
             ]}
-            start={{
-              x: 0,
-              y: 0,
-            }}
-            end={{
-              x: 1,
-              y: 0,
-            }}
-            style={
-              profileStyles.editButton
-            }
           >
-
             <Text
               style={
                 profileStyles.editButtonText
@@ -958,9 +840,7 @@ export default function ProfileScreen() {
             >
               Editar perfil
             </Text>
-
-          </LinearGradient>
-
+          </View>
         </TouchableOpacity>
 
 

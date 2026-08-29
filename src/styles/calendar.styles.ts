@@ -9,33 +9,8 @@ export const TAB_BAR_BASE_HEIGHT = 72;
 // =====================================
 // PALETA — CICLO
 // =====================================
-
-export const cycleColors = {
-    // fundo e superfícies (mais escuro e com fundo quente)
-    background: '#0F0812',
-    surface: '#1E1224',
-    surfaceAlt: '#2A1830',
-
-    // texto
-    text: '#F6EEF4',
-    textMuted: '#B9A3C2',
-
-    // acentos
-    rose: '#FF4D7A',
-    roseSoft: 'rgba(255, 77, 122, 0.16)',
-    roseBorder: 'rgba(255, 77, 122, 0.4)',
-
-    gold: '#FFB648',
-    goldSoft: 'rgba(255, 182, 72, 0.16)',
-
-    teal: '#2DD4BF',
-    tealSoft: 'rgba(45, 212, 191, 0.16)',
-
-    lavender: '#B584F0',
-    lavenderSoft: 'rgba(181, 132, 240, 0.16)',
-
-    overlay: 'rgba(6, 3, 8, 0.72)',
-};
+import { cycleColors } from '@/constants/Colors';
+export { cycleColors };
 
 export const calendarStyles = StyleSheet.create({
 

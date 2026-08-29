@@ -7,22 +7,15 @@ import {
   TouchableOpacity,
   LayoutAnimation,
   Platform,
-  UIManager,
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Background } from '../../components/Background';
 import { cycleColors } from '../../styles/calendar.styles';
 import { tipsStyles as styles } from '../../styles/tips.styles';
-
-if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 
 type TipItem = {
   icon: string;
@@ -59,24 +52,19 @@ const categorias: Category[] = [
         route: '/tips/cycle/cycle-overview',
       },
       {
+        icon: 'layers-outline',
+        title: 'Fases do ciclo',
+        route: '/tips/cycle/cycle',
+      },
+      {
         icon: 'water-outline',
         title: 'Fluxo menstrual',
         route: '/tips/cycle/flow',
       },
       {
-        icon: 'time-outline',
-        title: 'Menstruação atrasada',
-        route: '/tips/cycle/late-period',
-      },
-      {
         icon: 'flash-outline',
         title: 'Cólicas menstruais',
         route: '/tips/cycle/menstrual-cramps',
-      },
-      {
-        icon: 'body-outline',
-        title: 'Dor abdominal',
-        route: '/tips/cycle/abdominal',
       },
       {
         icon: 'ellipse-outline',
@@ -87,11 +75,6 @@ const categorias: Category[] = [
         icon: 'trending-up-outline',
         title: 'Fluxo menstrual intenso',
         route: '/tips/cycle/heavy-menstrual-flow',
-      },
-      {
-        icon: 'sad-outline',
-        title: 'TPM',
-        route: '/tips/cycle/pms',
       },
       {
         icon: 'warning-outline',
@@ -114,14 +97,14 @@ const categorias: Category[] = [
         route: '/tips/cycle/menstrual-phase',
       },
       {
-        icon: 'moon-outline',
-        title: 'Fase lútea',
-        route: '/tips/cycle/luteal-phase',
-      },
-      {
         icon: 'leaf-outline',
         title: 'Fase folicular',
         route: '/tips/cycle/follicular-phase',
+      },
+      {
+        icon: 'moon-outline',
+        title: 'Fase lútea',
+        route: '/tips/cycle/luteal-phase',
       },
     ],
   },
@@ -290,52 +273,52 @@ const categorias: Category[] = [
       {
         icon: 'water-outline',
         title: 'Secreção vaginal',
-        route: '/tips/infection/secretion',
+        route: '/tips/infections/secretion',
       },
       {
         icon: 'warning-outline',
         title: 'Secreções anormais',
-        route: '/tips/infection/abnormal-discharges',
+        route: '/tips/infections/abnormal-discharge',
       },
       {
         icon: 'bug-outline',
         title: 'Tricomoníase',
-        route: '/tips/infection/trichomoniasis',
+        route: '/tips/infections/trichomoniasis',
       },
       {
         icon: 'bacteria-outline',
         title: 'Vaginose bacteriana',
-        route: '/tips/infection/bacterial-vaginosis',
+        route: '/tips/infections/bacterial-vaginosis',
       },
       {
         icon: 'flower-outline',
         title: 'Candidíase',
-        route: '/tips/infection/candidiasis',
+        route: '/tips/infections/candidiasis',
       },
       {
         icon: 'medical-outline',
         title: 'Clamídia',
-        route: '/tips/infection/chlamydia',
+        route: '/tips/infections/chlamydia',
       },
       {
         icon: 'flame-outline',
         title: 'Herpes genital',
-        route: '/tips/infection/genital-herpes',
+        route: '/tips/infections/genital-herpes',
       },
       {
         icon: 'shield-checkmark-outline',
         title: 'HPV',
-        route: '/tips/infection/hpv',
+        route: '/tips/infections/hpv',
       },
       {
         icon: 'bug-outline',
         title: 'Gonorreia',
-        route: '/tips/infection/gonorrhea',
+        route: '/tips/infections/gonorrhea',
       },
       {
         icon: 'shield-outline',
         title: 'Prevenção de ISTs',
-        route: '/tips/infection/sti-prevetion',
+        route: '/tips/infections/sti-prevention',
       },
     ],
   },
@@ -376,7 +359,7 @@ const categorias: Category[] = [
       {
         icon: 'warning-outline',
         title: 'Inflamação pélvica',
-        route: '/tips/gynecological/pelvic-inflamation',
+        route: '/tips/gynecological/pelvic-inflammatory-disease',
       },
       {
         icon: 'layers-outline',
@@ -454,12 +437,13 @@ export default function TipsScreen() {
 
   return (
     <Background>
-      <View style={styles.screen}>
-
+      <SafeAreaView
+        style={styles.screen}
+        edges={['top', 'left', 'right']}
+      >
         {/* ======================================
             CABEÇALHO
         ====================================== */}
-
         <View style={styles.topHeader}>
           <Text style={styles.eyebrow}>
             APRENDA MAIS
@@ -593,7 +577,7 @@ export default function TipsScreen() {
             );
           })}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     </Background>
   );
 }

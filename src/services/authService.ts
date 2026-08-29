@@ -6,6 +6,7 @@ import {
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 
 import {
@@ -265,4 +266,50 @@ export async function loginUser(
 
   }
 
+}
+
+
+// =====================================================
+// RECUPERAÇÃO DE SENHA
+// =====================================================
+
+export async function recoverPassword(email: string): Promise<void> {
+  const emailLimpo = email.trim();
+
+  if (!emailLimpo) {
+    throw new Error('Por favor, digite seu e-mail.');
+  }
+
+  // Validação simples de formato de e-mail
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(emailLimpo)) {
+    throw new Error('Por favor, digite um e-mail válido.');
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, emailLimpo);
+  } catch (error: any) {
+    console.log('Erro ao enviar e-mail de recuperação:', error);
+
+    // Mapeamento amigável de erros do Firebase Auth
+    switch (error?.code) {
+      case 'auth/invalid-email':
+        throw new Error('O formato do e-mail informado é inválido.');
+      case 'auth/user-not-found':
+        throw new Error('Não encontramos nenhuma conta cadastrada com este e-mail.');
+      case 'auth/missing-email':
+        throw new Error('Por favor, informe um endereço de e-mail.');
+      case 'auth/too-many-requests':
+        throw new Error('Muitas tentativas em pouco tempo. Por favor, aguarde alguns instantes e tente novamente.');
+      case 'auth/network-request-failed':
+        throw new Error('Falha de conexão com a internet. Verifique sua rede e tente novamente.');
+      case 'auth/invalid-credential':
+        throw new Error('Não foi possível verificar os dados informados.');
+      default:
+        throw new Error(
+          error?.message ||
+          'Não foi possível enviar o e-mail de recuperação. Tente novamente mais tarde.'
+        );
+    }
+  }
 }

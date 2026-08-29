@@ -60,6 +60,11 @@ export const cycleColors = {
   goldSoft: 'rgba(242,201,76,0.15)',
 
 
+  roseBorder: 'rgba(255, 92, 141, 0.40)',
+
+  overlay: 'rgba(6, 3, 8, 0.72)',
+
+
   // ===============================
   // STATUS
   // ===============================

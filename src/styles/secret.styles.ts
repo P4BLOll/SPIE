@@ -4,7 +4,6 @@ import { cycleColors } from './calendar.styles';
 export const SOS_BUTTON_SIZE = 190;
 
 export const secretStyles = StyleSheet.create({
-
     // ===============================
     // CONTAINER
     // ===============================
@@ -22,16 +21,16 @@ export const secretStyles = StyleSheet.create({
     },
 
     backButton: {
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 4,
-},
+        width: 42,
+        height: 42,
+        borderRadius: 21,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 4,
+    },
 
     // ===============================
-    // CABEÇALHO (igual ao do perfil)
+    // CABEÇALHO
     // ===============================
 
     eyebrow: {
@@ -98,10 +97,13 @@ export const secretStyles = StyleSheet.create({
     statusIconWrap: {
         width: 40,
         height: 40,
-        borderRadius: 20,
-        backgroundColor: cycleColors.surfaceAlt,
+        borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+
+    statusContent: {
+        flex: 1,
     },
 
     statusInfo: {
@@ -109,28 +111,89 @@ export const secretStyles = StyleSheet.create({
     },
 
     statusTitle: {
-        color: cycleColors.text,
+        fontSize: 15,
         fontWeight: '800',
-        fontSize: 14,
+        color: cycleColors.text,
     },
 
     alertTitle: {
         color: cycleColors.danger,
     },
 
-    statusSubtitle: {
-        color: cycleColors.textMuted,
+    statusDesc: {
         fontSize: 12,
-        marginTop: 3,
+        color: cycleColors.textMuted,
+        marginTop: 2,
+    },
+
+    statusSubtitle: {
+        fontSize: 12,
+        color: cycleColors.textMuted,
+        marginTop: 2,
     },
 
     // ===============================
-    // MINI CARDS — igual ao statCard do perfil
+    // CONFIGURAÇÃO DE EMERGÊNCIA
     // ===============================
+
+    settingCard: {
+        backgroundColor: cycleColors.surface,
+        borderRadius: 20,
+        padding: 16,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 24,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.06)',
+    },
+
+    settingLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 14,
+        flex: 1,
+        paddingRight: 12,
+    },
+
+    settingIconWrap: {
+        width: 42,
+        height: 42,
+        borderRadius: 14,
+        backgroundColor: cycleColors.surfaceAlt,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    settingContent: {
+        flex: 1,
+    },
+
+    settingTitle: {
+        fontSize: 15,
+        fontWeight: '700',
+        color: cycleColors.text,
+    },
+
+    settingDesc: {
+        fontSize: 12,
+        color: cycleColors.textMuted,
+        marginTop: 2,
+        lineHeight: 17,
+    },
+
+    // ===============================
+    // ESTATÍSTICAS / CARDS DUPLOS
+    // ===============================
+
+    statsRow: {
+        flexDirection: 'row',
+        gap: 12,
+        marginBottom: 28,
+    },
 
     statsContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
         gap: 12,
         marginBottom: 28,
     },
@@ -139,64 +202,68 @@ export const secretStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: cycleColors.surface,
         borderRadius: 20,
-        paddingVertical: 18,
+        padding: 16,
         alignItems: 'center',
-        gap: 8,
-        elevation: 4,
+        elevation: 3,
     },
 
     statIconWrap: {
-        width: 34,
-        height: 34,
-        borderRadius: 17,
+        width: 36,
+        height: 36,
+        borderRadius: 18,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 10,
     },
 
     statNumber: {
-        fontSize: 14,
+        fontSize: 15,
         fontWeight: '800',
         color: cycleColors.text,
         textAlign: 'center',
+        marginBottom: 2,
     },
 
     statTitle: {
         fontSize: 11,
-        fontWeight: '600',
+        fontWeight: '700',
         color: cycleColors.textMuted,
+        textTransform: 'uppercase',
+        letterSpacing: 0.5,
     },
 
     // ===============================
-    // SOS
+    // BOTÃO SOS
     // ===============================
 
     sosSectionLabel: {
-        fontSize: 12,
+        fontSize: 11,
         fontWeight: '800',
-        letterSpacing: 1,
         color: cycleColors.textMuted,
-        marginBottom: 14,
-        marginLeft: 4,
+        letterSpacing: 1.5,
+        marginBottom: 8,
+        textTransform: 'uppercase',
     },
 
     sosContainer: {
         alignItems: 'center',
-        marginTop: 8,
+        marginTop: 10,
+        marginBottom: 30,
     },
 
     sosInstruction: {
+        fontSize: 13,
+        fontWeight: '600',
         color: cycleColors.textMuted,
         textAlign: 'center',
-        fontSize: 13,
-        marginBottom: 26,
-        paddingHorizontal: 20,
+        marginBottom: 20,
     },
 
     sosWrapper: {
-        width: SOS_BUTTON_SIZE + 90,
-        height: SOS_BUTTON_SIZE + 90,
-        alignItems: 'center',
+        width: SOS_BUTTON_SIZE,
+        height: SOS_BUTTON_SIZE,
         justifyContent: 'center',
+        alignItems: 'center',
     },
 
     pulseRing: {
@@ -244,7 +311,7 @@ export const secretStyles = StyleSheet.create({
     },
 
     // ===============================
-    // TELA DE PIN (mesmo padrão do avatar/editButton do perfil)
+    // TELA DE PIN
     // ===============================
 
     lockBox: {
@@ -315,5 +382,4 @@ export const secretStyles = StyleSheet.create({
         fontWeight: '700',
         fontSize: 15,
     },
-
 });

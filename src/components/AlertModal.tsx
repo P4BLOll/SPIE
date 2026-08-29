@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Modal, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
-import { useBLE } from '../context/BLEContext'; // 👈 Consome apenas os dados necessários
+import { useBLE } from '../context/BLEContext';
 
 export function AlertModal() {
   const { alertaAtivo, desativarAlertaManual } = useBLE();
@@ -16,18 +16,17 @@ export function AlertModal() {
     >
       <View style={styles.modalOverlay}>
         <View style={styles.alertContainer}>
-        <View style={styles.pulseCircle}>
-        {/* 💡 Correção: 'warning' é o nome correto para o triângulo de alerta no Ionicons */}
-        <Ionicons name="warning" size={64} color={Colors.white} />
-        </View>
-                
+          <View style={styles.pulseCircle}>
+            <Ionicons name="warning" size={56} color={Colors.white} />
+          </View>
+
           <Text style={styles.alertTitle}>EMERGÊNCIA ATIVADA</Text>
           <Text style={styles.alertDescription}>
-            Um sinal de socorro foi recebido através da sua pulseira SPIE. Seus contatos de emergência e sua localização estão sendo acionados.
+            Seus contatos de emergência e sua localização em tempo real foram acionados.
           </Text>
 
           <View style={styles.pulseIndicator}>
-            <Text style={styles.pulseText}>📳 Celular vibrando em modo de pânico</Text>
+            <Text style={styles.pulseText}>🚨 Socorro e localização enviados aos contatos</Text>
           </View>
 
           <TouchableOpacity 
@@ -35,7 +34,7 @@ export function AlertModal() {
             onPress={desativarAlertaManual}
             activeOpacity={0.8}
           >
-            <Text style={styles.cancelButtonText}>FALSO ALARME (DESATIVAR)</Text>
+            <Text style={styles.cancelButtonText}>DESATIVAR ALERTA</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -55,62 +54,62 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: Colors.danger,
     borderRadius: 24,
-    padding: 32,
+    padding: 28,
     alignItems: 'center',
     shadowColor: Colors.danger,
-    shadowOffset: { width: 0, height: 12 },
+    shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.5,
-    shadowRadius: 16,
-    elevation: 20,
+    shadowRadius: 20,
+    elevation: 10,
   },
   pulseCircle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 18,
   },
   alertTitle: {
     color: Colors.white,
-    fontSize: 26,
+    fontSize: 22,
     fontWeight: '900',
-    letterSpacing: 2,
+    letterSpacing: 1.5,
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: 10,
   },
   alertDescription: {
     color: 'rgba(255, 255, 255, 0.9)',
-    fontSize: 15,
+    fontSize: 14,
     textAlign: 'center',
-    lineHeight: 22,
-    marginBottom: 28,
+    lineHeight: 20,
+    marginBottom: 20,
   },
   pulseIndicator: {
-    backgroundColor: 'rgba(0, 0, 0, 0.15)',
-    paddingVertical: 8,
+    backgroundColor: 'rgba(0, 0, 0, 0.25)',
     paddingHorizontal: 16,
+    paddingVertical: 8,
     borderRadius: 20,
-    marginBottom: 32,
+    marginBottom: 24,
   },
   pulseText: {
     color: Colors.white,
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   cancelButton: {
     width: '100%',
-    height: 56,
-    backgroundColor: '#0B111E',
-    borderRadius: 12,
-    justifyContent: 'center',
+    backgroundColor: Colors.white,
+    paddingVertical: 14,
+    borderRadius: 16,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   cancelButtonText: {
-    color: Colors.white,
+    color: Colors.danger,
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: '900',
     letterSpacing: 1,
   },
 });

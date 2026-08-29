@@ -1,647 +1,291 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
-
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   ActivityIndicator,
   TouchableOpacity,
+  ScrollView,
+  Alert,
+  Linking,
+  RefreshControl,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
-
 import { router } from 'expo-router';
-
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Background } from '@/components/Background';
-
 import { cycleColors } from '@/styles/calendar.styles';
-
-import {
-  historyStyles as styles,
-} from '@/styles/history.styles';
-
-import {
-  db,
-  auth,
-} from '@/services/firebaseConfig';
-
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  Timestamp,
-} from 'firebase/firestore';
-
-
-// =====================================================
-// TIPAGEM
-// =====================================================
+import { historyStyles as styles } from '@/styles/history.styles';
+import { emergencyRepository } from '@/modules/emergency/services/emergencyRepository';
+import { parseFirebaseDate, formatDateTimeBR } from '@/shared/utils/dateUtils';
 
 interface Alerta {
   id: string;
   data: string;
+  timestampRaw: number;
   tipo: string;
   status: string;
-  createdAt?: Timestamp;
+  origem?: string;
+  latitude?: number | null;
+  longitude?: number | null;
+  linkMapa?: string;
 }
 
-
-// =====================================================
-// COMPONENTE
-// =====================================================
-
 export default function History() {
-
-  const [
-    alertas,
-    setAlertas,
-  ] = useState<Alerta[]>([]);
-
-
-  const [
-    carregando,
-    setCarregando,
-  ] = useState(true);
-
-
-  // =====================================================
-  // CARREGAR HISTÓRICO
-  // =====================================================
+  const [alertas, setAlertas] = useState<Alerta[]>([]);
+  const [carregando, setCarregando] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
+    const unsubscribe = emergencyRepository.subscribeAlertHistory((snapshotData) => {
+      const dados: Alerta[] = snapshotData.map((itemData: any) => {
+        const rawDate =
+          itemData.createdAt || itemData.criadoEm || itemData.data || itemData.timestamp;
+        const parsed = parseFirebaseDate(rawDate);
+        const texto = formatDateTimeBR(parsed);
+        const timestampRaw = parsed ? parsed.getTime() : 0;
 
-    // ---------------------------------------------------
-    // PEGA O USUÁRIO ATUAL
-    // ---------------------------------------------------
+        let tipoFormatado = itemData.tipo || 'Alerta SOS';
+        if (tipoFormatado === 'PULSEIRA_SOS' || itemData.origem === 'DISPOSITIVO_BLE' || itemData.device === 'PULSEIRA_SPIE') {
+          tipoFormatado = 'Pulseira de Emergência';
+        } else if (tipoFormatado === 'SOS' || tipoFormatado === 'panico_silencioso') {
+          tipoFormatado = 'Alerta de Pânico SOS';
+        }
 
-    const currentUser =
-      auth.currentUser;
+        const lat = itemData.localizacao?.latitude || itemData.latitude || null;
+        const lng = itemData.localizacao?.longitude || itemData.longitude || null;
 
+        return {
+          id: itemData.id,
+          data: texto,
+          timestampRaw,
+          tipo: tipoFormatado,
+          status: typeof itemData.status === 'string' ? itemData.status : 'Registrado',
+          origem: itemData.origem || itemData.device,
+          latitude: lat,
+          longitude: lng,
+          linkMapa: itemData.linkMapa || (lat && lng ? `https://www.google.com/maps/search/?api=1&query=${lat},${lng}` : undefined),
+        };
+      });
 
-    // ---------------------------------------------------
-    // USUÁRIO NÃO AUTENTICADO
-    // ---------------------------------------------------
-
-    if (!currentUser) {
-
-      setAlertas([]);
-
+      dados.sort((a, b) => b.timestampRaw - a.timestampRaw);
+      setAlertas(dados);
       setCarregando(false);
+      setRefreshing(false);
+    });
 
-      return;
-
+    if (!unsubscribe) {
+      setAlertas([]);
+      setCarregando(false);
     }
 
-
-    // =================================================
-    // REFERÊNCIA DO HISTÓRICO
-    // =================================================
-
-    const alertasRef =
-      collection(
-        db,
-        'users',
-        currentUser.uid,
-        'alert_history'
-      );
-
-
-    // =================================================
-    // QUERY
-    // =================================================
-
-    const alertasQuery =
-      query(
-        alertasRef,
-        orderBy(
-          'createdAt',
-          'desc'
-        )
-      );
-
-
-    // =================================================
-    // LISTENER
-    // =================================================
-
-    const unsubscribe =
-      onSnapshot(
-
-        alertasQuery,
-
-        (snapshot) => {
-
-          const dados: Alerta[] = [];
-
-
-          snapshot.forEach(
-            (documentSnapshot) => {
-
-              const data =
-                documentSnapshot.data();
-
-
-              // -----------------------------------------
-              // DATA PADRÃO
-              // -----------------------------------------
-
-              let dataFormatada =
-                'Data não disponível';
-
-
-              // -----------------------------------------
-              // DATA DO ALERTA
-              // -----------------------------------------
-
-              if (
-                data.createdAt &&
-                typeof data.createdAt.toDate ===
-                  'function'
-              ) {
-
-                const dataAlerta =
-                  data.createdAt.toDate();
-
-
-                dataFormatada =
-                  dataAlerta.toLocaleString(
-                    'pt-BR',
-                    {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    }
-                  );
-
-              }
-
-
-              // -----------------------------------------
-              // ADICIONAR ALERTA
-              // -----------------------------------------
-
-              dados.push({
-
-                id:
-                  documentSnapshot.id,
-
-                data:
-                  dataFormatada,
-
-                tipo:
-                  typeof data.tipo === 'string'
-                    ? data.tipo
-                    : 'SOS',
-
-                status:
-                  typeof data.status === 'string'
-                    ? data.status
-                    : 'Enviado',
-
-                createdAt:
-                  data.createdAt,
-
-              });
-
-            }
-          );
-
-
-          setAlertas(dados);
-
-          setCarregando(false);
-
-        },
-
-        (error) => {
-
-          console.log(
-            'Erro ao carregar histórico de alertas:',
-            error
-          );
-
-
-          setAlertas([]);
-
-          setCarregando(false);
-
-        }
-
-      );
-
-
-    // =================================================
-    // LIMPAR LISTENER
-    // =================================================
-
     return () => {
-
-      unsubscribe();
-
+      unsubscribe?.();
     };
-
   }, []);
 
-
-  // =====================================================
-  // VOLTAR PARA O PERFIL
-  // =====================================================
-
   function voltar() {
-
-    /*
-     * O histórico é acessado somente através do Perfil.
-     *
-     * Não usamos router.back(), porque o histórico
-     * de navegação pode conter a tela /secret.
-     *
-     * Também não usamos signOut() ou qualquer função
-     * relacionada à autenticação.
-     *
-     * O usuário simplesmente retorna para o Perfil.
-     */
-
-    router.replace(
-      '/(tabs)/profile'
-    );
-
+    router.replace('/(tabs)/profile');
   }
 
+  async function abrirMapa(alerta: Alerta) {
+    let url = alerta.linkMapa;
 
-  // =====================================================
-  // CARREGANDO
-  // =====================================================
+    if (!url && alerta.latitude && alerta.longitude) {
+      url = `https://www.google.com/maps/search/?api=1&query=${alerta.latitude},${alerta.longitude}`;
+    }
 
-  if (carregando) {
+    if (url) {
+      try {
+        await Linking.openURL(url);
+      } catch (err) {
+        Alert.alert('Erro', 'Não foi possível abrir o aplicativo de mapas.');
+      }
+    } else {
+      Alert.alert('Localização', 'As coordenadas de GPS não estavam disponíveis para este alerta.');
+    }
+  }
+
+  function excluirAlerta(id: string) {
+    Alert.alert(
+      'Excluir Alerta',
+      'Deseja remover este registro do seu histórico?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Excluir',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await emergencyRepository.deleteAlert(id);
+            } catch (err) {
+              Alert.alert('Erro', 'Não foi possível excluir o alerta.');
+            }
+          },
+        },
+      ]
+    );
+  }
+
+  function limparTodoHistorico() {
+    if (alertas.length === 0) return;
+
+    Alert.alert(
+      'Limpar Todo o Histórico',
+      'Tem certeza que deseja apagar todos os registros de alertas?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        {
+          text: 'Limpar Tudo',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await emergencyRepository.clearAllAlerts();
+            } catch (err) {
+              Alert.alert('Erro', 'Falha ao limpar o histórico.');
+            }
+          },
+        },
+      ]
+    );
+  }
+
+  function renderStatusBadge(status: string) {
+    const st = status.toLowerCase();
+    let bg = 'rgba(20, 184, 166, 0.15)';
+    let textCol: string = cycleColors.teal;
+
+    if (st.includes('cancel') || st.includes('erro') || st.includes('falha')) {
+      bg = 'rgba(239, 68, 68, 0.15)';
+      textCol = '#EF4444';
+    } else if (st.includes('disparando') || st.includes('andamento') || st.includes('ativado')) {
+      bg = 'rgba(245, 158, 11, 0.15)';
+      textCol = '#F59E0B';
+    }
 
     return (
-
-      <Background>
-
-        <View
-          style={
-            styles.screen
-          }
-        >
-
-          <View
-            style={
-              styles.container
-            }
-          >
-
-            {/* =========================================
-                BOTÃO VOLTAR
-            ========================================= */}
-
-            <TouchableOpacity
-              style={
-                styles.backButton
-              }
-              activeOpacity={0.7}
-              onPress={voltar}
-            >
-
-              <Ionicons
-                name="arrow-back"
-                size={22}
-                color={
-                  cycleColors.text
-                }
-              />
-
-            </TouchableOpacity>
-
-
-            {/* =========================================
-                CABEÇALHO
-            ========================================= */}
-
-            <Text
-              style={
-                styles.eyebrow
-              }
-            >
-              SEGURANÇA
-            </Text>
-
-
-            <Text
-              style={
-                styles.title
-              }
-            >
-              Histórico de alertas
-            </Text>
-
-
-            {/* =========================================
-                CARREGANDO
-            ========================================= */}
-
-            <View
-              style={
-                styles.card
-              }
-            >
-
-              <ActivityIndicator
-                size="large"
-                color={
-                  cycleColors.rose
-                }
-              />
-
-
-              <Text
-                style={
-                  styles.text
-                }
-              >
-                Carregando histórico...
-              </Text>
-
-            </View>
-
-          </View>
-
-        </View>
-
-      </Background>
-
+      <View style={[styles.statusBadge, { backgroundColor: bg }]}>
+        <Text style={[styles.statusText, { color: textCol }]}>{status}</Text>
+      </View>
     );
-
   }
 
-
-  // =====================================================
-  // TELA PRINCIPAL
-  // =====================================================
-
   return (
-
     <Background>
+      <SafeAreaView style={styles.screen} edges={['top', 'left', 'right']}>
+        <View style={styles.container}>
+          {/* TOPO */}
+          <View style={styles.headerRow}>
+            <TouchableOpacity style={styles.backButton} activeOpacity={0.7} onPress={voltar}>
+              <Ionicons name="arrow-back" size={20} color={cycleColors.text} />
+            </TouchableOpacity>
 
-      <View
-        style={
-          styles.screen
-        }
-      >
+            {alertas.length > 0 && (
+              <TouchableOpacity
+                style={styles.clearButton}
+                activeOpacity={0.7}
+                onPress={limparTodoHistorico}
+              >
+                <Ionicons name="trash-outline" size={14} color="#EF4444" />
+                <Text style={styles.clearButtonText}>Limpar Tudo</Text>
+              </TouchableOpacity>
+            )}
+          </View>
 
-        <View
-          style={
-            styles.container
-          }
-        >
+          <Text style={styles.eyebrow}>SEGURANÇA PESSOAL</Text>
+          <Text style={styles.title}>Histórico de Alertas</Text>
 
-          {/* =============================================
-              BOTÃO VOLTAR
-          ============================================= */}
-
-          <TouchableOpacity
-            style={
-              styles.backButton
-            }
-            activeOpacity={0.7}
-            onPress={voltar}
-          >
-
-            <Ionicons
-              name="arrow-back"
-              size={22}
-              color={
-                cycleColors.text
-              }
-            />
-
-          </TouchableOpacity>
-
-
-          {/* =============================================
-              CABEÇALHO
-          ============================================= */}
-
-          <Text
-            style={
-              styles.eyebrow
-            }
-          >
-            SEGURANÇA
-          </Text>
-
-
-          <Text
-            style={
-              styles.title
-            }
-          >
-            Histórico de alertas
-          </Text>
-
-
-          {/* =============================================
-              NENHUM ALERTA
-          ============================================= */}
-
-          {alertas.length === 0 ? (
-
-            <View
-              style={
-                styles.card
+          {carregando ? (
+            <View style={styles.card}>
+              <ActivityIndicator size="large" color={cycleColors.rose} />
+              <Text style={styles.text}>Carregando histórico...</Text>
+            </View>
+          ) : (
+            <ScrollView
+              contentContainerStyle={styles.listContainer}
+              showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={() => setRefreshing(true)}
+                  tintColor={cycleColors.rose}
+                />
               }
             >
-
-              <View
-                style={
-                  styles.iconRing
-                }
-              >
-
-                <Ionicons
-                  name="shield-checkmark"
-                  size={40}
-                  color={
-                    cycleColors.teal
-                  }
-                />
-
-              </View>
-
-
-              <Text
-                style={
-                  styles.text
-                }
-              >
-                Nenhum alerta registrado
-              </Text>
-
-
-              <Text
-                style={
-                  styles.sub
-                }
-              >
-                Quando ocorrer uma emergência,
-                ela aparecerá aqui.
-              </Text>
-
-            </View>
-
-          ) : (
-
-            /* =============================================
-               LISTA DE ALERTAS
-            ============================================= */
-
-            <View>
-
-              {alertas.map(
-                (alerta) => (
-
-                  <View
-                    key={
-                      alerta.id
-                    }
-                    style={
-                      styles.card
-                    }
-                  >
-
-                    <View
-                      style={{
-                        flexDirection:
-                          'row',
-                        alignItems:
-                          'center',
-                      }}
-                    >
-
-                      {/* =================================
-                          ÍCONE
-                      ================================= */}
-
-                      <View
-                        style={{
-                          width: 48,
-                          height: 48,
-                          borderRadius: 24,
-                          alignItems:
-                            'center',
-                          justifyContent:
-                            'center',
-                          backgroundColor:
-                            cycleColors.dangerSoft,
-                          marginRight: 14,
-                        }}
-                      >
-
-                        <Ionicons
-                          name="warning"
-                          size={22}
-                          color={
-                            cycleColors.danger
-                          }
-                        />
-
+              {alertas.length === 0 ? (
+                <View style={styles.card}>
+                  <View style={styles.iconRing}>
+                    <Ionicons name="shield-checkmark" size={38} color={cycleColors.teal} />
+                  </View>
+                  <Text style={styles.text}>Nenhum alerta registrado</Text>
+                  <Text style={styles.sub}>
+                    Quando a pulseira ou o botão SOS forem acionados, o registro aparecerá aqui com rota e horário.
+                  </Text>
+                </View>
+              ) : (
+                alertas.map((alerta) => (
+                  <View key={alerta.id} style={styles.alertCard}>
+                    {/* Header do Card */}
+                    <View style={styles.alertHeader}>
+                      <View style={styles.alertHeaderLeft}>
+                        <View style={styles.alertIconWrap}>
+                          <Ionicons
+                            name={alerta.origem === 'DISPOSITIVO_BLE' ? 'watch-outline' : 'warning'}
+                            size={18}
+                            color="#EF4444"
+                          />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                          <Text style={styles.alertType}>{alerta.tipo}</Text>
+                          <Text style={styles.alertDate}>{alerta.data}</Text>
+                        </View>
                       </View>
 
-
-                      {/* =================================
-                          INFORMAÇÕES
-                      ================================= */}
-
-                      <View
-                        style={{
-                          flex: 1,
-                        }}
+                      <TouchableOpacity
+                        style={styles.deleteAlertBtn}
+                        activeOpacity={0.7}
+                        onPress={() => excluirAlerta(alerta.id)}
                       >
-
-                        <Text
-                          style={
-                            styles.text
-                          }
-                        >
-                          {alerta.tipo}
-                        </Text>
-
-
-                        <Text
-                          style={
-                            styles.sub
-                          }
-                        >
-                          {alerta.data}
-                        </Text>
-
-                      </View>
-
-
-                      {/* =================================
-                          STATUS
-                      ================================= */}
-
-                      <View
-                        style={{
-                          paddingHorizontal:
-                            10,
-                          paddingVertical:
-                            6,
-                          borderRadius:
-                            12,
-                          backgroundColor:
-                            alerta.status
-                              .toLowerCase()
-                              .includes(
-                                'cancel'
-                              )
-                              ? cycleColors.roseSoft
-                              : cycleColors.tealSoft,
-                        }}
-                      >
-
-                        <Text
-                          style={{
-                            fontSize: 12,
-                            fontWeight:
-                              '600',
-                            color:
-                              alerta.status
-                                .toLowerCase()
-                                .includes(
-                                  'cancel'
-                                )
-                                ? cycleColors.rose
-                                : cycleColors.teal,
-                          }}
-                        >
-                          {alerta.status}
-                        </Text>
-
-                      </View>
-
+                        <Ionicons name="trash-outline" size={16} color={cycleColors.textMuted} />
+                      </TouchableOpacity>
                     </View>
 
+                    {/* Badge de Status */}
+                    <View style={{ marginTop: 2, marginBottom: 8 }}>
+                      {renderStatusBadge(alerta.status)}
+                    </View>
+
+                    {/* Divisor */}
+                    <View style={styles.alertDivider} />
+
+                    {/* Informações de Localização */}
+                    <View style={styles.locationRow}>
+                      <View style={styles.locationInfo}>
+                        <Ionicons name="location-outline" size={16} color={cycleColors.rose} />
+                        <Text style={styles.locationText}>
+                          {alerta.latitude && alerta.longitude
+                            ? `${alerta.latitude.toFixed(4)}, ${alerta.longitude.toFixed(4)}`
+                            : 'GPS registrado'}
+                        </Text>
+                      </View>
+
+                      {(alerta.linkMapa || (alerta.latitude && alerta.longitude)) && (
+                        <TouchableOpacity
+                          style={styles.mapButton}
+                          activeOpacity={0.8}
+                          onPress={() => abrirMapa(alerta)}
+                        >
+                          <Ionicons name="map-outline" size={14} color={cycleColors.rose} />
+                          <Text style={styles.mapButtonText}>Ver no mapa</Text>
+                        </TouchableOpacity>
+                      )}
+                    </View>
                   </View>
-
-                )
+                ))
               )}
-
-            </View>
-
+            </ScrollView>
           )}
-
         </View>
-
-      </View>
-
+      </SafeAreaView>
     </Background>
-
   );
-
 }
