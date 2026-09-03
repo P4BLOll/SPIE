@@ -66,8 +66,9 @@ export interface UserLoginData {
 export interface UserProfile {
   uid: string;
 
-  // Avatar
+  // Avatar e Foto
   avatarId: number;
+  photoUrl?: string | null;
 
   // Dados pessoais
   fullName: string;

@@ -79,8 +79,8 @@ export const profileStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 4,
+    position: 'relative',
   },
-
 
   avatar: {
     width: '100%',
@@ -90,12 +90,94 @@ export const profileStyles = StyleSheet.create({
     overflow: 'hidden',
   },
 
-
   avatarImage: {
     width: '100%',
     height: '100%',
   },
 
+  cameraBadge: {
+    position: 'absolute',
+    bottom: -2,
+    right: -2,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: cycleColors.rose,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: cycleColors.background,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.35,
+    shadowRadius: 4,
+  },
+
+  photoModalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+    justifyContent: 'flex-end',
+  },
+
+  photoModalContent: {
+    backgroundColor: cycleColors.surface,
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    paddingHorizontal: 22,
+    paddingTop: 16,
+    paddingBottom: 36,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
+  },
+
+  photoModalHandle: {
+    width: 42,
+    height: 5,
+    borderRadius: 3,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    alignSelf: 'center',
+    marginBottom: 16,
+  },
+
+  photoModalTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: cycleColors.text,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+
+  photoModalOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    backgroundColor: cycleColors.surfaceAlt,
+    marginBottom: 10,
+  },
+
+  photoModalOptionText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: cycleColors.text,
+  },
+
+  photoModalCancel: {
+    marginTop: 6,
+    paddingVertical: 14,
+    borderRadius: 16,
+    alignItems: 'center',
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  },
+
+  photoModalCancelText: {
+    fontSize: 15,
+    fontWeight: '700',
+    color: cycleColors.textMuted,
+  },
 
   name: {
     fontSize: 22,

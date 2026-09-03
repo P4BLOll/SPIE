@@ -8,6 +8,7 @@ import {
 } from '@/styles/calendar.styles';
 
 import { AppTutorial } from '@/components/AppTutorial';
+import { SecretPinFirstAccessModal } from '@/components/SecretPinFirstAccessModal';
 
 // A tab bar é `position: absolute`, então toda tela com rolagem
 // precisa reservar TAB_BAR_BASE_HEIGHT + insets.bottom no final do
@@ -198,6 +199,7 @@ export default function TabsLayout() {
         o tutorial não aparece na tela de login.
       */}
       <AppTutorial />
+      <SecretPinFirstAccessModal />
     </>
   );
 }

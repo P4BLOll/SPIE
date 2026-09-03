@@ -10,11 +10,25 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
+  Modal,
 } from 'react-native';
 
 import { useDialog } from '@/context/DialogContext';
 
 import { Ionicons } from '@expo/vector-icons';
+import { requireOptionalNativeModule } from 'expo-modules-core';
+
+function getImagePicker(): typeof import('expo-image-picker') | null {
+  try {
+    const nativeModule = requireOptionalNativeModule('ExponentImagePicker');
+    if (!nativeModule) {
+      return null;
+    }
+    return require('expo-image-picker');
+  } catch {
+    return null;
+  }
+}
 
 import {
   router,
@@ -43,6 +57,7 @@ import {
 import {
   doc,
   getDoc,
+  updateDoc,
   collection,
   getCountFromServer,
 } from 'firebase/firestore';
@@ -175,6 +190,21 @@ export default function ProfileScreen() {
     setAvatarCarregado,
   ] = useState(false);
 
+  const [
+    userPhotoUrl,
+    setUserPhotoUrl,
+  ] = useState<string | null>(null);
+
+  const [
+    modalFotoVisivel,
+    setModalFotoVisivel,
+  ] = useState(false);
+
+  const [
+    salvandoFoto,
+    setSalvandoFoto,
+  ] = useState(false);
+
 
   const [
     quantidadeAlertas,
@@ -242,6 +272,7 @@ export default function ProfileScreen() {
             setUserEmail('');
 
             setUserAvatarId(null);
+            setUserPhotoUrl(null);
 
             setQuantidadeAlertas(0);
 
@@ -404,6 +435,19 @@ export default function ProfileScreen() {
 
             }
 
+
+            // -----------------------------------------------
+            // FOTO DE PERFIL
+            // -----------------------------------------------
+
+            if (
+              typeof data.photoUrl === 'string' &&
+              data.photoUrl.trim() !== ''
+            ) {
+              setUserPhotoUrl(data.photoUrl.trim());
+            } else {
+              setUserPhotoUrl(null);
+            }
 
             // -----------------------------------------------
             // E-MAIL
@@ -630,6 +674,160 @@ export default function ProfileScreen() {
 
 
   // =====================================================
+  // GESTÃO DE FOTO DE PERFIL
+  // =====================================================
+
+  async function salvarFoto(asset: { uri: string; base64?: string | null }) {
+    try {
+      setSalvandoFoto(true);
+      const user = auth.currentUser;
+      if (!user) {
+        showAlert({
+          title: 'Erro',
+          message: 'Usuário não autenticado.',
+          type: 'error',
+        });
+        return;
+      }
+
+      const photoUri = asset.base64
+        ? `data:image/jpeg;base64,${asset.base64}`
+        : asset.uri;
+
+      setUserPhotoUrl(photoUri);
+      await updateDoc(doc(db, 'users', user.uid), { photoUrl: photoUri });
+      setModalFotoVisivel(false);
+
+      showAlert({
+        title: 'Foto Atualizada',
+        message: 'Sua foto de perfil foi alterada com sucesso!',
+        type: 'success',
+      });
+    } catch (error) {
+      console.warn('[Profile] Erro ao salvar foto:', error);
+      showAlert({
+        title: 'Erro',
+        message: 'Não foi possível salvar a foto de perfil.',
+        type: 'error',
+      });
+    } finally {
+      setSalvandoFoto(false);
+    }
+  }
+
+  async function escolherDaGaleria() {
+    try {
+      const picker = getImagePicker();
+      if (!picker) {
+        showAlert({
+          title: 'Recompilação Necessária',
+          message: 'Para usar a galeria no seu celular/emulador, recompile o app rodando: npx expo run:android',
+          type: 'info',
+        });
+        return;
+      }
+
+      const { status } = await picker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        showAlert({
+          title: 'Permissão Necessária',
+          message: 'Permita o acesso à galeria para escolher sua foto de perfil.',
+          type: 'warning',
+        });
+        return;
+      }
+
+      const result = await picker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.5,
+        base64: true,
+      });
+
+      if (!result.canceled && result.assets && result.assets[0]) {
+        await salvarFoto(result.assets[0]);
+      }
+    } catch (error) {
+      console.warn('[Profile] Erro ao abrir galeria:', error);
+      showAlert({
+        title: 'Erro',
+        message: 'Não foi possível abrir a galeria de imagens.',
+        type: 'error',
+      });
+    }
+  }
+
+  async function tirarComCamera() {
+    try {
+      const picker = getImagePicker();
+      if (!picker) {
+        showAlert({
+          title: 'Recompilação Necessária',
+          message: 'Para usar a câmera no seu celular/emulador, recompile o app rodando: npx expo run:android',
+          type: 'info',
+        });
+        return;
+      }
+
+      const { status } = await picker.requestCameraPermissionsAsync();
+      if (status !== 'granted') {
+        showAlert({
+          title: 'Permissão Necessária',
+          message: 'Permita o acesso à câmera para tirar sua foto de perfil.',
+          type: 'warning',
+        });
+        return;
+      }
+
+      const result = await picker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.5,
+        base64: true,
+      });
+
+      if (!result.canceled && result.assets && result.assets[0]) {
+        await salvarFoto(result.assets[0]);
+      }
+    } catch (error) {
+      console.warn('[Profile] Erro ao abrir câmera:', error);
+      showAlert({
+        title: 'Erro',
+        message: 'Não foi possível abrir a câmera.',
+        type: 'error',
+      });
+    }
+  }
+
+  async function removerFoto() {
+    try {
+      setSalvandoFoto(true);
+      const user = auth.currentUser;
+      if (!user) return;
+
+      setUserPhotoUrl(null);
+      await updateDoc(doc(db, 'users', user.uid), { photoUrl: null });
+      setModalFotoVisivel(false);
+
+      showAlert({
+        title: 'Foto Removida',
+        message: 'Seu avatar padrão foi restaurado.',
+        type: 'info',
+      });
+    } catch (error) {
+      console.warn('[Profile] Erro ao remover foto:', error);
+      showAlert({
+        title: 'Erro',
+        message: 'Não foi possível remover a foto.',
+        type: 'error',
+      });
+    } finally {
+      setSalvandoFoto(false);
+    }
+  }
+
+  // =====================================================
   // EDITAR PERFIL
   // =====================================================
 
@@ -750,26 +948,39 @@ export default function ProfileScreen() {
             AVATAR
         ================================================= */}
 
-        <View
+        <TouchableOpacity
+          activeOpacity={0.85}
+          disabled={carregando || salvandoFoto}
+          onPress={() => setModalFotoVisivel(true)}
           style={[
             profileStyles.avatarRing,
             { backgroundColor: cycleColors.rose },
           ]}
         >
-          <View
-            style={
-              profileStyles.avatar
-            }
-          >
-            {avatarCarregado ? (
+          <View style={profileStyles.avatar}>
+            {salvandoFoto ? (
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: cycleColors.surface,
+                }}
+              >
+                <ActivityIndicator size="small" color={cycleColors.rose} />
+              </View>
+            ) : userPhotoUrl ? (
+              <Image
+                source={{ uri: userPhotoUrl }}
+                style={profileStyles.avatarImage}
+              />
+            ) : avatarCarregado ? (
               <Image
                 key={avatarUrl}
                 source={{
                   uri: avatarUrl,
                 }}
-                style={
-                  profileStyles.avatarImage
-                }
+                style={profileStyles.avatarImage}
               />
             ) : (
               <View
@@ -777,20 +988,21 @@ export default function ProfileScreen() {
                   flex: 1,
                   alignItems: 'center',
                   justifyContent: 'center',
-                  backgroundColor:
-                    cycleColors.surface,
+                  backgroundColor: cycleColors.surface,
                 }}
               >
                 <ActivityIndicator
                   size="small"
-                  color={
-                    cycleColors.rose
-                  }
+                  color={cycleColors.rose}
                 />
               </View>
             )}
           </View>
-        </View>
+
+          <View style={profileStyles.cameraBadge}>
+            <Ionicons name="camera" size={17} color="#FFFFFF" />
+          </View>
+        </TouchableOpacity>
 
         {/* =================================================
             DADOS DO USUÁRIO
@@ -1128,6 +1340,66 @@ export default function ProfileScreen() {
         </View>
 
       </ScrollView>
+
+      {/* =================================================
+          MODAL DE SELEÇÃO DE FOTO DE PERFIL
+      ================================================= */}
+      <Modal
+        visible={modalFotoVisivel}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setModalFotoVisivel(false)}
+      >
+        <TouchableOpacity
+          style={profileStyles.photoModalOverlay}
+          activeOpacity={1}
+          onPress={() => setModalFotoVisivel(false)}
+        >
+          <TouchableOpacity activeOpacity={1} style={profileStyles.photoModalContent}>
+            <View style={profileStyles.photoModalHandle} />
+            <Text style={profileStyles.photoModalTitle}>Foto de Perfil</Text>
+
+            <TouchableOpacity
+              style={profileStyles.photoModalOption}
+              onPress={tirarComCamera}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="camera" size={22} color={cycleColors.rose} />
+              <Text style={profileStyles.photoModalOptionText}>Tirar foto agora</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={profileStyles.photoModalOption}
+              onPress={escolherDaGaleria}
+              activeOpacity={0.7}
+            >
+              <Ionicons name="images" size={22} color={cycleColors.lavender} />
+              <Text style={profileStyles.photoModalOptionText}>Escolher da galeria</Text>
+            </TouchableOpacity>
+
+            {userPhotoUrl && (
+              <TouchableOpacity
+                style={profileStyles.photoModalOption}
+                onPress={removerFoto}
+                activeOpacity={0.7}
+              >
+                <Ionicons name="trash-outline" size={22} color="#FF5C77" />
+                <Text style={[profileStyles.photoModalOptionText, { color: '#FF5C77' }]}>
+                  Remover foto personalizada
+                </Text>
+              </TouchableOpacity>
+            )}
+
+            <TouchableOpacity
+              style={profileStyles.photoModalCancel}
+              onPress={() => setModalFotoVisivel(false)}
+              activeOpacity={0.7}
+            >
+              <Text style={profileStyles.photoModalCancelText}>Cancelar</Text>
+            </TouchableOpacity>
+          </TouchableOpacity>
+        </TouchableOpacity>
+      </Modal>
 
     </SafeAreaView>
 

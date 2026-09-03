@@ -19,4 +19,6 @@ export interface DadosCalendario {
   duracaoMenstruacao: number;
   duracaoCiclo: number;
   registros: Record<string, RegistroDia>;
+  dataVersion?: number;
 }
+

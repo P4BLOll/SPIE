@@ -33,6 +33,7 @@ module.exports = {
     "indent": "off",
     "operator-linebreak": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "require-jsdoc": "off",
     "import/no-unresolved": 0,
   },
 };

@@ -2,6 +2,7 @@
   "expo": {
     "name": "spie-app",
     "slug": "spie-app",
+    "scheme": "com.pablo.spieapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
@@ -61,10 +62,17 @@
           "bluetoothAlwaysPermission": "O SPIE precisa de acesso contínuo ao Bluetooth para detectar os sinais de emergência da pulseira."
         }
       ],
-      "expo-image"
-    ]
-  },
-  "web": {
-    "bundler": "metro"
+      "expo-image",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permitir que o SPIE acesse suas fotos para você escolher sua foto de perfil.",
+          "cameraPermission": "Permitir que o SPIE acesse sua câmera para você tirar uma foto de perfil."
+        }
+      ]
+    ],
+    "web": {
+      "bundler": "metro"
+    }
   }
 }

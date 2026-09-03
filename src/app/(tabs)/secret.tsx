@@ -70,6 +70,7 @@ export default function SecretScreen() {
     senhaSalva,
     acessoLiberado,
     carregando,
+    isDefaultPin,
     criarSenha,
     verificarSenha,
     bloquear,
@@ -628,6 +629,43 @@ export default function SecretScreen() {
                 </Text>
               </View>
             </TouchableOpacity>
+
+            {/* DICA DE PRIMEIRO ACESSO E ALTERAÇÃO DE PIN */}
+            {!criandoSenha && (
+              <View style={{ marginTop: 24, alignItems: 'center', width: '100%' }}>
+                {isDefaultPin && (
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 8,
+                      backgroundColor: 'rgba(255, 92, 141, 0.12)',
+                      paddingHorizontal: 16,
+                      paddingVertical: 10,
+                      borderRadius: 20,
+                      marginBottom: 14,
+                      borderWidth: 1,
+                      borderColor: 'rgba(255, 92, 141, 0.25)',
+                    }}
+                  >
+                    <Ionicons name="key-outline" size={16} color={cycleColors.rose} />
+                    <Text style={{ fontSize: 13, color: cycleColors.rose, fontWeight: '700' }}>
+                      Senha padrão inicial: <Text style={{ fontWeight: '900', color: '#FFFFFF' }}>1234</Text>
+                    </Text>
+                  </View>
+                )}
+
+                <TouchableOpacity
+                  activeOpacity={0.7}
+                  onPress={() => router.push('/security/change-pin')}
+                  style={{ paddingVertical: 6 }}
+                >
+                  <Text style={{ fontSize: 13, color: cycleColors.gold, fontWeight: '700', textDecorationLine: 'underline' }}>
+                    Esqueceu ou deseja alterar seu PIN?
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
 
           </View>
 

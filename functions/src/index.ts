@@ -44,3 +44,11 @@ export const processarAlertaEmergencia = onDocumentCreated(
     }
   }
 );
+
+// =====================================================
+// CAMADA DE INTELIGÊNCIA ARTIFICIAL E INSIGHTS DO CICLO
+// Executa cálculos determinísticos, validação e IA segura
+// =====================================================
+
+export { getSmartInsights } from "./modules/insights";
+

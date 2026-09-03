@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, increment } from 'firebase/firestore';
 import { db } from '@/services/firebaseConfig';
 import { DadosCalendario } from '../types/cycle.types';
 
@@ -22,9 +22,11 @@ export const cycleRepository = {
       ref,
       {
         ...data,
+        dataVersion: increment(1),
         atualizadoEm: new Date(),
       },
       { merge: true }
     );
   },
 };
+

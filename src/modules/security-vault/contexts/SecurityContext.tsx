@@ -5,6 +5,7 @@ interface SecurityContextData {
   senhaSalva: string | null;
   acessoLiberado: boolean;
   carregando: boolean;
+  isDefaultPin: boolean;
   rotaDestino: string | null;
   rotaAnterior: string | null;
   definirRotaDestino: (rota: string) => void;
@@ -14,6 +15,10 @@ interface SecurityContextData {
   criarSenha: (senha: string) => Promise<boolean>;
   verificarSenha: (senha: string) => Promise<boolean>;
   alterarSenha: (senhaAtual: string, novaSenha: string) => Promise<boolean>;
+  redefinirPinComSenhaDaConta: (
+    senhaConta: string,
+    novoPin: string
+  ) => Promise<{ sucesso: boolean; mensagem?: string }>;
   bloquear: () => void;
 }
 
@@ -23,20 +28,25 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
   const [senhaSalva, setSenhaSalva] = useState<string | null>(null);
   const [acessoLiberado, setAcessoLiberado] = useState(false);
   const [carregando, setCarregando] = useState(true);
+  const [isDefaultPin, setIsDefaultPin] = useState(true);
   const [rotaDestino, setRotaDestino] = useState<string | null>(null);
   const [rotaAnterior, setRotaAnterior] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function carregarSenha() {
-      try {
-        const pin = await pinAuthService.getSavedPin();
-        setSenhaSalva(pin);
-      } finally {
-        setCarregando(false);
-      }
+  const carregarSenha = useCallback(async () => {
+    try {
+      setCarregando(true);
+      const pin = await pinAuthService.getSavedPin();
+      const isDefault = await pinAuthService.isDefaultPin();
+      setSenhaSalva(pin);
+      setIsDefaultPin(isDefault);
+    } finally {
+      setCarregando(false);
     }
-    carregarSenha();
   }, []);
+
+  useEffect(() => {
+    carregarSenha();
+  }, [carregarSenha]);
 
   const definirRotaDestino = useCallback((rota: string) => setRotaDestino(rota), []);
   const limparRotaDestino = useCallback(() => setRotaDestino(null), []);
@@ -47,6 +57,7 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
     const success = await pinAuthService.savePin(senha);
     if (success) {
       setSenhaSalva(senha);
+      setIsDefaultPin(false);
       setAcessoLiberado(true);
     }
     return success;
@@ -63,9 +74,23 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
     const success = await pinAuthService.changePin(senhaAtual, novaSenha);
     if (success) {
       setSenhaSalva(novaSenha);
+      setIsDefaultPin(false);
     }
     return success;
   }, []);
+
+  const redefinirPinComSenhaDaConta = useCallback(
+    async (senhaConta: string, novoPin: string) => {
+      const result = await pinAuthService.redefinirPinComSenhaDaConta(senhaConta, novoPin);
+      if (result.sucesso) {
+        setSenhaSalva(novoPin);
+        setIsDefaultPin(false);
+        setAcessoLiberado(true);
+      }
+      return result;
+    },
+    []
+  );
 
   const bloquear = useCallback(() => {
     setAcessoLiberado(false);
@@ -79,6 +104,7 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
         senhaSalva,
         acessoLiberado,
         carregando,
+        isDefaultPin,
         rotaDestino,
         rotaAnterior,
         definirRotaDestino,
@@ -88,6 +114,7 @@ export function SecurityProvider({ children }: { children: React.ReactNode }) {
         criarSenha,
         verificarSenha,
         alterarSenha,
+        redefinirPinComSenhaDaConta,
         bloquear,
       }}
     >

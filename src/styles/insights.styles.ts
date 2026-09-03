@@ -300,4 +300,129 @@ export const insightsStyles = StyleSheet.create({
     fontSize: 15,
   },
 
-});
+  /* ===================== */
+  /* SMART IA INSIGHTS */
+  /* ===================== */
+
+  aiCard: {
+    backgroundColor: cycleColors.surface,
+    borderRadius: 26,
+    padding: 22,
+    marginBottom: 22,
+    borderWidth: 1,
+    borderColor: 'rgba(217, 154, 136, 0.25)',
+    elevation: 4,
+  },
+
+  aiHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+
+  aiBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: 'rgba(217, 154, 136, 0.15)',
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+    borderRadius: 20,
+  },
+
+  aiBadgeText: {
+    color: cycleColors.rose,
+    fontSize: 12,
+    fontWeight: '700',
+    letterSpacing: 0.5,
+  },
+
+  aiSummaryText: {
+    fontSize: 16,
+    lineHeight: 24,
+    color: cycleColors.text,
+    fontWeight: '600',
+    marginBottom: 16,
+  },
+
+  aiSectionBox: {
+    backgroundColor: cycleColors.surfaceAlt,
+    borderRadius: 18,
+    padding: 16,
+    marginBottom: 12,
+  },
+
+  aiSectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 8,
+  },
+
+  aiSectionTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: cycleColors.text,
+  },
+
+  aiSectionBody: {
+    fontSize: 14,
+    lineHeight: 21,
+    color: cycleColors.textMuted,
+  },
+
+  medicalNoteCard: {
+    backgroundColor: 'rgba(169, 87, 67, 0.12)',
+    borderRadius: 18,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: 'rgba(169, 87, 67, 0.3)',
+    marginTop: 6,
+  },
+
+  medicalNoteHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 6,
+  },
+
+  medicalNoteTitle: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: cycleColors.rose,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+
+  medicalNoteText: {
+    fontSize: 13,
+    lineHeight: 19,
+    color: cycleColors.text,
+  },
+
+  refreshButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    paddingVertical: 10,
+    marginTop: 10,
+    borderRadius: 14,
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
+  },
+
+  refreshButtonText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: cycleColors.rose,
+  },
+
+  sourceTag: {
+    fontSize: 11,
+    color: cycleColors.textMuted,
+    marginTop: 8,
+    textAlign: 'center',
+  },
+});

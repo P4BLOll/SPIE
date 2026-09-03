@@ -54,9 +54,9 @@ const tutorialItems: TutorialItem[] = [
 
   {
     icon: 'shield-checkmark-outline',
-    title: 'Conte com os recursos de segurança',
+    title: 'Área Secreta e Segurança',
     description:
-      'O SPIE também possui recursos voltados para situações de emergência, incluindo contatos de emergência e integração com a pulseira inteligente.',
+      'O SPIE conta com uma Área Secreta protegida para contatos de emergência e histórico. Sua senha padrão inicial é 1234 e você pode alterá-la quando desejar.',
   },
 
   {
