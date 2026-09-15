@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function UterineFibroidsScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,280 +31,93 @@ export default function UterineFibroidsScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="medkit-outline"
             size={55}
             color="#F97316"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Miomas uterinos
+            Uterine Fibroids
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda o que são os miomas, seus possíveis
-            sintomas e quando procurar avaliação.
+            Understand what fibroids are, common symptoms, locations, and therapeutic approaches.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que são miomas?
+            What are uterine fibroids?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Miomas uterinos são tumores benignos que se
-            desenvolvem no útero.
-
+            Uterine fibroids (leiomyomas) are non-cancerous (benign) growths that develop in or on the muscular wall of the uterus.
             {'\n\n'}
-
-            Eles são formados principalmente por tecido
-            muscular e podem aparecer em diferentes
-            regiões do útero.
-
+            They are extremely common, affecting up to 70–80% of women by age 50, though many never know they have them because they cause no symptoms.
             {'\n\n'}
-
-            Miomas não são câncer e, na maioria dos casos,
-            não se transformam em câncer.
+            Fibroids are not cancer and almost never become malignant.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Nem sempre causam sintomas
+            Common symptoms
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Muitas pessoas com miomas não apresentam
-            sintomas.
-
+            When symptoms occur, they often include:
             {'\n\n'}
-
-            Quando não causam desconforto ou alterações
-            importantes, o profissional de saúde pode
-            apenas acompanhar a evolução dos miomas.
+            • Heavy or prolonged menstrual bleeding, sometimes leading to anemia;
+            {'\n'}
+            • Pelvic pressure, fullness, or pain;
+            {'\n'}
+            • Frequent urination or difficulty emptying the bladder;
+            {'\n'}
+            • Constipation or rectal pressure;
+            {'\n'}
+            • Lower backaches or leg pains;
+            {'\n'}
+            • Pain during sexual intercourse.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Principais sintomas
+            Types based on location
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Quando aparecem, os sintomas podem incluir:
-
+            • Submucosal fibroids: Grow into the inner cavity of the uterus, commonly causing heavy bleeding and fertility difficulties.
             {'\n\n'}
-
-            • Menstruação muito intensa;
-
-            {'\n'}
-
-            • Menstruação prolongada;
-
-            {'\n'}
-
-            • Cólicas ou dor pélvica;
-
-            {'\n'}
-
-            • Sensação de pressão ou peso na pelve;
-
-            {'\n'}
-
-            • Aumento da frequência urinária;
-
-            {'\n'}
-
-            • Constipação;
-
-            {'\n'}
-
-            • Dor durante a relação sexual;
-
-            {'\n'}
-
-            • Dificuldade para engravidar em alguns casos.
+            • Intramural fibroids: Grow within the muscular uterine wall, causing fullness and bleeding.
+            {'\n\n'}
+            • Subserosal fibroids: Project on the outer surface of the uterus, pressing against bladder or bowel.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Tipos de miomas
+            Treatment options
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Os miomas podem ser classificados de acordo
-            com a região do útero onde estão localizados.
-
+            Treatment is tailored to symptoms, fibroid size, and fertility goals:
             {'\n\n'}
-
-            • Intramural: localizado na parede muscular
-            do útero;
-
+            • Watchful waiting for asymptomatic fibroids;
             {'\n'}
-
-            • Submucoso: cresce em direção à cavidade
-            uterina;
-
+            • Medications (hormonal therapies, tranexamic acid, GnRH agonists);
             {'\n'}
-
-            • Subseroso: cresce em direção à parte externa
-            do útero.
-
-            {'\n\n'}
-
-            A localização e o tamanho podem influenciar
-            os sintomas apresentados.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Miomas e fertilidade
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            A presença de um mioma não significa
-            necessariamente que haverá dificuldade
-            para engravidar.
-
-            {'\n\n'}
-
-            Entretanto, alguns miomas, principalmente
-            dependendo da localização e do tamanho,
-            podem interferir na fertilidade ou na gestação.
-
-            {'\n\n'}
-
-            A avaliação deve ser individualizada.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como é feito o diagnóstico?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O diagnóstico normalmente começa com uma
-            avaliação dos sintomas e do histórico de saúde.
-
-            {'\n\n'}
-
-            Exames de imagem, como a ultrassonografia,
-            podem ajudar a identificar o tamanho, a
-            localização e a quantidade de miomas.
-
-            {'\n\n'}
-
-            Outros exames podem ser solicitados dependendo
-            da situação.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Tratamento
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Nem todo mioma precisa de tratamento.
-
-            {'\n\n'}
-
-            Quando existem sintomas, o tratamento pode
-            incluir medicamentos para controlar sangramentos
-            ou dores.
-
-            {'\n\n'}
-
-            Em determinadas situações, procedimentos
-            minimamente invasivos ou cirurgia podem ser
-            considerados.
-
-            {'\n\n'}
-
-            A escolha depende dos sintomas, tamanho e
-            localização dos miomas, além dos objetivos
-            da pessoa.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure avaliação profissional se houver:
-
-            {'\n\n'}
-
-            • Sangramento menstrual muito intenso;
-
+            • Non-invasive procedures like Uterine Artery Embolization (UAE);
             {'\n'}
-
-            • Menstruação que dura muitos dias;
-
-            {'\n'}
-
-            • Cólicas ou dor pélvica intensa;
-
-            {'\n'}
-
-            • Sensação persistente de pressão na pelve;
-
-            {'\n'}
-
-            • Sangramento fora do período menstrual;
-
-            {'\n'}
-
-            • Sintomas de anemia, como cansaço excessivo
-            ou fraqueza;
-
-            {'\n'}
-
-            • Dificuldade para engravidar.
+            • Surgical options (myomectomy to remove fibroids while keeping the uterus, or hysterectomy).
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Miomas são comuns e geralmente benignos.
-            A presença de um mioma não significa
-            necessariamente que exista um problema grave
-            ou que seja necessário realizar cirurgia.
+            Fibroids are benign and very common. If you have heavy bleeding or pelvic pressure, consult your gynecologist to review personalized treatment options.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

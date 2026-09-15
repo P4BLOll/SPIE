@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function PrenatalCareScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,292 +31,94 @@ export default function PrenatalCareScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="medical-outline"
             size={55}
             color="#EC4899"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Pré-natal
+            Prenatal Care
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda a importância do acompanhamento
-            durante a gravidez.
+            Understand the vital importance of healthcare visits and screenings throughout pregnancy.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é o pré-natal?
+            What is prenatal care?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O pré-natal é o acompanhamento de saúde
-            realizado durante a gravidez.
-
+            Prenatal care encompasses comprehensive medical oversight and guidance provided during pregnancy.
             {'\n\n'}
-
-            Ele permite acompanhar a saúde da gestante
-            e o desenvolvimento do bebê ao longo da
-            gestação.
-
-            {'\n\n'}
-
-            As consultas podem incluir avaliações,
-            orientações e exames de acordo com as
-            necessidades de cada gestação.
+            It protects the health of both parent and child, lowering risks of complications and ensuring healthy fetal development.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quando começar?
+            When should prenatal care begin?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O ideal é iniciar o acompanhamento assim que
-            a gravidez for confirmada.
-
+            Schedule your first prenatal consultation as soon as you have a positive pregnancy test.
             {'\n\n'}
-
-            Quanto mais cedo o pré-natal começar,
-            maiores são as oportunidades de acompanhar
-            a gestação desde o início.
-
-            {'\n\n'}
-
-            Se você suspeita que está grávida, procure
-            um serviço de saúde para receber orientação.
+            Starting early allows your doctor to evaluate medical history, prescribe necessary vitamins, and order baseline blood and urine panels.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que acontece nas consultas?
+            What happens during appointments?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Durante as consultas, o profissional pode
-            avaliar diferentes aspectos da saúde da
-            gestante.
-
+            Routine evaluations typically include:
             {'\n\n'}
-
-            Dependendo da etapa da gravidez, podem ser
-            avaliados:
-
-            {'\n\n'}
-
-            • Pressão arterial;
-
+            • Blood pressure and weight checks;
             {'\n'}
-
-            • Peso;
-
+            • Measuring fundal height to track uterine growth;
             {'\n'}
-
-            • Crescimento e desenvolvimento da gestação;
-
+            • Listening to the fetal heartbeat with a Doppler;
             {'\n'}
-
-            • Sintomas apresentados;
-
+            • Screening for gestational diabetes and preeclampsia;
             {'\n'}
-
-            • Resultados de exames;
-
+            • Reviewing vaccination status (e.g., Tdap, flu);
             {'\n'}
-
-            • Vacinação;
-
-            {'\n'}
-
-            • Alimentação e hábitos de vida.
+            • Addressing emotional health, sleep, and nutrition.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Exames durante a gravidez
+            Ultrasound scans
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Durante o pré-natal, diferentes exames podem
-            ser solicitados.
-
+            Obstetric ultrasounds use safe sound waves to visualize the baby.
             {'\n\n'}
-
-            Eles podem ajudar a acompanhar a saúde da
-            gestante e identificar possíveis alterações.
-
-            {'\n\n'}
-
-            A quantidade e o tipo de exames dependem
-            da fase da gestação e das características
-            de cada pessoa.
-
-            {'\n\n'}
-
-            Siga as orientações do profissional que
-            acompanha o pré-natal.
+            Common scans include the first-trimester dating scan, nuchal translucency screening, and the comprehensive 20-week mid-pregnancy anatomy survey.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Ultrassonografia
+            Emotional wellbeing
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A ultrassonografia utiliza ondas sonoras
-            para produzir imagens do interior do corpo.
-
+            Hormonal changes combined with life transitions can induce emotional shifts.
             {'\n\n'}
-
-            Durante a gravidez, pode ser utilizada para
-            acompanhar o desenvolvimento da gestação
-            e avaliar diferentes estruturas.
-
-            {'\n\n'}
-
-            O momento e a quantidade de exames são
-            definidos de acordo com a necessidade clínica.
+            Perinatal depression and anxiety are common and highly treatable. Always share feelings of persistent sadness, panic, or overwhelm with your care team.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Vacinação
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Algumas vacinas são importantes durante
-            a gravidez para proteger a gestante e o bebê.
-
-            {'\n\n'}
-
-            O calendário pode variar de acordo com
-            as recomendações de saúde e a situação
-            individual.
-
-            {'\n\n'}
-
-            Não tome ou deixe de tomar uma vacina por
-            conta própria. Converse com o profissional
-            responsável pelo seu acompanhamento.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Alimentação e suplementos
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Uma alimentação equilibrada contribui para
-            a saúde durante a gestação.
-
-            {'\n\n'}
-
-            Alguns nutrientes podem precisar de atenção
-            especial durante a gravidez.
-
-            {'\n\n'}
-
-            Suplementos, como ácido fólico ou ferro,
-            podem ser recomendados dependendo da
-            avaliação profissional.
-
-            {'\n\n'}
-
-            Não utilize suplementos por conta própria.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Saúde emocional
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            A gravidez pode trazer mudanças físicas,
-            emocionais e sociais.
-
-            {'\n\n'}
-
-            Sentir diferentes emoções durante esse
-            período pode acontecer.
-
-            {'\n\n'}
-
-            Caso sentimentos de tristeza, ansiedade,
-            medo ou preocupação estejam intensos ou
-            atrapalhem sua rotina, converse com um
-            profissional de saúde.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Não falte às consultas
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O acompanhamento regular permite observar
-            a evolução da gestação e identificar possíveis
-            alterações.
-
-            {'\n\n'}
-
-            Mesmo quando a gestante está se sentindo
-            bem, as consultas continuam sendo importantes.
-
-            {'\n\n'}
-
-            Se não puder comparecer, procure remarcar
-            a consulta.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            O pré-natal é uma das principais formas de
-            acompanhar a saúde da gestante e do bebê.
-            Procure um serviço de saúde assim que a
-            gravidez for confirmada.
+            Consistent prenatal visits are the single most effective safeguard for maternal and infant health. Attend all scheduled visits and reach out to your provider with questions.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

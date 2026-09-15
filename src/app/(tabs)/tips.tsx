@@ -39,71 +39,71 @@ const categorias: Category[] = [
 
   {
     icon: 'calendar-outline',
-    title: 'Ciclo menstrual',
+    title: 'Menstrual cycle',
     description:
-      'Entenda as fases, sintomas e alterações do seu ciclo.',
+      'Understand the phases, symptoms, and changes of your cycle.',
     color: cycleColors.rose,
     softColor: cycleColors.roseSoft,
 
     items: [
       {
         icon: 'calendar-outline',
-        title: 'Visão geral do ciclo',
+        title: 'Cycle overview',
         route: '/tips/cycle/cycle-overview',
       },
       {
         icon: 'layers-outline',
-        title: 'Fases do ciclo',
+        title: 'Cycle phases',
         route: '/tips/cycle/cycle',
       },
       {
         icon: 'water-outline',
-        title: 'Fluxo menstrual',
+        title: 'Menstrual flow',
         route: '/tips/cycle/flow',
       },
       {
         icon: 'flash-outline',
-        title: 'Cólicas menstruais',
+        title: 'Menstrual cramps',
         route: '/tips/cycle/menstrual-cramps',
       },
       {
         icon: 'ellipse-outline',
-        title: 'Coágulos menstruais',
+        title: 'Menstrual clots',
         route: '/tips/cycle/clots',
       },
       {
         icon: 'trending-up-outline',
-        title: 'Fluxo menstrual intenso',
+        title: 'Heavy menstrual flow',
         route: '/tips/cycle/heavy-menstrual-flow',
       },
       {
         icon: 'warning-outline',
-        title: 'TDPM (PMDD)',
+        title: 'PMDD (Premenstrual Dysphoric Disorder)',
         route: '/tips/cycle/pmdd',
       },
       {
         icon: 'water-outline',
-        title: 'Muco cervical',
+        title: 'Cervical mucus',
         route: '/tips/cycle/cervical-mucus',
       },
       {
         icon: 'egg-outline',
-        title: 'Ovulação',
+        title: 'Ovulation',
         route: '/tips/cycle/ovulation',
       },
       {
         icon: 'water-outline',
-        title: 'Fase menstrual',
+        title: 'Menstrual phase',
         route: '/tips/cycle/menstrual-phase',
       },
       {
         icon: 'leaf-outline',
-        title: 'Fase folicular',
+        title: 'Follicular phase',
         route: '/tips/cycle/follicular-phase',
       },
       {
         icon: 'moon-outline',
-        title: 'Fase lútea',
+        title: 'Luteal phase',
         route: '/tips/cycle/luteal-phase',
       },
     ],
@@ -115,46 +115,46 @@ const categorias: Category[] = [
 
   {
     icon: 'water-outline',
-    title: 'Menstruação',
+    title: 'Menstruation',
     description:
-      'Conheça melhor o sangramento e suas variações.',
+      'Learn more about bleeding and its natural variations.',
     color: cycleColors.lavender,
     softColor: cycleColors.lavenderSoft,
 
     items: [
       {
         icon: 'color-palette-outline',
-        title: 'Cor do sangue menstrual',
+        title: 'Menstrual blood color',
         route: '/tips/menstrual/bleeding',
       },
       {
         icon: 'flash-outline',
-        title: 'Cólicas menstruais',
+        title: 'Menstrual cramps',
         route: '/tips/menstrual/cramps',
       },
       {
         icon: 'calendar-outline',
-        title: 'Menstruação irregular',
+        title: 'Irregular periods',
         route: '/tips/menstrual/irregular-period',
       },
       {
         icon: 'sad-outline',
-        title: 'TPM',
+        title: 'PMS',
         route: '/tips/menstrual/pms',
       },
       {
         icon: 'water-outline',
-        title: 'Sangramento de escape',
+        title: 'Spotting',
         route: '/tips/menstrual/spotting',
       },
       {
         icon: 'time-outline',
-        title: 'Menstruação atrasada',
+        title: 'Late period',
         route: '/tips/menstrual/late-period',
       },
       {
         icon: 'calendar-clear-outline',
-        title: 'Amenorreia',
+        title: 'Amenorrhea',
         route: '/tips/menstrual/amenorrhea',
       },
     ],
@@ -166,41 +166,41 @@ const categorias: Category[] = [
 
   {
     icon: 'bag-outline',
-    title: 'Produtos menstruais',
+    title: 'Menstrual products',
     description:
-      'Conheça diferentes opções para cuidar da sua menstruação.',
+      'Explore different options for managing your period.',
     color: cycleColors.teal,
     softColor: cycleColors.tealSoft,
 
     items: [
       {
         icon: 'apps-outline',
-        title: 'Conheça os produtos menstruais',
+        title: 'Explore menstrual products',
         route: '/tips/menstrual-products/products',
       },
       {
         icon: 'layers-outline',
-        title: 'Absorventes externos',
+        title: 'Pads',
         route: '/tips/menstrual-products/pads',
       },
       {
         icon: 'ellipse-outline',
-        title: 'Absorventes internos',
+        title: 'Tampons',
         route: '/tips/menstrual-products/tampons',
       },
       {
         icon: 'radio-button-on-outline',
-        title: 'Coletor menstrual',
+        title: 'Menstrual cup',
         route: '/tips/menstrual-products/menstrual-cup',
       },
       {
         icon: 'disc-outline',
-        title: 'Disco menstrual',
+        title: 'Menstrual disc',
         route: '/tips/menstrual-products/menstrual-disc',
       },
       {
         icon: 'shirt-outline',
-        title: 'Calcinha menstrual',
+        title: 'Period underwear',
         route: '/tips/menstrual-products/period-underwear',
       },
     ],
@@ -212,46 +212,46 @@ const categorias: Category[] = [
 
   {
     icon: 'heart-circle-outline',
-    title: 'Gravidez',
+    title: 'Pregnancy',
     description:
-      'Informações sobre gravidez, testes e cuidados.',
+      'Information on pregnancy, testing, and prenatal care.',
     color: '#EC4899',
     softColor: 'rgba(236,72,153,0.15)',
 
     items: [
       {
         icon: 'heart-outline',
-        title: 'Gravidez',
+        title: 'Pregnancy',
         route: '/tips/pregnancy/pregnancy',
       },
       {
         icon: 'thermometer-outline',
-        title: 'Sinais e sintomas da gravidez',
+        title: 'Signs and symptoms of pregnancy',
         route: '/tips/pregnancy/pregnancy-signs',
       },
       {
         icon: 'flask-outline',
-        title: 'Teste de gravidez',
+        title: 'Pregnancy tests',
         route: '/tips/pregnancy/pregnancy-test',
       },
       {
         icon: 'calendar-outline',
-        title: 'Semanas de gravidez',
+        title: 'Pregnancy weeks',
         route: '/tips/pregnancy/pregnancy-weeks',
       },
       {
         icon: 'heart-circle-outline',
-        title: 'Início da gravidez',
+        title: 'Early pregnancy',
         route: '/tips/pregnancy/early-pregnancy',
       },
       {
         icon: 'medical-outline',
-        title: 'Pré-natal',
+        title: 'Prenatal care',
         route: '/tips/pregnancy/prenatal-care',
       },
       {
         icon: 'warning-outline',
-        title: 'Sinais de alerta na gravidez',
+        title: 'Pregnancy warning signs',
         route: '/tips/pregnancy/pregnancy-warning-signs',
       },
     ],
@@ -263,46 +263,46 @@ const categorias: Category[] = [
 
   {
     icon: 'bug-outline',
-    title: 'Infecções',
+    title: 'Infections',
     description:
-      'Conheça sinais, sintomas e cuidados relacionados a infecções.',
+      'Learn signs, symptoms, and care regarding infections.',
     color: '#F97316',
     softColor: 'rgba(249,115,22,0.15)',
 
     items: [
       {
         icon: 'water-outline',
-        title: 'Secreção vaginal',
+        title: 'Vaginal discharge',
         route: '/tips/infections/secretion',
       },
       {
         icon: 'warning-outline',
-        title: 'Secreções anormais',
+        title: 'Abnormal discharge',
         route: '/tips/infections/abnormal-discharge',
       },
       {
         icon: 'bug-outline',
-        title: 'Tricomoníase',
+        title: 'Trichomoniasis',
         route: '/tips/infections/trichomoniasis',
       },
       {
         icon: 'bacteria-outline',
-        title: 'Vaginose bacteriana',
+        title: 'Bacterial vaginosis',
         route: '/tips/infections/bacterial-vaginosis',
       },
       {
         icon: 'flower-outline',
-        title: 'Candidíase',
+        title: 'Candidiasis (Yeast infection)',
         route: '/tips/infections/candidiasis',
       },
       {
         icon: 'medical-outline',
-        title: 'Clamídia',
+        title: 'Chlamydia',
         route: '/tips/infections/chlamydia',
       },
       {
         icon: 'flame-outline',
-        title: 'Herpes genital',
+        title: 'Genital herpes',
         route: '/tips/infections/genital-herpes',
       },
       {
@@ -312,12 +312,12 @@ const categorias: Category[] = [
       },
       {
         icon: 'bug-outline',
-        title: 'Gonorreia',
+        title: 'Gonorrhea',
         route: '/tips/infections/gonorrhea',
       },
       {
         icon: 'shield-outline',
-        title: 'Prevenção de ISTs',
+        title: 'STI prevention',
         route: '/tips/infections/sti-prevention',
       },
     ],
@@ -329,46 +329,46 @@ const categorias: Category[] = [
 
   {
     icon: 'medical-outline',
-    title: 'Saúde ginecológica',
+    title: 'Gynecological health',
     description:
-      'Informações sobre condições que podem afetar a saúde ginecológica.',
+      'Information on conditions affecting gynecological health.',
     color: '#8B5CF6',
     softColor: 'rgba(139,92,246,0.15)',
 
     items: [
       {
         icon: 'ellipse-outline',
-        title: 'SOP — Síndrome dos Ovários Policísticos',
+        title: 'PCOS — Polycystic Ovary Syndrome',
         route: '/tips/gynecological/pcos',
       },
       {
         icon: 'body-outline',
-        title: 'Adenomiose',
+        title: 'Adenomyosis',
         route: '/tips/gynecological/adenomyosis',
       },
       {
         icon: 'medical-outline',
-        title: 'Endometriose',
+        title: 'Endometriosis',
         route: '/tips/gynecological/endometriosis',
       },
       {
         icon: 'ellipse-outline',
-        title: 'Cistos ovarianos',
+        title: 'Ovarian cysts',
         route: '/tips/gynecological/ovarian-cysts',
       },
       {
         icon: 'warning-outline',
-        title: 'Inflamação pélvica',
+        title: 'Pelvic inflammatory disease',
         route: '/tips/gynecological/pelvic-inflammatory-disease',
       },
       {
         icon: 'layers-outline',
-        title: 'Miomas uterinos',
+        title: 'Uterine fibroids',
         route: '/tips/gynecological/uterine-fibroids',
       },
       {
         icon: 'ellipse-outline',
-        title: 'Pólipos uterinos',
+        title: 'Uterine polyps',
         route: '/tips/gynecological/uterine-polyps',
       },
     ],
@@ -380,46 +380,46 @@ const categorias: Category[] = [
 
  {
   icon: 'sparkles-outline',
-  title: 'Cuidados íntimos',
+  title: 'Intimate care',
   description:
-    'Hábitos e cuidados para manter a saúde da região íntima.',
+    'Habits and routines to maintain intimate health.',
   color: cycleColors.gold,
   softColor: cycleColors.goldSoft,
 
   items: [
     {
       icon: 'water-outline',
-      title: 'Higiene íntima',
+      title: 'Intimate hygiene',
       route: '/tips/intimate-care/menstrual-hygiene',
     },
 
     {
       icon: 'bandage-outline',
-      title: 'Coceira e Irritação',
+      title: 'Itching and Irritation',
       route: '/tips/intimate-care/vaginal-irritation',
     },
 
     {
       icon: 'flower-outline',
-      title: 'Alteração no Odor',
+      title: 'Odor Changes',
       route: '/tips/intimate-care/vaginal-odor',
     },
 
     {
       icon: 'calendar-outline',
-      title: 'Cuidados com absorventes',
+      title: 'Menstrual pad care',
       route: '/tips/intimate-care/menstrual-pads-care',
     },
 
     {
       icon: 'shirt-outline',
-      title: 'Higiene da roupa íntima',
+      title: 'Underwear hygiene',
       route: '/tips/intimate-care/underwear-hygiene',
     },
 
     {
       icon: 'body-outline',
-      title: 'Cuidados íntimos no dia a dia',
+      title: 'Daily intimate care',
       route: '/tips/intimate-care/intimate-care-daily',
     },
   ],
@@ -446,11 +446,11 @@ export default function TipsScreen() {
         ====================================== */}
         <View style={styles.topHeader}>
           <Text style={styles.eyebrow}>
-            APRENDA MAIS
+            LEARN MORE
           </Text>
 
           <Text style={styles.title}>
-            Dicas
+            Tips
           </Text>
         </View>
 
@@ -459,8 +459,8 @@ export default function TipsScreen() {
           contentContainerStyle={styles.container}
         >
           <Text style={styles.subtitle}>
-            Explore conteúdos sobre seu ciclo menstrual,
-            saúde íntima, gravidez e bem-estar.
+            Explore guides on your menstrual cycle,
+            intimate health, pregnancy, and wellness.
           </Text>
 
           {categorias.map((categoria, index) => {

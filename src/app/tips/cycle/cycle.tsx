@@ -19,30 +19,30 @@ export default function CycleTipsScreen() {
 
     {
       icon: 'water-outline',
-      title: 'Menstruação',
+      title: 'Menstruation',
       text:
-        'Ocorre quando o revestimento interno do útero é eliminado, causando o sangramento menstrual. Essa fase marca o início de um novo ciclo.'
+        'Occurs when the inner lining of the uterus sheds, causing menstrual bleeding. This phase marks the start of a new cycle.'
     },
 
     {
       icon: 'leaf-outline',
-      title: 'Fase folicular',
+      title: 'Follicular phase',
       text:
-        'Após a menstruação, o corpo começa a preparar um novo óvulo. Durante essa fase, os hormônios estimulam o desenvolvimento dos folículos nos ovários.'
+        'After menstruation, the body prepares a new egg. During this phase, hormones stimulate the development of follicles in the ovaries.'
     },
 
     {
       icon: 'sunny-outline',
-      title: 'Ovulação',
+      title: 'Ovulation',
       text:
-        'É o momento em que o ovário libera um óvulo. Algumas pessoas percebem mudanças na secreção vaginal, temperatura corporal ou sensibilidade nos seios.'
+        'The moment an ovary releases a mature egg. You may notice shifts in cervical mucus, basal body temperature, or breast sensitivity.'
     },
 
     {
       icon: 'moon-outline',
-      title: 'Fase lútea',
+      title: 'Luteal phase',
       text:
-        'Após a ovulação, o corpo se prepara para uma possível gravidez. Podem surgir sintomas como TPM, cólicas, inchaço e alterações de humor.'
+        'After ovulation, the body prepares for potential pregnancy. Symptoms such as PMS, mild cramping, bloating, and mood fluctuations may arise.'
     },
   ];
 
@@ -76,12 +76,11 @@ export default function CycleTipsScreen() {
           />
 
           <Text style={cycleStyles.title}>
-            Entenda seu ciclo
+            Understand your cycle
           </Text>
 
           <Text style={cycleStyles.subtitle}>
-            O ciclo menstrual possui diferentes fases
-            e cada uma pode trazer mudanças no corpo.
+            The menstrual cycle has distinct phases, each bringing natural changes to your body and energy.
           </Text>
         </View>
 

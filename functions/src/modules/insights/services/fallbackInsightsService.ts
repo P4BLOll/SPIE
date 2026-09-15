@@ -3,41 +3,46 @@ import { CycleMetrics, SafetyRulesOutput, SmartInsightResult } from '../types/in
 export const fallbackInsightsService = {
   gerarInsight(metricas: CycleMetrics, seguranca: SafetyRulesOutput): SmartInsightResult {
     // 1. Resumo da Fase
-    let resumoFase = 'Continue registrando suas informações no calendário para acompanhar as fases do seu ciclo.';
-    if (metricas.diaDoCiclo && metricas.faseAtual !== 'Sem dados') {
-      resumoFase = `Você está no dia ${metricas.diaDoCiclo} do seu ciclo de ${metricas.duracaoCiclo} dias, correspondente à ${metricas.faseAtual.toLowerCase()}.`;
+    let resumoFase = 'Keep logging your information in the calendar to track your cycle phases.';
+    if (metricas.diaDoCiclo && metricas.faseAtual !== 'Sem dados' && metricas.faseAtual !== 'No data') {
+      resumoFase = `You are on day ${metricas.diaDoCiclo} of your ${metricas.duracaoCiclo}-day cycle (${metricas.faseAtual.toLowerCase()}).`;
     }
 
     // 2. Padrão Observado
-    let padraoObservado = 'Ainda estamos mapeando os padrões do seu corpo. Registre sintomas e humor regularmente.';
+    let padraoObservado = 'We are still mapping your body patterns. Log symptoms and mood regularly.';
     const principalSintoma = metricas.sintomasFrequentes[0];
 
     if (principalSintoma && metricas.humorPredominante) {
-      padraoObservado = `Seu sintoma mais registrado até o momento é ${principalSintoma.sintoma.toLowerCase()} (${principalSintoma.contagem}x), predominantemente na ${principalSintoma.fasePredominante.toLowerCase()}, com humor predominante de ${metricas.humorPredominante.toLowerCase()}.`;
+      padraoObservado = `Your most logged symptom so far is ${principalSintoma.sintoma.toLowerCase()} (${principalSintoma.contagem}x), predominantly during ${principalSintoma.fasePredominante.toLowerCase()}, with predominant mood ${metricas.humorPredominante.toLowerCase()}.`;
     } else if (principalSintoma) {
-      padraoObservado = `O sintoma mais frequente nos seus registros é ${principalSintoma.sintoma.toLowerCase()}, relatado ${principalSintoma.contagem} ${principalSintoma.contagem === 1 ? 'vez' : 'vezes'}.`;
+      padraoObservado = `The most frequent symptom in your logs is ${principalSintoma.sintoma.toLowerCase()}, reported ${principalSintoma.contagem} ${principalSintoma.contagem === 1 ? 'time' : 'times'}.`;
     } else if (metricas.humorPredominante) {
-      padraoObservado = `O humor mais comum registrado nos seus dias recentes foi ${metricas.humorPredominante.toLowerCase()}.`;
+      padraoObservado = `The most common mood in your recent logs was ${metricas.humorPredominante.toLowerCase()}.`;
     }
 
     // 3. Dica de Bem-Estar
-    let dicaBemEstar = 'Beba água regularmente e mantenha registros diários para refinar suas previsões.';
+    let dicaBemEstar = 'Drink water regularly and keep daily logs to refine your predictions.';
     switch (metricas.faseAtual) {
+      case 'Menstruation':
       case 'Menstruação':
-        dicaBemEstar = 'Priorize momentos de descanso, mantenha boa hidratação e utilize compressas mornas na região pélvica se sentir desconforto.';
+        dicaBemEstar = 'Prioritize restful moments, stay well hydrated, and use gentle pelvic warmth if feeling discomfort.';
         break;
+      case 'Follicular phase':
       case 'Fase folicular':
-        dicaBemEstar = 'Este período costuma ser acompanhado de boa disposição. É uma ótima fase para manter uma rotina de atividades físicas e alimentação equilibrada.';
+        dicaBemEstar = 'This phase often comes with higher energy. A great time to maintain physical activity and balanced nutrition.';
         break;
+      case 'Fertile window':
       case 'Período fértil':
+      case 'Ovulation':
       case 'Ovulação':
-        dicaBemEstar = 'Mantenha-se bem hidratada e atenta aos sinais naturais do seu corpo durante estes dias.';
+        dicaBemEstar = 'Stay well hydrated and attentive to your body natural signals during these days.';
         break;
+      case 'Luteal phase':
       case 'Fase lútea':
-        dicaBemEstar = 'Priorize alimentos frescos, chás relaxantes e uma boa rotina de sono para auxiliar no alívio de eventuais inchaços ou tensões.';
+        dicaBemEstar = 'Prioritize light meals, calming teas, and good sleep habits to help ease potential bloating or tension.';
         break;
       default:
-        dicaBemEstar = 'O autocuidado diário e a observação da sua rotina ajudam você a conhecer melhor o seu ritmo.';
+        dicaBemEstar = 'Daily self-care and tracking your routine helps you better understand your body rhythm.';
         break;
     }
 
@@ -45,9 +50,9 @@ export const fallbackInsightsService = {
     let notaAcompanhamento: string | null = null;
     if (seguranca.sugerirConsultaMedica) {
       if (metricas.diasAtraso && metricas.diasAtraso >= 7) {
-        notaAcompanhamento = `Notamos um atraso de ${metricas.diasAtraso} dias em relação à data estimada. Se essa variação persistir ou for incomum no seu histórico, considere conversar com um profissional de saúde.`;
+        notaAcompanhamento = `We noticed your period is ${metricas.diasAtraso} days past the expected date. If this variation persists or is unusual for you, consider consulting a healthcare professional.`;
       } else {
-        notaAcompanhamento = 'Você registrou desconfortos com certa frequência nos últimos dias. Se esses sintomas forem intensos ou persistentes, considere levar esse histórico em uma consulta com seu ginecologista.';
+        notaAcompanhamento = 'You have logged discomforts frequently over recent days. If these symptoms are intense or persistent, consider discussing them with your gynecologist.';
       }
     }
 

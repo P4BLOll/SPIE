@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function EarlyPregnancyScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,287 +31,108 @@ export default function EarlyPregnancyScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="heart-outline"
             size={55}
             color="#EC4899"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Início da gravidez
+            Early Pregnancy
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Saiba o que pode acontecer nas primeiras
-            semanas da gestação.
+            Learn what to expect during the crucial first weeks of pregnancy.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que acontece no início?
+            What happens in the early weeks?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            As primeiras semanas são marcadas por
-            mudanças importantes no organismo.
-
+            The first weeks involve transformative biological changes.
             {'\n\n'}
-
-            Após a fecundação, o embrião passa por
-            processos de desenvolvimento e implantação
-            no útero.
-
+            Following fertilization, the blastocyst travels to the uterus and implants into the endometrium.
             {'\n\n'}
-
-            Ao mesmo tempo, o corpo começa a produzir
-            alterações hormonais que ajudam a manter
-            a gestação.
+            Surges in human chorionic gonadotropin (hCG), progesterone, and estrogen rapidly begin remodeling the maternal body to support embryo growth.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Sintomas comuns
+            Common early symptoms
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas pessoas podem apresentar:
-
+            While some feel no symptoms at all, others experience:
             {'\n\n'}
-
-            • Atraso menstrual;
-
+            • Missed menstrual period;
             {'\n'}
-
-            • Náuseas ou vômitos;
-
+            • Nausea, with or without vomiting;
             {'\n'}
-
-            • Cansaço;
-
+            • Deep exhaustion or fatigue;
             {'\n'}
-
-            • Sensibilidade ou aumento das mamas;
-
+            • Breast tenderness, swelling, or tingling;
             {'\n'}
-
-            • Maior frequência para urinar;
-
+            • Frequent urination;
             {'\n'}
-
-            • Alterações no apetite;
-
+            • Heightened smell sensitivity;
             {'\n'}
-
-            • Maior sensibilidade a cheiros.
-
-            {'\n\n'}
-
-            Nem todas as pessoas apresentam esses
-            sintomas.
+            • Mild pelvic cramping or light implantation spotting.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Alimentação
+            Folic acid supplementation
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Uma alimentação variada e equilibrada é
-            importante durante a gravidez.
-
+            Folic acid (vitamin B9) is vital during the first weeks of gestation.
             {'\n\n'}
-
-            Procure incluir diferentes grupos de
-            alimentos, como frutas, verduras, legumes,
-            cereais e fontes de proteínas.
-
+            Daily supplementation helps prevent major birth defects of the fetal brain and spine (neural tube defects).
             {'\n\n'}
-
-            O profissional responsável pelo pré-natal
-            pode orientar necessidades específicas
-            de acordo com cada gestação.
+            Healthcare professionals typically recommend 400 to 800 mcg daily, ideally started prior to conception.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Ácido fólico
+            Medications and substances
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O ácido fólico é um nutriente importante
-            durante o início da gravidez.
-
+            Many medications cross the placenta and may impact organ development.
             {'\n\n'}
-
-            A suplementação pode ser recomendada por
-            profissionais de saúde para ajudar na
-            prevenção de alterações no desenvolvimento
-            do tubo neural.
-
+            Review all prescription drugs, over-the-counter remedies, and herbal supplements with your physician as soon as you know you are pregnant.
             {'\n\n'}
-
-            A dose e a forma de utilização devem ser
-            orientadas por um profissional.
+            Strictly avoid alcohol, tobacco, and nicotine products.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Medicamentos
+            Warning signs
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Durante a gravidez, medicamentos devem ser
-            utilizados com orientação profissional.
-
+            Seek immediate medical attention if you experience:
             {'\n\n'}
-
-            Alguns medicamentos podem não ser seguros
-            durante a gestação.
-
-            {'\n\n'}
-
-            Se você descobrir que está grávida e utiliza
-            algum medicamento regularmente, informe
-            o profissional que acompanha sua saúde.
+            • Moderate to heavy vaginal bleeding;
+            {'\n'}
+            • Sharp, severe one-sided abdominal or pelvic pain;
+            {'\n'}
+            • Dizziness, fainting, or shoulder tip pain (potential ectopic pregnancy signs);
+            {'\n'}
+            • High fever or persistent, uncontrollable vomiting (hyperemesis gravidarum).
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Álcool, cigarro e outras substâncias
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O consumo de álcool durante a gravidez pode
-            causar danos ao desenvolvimento do bebê.
-
-            {'\n\n'}
-
-            O tabagismo também está associado a riscos
-            para a gestação e para o bebê.
-
-            {'\n\n'}
-
-            Outras substâncias também podem oferecer
-            riscos.
-
-            {'\n\n'}
-
-            Procure orientação profissional caso tenha
-            dificuldade para interromper algum consumo.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Atividade física
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Em muitas gestações, atividades físicas
-            adequadas podem fazer parte da rotina.
-
-            {'\n\n'}
-
-            Entretanto, o tipo e a intensidade da atividade
-            devem considerar as condições de cada pessoa.
-
-            {'\n\n'}
-
-            Converse com o profissional responsável pelo
-            pré-natal antes de iniciar ou modificar uma
-            rotina de exercícios.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Comece o pré-natal
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Assim que a gravidez for confirmada, procure
-            um serviço de saúde para iniciar o
-            acompanhamento pré-natal.
-
-            {'\n\n'}
-
-            As consultas permitem acompanhar a saúde
-            da gestante e o desenvolvimento da gravidez.
-
-            {'\n\n'}
-
-            Também é possível receber orientações sobre
-            exames, alimentação, vacinação e outros
-            cuidados importantes.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Sangramento e dor
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Sangramento ou dor durante o início da
-            gravidez não devem ser ignorados.
-
-            {'\n\n'}
-
-            Pequenas alterações podem ter diferentes
-            causas, mas sangramento intenso, dor forte,
-            tontura, desmaio ou piora dos sintomas
-            precisam de avaliação médica.
-
-            {'\n\n'}
-
-            Em caso de sintomas importantes, procure
-            atendimento imediatamente.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            As primeiras semanas são importantes para
-            o desenvolvimento da gestação. Procure
-            iniciar o pré-natal o quanto antes e siga
-            as orientações do profissional de saúde.
+            The early weeks establish the foundation for a healthy pregnancy. Start prenatal care promptly and consult your doctor regarding essential supplements and routines.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

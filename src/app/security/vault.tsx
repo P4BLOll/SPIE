@@ -19,8 +19,8 @@ export default function VaultScreen() {
               <Ionicons name="lock-closed" size={34} color="#FFFFFF" />
             </View>
 
-            <Text style={styles.title}>Cofre Seguro</Text>
-            <Text style={styles.subtitle}>Seus dados sensíveis protegidos.</Text>
+            <Text style={styles.title}>Secure Vault</Text>
+            <Text style={styles.subtitle}>Your sensitive data is protected.</Text>
           </View>
 
           <View style={styles.vaultCard}>
@@ -30,9 +30,9 @@ export default function VaultScreen() {
               </View>
 
               <View style={styles.vaultText}>
-                <Text style={styles.cardTitle}>Informações médicas</Text>
+                <Text style={styles.cardTitle}>Medical Information</Text>
                 <Text style={styles.cardText}>
-                  Dados importantes para situações de emergência.
+                  Critical information for emergency situations.
                 </Text>
               </View>
             </View>
@@ -43,9 +43,9 @@ export default function VaultScreen() {
               </View>
 
               <View style={styles.vaultText}>
-                <Text style={styles.cardTitle}>Contatos de emergência</Text>
+                <Text style={styles.cardTitle}>Emergency Contacts</Text>
                 <Text style={styles.cardText}>
-                  Pessoas que podem receber alertas.
+                  People who can receive your alerts.
                 </Text>
               </View>
             </View>
@@ -56,9 +56,9 @@ export default function VaultScreen() {
               </View>
 
               <View style={styles.vaultText}>
-                <Text style={styles.cardTitle}>Proteção de dados</Text>
+                <Text style={styles.cardTitle}>Data Protection</Text>
                 <Text style={styles.cardText}>
-                  Informações protegidas dentro do aplicativo.
+                  Protected information stored securely within the app.
                 </Text>
               </View>
             </View>

@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function PregnancyScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,272 +31,127 @@ export default function PregnancyScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="heart-circle-outline"
             size={55}
             color="#EC4899"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Gravidez
+            Pregnancy
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda as principais mudanças que acontecem
-            no corpo durante a gravidez.
+            Understand key changes that occur in the body throughout pregnancy.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é a gravidez?
+            What is pregnancy?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A gravidez começa quando ocorre a fecundação
-            e o embrião se desenvolve no útero.
-
+            Pregnancy begins when fertilization occurs and the resulting embryo implants and develops in the uterus.
             {'\n\n'}
-
-            Durante esse período, o corpo passa por
-            diversas mudanças para permitir o crescimento
-            e o desenvolvimento do bebê.
-
+            During this time, the body undergoes profound physiological changes to nurture and sustain fetal growth.
             {'\n\n'}
-
-            A duração da gestação é geralmente calculada
-            em semanas, contando a partir do primeiro dia
-            da última menstruação.
+            Gestational age is commonly measured in weeks, calculated from the first day of the last menstrual period (LMP).
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como acontece?
+            How it occurs
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Em um ciclo menstrual, a ovulação libera um
-            óvulo.
-
+            During ovulation, a mature egg is released from an ovary.
             {'\n\n'}
-
-            Quando um espermatozoide fecunda esse óvulo,
-            forma-se uma célula que começa a se dividir
-            e se desenvolver.
-
+            When a sperm fertilizes the egg in the fallopian tube, a zygote forms and begins dividing as it travels to the uterus.
             {'\n\n'}
-
-            Posteriormente, o embrião se fixa no
-            revestimento do útero, processo chamado
-            implantação.
+            The blastocyst then embeds itself into the rich uterine lining—a milestone known as implantation.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Primeiras mudanças
+            Early changes
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            No início da gravidez, algumas pessoas podem
-            perceber mudanças no corpo, como:
-
+            In early pregnancy, many notice distinct physical signs:
             {'\n\n'}
-
-            • Atraso menstrual;
-
+            • Missed menstrual period;
             {'\n'}
-
-            • Náuseas;
-
+            • Morning sickness or nausea at any time of day;
             {'\n'}
-
-            • Cansaço;
-
+            • Marked fatigue and sleepiness;
             {'\n'}
-
-            • Maior sensibilidade nas mamas;
-
+            • Breast tenderness and fullness;
             {'\n'}
-
-            • Alterações no apetite;
-
+            • Increased urinary frequency;
             {'\n'}
-
-            • Maior frequência para urinar;
-
-            {'\n'}
-
-            • Mudanças de humor.
-
+            • Food cravings or sudden food aversions.
             {'\n\n'}
-
-            Esses sinais não confirmam uma gravidez
-            sozinhos.
+            Symptoms alone do not confirm pregnancy; testing is required.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Trimestres da gravidez
+            The three trimesters
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A gravidez costuma ser dividida em três
-            trimestres.
-
+            Pregnancy is divided into three trimesters:
             {'\n\n'}
-
-            Primeiro trimestre:
-
+            First trimester (weeks 1–12):
             {'\n'}
-
-            É o período inicial, marcado pela implantação
-            e pelo desenvolvimento inicial do embrião.
-
+            Implantation and critical embryonic organ development.
             {'\n\n'}
-
-            Segundo trimestre:
-
+            Second trimester (weeks 13–27):
             {'\n'}
-
-            O feto continua crescendo e diversas estruturas
-            do corpo continuam se desenvolvendo.
-
+            Rapid fetal growth, anatomical development, and the first flutter of movements (quickening).
             {'\n\n'}
-
-            Terceiro trimestre:
-
+            Third trimester (weeks 28–40+):
             {'\n'}
-
-            O bebê continua ganhando peso e amadurecendo
-            os órgãos enquanto o corpo se prepara para
-            o parto.
+            Fetal weight gain, lung maturation, and the body preparing for labor and birth.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Acompanhamento pré-natal
+            Prenatal care
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O acompanhamento pré-natal é importante
-            durante a gravidez.
-
+            Routine prenatal visits are essential for maternal and fetal wellbeing.
             {'\n\n'}
-
-            Nas consultas, profissionais de saúde podem
-            acompanhar o desenvolvimento da gestação,
-            avaliar a saúde da gestante e solicitar exames
-            quando necessário.
-
-            {'\n\n'}
-
-            O acompanhamento também permite identificar
-            possíveis alterações mais cedo.
+            Clinicians monitor blood pressure, growth, laboratory screenings, and perform periodic ultrasounds to detect and address potential complications early.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Alimentação e cuidados
+            Nutrition and care
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Durante a gravidez, alguns cuidados são
-            especialmente importantes.
-
-            {'\n\n'}
-
-            • Fazer acompanhamento pré-natal;
-
+            • Attend all scheduled prenatal visits;
             {'\n'}
-
-            • Manter uma alimentação equilibrada;
-
+            • Consume a balanced diet with adequate protein, fiber, and micronutrients;
             {'\n'}
-
-            • Manter-se hidratada;
-
+            • Stay consistently hydrated;
             {'\n'}
-
-            • Evitar álcool e outras substâncias
-            prejudiciais;
-
+            • Strictly avoid alcohol, tobacco, and recreational drugs;
             {'\n'}
-
-            • Utilizar medicamentos somente com
-            orientação profissional;
-
-            {'\n'}
-
-            • Seguir as orientações recebidas durante
-            o pré-natal.
+            • Take only doctor-approved medications and supplements.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Gravidez é igual para todas?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Não.
-
-            {'\n\n'}
-
-            Cada gravidez pode apresentar sintomas,
-            mudanças e experiências diferentes.
-
-            {'\n\n'}
-
-            Algumas pessoas apresentam muitos sintomas
-            no início, enquanto outras apresentam poucas
-            mudanças perceptíveis.
-
-            {'\n\n'}
-
-            Por isso, informações encontradas na internet
-            não substituem uma avaliação profissional.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Se houver suspeita de gravidez, um teste
-            apropriado pode ajudar a confirmar a gestação.
-            Em caso de resultado positivo, procure
-            atendimento para iniciar o acompanhamento
-            pré-natal.
+            If you suspect pregnancy, an at-home or clinical pregnancy test provides confirmation. In case of a positive result, schedule a prenatal appointment to begin care promptly.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

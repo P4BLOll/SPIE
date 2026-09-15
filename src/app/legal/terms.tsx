@@ -67,7 +67,7 @@ export default function TermsScreen() {
             </TouchableOpacity>
 
             <Text style={termsStyles.title}>
-              Termos de Uso
+              Terms of Use
             </Text>
 
           </View>
@@ -83,31 +83,31 @@ export default function TermsScreen() {
 
             <Text style={termsStyles.text}>
 
-              Bem-vinda ao SPIE.
+              Welcome to SPIE.
 
               {'\n\n'}
 
-              O SPIE é um aplicativo criado para auxiliar no acompanhamento do ciclo menstrual, registro de sintomas, observação de sinais do corpo e organização das informações relacionadas à saúde íntima.
+              SPIE is an application designed to assist in tracking the menstrual cycle, logging symptoms, observing body signals, and organizing personal intimate health records.
 
               {'\n\n'}
 
-              As informações fornecidas pela usuária são utilizadas para personalizar a experiência dentro do aplicativo e oferecer recursos de acompanhamento menstrual.
+              The information provided by the user is used to personalize the in-app experience and provide menstrual tracking and safety features.
 
               {'\n\n'}
 
-              O SPIE não substitui consultas médicas, diagnósticos profissionais ou tratamentos indicados por profissionais de saúde.
+              SPIE does not replace medical consultations, clinical diagnoses, or treatments prescribed by healthcare professionals.
 
               {'\n\n'}
 
-              As previsões menstruais, períodos férteis e demais estimativas são baseadas nos dados registrados pela própria usuária e podem variar de acordo com cada organismo.
+              Cycle predictions, fertile window estimates, and health forecasts are calculated based on data logged by the user and may naturally vary depending on individual biology.
 
               {'\n\n'}
 
-              A usuária é responsável por manter seus registros atualizados para melhorar a experiência e a precisão das informações.
+              The user is responsible for keeping their logs accurate and up-to-date to ensure optimal tracking precision.
 
               {'\n\n'}
 
-              Ao utilizar o SPIE, a usuária concorda com estes termos e com a utilização dos recursos disponibilizados pelo aplicativo.
+              By using SPIE, you agree to these terms and the use of the features provided by the application.
 
             </Text>
 

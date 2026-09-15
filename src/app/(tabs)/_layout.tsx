@@ -8,7 +8,6 @@ import {
 } from '@/styles/calendar.styles';
 
 import { AppTutorial } from '@/components/AppTutorial';
-import { SecretPinFirstAccessModal } from '@/components/SecretPinFirstAccessModal';
 
 // A tab bar é `position: absolute`, então toda tela com rolagem
 // precisa reservar TAB_BAR_BASE_HEIGHT + insets.bottom no final do
@@ -84,7 +83,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="calendar"
           options={{
-            title: 'Calendário',
+            title: 'Calendar',
 
             tabBarIcon: ({
               color,
@@ -106,7 +105,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="tips"
           options={{
-            title: 'Dicas',
+            title: 'Tips',
 
             tabBarIcon: ({
               color,
@@ -128,7 +127,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="insights"
           options={{
-            title: 'Estatísticas',
+            title: 'Insights',
 
             tabBarIcon: ({
               color,
@@ -150,29 +149,14 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="secret"
           options={{
-            title: 'Secreto',
-
-            tabBarIcon: ({
-              color,
-              focused,
-            }) => (
-              <Ionicons
-                name={
-                  focused
-                    ? 'lock-closed'
-                    : 'lock-closed-outline'
-                }
-                size={24}
-                color={color}
-              />
-            ),
+            href: null,
           }}
         />
 
         <Tabs.Screen
           name="profile"
           options={{
-            title: 'Perfil',
+            title: 'Profile',
 
             tabBarIcon: ({
               color,
@@ -199,7 +183,6 @@ export default function TabsLayout() {
         o tutorial não aparece na tela de login.
       */}
       <AppTutorial />
-      <SecretPinFirstAccessModal />
     </>
   );
 }

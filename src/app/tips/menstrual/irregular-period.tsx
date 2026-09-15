@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function IrregularPeriodScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,258 +31,133 @@ export default function IrregularPeriodScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="calendar-outline"
             size={55}
             color="#8B5CF6"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Menstruação irregular
+            Irregular Periods
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda o que pode causar alterações no ciclo
-            menstrual e quando procurar avaliação.
+            Understand what causes cycle fluctuations and when to seek medical evaluation.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é um ciclo irregular?
+            What is an irregular cycle?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O ciclo menstrual pode variar de uma pessoa
-            para outra e também pode sofrer pequenas
-            alterações ao longo da vida.
-
+            Menstrual cycles naturally vary among individuals and can shift slightly throughout life.
             {'\n\n'}
-
-            Um ciclo é considerado irregular quando existe
-            uma variação frequente ou significativa no
-            intervalo entre as menstruações ou no padrão
-            habitual de sangramento.
-
+            A cycle is considered irregular when there is frequent or significant variability in the interval between periods, duration, or flow volume.
             {'\n\n'}
-
-            Uma alteração isolada não significa
-            necessariamente que exista uma doença.
+            An isolated late or early cycle is common and does not necessarily indicate a health condition.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que pode causar irregularidade?
+            Common causes of irregularity
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Existem diversas causas possíveis, incluindo:
-
+            Multiple factors can alter cycle timing:
             {'\n\n'}
-
-            • Alterações hormonais;
-
+            • Hormonal fluctuations;
             {'\n'}
-
-            • Estresse;
-
+            • High physical or emotional stress;
             {'\n'}
-
-            • Mudanças importantes de peso;
-
+            • Significant weight loss or gain;
             {'\n'}
-
-            • Exercícios físicos muito intensos;
-
+            • Rigorous or intense athletic training;
             {'\n'}
-
-            • Síndrome dos ovários policísticos (SOP);
-
+            • Polycystic Ovary Syndrome (PCOS);
             {'\n'}
-
-            • Alterações da tireoide;
-
+            • Thyroid gland dysfunction;
             {'\n'}
-
-            • Alguns medicamentos;
-
+            • Starting, changing, or discontinuing hormonal contraceptives;
             {'\n'}
-
-            • Uso ou mudança de métodos contraceptivos;
-
+            • Pregnancy or breastfeeding;
             {'\n'}
-
-            • Gravidez;
-
-            {'\n'}
-
-            • Período próximo à menopausa.
+            • Perimenopause transition.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Adolescência
+            Adolescence
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Nos primeiros anos após a primeira menstruação,
-            é comum que os ciclos sejam irregulares.
-
+            During the first few years after menarche (first period), irregular cycles are very common.
             {'\n\n'}
-
-            Isso acontece porque o sistema hormonal ainda
-            está amadurecendo.
-
+            The hypothalamic-pituitary-ovarian hormonal axis is still maturing, often leading to anovulatory cycles.
             {'\n\n'}
-
-            Mesmo assim, alterações muito intensas,
-            sangramentos excessivos ou ausência prolongada
-            de menstruação devem ser avaliados.
+            However, extremely prolonged bleeding, severe pain, or bleeding intervals exceeding 90 days warrant medical review.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Anticoncepcionais podem alterar o ciclo?
+            Can contraceptives affect regularity?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Sim.
-
+            Yes. Hormonal birth control methods (pills, implants, hormonal IUDs, injections) alter bleeding patterns.
             {'\n\n'}
-
-            Alguns métodos contraceptivos podem modificar
-            a quantidade, a duração e a frequência do
-            sangramento.
-
+            Some methods reduce flow, cause light irregular spotting, or eliminate periods entirely, which is often expected.
             {'\n\n'}
-
-            Dependendo do método, pode ocorrer sangramento
-            irregular ou até ausência de menstruação.
-
-            {'\n\n'}
-
-            Essas alterações devem ser discutidas com um
-            profissional quando causarem preocupação ou
-            desconforto.
+            Discuss any concerning or persistent breakthrough bleeding with your prescribing provider.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como acompanhar o ciclo?
+            How to monitor your cycle
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Registrar o ciclo pode ajudar a perceber
-            alterações.
-
+            Logging your cycle consistently provides valuable clarity:
             {'\n\n'}
-
-            Você pode acompanhar:
-
-            {'\n\n'}
-
-            • Primeiro dia da menstruação;
-
+            • First and last day of menstrual bleeding;
             {'\n'}
-
-            • Quantos dias durou o sangramento;
-
+            • Flow intensity and color;
             {'\n'}
-
-            • Intensidade do fluxo;
-
+            • Associated symptoms (cramps, mood, fatigue);
             {'\n'}
-
-            • Cólicas e outros sintomas;
-
+            • Spotting or bleeding between cycles;
             {'\n'}
-
-            • Sangramentos fora do período;
-
-            {'\n'}
-
-            • Alterações importantes entre um ciclo e outro.
+            • Changes from month to month.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
+            When to see a doctor?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Procure avaliação profissional se:
-
+            Consult a healthcare professional if:
             {'\n\n'}
-
-            • Seus ciclos ficaram constantemente
-            diferentes do habitual;
-
+            • Your cycles suddenly become unpredictable for several consecutive months;
             {'\n'}
-
-            • A menstruação desapareceu por vários meses;
-
+            • Periods stop for more than 90 days (and you are not pregnant);
             {'\n'}
-
-            • O sangramento ficou muito intenso;
-
+            • Bleeding lasts longer than 7 to 8 days;
             {'\n'}
-
-            • Há sangramentos frequentes fora da
-            menstruação;
-
+            • Flow is excessively heavy, soaking pads hourly;
             {'\n'}
-
-            • A irregularidade vem acompanhada de dor
-            intensa;
-
-            {'\n'}
-
-            • Existem outros sintomas, como alterações
-            importantes de peso ou crescimento excessivo
-            de pelos;
-
-            {'\n'}
-
-            • Existe possibilidade de gravidez.
+            • You experience severe pain or symptoms like excess hair growth or significant weight changes.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            O mais importante é conhecer o seu próprio
-            padrão menstrual. Registrar os ciclos ajuda
-            a identificar mudanças e fornece informações
-            úteis para uma avaliação profissional.
+            Understanding your baseline cycle helps you detect meaningful changes. Logging symptoms provides accurate data for clinical consultations.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

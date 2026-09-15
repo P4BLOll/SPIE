@@ -43,6 +43,7 @@ import {
   auth,
 } from '@/services/firebaseConfig';
 import { emergencyRepository } from '@/modules/emergency/services/emergencyRepository';
+import { useDialog } from '@/context/DialogContext';
 import { directSmsService } from '@/modules/emergency/services/directSmsService';
 import { useEmergency } from '@/modules/emergency/hooks/useEmergency';
 
@@ -144,6 +145,7 @@ type ContactStatus =
 
 export default function EmergencyScreen() {
   const { desativarAlerta } = useEmergency();
+  const { showAlert } = useDialog();
 
   // ============================================================
   // ESTADOS
@@ -252,7 +254,7 @@ export default function EmergencyScreen() {
     const unsubscribe = emergencyRepository.subscribeContacts((list) => {
       const data: Contact[] = list.map((c: any) => ({
         id: c.id || '',
-        name: c.nome || c.name || 'Contato',
+        name: c.nome || c.name || 'Contact',
         phone: c.telefone || c.phone || '',
       }));
       setContatos(data);
@@ -402,8 +404,8 @@ export default function EmergencyScreen() {
     if (!location) {
 
       Alert.alert(
-        'Localização indisponível',
-        'Aguarde a localização ser obtida antes de enviar o alerta.'
+        'Location unavailable',
+        'Please wait for location to be acquired before sending the alert.'
       );
 
       return;
@@ -412,8 +414,8 @@ export default function EmergencyScreen() {
     if (contatos.length === 0) {
 
       Alert.alert(
-        'Nenhum contato',
-        'Cadastre pelo menos um contato de emergência antes de enviar o alerta.'
+        'No contacts',
+        'Please add at least one emergency contact before sending the alert.'
       );
 
       return;
@@ -434,8 +436,8 @@ export default function EmergencyScreen() {
       if (!smsAvailable) {
 
         Alert.alert(
-          'SMS indisponível',
-          'Este aparelho não possui suporte ao envio de SMS.'
+          'SMS unavailable',
+          'This device does not support sending SMS messages.'
         );
 
         setStatusEnvio('waiting');
@@ -461,12 +463,12 @@ export default function EmergencyScreen() {
       // ========================================================
 
       const mensagem =
-        'ALERTA DE EMERGÊNCIA SPIE\n\n' +
-        'Uma pessoa acionou um pedido de ajuda.\n\n' +
-        'Localização atual:\n' +
+        'SPIE EMERGENCY ALERT\n\n' +
+        'A user has triggered an emergency request for help.\n\n' +
+        'Current location:\n' +
         mapa +
         '\n\n' +
-        'Entre em contato com ela o mais rápido possível.';
+        'Please contact them as soon as possible.';
 
       // ========================================================
       // TELEFONES
@@ -486,8 +488,8 @@ export default function EmergencyScreen() {
       if (telefones.length === 0) {
 
         Alert.alert(
-          'Telefones inválidos',
-          'Nenhum contato possui um número de telefone válido.'
+          'Invalid phone numbers',
+          'None of the contacts have a valid phone number.'
         );
 
         setStatusEnvio('waiting');
@@ -525,11 +527,6 @@ export default function EmergencyScreen() {
       setSmsEnviado(true);
       setStatusEnvio('sent');
 
-      Alert.alert(
-        '🚨 Alerta SOS Enviado!',
-        `As mensagens de emergência com seu link de localização foram enviadas com sucesso para seus contatos.`
-      );
-
     } catch (error) {
 
       console.log(
@@ -539,10 +536,11 @@ export default function EmergencyScreen() {
 
       setStatusEnvio('waiting');
 
-      Alert.alert(
-        'Erro',
-        'Não foi possível abrir o envio de SMS.'
-      );
+      showAlert({
+        title: 'Error',
+        message: 'Unable to complete SMS dispatch.',
+        type: 'error',
+      });
 
     } finally {
 
@@ -550,30 +548,6 @@ export default function EmergencyScreen() {
 
     }
   }
-
-  // ============================================================
-  // ENVIO AUTOMÁTICO
-  // ============================================================
-
-  useEffect(() => {
-
-    if (
-      !location ||
-      contatos.length === 0 ||
-      smsEnviado ||
-      cancelado
-    ) {
-      return;
-    }
-
-    enviarAlertaPorSMS();
-
-  }, [
-    location,
-    contatos.length,
-    smsEnviado,
-    cancelado,
-  ]);
 
   // ============================================================
   // STATUS VISUAL
@@ -593,8 +567,8 @@ export default function EmergencyScreen() {
 
           text:
             enviandoSMS
-              ? 'Abrindo envio por SMS'
-              : 'Preparando alerta',
+              ? 'Opening SMS dispatch'
+              : 'Preparing alert',
 
           color:
             SAFE_GOLD,
@@ -611,8 +585,8 @@ export default function EmergencyScreen() {
 
           text:
             smsEnviado
-              ? 'Alerta preparado por SMS'
-              : 'Alerta preparado',
+              ? 'Alert prepared via SMS'
+              : 'Alert prepared',
 
           color:
             SAFE_TEAL,
@@ -628,7 +602,7 @@ export default function EmergencyScreen() {
             'checkmark-done-circle-outline' as const,
 
           text:
-            'Mensagem recebida',
+            'Message received',
 
           color:
             SAFE_TEAL,
@@ -644,7 +618,7 @@ export default function EmergencyScreen() {
             'time-outline' as const,
 
           text:
-            'Aguardando envio',
+            'Waiting to send',
 
           color:
             SAFE_TEXT_MUTED,
@@ -750,12 +724,12 @@ export default function EmergencyScreen() {
     pararContagem();
 
     Alert.alert(
-      'Desativar alerta',
-      'Tem certeza de que deseja desativar o alerta de emergência?',
+      'Deactivate alert',
+      'Are you sure you want to deactivate the emergency alert?',
       [
         {
           text:
-            'Continuar alerta',
+            'Keep alert active',
 
           style:
             'cancel',
@@ -763,7 +737,7 @@ export default function EmergencyScreen() {
 
         {
           text:
-            'Desativar',
+            'Deactivate',
 
           style:
             'destructive',
@@ -828,7 +802,7 @@ export default function EmergencyScreen() {
               styles.locationStateTitle
             }
           >
-            Obtendo sua localização
+            Acquiring your location
           </Text>
 
           <Text
@@ -836,7 +810,7 @@ export default function EmergencyScreen() {
               styles.locationStateText
             }
           >
-            Identificando sua posição atual...
+            Identifying your current position...
           </Text>
 
         </View>
@@ -885,7 +859,7 @@ export default function EmergencyScreen() {
               styles.locationStateTitle
             }
           >
-            Permissão necessária
+            Permission required
           </Text>
 
           <Text
@@ -893,7 +867,7 @@ export default function EmergencyScreen() {
               styles.locationStateText
             }
           >
-            O SPIE precisa da sua permissão para acessar a localização atual do aparelho.
+            SPIE needs your permission to access this device's current location.
           </Text>
 
           <TouchableOpacity
@@ -917,7 +891,7 @@ export default function EmergencyScreen() {
                 styles.retryButtonText
               }
             >
-              Permitir localização
+              Allow location
             </Text>
 
           </TouchableOpacity>
@@ -968,7 +942,7 @@ export default function EmergencyScreen() {
               styles.locationStateTitle
             }
           >
-            Não foi possível localizar você
+            Unable to locate you
           </Text>
 
           <Text
@@ -976,7 +950,7 @@ export default function EmergencyScreen() {
               styles.locationStateText
             }
           >
-            O aparelho não conseguiu fornecer uma localização neste momento. Verifique as configurações de localização e tente novamente.
+            The device could not provide a location at this time. Check your location settings and try again.
           </Text>
 
           <TouchableOpacity
@@ -1000,7 +974,7 @@ export default function EmergencyScreen() {
                 styles.retryButtonText
               }
             >
-              Abrir configurações
+              Open settings
             </Text>
 
           </TouchableOpacity>
@@ -1026,7 +1000,7 @@ export default function EmergencyScreen() {
                 styles.secondaryRetryText
               }
             >
-              Tentar novamente
+              Try again
             </Text>
 
           </TouchableOpacity>
@@ -1077,7 +1051,7 @@ export default function EmergencyScreen() {
               styles.locationStateTitle
             }
           >
-            Não foi possível obter sua localização
+            Unable to acquire your location
           </Text>
 
           <Text
@@ -1085,7 +1059,7 @@ export default function EmergencyScreen() {
               styles.locationStateText
             }
           >
-            Ocorreu um problema ao acessar a localização. Tente novamente.
+            A problem occurred while accessing location. Please try again.
           </Text>
 
           <TouchableOpacity
@@ -1109,7 +1083,7 @@ export default function EmergencyScreen() {
                 styles.retryButtonText
               }
             >
-              Tentar novamente
+              Try again
             </Text>
 
           </TouchableOpacity>
@@ -1178,7 +1152,7 @@ export default function EmergencyScreen() {
                   letterSpacing: 0.3,
                 }}
               >
-                GPS ATIVO • ALTA PRECISÃO
+                GPS ACTIVE • HIGH ACCURACY
               </Text>
             </View>
 
@@ -1238,7 +1212,7 @@ export default function EmergencyScreen() {
                   fontWeight: '800',
                 }}
               >
-                Localização atual detectada
+                Current location detected
               </Text>
               <Text
                 style={{
@@ -1286,7 +1260,7 @@ export default function EmergencyScreen() {
                 fontWeight: '700',
               }}
             >
-              Abrir no Google Maps / Waze
+              Open in Google Maps / Waze
             </Text>
           </TouchableOpacity>
         </View>
@@ -1347,7 +1321,7 @@ export default function EmergencyScreen() {
             styles.pageTitle
           }
         >
-          ALERTA DE EMERGÊNCIA
+          EMERGENCY ALERT
         </Text>
 
         <View
@@ -1470,7 +1444,7 @@ export default function EmergencyScreen() {
                   fontWeight: '800',
                 }}
               >
-                Ver mensagem de emergência
+                View emergency message
               </Text>
 
               <Text
@@ -1483,7 +1457,7 @@ export default function EmergencyScreen() {
                   lineHeight: 16,
                 }}
               >
-                Confira a mensagem que será enviada aos contatos
+                Review the message that will be sent to contacts
               </Text>
 
             </View>
@@ -1535,7 +1509,7 @@ export default function EmergencyScreen() {
                 styles.sectionLabel
               }
             >
-              SUA LOCALIZAÇÃO
+              YOUR LOCATION
             </Text>
 
             <Text
@@ -1543,7 +1517,7 @@ export default function EmergencyScreen() {
                 styles.sectionDescription
               }
             >
-              Posição atual do seu aparelho
+              Current position of your device
             </Text>
 
           </View>
@@ -1567,7 +1541,7 @@ export default function EmergencyScreen() {
                   styles.readyText
                 }
               >
-                Ativa
+                Active
               </Text>
 
             </View>
@@ -1631,7 +1605,7 @@ export default function EmergencyScreen() {
                 styles.alertStatusLabel
               }
             >
-              STATUS DO ENVIO
+              DISPATCH STATUS
             </Text>
 
             <Text
@@ -1721,8 +1695,8 @@ export default function EmergencyScreen() {
                   }}
                 >
                   {enviandoSMS
-                    ? 'Abrindo SMS...'
-                    : 'Enviar alerta por SMS'}
+                    ? 'Opening SMS...'
+                    : 'Send alert via SMS'}
                 </Text>
 
               </View>
@@ -1752,7 +1726,7 @@ export default function EmergencyScreen() {
                 styles.sectionLabel
               }
             >
-              CONTATOS DE EMERGÊNCIA
+              EMERGENCY CONTACTS
             </Text>
 
             <Text
@@ -1760,7 +1734,7 @@ export default function EmergencyScreen() {
                 styles.sectionDescription
               }
             >
-              Pessoas que receberão o alerta
+              People who will receive the alert
             </Text>
 
           </View>
@@ -1780,7 +1754,7 @@ export default function EmergencyScreen() {
                 styles.manageText
               }
             >
-              Gerenciar
+              Manage
             </Text>
 
           </TouchableOpacity>
@@ -1818,7 +1792,7 @@ export default function EmergencyScreen() {
                 styles.emptyTitle
               }
             >
-              Nenhum contato cadastrado
+              No contacts registered
             </Text>
 
             <Text
@@ -1826,7 +1800,7 @@ export default function EmergencyScreen() {
                 styles.emptyDescription
               }
             >
-              Você ainda não possui contatos de emergência. Adicione pelo menos uma pessoa para receber seus alertas.
+              You do not have any emergency contacts yet. Add at least one person to receive your alerts.
             </Text>
 
             <TouchableOpacity
@@ -1856,7 +1830,7 @@ export default function EmergencyScreen() {
                     styles.addContactText
                   }
                 >
-                  Adicionar contato
+                  Add contact
                 </Text>
 
               </View>
@@ -2021,7 +1995,7 @@ export default function EmergencyScreen() {
                   styles.addAnotherText
                 }
               >
-                Adicionar outro contato
+                Add another contact
               </Text>
 
             </TouchableOpacity>
@@ -2060,7 +2034,7 @@ export default function EmergencyScreen() {
                   { color: SAFE_DANGER },
                 ]}
               >
-                ATENÇÃO
+                WARNING
               </Text>
 
             </View>
@@ -2070,7 +2044,7 @@ export default function EmergencyScreen() {
                 styles.cancelDescription
               }
             >
-              Se o alerta foi acionado por engano, segure o botão abaixo por 3 segundos para desativá-lo.
+              If the alert was triggered by mistake, hold the button below for 3 seconds to deactivate it.
             </Text>
 
             <TouchableOpacity
@@ -2168,7 +2142,7 @@ export default function EmergencyScreen() {
                         styles.cancelText
                       }
                     >
-                      SEGURE PARA DESATIVAR
+                      HOLD TO DEACTIVATE
                     </Text>
 
                     <Text
@@ -2177,8 +2151,8 @@ export default function EmergencyScreen() {
                       }
                     >
                       {contagem !== null
-                        ? 'continue segurando...'
-                        : 'mantenha pressionado por 3 segundos'}
+                        ? 'keep holding...'
+                        : 'hold for 3 seconds'}
                     </Text>
 
                   </View>
@@ -2224,7 +2198,7 @@ export default function EmergencyScreen() {
                 styles.cancelledTitle
               }
             >
-              Alerta desativado
+              Alert deactivated
             </Text>
 
             <Text
@@ -2232,7 +2206,7 @@ export default function EmergencyScreen() {
                 styles.cancelledDescription
               }
             >
-              O alerta de emergência foi desativado.
+              The emergency alert has been deactivated.
             </Text>
 
           </View>

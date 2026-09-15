@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function PregnancySignsScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,272 +31,93 @@ export default function PregnancySignsScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="thermometer-outline"
             size={55}
             color="#EC4899"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Sinais de gravidez
+            Pregnancy Signs
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Conheça alguns sinais que podem aparecer
-            no início da gravidez.
+            Learn about common physical symptoms that can appear in early pregnancy.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Atraso menstrual
+            Missed period
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Para pessoas que possuem ciclos regulares,
-            o atraso da menstruação pode ser um dos
-            primeiros sinais percebidos.
-
+            For individuals with regular menstrual cycles, a missed period is often the first noticeable sign of pregnancy.
             {'\n\n'}
-
-            Porém, a menstruação pode atrasar por
-            diferentes motivos, como alterações hormonais,
-            estresse, mudanças de rotina ou outras
-            condições.
-
-            {'\n\n'}
-
-            Por isso, o atraso sozinho não confirma uma
-            gravidez.
+            However, periods can also be delayed by stress, hormonal imbalances, illness, or travel. A missed period alone is suggestive, but not definitive.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Náuseas e vômitos
+            Nausea and morning sickness
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Náuseas podem aparecer durante a gravidez,
-            principalmente nas primeiras semanas.
-
+            Nausea can emerge as early as 2 to 8 weeks after conception.
             {'\n\n'}
-
-            Apesar de serem frequentemente chamadas
-            de "enjoo matinal", elas podem acontecer
-            em diferentes horários do dia.
-
-            {'\n\n'}
-
-            Algumas pessoas não apresentam esse sintoma.
+            Despite the nickname "morning sickness," it can occur at any time of the day or night. Some experience only mild food aversions, while others experience frequent vomiting.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Sensibilidade nas mamas
+            Breast changes
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            As alterações hormonais da gravidez podem
-            provocar aumento da sensibilidade, sensação
-            de peso ou desconforto nas mamas.
-
+            Surging hormones increase blood flow to breast tissue, leading to tenderness, swelling, heaviness, or darker areolas.
             {'\n\n'}
-
-            Entretanto, sintomas semelhantes também
-            podem acontecer antes da menstruação.
+            These sensations are similar to premenstrual changes but tend to be more pronounced and persistent.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Cansaço
+            Fatigue and exhaustion
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O aumento da progesterona e outras mudanças
-            que acontecem no início da gravidez podem
-            contribuir para uma sensação maior de cansaço
-            ou sonolência.
-
-            {'\n\n'}
-
-            Esse sintoma também pode ter diversas outras
-            causas.
+            Dramatic rises in progesterone levels, lower blood pressure, and increased metabolic demands can produce significant fatigue early on.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Alterações no apetite
+            Frequent urination
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas pessoas podem perceber mudanças
-            no apetite durante o início da gravidez.
-
-            {'\n\n'}
-
-            Podem ocorrer maior fome, redução do apetite,
-            desejos alimentares ou aversão a determinados
-            alimentos e cheiros.
-
-            {'\n\n'}
-
-            Essas alterações variam bastante entre as
-            pessoas.
+            Hormonal changes stimulate kidney blood flow and efficiency, causing your bladder to fill more quickly even before the uterus physically presses against it.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Maior vontade de urinar
+            When to take a test?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Alterações hormonais e o aumento do fluxo
-            sanguíneo podem fazer com que algumas
-            pessoas urinem com maior frequência.
-
+            Symptoms alone cannot confirm pregnancy.
             {'\n\n'}
-
-            Esse sintoma também pode ocorrer por outros
-            motivos, como aumento da ingestão de líquidos
-            ou infecções urinárias.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Alterações de humor
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            As mudanças hormonais podem contribuir para
-            alterações emocionais durante a gravidez.
-
+            Taking an at-home urine test starting on the first day of your missed period provides accurate detection of hCG.
             {'\n\n'}
-
-            Algumas pessoas podem apresentar maior
-            sensibilidade, irritabilidade ou mudanças
-            de humor.
-
-            {'\n\n'}
-
-            Esses sintomas também podem acontecer
-            durante a TPM.
+            If negative but your period does not arrive, repeat the test in 3 to 5 days or request a clinical blood test.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Pode haver sangramento?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Algumas pessoas podem apresentar um pequeno
-            sangramento no início da gravidez.
-
-            {'\n\n'}
-
-            Porém, qualquer sangramento durante uma
-            gravidez confirmada ou suspeita merece atenção,
-            principalmente quando é intenso ou acompanhado
-            de dor.
-
-            {'\n\n'}
-
-            Procure orientação profissional para avaliar
-            a situação.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Sintomas não confirmam gravidez
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Muitos sintomas iniciais da gravidez também
-            podem acontecer antes da menstruação ou por
-            outras razões.
-
-            {'\n\n'}
-
-            Por isso, não é possível confirmar uma gravidez
-            apenas observando os sintomas.
-
-            {'\n\n'}
-
-            Um teste de gravidez é necessário para ajudar
-            a confirmar a gestação.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando fazer um teste?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Se houver possibilidade de gravidez, o teste
-            deve ser realizado seguindo as orientações
-            do fabricante.
-
-            {'\n\n'}
-
-            Testes realizados muito cedo podem apresentar
-            um resultado negativo mesmo quando existe
-            uma gravidez.
-
-            {'\n\n'}
-
-            Caso o resultado seja negativo e a menstruação
-            continue atrasada, pode ser necessário repetir
-            o teste ou procurar orientação profissional.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Os sintomas variam muito entre as pessoas.
-            A única maneira de confirmar uma gravidez
-            é por meio de um teste apropriado e, quando
-            necessário, avaliação profissional.
+            Early symptoms overlap significantly with PMS. A reliable pregnancy test is the only definitive way to confirm pregnancy.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

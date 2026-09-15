@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,15 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function AbnormalDischargeScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -36,266 +31,111 @@ export default function AbnormalDischargeScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="water-outline"
             size={55}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Corrimento anormal
+            Abnormal Vaginal Discharge
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Saiba quais alterações nas secreções podem
-            merecer atenção.
+            Learn how to recognize changes in vaginal discharge and when to consult a clinician.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é corrimento?
+            What is normal vaginal discharge?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A vagina produz secreções naturalmente. Elas
-            ajudam a manter a região protegida e podem
-            mudar de quantidade, textura e aparência
-            durante o ciclo menstrual.
-
+            Vaginal discharge is a natural physiological fluid produced by cervical and vaginal glands.
             {'\n\n'}
-
-            Nem toda secreção significa uma infecção ou
-            algum problema de saúde.
+            It cleanses the reproductive tract, protects against harmful pathogens, and naturally shifts in volume, consistency, and color throughout the menstrual cycle.
+            {'\n\n'}
+            Normal discharge is typically clear, white, or off-white, and carries a mild or unnoticeable scent.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quando pode ser uma alteração?
+            Signs of abnormal discharge
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Uma mudança pode merecer atenção quando
-            acontece de forma diferente do seu padrão
-            habitual, principalmente quando aparece junto
-            com outros sintomas.
-
+            Discharge may warrant clinical evaluation when accompanied by:
             {'\n\n'}
-
-            Alguns sinais que podem acompanhar uma
-            alteração são:
-
-            {'\n\n'}
-
-            • Coceira;
-
+            • Persistent itching, redness, or burning around the vulva;
             {'\n'}
-
-            • Ardência;
-
+            • Foul, fishy, or sour odors;
             {'\n'}
-
-            • Dor;
-
+            • Unusual colors such as grayish, greenish, or frothy yellow;
             {'\n'}
-
-            • Irritação;
-
+            • Thick, clumpy cottage-cheese-like consistency;
             {'\n'}
-
-            • Mau cheiro persistente.
+            • Pain or irritation during urination or sexual intercourse;
+            {'\n'}
+            • Pelvic aching or bleeding between menstrual cycles.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Alteração na cor
+            Common underlying conditions
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas alterações na aparência da secreção
-            podem estar relacionadas a diferentes causas.
-
+            Several conditions can alter discharge characteristics:
             {'\n\n'}
-
-            Uma secreção amarelada, esverdeada, acinzentada
-            ou acompanhada de sangue fora do período
-            menstrual pode precisar de avaliação, especialmente
-            quando existem outros sintomas.
+            • Yeast Infection (Candidiasis): Thick, white, curdy discharge with severe itching;
+            {'\n'}
+            • Bacterial Vaginosis (BV): Thin, grayish-white discharge with a distinct fishy odor;
+            {'\n'}
+            • Trichomoniasis: Frothy, yellowish-green discharge with vulvar soreness and odor;
+            {'\n'}
+            • Chlamydia or Gonorrhea: Increased, cloudy discharge often accompanied by pelvic discomfort.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Alteração na textura
+            Avoid self-diagnosis and douches
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A textura das secreções pode variar naturalmente
-            durante o ciclo.
-
+            Because symptoms of yeast infections and bacterial vaginosis overlap significantly, self-treating with over-the-counter creams can delay healing.
             {'\n\n'}
-
-            Porém, mudanças importantes acompanhadas de
-            coceira, ardência, dor ou odor forte podem estar
-            relacionadas a infecções ou outras alterações
-            e devem ser avaliadas.
+            Never use internal vaginal douches, perfumes, or scented soaps. They strip protective lactobacilli bacteria and exacerbate infections.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Alteração no odor
+            When to seek medical care?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A secreção vaginal pode apresentar um odor
-            característico e natural.
-
+            Visit a healthcare professional if:
             {'\n\n'}
-
-            Um odor forte, desagradável ou diferente do
-            habitual, principalmente quando acompanhado
-            de alteração na secreção, pode ser um sinal
-            de que é necessário procurar avaliação.
+            • You have never experienced these symptoms before;
+            {'\n'}
+            • Discharge has a strong, persistent odor or strange color;
+            {'\n'}
+            • Accompanied by pelvic pain, fever, or painful urination;
+            {'\n'}
+            • Symptoms recur after treatment;
+            {'\n'}
+            • You are pregnant or suspect an STI exposure.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Possíveis causas
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Alterações nas secreções podem ter diferentes
-            causas.
-
-            {'\n\n'}
-
-            Entre elas estão:
-
-            {'\n\n'}
-
-            • Alterações naturais do ciclo;
-
-            {'\n'}
-
-            • Candidíase;
-
-            {'\n'}
-
-            • Vaginose bacteriana;
-
-            {'\n'}
-
-            • Tricomoníase;
-
-            {'\n'}
-
-            • Outras infecções ou condições ginecológicas.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Evite tentar diagnosticar sozinha
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            A aparência da secreção, sozinha, não é
-            suficiente para determinar a causa de uma
-            alteração.
-
-            {'\n\n'}
-
-            Diferentes condições podem apresentar sintomas
-            semelhantes.
-
-            {'\n\n'}
-
-            Por isso, evite utilizar medicamentos ou
-            tratamentos por conta própria sem orientação
-            profissional.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure orientação profissional se houver:
-
-            {'\n\n'}
-
-            • Corrimento com odor forte e persistente;
-
-            {'\n'}
-
-            • Coceira ou ardência;
-
-            {'\n'}
-
-            • Dor pélvica;
-
-            {'\n'}
-
-            • Dor ou ardência ao urinar;
-
-            {'\n'}
-
-            • Feridas ou lesões na região íntima;
-
-            {'\n'}
-
-            • Sangramento fora do período menstrual;
-
-            {'\n'}
-
-            • Alteração persistente na secreção.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Alterações nas secreções podem ter várias
-            causas. A presença de sintomas não significa
-            necessariamente uma infecção. Uma avaliação
-            profissional é a melhor forma de identificar
-            a causa.
+            Vaginal discharge is a normal health indicator. A clinical examination or swab is the most reliable way to identify causes and receive targeted treatment.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );
 }
-

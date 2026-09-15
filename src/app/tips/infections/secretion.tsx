@@ -1,37 +1,28 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+
 import { Background } from '../../../components/Background';
 import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function SecretionScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={
-          tipsDetailStyles.container
-        }
+        contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
-          onPress={() =>
-            router.back()
-          }
+          onPress={() => router.back()}
         >
-
           <Ionicons
             name="arrow-back"
             size={25}
@@ -45,99 +36,58 @@ export default function SecretionScreen() {
             size={55}
             color={Colors.primary}
           />
-
           <Text style={tipsDetailStyles.title}>
-            Secreção vaginal
+            Vaginal Fluid & Mucus
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda como o muco vaginal muda durante o ciclo menstrual.
+            Understand how healthy cervical mucus changes naturally across your menstrual cycle.
           </Text>
         </View>
 
         <View style={tipsDetailStyles.card}>
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é secreção vaginal?
+            What is vaginal secretion?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A secreção vaginal é uma produção natural do corpo
-            que ajuda a manter a região íntima limpa, protegida
-            e saudável.
-
-            Durante o ciclo menstrual ela pode mudar de cor,
-            quantidade e textura por causa das alterações hormonais.
-          </Text>
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Tipos de secreção normal
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Transparente e elástica:
-
-            {'\n'}
-            Pode aparecer próximo da ovulação.
-            É conhecida como muco fértil e pode lembrar clara de ovo.
-
+            Vaginal secretion is a natural fluid produced to keep internal tissues lubricated, clean, and protected against harmful microbes.
             {'\n\n'}
-
-            Branca ou leitosa:
-
-            {'\n'}
-            Pode acontecer antes ou depois da menstruação
-            sem representar um problema.
-
-            {'\n\n'}
-
-            Cremosa ou mais espessa:
-
-            {'\n'}
-            Pode aparecer em algumas fases do ciclo,
-            principalmente após a ovulação.
+            Under the influence of changing estrogen and progesterone levels, its color, stretchiness, and volume shift across each cycle.
           </Text>
         </View>
 
         <View style={tipsDetailStyles.card}>
           <Text style={tipsDetailStyles.sectionTitle}>
-            Secreção e período fértil
+            Normal mucus variations
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Próximo da ovulação, o aumento do estrogênio
-            pode deixar a secreção mais transparente,
-            escorregadia e elástica.
-
-            Esse tipo de muco facilita a movimentação dos
-            espermatozoides e indica uma fase de maior fertilidade.
+            Clear and stretchy (egg-white):
+            {'\n'}
+            Appears right around ovulation. Known as fertile mucus, it facilitates sperm mobility.
+            {'\n\n'}
+            White or creamy:
+            {'\n'}
+            Common in the early follicular phase or after ovulation during the luteal phase.
+            {'\n\n'}
+            Sticky or thick:
+            {'\n'}
+            Occurs right after your period ends and just before menstruation starts.
           </Text>
         </View>
 
         <View style={tipsDetailStyles.card}>
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
+            When to seek advice?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Procure orientação profissional se houver:
-
+            Consult a healthcare provider if you notice:
             {'\n\n'}
-
-            • cheiro forte ou desagradável;
-
+            • Foul, fishy, or pungent odor;
             {'\n'}
-
-            • coceira ou ardência;
-
+            • Greenish, grayish, or clumpy texture;
             {'\n'}
-
-            • dor na região íntima;
-
+            • Itching, redness, burning, or vulvar soreness;
             {'\n'}
-
-            • secreção verde, cinza ou com aspecto diferente do habitual.
+            • Unexplained spotting or pelvic pain.
           </Text>
         </View>
 
@@ -147,10 +97,8 @@ export default function SecretionScreen() {
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Registrar mudanças na secreção junto com seu ciclo
-            pode ajudar você a entender melhor seu corpo.
+            Tracking your cervical mucus daily helps you pinpoint your fertile window and recognize deviations from your normal pattern.
           </Text>
         </View>
       </ScrollView>

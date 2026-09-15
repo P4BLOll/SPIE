@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
-import {View,Text,TouchableOpacity,} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { registerStyles } from '../../styles/register.styles';
+import { cycleColors } from '@/constants/Colors';
 
 type Props = {
   cycleType: string;
@@ -22,6 +23,8 @@ export default function StepTwo({
   setPeriodDuration,
   cycleLength,
   setCycleLength,
+  lastPeriod,
+  setLastPeriod,
   nextStep,
   previousStep,
 }: Props) {
@@ -29,6 +32,7 @@ export default function StepTwo({
   const [cycleTypeError, setCycleTypeError] = useState(false);
   const [periodError, setPeriodError] = useState(false);
   const [cycleError, setCycleError] = useState(false);
+  const [lastPeriodError, setLastPeriodError] = useState(false);
 
   const periodOptions = [
     '3',
@@ -37,7 +41,7 @@ export default function StepTwo({
     '6',
     '7',
     '8+',
-    'Não sei'
+    'Not sure'
   ];
 
   const cycleOptions = [
@@ -47,29 +51,41 @@ export default function StepTwo({
     '28',
     '30',
     '35',
-    'Não sei',
+    'Not sure',
+  ];
+
+  const lastPeriodOptions = [
+    { label: 'This week', diasAtras: 3 },
+    { label: '1 to 2 weeks ago', diasAtras: 10 },
+    { label: 'About 1 month ago', diasAtras: 28 },
+    { label: 'Over 1 month ago', diasAtras: 40 },
+    { label: "Don't remember exactly", diasAtras: 0 },
   ];
 
   const handleNext = () => {
-
     let error = false;
 
-    if(cycleType === ''){
+    if (cycleType === '') {
       setCycleTypeError(true);
       error = true;
     }
 
-    if(periodDuration === ''){
+    if (periodDuration === '') {
       setPeriodError(true);
       error = true;
     }
 
-    if(cycleLength === ''){
+    if (cycleLength === '') {
       setCycleError(true);
       error = true;
     }
 
-    if(error){
+    if (lastPeriod === '') {
+      setLastPeriodError(true);
+      error = true;
+    }
+
+    if (error) {
       return;
     }
 
@@ -80,38 +96,38 @@ export default function StepTwo({
     <View style={registerStyles.form}>
 
       <Text style={registerStyles.stepTitle}>
-        Ciclo menstrual
+        Menstrual cycle
       </Text>
 
       <Text style={registerStyles.stepSubtitle}>
-        Não sabe alguma resposta? Sem problemas! O SPIE aprenderá sobre seu ciclo conforme você registrar suas menstruações.
+        Don't know an answer? No problem! SPIE will learn about your cycle as you log your periods.
       </Text>
 
       <Text style={registerStyles.label}>
-        Sua menstruação costuma ser:
+        Your periods are usually:
       </Text>
 
       <View
         style={[
           registerStyles.chipsContainer,
-          cycleTypeError && {borderColor:'red', borderWidth:1}
+          cycleTypeError && { borderColor: cycleColors.danger, borderWidth: 1 }
         ]}
       >
 
         {[
           {
-            label:'Regular',
-            value:'regular',
+            label: 'Regular',
+            value: 'regular',
           },
           {
-            label:'Irregular',
-            value:'irregular',
+            label: 'Irregular',
+            value: 'irregular',
           },
           {
-            label:'Não sei',
-            value:'unknown',
+            label: 'Not sure',
+            value: 'unknown',
           },
-        ].map((item)=>(
+        ].map((item) => (
 
           <TouchableOpacity
             key={item.value}
@@ -120,11 +136,9 @@ export default function StepTwo({
               cycleType === item.value &&
               registerStyles.chipSelected,
             ]}
-            onPress={()=>{
-
+            onPress={() => {
               setCycleType(item.value);
               setCycleTypeError(false);
-
             }}
           >
 
@@ -145,23 +159,23 @@ export default function StepTwo({
       </View>
 
       {cycleTypeError && (
-        <Text style={{color:'red'}}>
-          Selecione uma opção
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Please select an option
         </Text>
       )}
 
       <Text style={registerStyles.label}>
-        Quantos dias costuma durar sua menstruação?
+        How many days does your period usually last?
       </Text>
 
       <View
         style={[
           registerStyles.chipsContainer,
-          periodError && {borderColor:'red', borderWidth:1}
+          periodError && { borderColor: cycleColors.danger, borderWidth: 1 }
         ]}
       >
 
-        {periodOptions.map((item)=>(
+        {periodOptions.map((item) => (
 
           <TouchableOpacity
             key={item}
@@ -170,11 +184,9 @@ export default function StepTwo({
               periodDuration === item &&
               registerStyles.chipSelected,
             ]}
-            onPress={()=>{
-
+            onPress={() => {
               setPeriodDuration(item);
               setPeriodError(false);
-
             }}
           >
 
@@ -195,23 +207,23 @@ export default function StepTwo({
       </View>
 
       {periodError && (
-        <Text style={{color:'red'}}>
-          Selecione uma opção
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Please select an option
         </Text>
       )}
 
       <Text style={registerStyles.label}>
-        Quantos dias costuma durar seu ciclo?
+        How long is your typical menstrual cycle?
       </Text>
 
       <View
         style={[
           registerStyles.chipsContainer,
-          cycleError && {borderColor:'red', borderWidth:1}
+          cycleError && { borderColor: cycleColors.danger, borderWidth: 1 }
         ]}
       >
 
-        {cycleOptions.map((item)=>(
+        {cycleOptions.map((item) => (
 
           <TouchableOpacity
             key={item}
@@ -220,11 +232,9 @@ export default function StepTwo({
               cycleLength === item &&
               registerStyles.chipSelected,
             ]}
-            onPress={()=>{
-
+            onPress={() => {
               setCycleLength(item);
               setCycleError(false);
-
             }}
           >
 
@@ -245,8 +255,57 @@ export default function StepTwo({
       </View>
 
       {cycleError && (
-        <Text style={{color:'red'}}>
-          Selecione uma opção
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Please select an option
+        </Text>
+      )}
+
+      {/* =================================================
+          ÚLTIMA MENSTRUAÇÃO
+      ================================================= */}
+
+      <Text style={registerStyles.label}>
+        When did your last period start?
+      </Text>
+
+      <View
+        style={[
+          registerStyles.chipsContainer,
+          lastPeriodError && { borderColor: cycleColors.danger, borderWidth: 1 }
+        ]}
+      >
+        {lastPeriodOptions.map((item) => {
+          const dataCalculada = new Date(Date.now() - item.diasAtras * 86400000).toISOString().split('T')[0];
+          const isSelected = lastPeriod === dataCalculada || (item.diasAtras === 0 && lastPeriod === 'unknown');
+
+          return (
+            <TouchableOpacity
+              key={item.label}
+              style={[
+                registerStyles.chip,
+                isSelected && registerStyles.chipSelected,
+              ]}
+              onPress={() => {
+                setLastPeriod(item.diasAtras === 0 ? 'unknown' : dataCalculada);
+                setLastPeriodError(false);
+              }}
+            >
+              <Text
+                style={[
+                  registerStyles.chipText,
+                  isSelected && registerStyles.chipTextSelected,
+                ]}
+              >
+                {item.label}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+
+      {lastPeriodError && (
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Please select an option for your last period
         </Text>
       )}
 
@@ -257,7 +316,7 @@ export default function StepTwo({
           onPress={previousStep}
         >
           <Text style={registerStyles.backButtonText}>
-            Voltar
+            Back
           </Text>
         </TouchableOpacity>
 
@@ -266,7 +325,7 @@ export default function StepTwo({
           onPress={handleNext}
         >
           <Text style={registerStyles.nextButtonText}>
-            Próximo
+            Next
           </Text>
         </TouchableOpacity>
 

@@ -366,14 +366,83 @@ export const calendarStyles = StyleSheet.create({
         color: '#FFFFFF',
     },
 
-    modalCloseButton: {
-        marginTop: 10,
-        paddingVertical: 12,
+    modalActionsHeader: {
+        fontSize: 11,
+        fontWeight: '800',
+        letterSpacing: 1.2,
+        color: cycleColors.textMuted,
+        marginTop: 14,
+        marginBottom: 10,
+    },
+
+    dayActionGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        rowGap: 10,
+        marginBottom: 8,
+    },
+
+    dayActionCard: {
+        width: '48%',
+        backgroundColor: cycleColors.surfaceAlt,
+        borderRadius: 18,
+        padding: 14,
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.06)',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        position: 'relative',
+    },
+
+    dayActionCardActive: {
+        borderColor: 'rgba(255, 92, 141, 0.35)',
+        backgroundColor: 'rgba(255, 92, 141, 0.08)',
+    },
+
+    dayActionIconRing: {
+        width: 40,
+        height: 40,
+        borderRadius: 14,
         alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 10,
+    },
+
+    dayActionTextContainer: {
+        width: '100%',
+    },
+
+    dayActionTitle: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: cycleColors.text,
+        marginBottom: 2,
+    },
+
+    dayActionSubtitle: {
+        fontSize: 11,
+        color: cycleColors.textMuted,
+        fontWeight: '500',
+    },
+
+    dayActionCheckBadge: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+    },
+
+    modalCloseButton: {
+        marginTop: 12,
+        paddingVertical: 14,
+        borderRadius: 16,
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     modalCloseButtonText: {
-        fontSize: 13,
+        fontSize: 14,
         fontWeight: '700',
         color: cycleColors.textMuted,
     },

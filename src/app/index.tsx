@@ -18,11 +18,11 @@ export default function Index() {
       />
 
       <Text style={indexStyles.subtitle}>
-        Seja bem-vindo(a) ao SPIE
+        Welcome to SPIE
       </Text>
 
       <Text style={indexStyles.description}>
-        Sua segurança começa aqui. Conecte sua pulseira e proteja quem mais importa.
+        Your safety begins here. Connect your smartband and protect what matters most.
       </Text>
 
       <TouchableOpacity
@@ -33,7 +33,7 @@ export default function Index() {
         <View style={[indexStyles.button, { backgroundColor: cycleColors.rose }]}>
           <Ionicons name="person-add-outline" size={18} color="#FFFFFF" />
           <Text style={indexStyles.buttonText}>
-            Criar conta
+            Create Account
           </Text>
         </View>
       </TouchableOpacity>
@@ -44,9 +44,9 @@ export default function Index() {
         onPress={() => router.push('/(auth)/login')}
       >
         <Text style={indexStyles.loginText}>
-          Já tenho uma conta —{' '}
+          Already have an account?{' '}
           <Text style={indexStyles.loginTextHighlight}>
-            Entrar
+            Log In
           </Text>
         </Text>
       </TouchableOpacity>

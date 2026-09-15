@@ -16,11 +16,11 @@ export default function RegisterHeader({
         <View style={registerStyles.headerContainer}>
 
             <Text style={registerStyles.registerTitle}>
-                Cadastro
+                Create Account
             </Text>
 
             <Text style={registerStyles.registerSubtitle}>
-                Etapa {currentStep} de {totalSteps}
+                Step {currentStep} of {totalSteps}
             </Text>
 
             <StepIndicator

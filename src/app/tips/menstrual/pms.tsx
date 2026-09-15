@@ -1,13 +1,10 @@
-
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -16,22 +13,15 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function PMSScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={
-          tipsDetailStyles.container
-        }
+        contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
-          onPress={() =>
-            router.back()
-          }
+          onPress={() => router.back()}
         >
           <Ionicons
             name="arrow-back"
@@ -41,262 +31,124 @@ export default function PMSScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="heart-outline"
             size={55}
             color="#EC4899"
           />
-
           <Text style={tipsDetailStyles.title}>
-            TPM
+            PMS (Premenstrual Syndrome)
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda as mudanças que podem acontecer antes
-            da menstruação.
+            Understand physical and emotional changes that can emerge prior to menstruation.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é a TPM?
+            What is PMS?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            TPM significa Tensão Pré-Menstrual.
-
+            PMS stands for Premenstrual Syndrome.
             {'\n\n'}
-
-            É o conjunto de sintomas físicos e emocionais
-            que algumas pessoas podem apresentar nos dias
-            ou semanas anteriores à menstruação.
-
+            It refers to a combination of physical, emotional, and behavioral symptoms that emerge in the days or weeks leading up to menstruation.
             {'\n\n'}
-
-            Esses sintomas estão relacionados às mudanças
-            hormonais que acontecem durante o ciclo menstrual.
+            These symptoms are directly linked to normal hormonal shifts during the luteal phase of the menstrual cycle.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Sintomas físicos
+            Physical symptoms
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A TPM pode causar diferentes sintomas físicos,
-            como:
-
+            Common physical signs of PMS include:
             {'\n\n'}
-
-            • Inchaço;
-
+            • Abdominal bloating and fluid retention;
             {'\n'}
-
-            • Sensibilidade ou dor nas mamas;
-
+            • Breast tenderness or swelling;
             {'\n'}
-
-            • Cólicas;
-
+            • Headaches or migraines;
             {'\n'}
-
-            • Dor de cabeça;
-
+            • Fatigue and low physical energy;
             {'\n'}
-
-            • Cansaço;
-
+            • Food cravings, particularly for carbohydrates or sweets;
             {'\n'}
-
-            • Alterações no apetite;
-
-            {'\n'}
-
-            • Maior retenção de líquidos.
+            • Muscle aches and joint discomfort.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Sintomas emocionais
+            Emotional symptoms
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas pessoas também podem apresentar
-            alterações emocionais, como:
-
+            Many individuals also notice mood variations:
             {'\n\n'}
-
-            • Irritabilidade;
-
+            • Heightened irritability or mood swings;
             {'\n'}
-
-            • Ansiedade;
-
+            • Anxiety or feelings of restlessness;
             {'\n'}
-
-            • Tristeza;
-
+            • Low mood or tearfulness;
             {'\n'}
-
-            • Mudanças de humor;
-
+            • Difficulty concentrating;
             {'\n'}
-
-            • Maior sensibilidade emocional;
-
-            {'\n'}
-
-            • Dificuldade de concentração.
+            • Sleep disturbances or insomnia.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quando os sintomas aparecem?
+            When do symptoms arise and resolve?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Os sintomas geralmente aparecem durante a fase
-            lútea, após a ovulação e antes da menstruação.
-
+            PMS symptoms characteristically develop during the luteal phase (post-ovulation) and generally peak in the few days before your period starts.
             {'\n\n'}
-
-            Eles podem melhorar ou desaparecer depois que
-            a menstruação começa.
-
-            {'\n\n'}
-
-            A intensidade e a combinação de sintomas podem
-            variar bastante entre as pessoas e entre os ciclos.
+            They typically diminish quickly once menstrual bleeding begins.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que pode ajudar?
+            Healthy coping strategies
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Alguns hábitos podem contribuir para o bem-estar
-            durante esse período:
-
+            Supportive lifestyle adjustments can significantly reduce symptom severity:
             {'\n\n'}
-
-            • Ter uma alimentação equilibrada;
-
+            • Eating balanced meals rich in whole grains, protein, and magnesium;
             {'\n'}
-
-            • Manter uma boa hidratação;
-
+            • Limiting excess sodium, caffeine, and alcohol;
             {'\n'}
-
-            • Praticar atividades físicas;
-
+            • Engaging in regular moderate aerobic exercise;
             {'\n'}
-
-            • Dormir adequadamente;
-
+            • Prioritizing 7–9 hours of quality sleep;
             {'\n'}
-
-            • Reservar momentos para descanso;
-
-            {'\n'}
-
-            • Acompanhar os sintomas ao longo dos ciclos.
+            • Practicing stress reduction techniques such as meditation or yoga.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
+            When to seek professional support?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Procure orientação profissional se os sintomas:
-
+            If emotional symptoms are severe, include feelings of despair, or disrupt relationships and daily life, you may be dealing with Premenstrual Dysphoric Disorder (PMDD).
             {'\n\n'}
-
-            • Forem muito intensos;
-
-            {'\n'}
-
-            • Interferirem nas atividades do dia a dia;
-
-            {'\n'}
-
-            • Afetarem significativamente seu bem-estar;
-
-            {'\n'}
-
-            • Apresentarem mudanças importantes em relação
-            ao seu padrão habitual;
-
-            {'\n'}
-
-            • Persistirem fora do período em que normalmente
-            aparecem.
+            Consult a medical or mental health provider for targeted assessment and treatment options.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            TPM não é igual para todas
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Algumas pessoas apresentam muitos sintomas,
-            enquanto outras apresentam poucos ou nenhum.
-
-            {'\n\n'}
-
-            Também é possível que os sintomas mudem ao
-            longo dos meses.
-
-            {'\n\n'}
-
-            Por isso, acompanhar seu próprio padrão pode
-            ajudar a entender melhor como seu corpo reage
-            às diferentes fases do ciclo.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            A TPM é diferente de uma pessoa para outra.
-            Sintomas muito intensos que interferem na rotina
-            merecem avaliação profissional, especialmente
-            quando se repetem ao longo dos ciclos.
+            PMS experiences vary greatly. Tracking your daily symptoms over several cycles helps identify personal patterns and guides effective self-care.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );
 }
-

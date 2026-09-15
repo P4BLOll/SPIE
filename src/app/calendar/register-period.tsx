@@ -30,6 +30,7 @@ import {
   DURACAO_CICLO_MIN,
   DURACAO_CICLO_MAX,
 } from '@/modules/cycle/contexts/CycleContext';
+import { haptics } from '@/shared/utils/haptics';
 
 // =====================================
 // FORMATAR DATA
@@ -39,7 +40,7 @@ function formatarDataBR(dataISO: string) {
   const [ano, mes, dia] =
     dataISO.split('-');
 
-  return `${dia}/${mes}/${ano}`;
+  return `${mes}/${dia}/${ano}`;
 }
 
 // =====================================
@@ -75,9 +76,10 @@ function QuantitySelector({
       <TouchableOpacity
         activeOpacity={0.7}
         disabled={valor <= minimo}
-        onPress={() =>
-          onChange(valor - 1)
-        }
+        onPress={() => {
+          haptics.selection();
+          onChange(valor - 1);
+        }}
         style={{
           width: 44,
           height: 44,
@@ -127,8 +129,8 @@ function QuantitySelector({
           }}
         >
           {valor === 1
-            ? 'dia'
-            : 'dias'}
+            ? 'day'
+            : 'days'}
         </Text>
       </View>
 
@@ -137,9 +139,10 @@ function QuantitySelector({
       <TouchableOpacity
         activeOpacity={0.7}
         disabled={valor >= maximo}
-        onPress={() =>
-          onChange(valor + 1)
-        }
+        onPress={() => {
+          haptics.selection();
+          onChange(valor + 1);
+        }}
         style={{
           width: 44,
           height: 44,
@@ -335,28 +338,29 @@ export default function RegisterPeriod() {
   function salvarMenstruacao() {
     if (!dataSelecionada) {
       Alert.alert(
-        'Selecione uma data',
-        'Escolha o primeiro dia da sua menstruação no calendário.'
+        'Select a date',
+        'Choose the first day of your period on the calendar.'
       );
 
       return;
     }
 
     Alert.alert(
-      'Confirmar registro',
-      `Registrar o início da menstruação em ${formatarDataBR(
+      'Confirm entry',
+      `Log period start on ${formatarDataBR(
         dataSelecionada
       )}?`,
       [
         {
-          text: 'Cancelar',
+          text: 'Cancel',
           style: 'cancel',
         },
 
         {
-          text: 'Confirmar',
+          text: 'Confirm',
 
           onPress: () => {
+            haptics.success();
             // =====================================
             // DATA
             // =====================================
@@ -431,7 +435,7 @@ export default function RegisterPeriod() {
               registerPeriodStyles.fixedTitle
             }
           >
-            Registrar menstruação
+            Log period
           </Text>
 
           <View
@@ -481,12 +485,7 @@ export default function RegisterPeriod() {
                 registerPeriodStyles.subtitle
               }
             >
-              Escolha o primeiro dia
-              da sua menstruação. O
-              aplicativo calculará
-              automaticamente os
-              próximos ciclos conforme
-              as configurações abaixo.
+              Choose the first day of your period. The app will automatically calculate upcoming cycles based on the settings below.
             </Text>
           </View>
 
@@ -548,11 +547,12 @@ export default function RegisterPeriod() {
                 textDayFontWeight:
                   '600',
               }}
-              onDayPress={(day) =>
+              onDayPress={(day) => {
+                haptics.selection();
                 setDataSelecionada(
                   day.dateString
-                )
-              }
+                );
+              }}
             />
           </View>
 
@@ -580,7 +580,7 @@ export default function RegisterPeriod() {
                     registerPeriodStyles.selectedTitle
                   }
                 >
-                  Primeiro dia
+                  First day
                 </Text>
 
                 <Text
@@ -632,7 +632,7 @@ export default function RegisterPeriod() {
                   fontWeight: '700',
                 }}
               >
-                Duração da menstruação
+                Period length
               </Text>
             </View>
 
@@ -645,11 +645,7 @@ export default function RegisterPeriod() {
                 marginBottom: 14,
               }}
             >
-              Quantos dias sua
-              menstruação costuma durar?
-              Você poderá ajustar essa
-              duração para deixar as
-              previsões mais precisas.
+              How many days does your period usually last? You can adjust this duration to make forecasts more accurate.
             </Text>
 
             <QuantitySelector
@@ -704,7 +700,7 @@ export default function RegisterPeriod() {
                   fontWeight: '700',
                 }}
               >
-                Duração do ciclo
+                Cycle length
               </Text>
             </View>
 
@@ -717,11 +713,7 @@ export default function RegisterPeriod() {
                 marginBottom: 14,
               }}
             >
-              Informe quantos dias
-              normalmente existem entre
-              o primeiro dia de uma
-              menstruação e o primeiro dia
-              da próxima.
+              Enter the number of days between the first day of one period and the first day of the next.
             </Text>
 
             <QuantitySelector
@@ -760,7 +752,7 @@ export default function RegisterPeriod() {
                     registerPeriodStyles.dayRecordsTitle
                   }
                 >
-                  Registros do dia
+                  Day records
                 </Text>
               </View>
 
@@ -794,7 +786,7 @@ export default function RegisterPeriod() {
                       registerPeriodStyles.quickActionText
                     }
                   >
-                    Sintomas
+                    Symptoms
                   </Text>
                 </TouchableOpacity>
 
@@ -821,7 +813,7 @@ export default function RegisterPeriod() {
                       registerPeriodStyles.quickActionText
                     }
                   >
-                    Secreção
+                    Cervical Fluid
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -921,8 +913,7 @@ export default function RegisterPeriod() {
                     registerPeriodStyles.emptyDayText
                   }
                 >
-                  Nenhum registro
-                  neste dia ainda.
+                  Nothing logged on this day yet.
                 </Text>
               )}
             </View>
@@ -947,11 +938,11 @@ export default function RegisterPeriod() {
                 textAlign: 'center',
               }}
             >
-              Menstruação:{' '}
+              Period:{' '}
               {duracaoMenstruacaoSelecionada}{' '}
-              dias · Ciclo:{' '}
+              days · Cycle:{' '}
               {duracaoCicloSelecionada}{' '}
-              dias
+              days
             </Text>
           </View>
 
@@ -990,7 +981,7 @@ export default function RegisterPeriod() {
                   registerPeriodStyles.buttonText
                 }
               >
-                Salvar configurações
+                Save settings
               </Text>
             </View>
           </TouchableOpacity>

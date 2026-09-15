@@ -11,22 +11,30 @@ interface CyclePhaseCardProps {
   temCicloRegistrado: boolean;
 }
 
+const phaseTranslations: Record<string, string> = {
+  'Menstruação': 'Menstruation',
+  'Fase Folicular': 'Follicular Phase',
+  'Ovulação': 'Ovulation',
+  'Fase Lútea': 'Luteal Phase',
+  'Em andamento': 'In Progress',
+};
+
 export function CyclePhaseCard({ metricas, temCicloRegistrado }: CyclePhaseCardProps) {
   if (!temCicloRegistrado) {
     return (
       <View style={insightsStyles.mainCard}>
         <View style={insightsStyles.mainHeader}>
           <Ionicons name="heart" color={cycleColors.rose} size={28} />
-          <Text style={insightsStyles.mainTitle}>Seu ciclo</Text>
+          <Text style={insightsStyles.mainTitle}>Your Cycle</Text>
         </View>
 
         <View style={{ alignItems: 'center', paddingVertical: 20 }}>
           <Ionicons name="calendar-outline" size={44} color={cycleColors.gold} />
           <Text style={{ fontSize: 18, fontWeight: '700', color: '#FFFFFF', marginTop: 14 }}>
-            Nenhum ciclo registrado
+            No cycle recorded
           </Text>
           <Text style={{ fontSize: 14, textAlign: 'center', marginTop: 8, color: '#B8B8B8', lineHeight: 20, paddingHorizontal: 10 }}>
-            Adicione a data de início da sua menstruação no Calendário para ativar o acompanhamento do seu ciclo.
+            Add your period start date in the Calendar to start tracking your cycle.
           </Text>
 
           <TouchableOpacity
@@ -45,7 +53,7 @@ export function CyclePhaseCard({ metricas, temCicloRegistrado }: CyclePhaseCardP
           >
             <Ionicons name="calendar" size={16} color={cycleColors.rose} />
             <Text style={{ color: cycleColors.rose, fontWeight: '700', fontSize: 14 }}>
-              Ir para o Calendário
+              Go to Calendar
             </Text>
           </TouchableOpacity>
         </View>
@@ -57,16 +65,17 @@ export function CyclePhaseCard({ metricas, temCicloRegistrado }: CyclePhaseCardP
   const progressoExibicao = metricas?.progressoCiclo ?? 0;
   const duracaoCicloExibicao = metricas?.duracaoCiclo ?? 28;
   const duracaoMenstruacaoExibicao = metricas?.duracaoMenstruacao ?? 5;
-  const faseExibicao = metricas?.faseAtual ?? 'Em andamento';
+  const rawFase = metricas?.faseAtual ?? 'In Progress';
+  const faseExibicao = phaseTranslations[rawFase] || rawFase;
 
   return (
     <View style={insightsStyles.mainCard}>
       <View style={insightsStyles.mainHeader}>
         <Ionicons name="heart" color={cycleColors.rose} size={28} />
-        <Text style={insightsStyles.mainTitle}>Seu ciclo</Text>
+        <Text style={insightsStyles.mainTitle}>Your Cycle</Text>
       </View>
 
-      <Text style={insightsStyles.dayText}>Dia {diaExibicao}</Text>
+      <Text style={insightsStyles.dayText}>Day {diaExibicao}</Text>
 
       <View style={insightsStyles.progressBackground}>
         <View
@@ -78,7 +87,7 @@ export function CyclePhaseCard({ metricas, temCicloRegistrado }: CyclePhaseCardP
       </View>
 
       <Text style={insightsStyles.progressText}>
-        {progressoExibicao}% concluído
+        {progressoExibicao}% completed
       </Text>
 
       <View
@@ -97,7 +106,7 @@ export function CyclePhaseCard({ metricas, temCicloRegistrado }: CyclePhaseCardP
               fontWeight: '700',
             }}
           >
-            CICLO
+            CYCLE
           </Text>
           <Text
             style={{
@@ -107,7 +116,7 @@ export function CyclePhaseCard({ metricas, temCicloRegistrado }: CyclePhaseCardP
               marginTop: 4,
             }}
           >
-            {duracaoCicloExibicao} dias
+            {duracaoCicloExibicao} {duracaoCicloExibicao === 1 ? 'day' : 'days'}
           </Text>
         </View>
 
@@ -120,7 +129,7 @@ export function CyclePhaseCard({ metricas, temCicloRegistrado }: CyclePhaseCardP
               fontWeight: '700',
             }}
           >
-            MENSTRUAÇÃO
+            PERIOD
           </Text>
           <Text
             style={{
@@ -130,7 +139,7 @@ export function CyclePhaseCard({ metricas, temCicloRegistrado }: CyclePhaseCardP
               marginTop: 4,
             }}
           >
-            {duracaoMenstruacaoExibicao} {duracaoMenstruacaoExibicao === 1 ? 'dia' : 'dias'}
+            {duracaoMenstruacaoExibicao} {duracaoMenstruacaoExibicao === 1 ? 'day' : 'days'}
           </Text>
         </View>
       </View>
@@ -145,7 +154,7 @@ export function CyclePhaseCard({ metricas, temCicloRegistrado }: CyclePhaseCardP
             fontWeight: '700',
           }}
         >
-          FASE ATUAL
+          CURRENT PHASE
         </Text>
         <Text
           style={{

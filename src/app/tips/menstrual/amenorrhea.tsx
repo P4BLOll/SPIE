@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function AmenorrheaScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,317 +31,125 @@ export default function AmenorrheaScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="calendar-clear-outline"
             size={55}
             color="#6366F1"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Amenorreia
+            Amenorrhea
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda a ausência de menstruação, suas
-            possíveis causas e quando procurar ajuda.
+            Understand the absence of menstruation, potential causes, and when to seek medical advice.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é amenorreia?
+            What is amenorrhea?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Amenorreia é o termo utilizado para descrever
-            a ausência de menstruação.
-
+            Amenorrhea is the clinical term used to describe the absence of menstruation.
             {'\n\n'}
-
-            Ela pode acontecer em diferentes situações e
-            nem sempre significa que existe uma doença.
-
+            It can occur in different situations and does not always indicate an underlying illness.
             {'\n\n'}
-
-            É importante considerar a idade, o histórico
-            menstrual, a possibilidade de gravidez,
-            medicamentos utilizados e outras características
-            de cada pessoa.
+            It is essential to consider age, menstrual history, the possibility of pregnancy, current medications, and individual health characteristics.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Amenorreia primária
+            Primary amenorrhea
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A amenorreia primária está relacionada à pessoa
-            que ainda não apresentou a primeira menstruação
-            dentro da idade esperada.
-
+            Primary amenorrhea refers to when someone has not had their first menstrual period by the expected age (typically around age 15 to 16).
             {'\n\n'}
-
-            Existem diferentes motivos para isso acontecer,
-            incluindo fatores hormonais, genéticos e
-            alterações no desenvolvimento do sistema
-            reprodutivo.
-
+            There are various potential reasons for this, including hormonal imbalances, genetic factors, and structural differences in the reproductive system.
             {'\n\n'}
-
-            Quando a primeira menstruação demora além do
-            esperado, é importante procurar avaliação
-            profissional.
+            Whenever the first menstruation does not occur within the expected timeframe, a professional medical evaluation is recommended.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Amenorreia secundária
+            Secondary amenorrhea
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A amenorreia secundária acontece quando uma
-            pessoa que já menstruava deixa de menstruar
-            por um período prolongado.
-
+            Secondary amenorrhea occurs when a person who previously had menstrual periods experiences an absence of menstruation for several consecutive cycles or months.
             {'\n\n'}
-
-            A gravidez é uma das causas mais comuns em
-            pessoas sexualmente ativas, mas existem
-            diversas outras possibilidades.
-
+            In sexually active individuals, pregnancy is always one of the first possibilities to consider.
             {'\n\n'}
-
-            A ausência persistente da menstruação deve
-            ser investigada para identificar a causa.
+            Other frequent causes include significant hormonal shifts, intense emotional stress, drastic weight fluctuations, thyroid disorders, and certain medications.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Possíveis causas
+            Lifestyle and emotional factors
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A ausência de menstruação pode estar relacionada
-            a diferentes fatores, como:
-
+            The menstrual cycle is finely tuned and sensitive to overall bodily health.
             {'\n\n'}
-
-            • Gravidez;
-
+            Factors that can temporarily halt or delay periods include:
+            {'\n\n'}
+            • Chronic emotional distress or acute psychological stress;
             {'\n'}
-
-            • Amamentação;
-
+            • Rapid, drastic weight loss or severe caloric restriction;
             {'\n'}
-
-            • Menopausa;
-
+            • Overtraining or high-intensity athletic conditioning;
             {'\n'}
-
-            • Síndrome dos ovários policísticos (SOP);
-
-            {'\n'}
-
-            • Estresse intenso;
-
-            {'\n'}
-
-            • Perda ou ganho significativo de peso;
-
-            {'\n'}
-
-            • Exercícios físicos excessivos;
-
-            {'\n'}
-
-            • Alterações da tireoide;
-
-            {'\n'}
-
-            • Alterações hormonais;
-
-            {'\n'}
-
-            • Alguns medicamentos;
-
-            {'\n'}
-
-            • Outras condições de saúde.
+            • Severe sleep deprivation or disruption of circadian rhythms.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            E se houver possibilidade de gravidez?
+            Hormonal and health conditions
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Quando existe possibilidade de gravidez,
-            essa hipótese deve ser considerada.
-
+            Certain underlying medical conditions can disrupt normal ovulation and cycle regularity:
             {'\n\n'}
-
-            Um teste de gravidez pode ajudar a verificar
-            a situação.
-
-            {'\n\n'}
-
-            Caso o resultado seja negativo, mas a
-            menstruação continue ausente, pode ser
-            necessário repetir o teste ou procurar
-            orientação profissional, dependendo da situação.
+            • Polycystic Ovary Syndrome (PCOS);
+            {'\n'}
+            • Thyroid disorders (hypothyroidism or hyperthyroidism);
+            {'\n'}
+            • Hyperprolactinemia (elevated prolactin levels);
+            {'\n'}
+            • Premature ovarian insufficiency or perimenopause;
+            {'\n'}
+            • Use of hormonal birth control, which can naturally suppress bleeding.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Sintomas que podem aparecer
+            When to seek medical attention?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A ausência da menstruação pode acontecer
-            acompanhada de outros sintomas.
-
+            Consult a healthcare professional if:
             {'\n\n'}
-
-            Dependendo da causa, podem ocorrer:
-
-            {'\n\n'}
-
-            • Acne;
-
+            • You have reached age 15 or 16 without your first menstrual cycle;
             {'\n'}
-
-            • Aumento de pelos;
-
+            • Your periods were regular and have stopped for 3 or more months;
             {'\n'}
-
-            • Alterações de peso;
-
+            • Your periods were irregular and have stopped for 6 or more months;
             {'\n'}
-
-            • Ondas de calor;
-
+            • You experience accompanying symptoms like pelvic pain, unexplained hair growth, acne, headaches, vision changes, or nipple discharge;
             {'\n'}
-
-            • Alterações no sono;
-
-            {'\n'}
-
-            • Dor de cabeça;
-
-            {'\n'}
-
-            • Secreção nas mamas;
-
-            {'\n'}
-
-            • Dor pélvica.
-
-            {'\n\n'}
-
-            Esses sintomas não indicam uma causa específica
-            sozinhos.
+            • There is a chance of pregnancy.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como é feita a investigação?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O profissional pode perguntar sobre o histórico
-            menstrual, alimentação, exercícios, medicamentos,
-            saúde emocional e possibilidade de gravidez.
-
-            {'\n\n'}
-
-            Dependendo do caso, podem ser solicitados
-            testes de gravidez, exames de sangue,
-            avaliações hormonais ou exames de imagem.
-
-            {'\n\n'}
-
-            O objetivo é descobrir por que a menstruação
-            não está acontecendo.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure avaliação profissional se:
-
-            {'\n\n'}
-
-            • A menstruação desapareceu por vários meses;
-
-            {'\n'}
-
-            • Você já menstruava e deixou de menstruar
-            sem uma explicação conhecida;
-
-            {'\n'}
-
-            • Existe possibilidade de gravidez;
-
-            {'\n'}
-
-            • A ausência vem acompanhada de dor pélvica;
-
-            {'\n'}
-
-            • Existem alterações importantes de peso;
-
-            {'\n'}
-
-            • Há sintomas hormonais, como aumento
-            significativo de pelos ou secreção nas mamas.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            A ausência da menstruação pode ter muitas
-            causas. Se ela desaparecer por um período
-            prolongado ou houver outros sintomas, procure
-            orientação profissional para investigar a causa.
+            The absence of menstruation should never be ignored. Tracking your cycles helps doctors identify causes and find the most suitable treatment for your wellbeing.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

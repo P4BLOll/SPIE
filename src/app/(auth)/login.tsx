@@ -33,8 +33,8 @@ export default function LoginScreen() {
   async function handleLogin() {
     if (!email.trim() || !password.trim()) {
       showAlert({
-        title: 'Atenção',
-        message: 'Por favor, preencha o e-mail e a senha para entrar.',
+        title: 'Attention',
+        message: 'Please enter your email and password to log in.',
         type: 'warning',
       });
       return;
@@ -50,13 +50,27 @@ export default function LoginScreen() {
 
       router.replace('/(tabs)/calendar');
     } catch (error: any) {
+      console.log('[Login Error]', error?.code, error?.message);
+      let mensagem = 'Incorrect email or password. Please check your credentials and try again.';
+
+      if (
+        error?.code === 'auth/network-request-failed' ||
+        error?.message?.includes('network')
+      ) {
+        mensagem = 'No internet connection. Please check your network and try again.';
+      } else if (error?.code === 'auth/too-many-requests') {
+        mensagem = 'Access temporarily blocked due to multiple consecutive attempts. Please try again later or reset your password.';
+      } else if (error?.code === 'auth/user-disabled') {
+        mensagem = 'This account has been disabled. Please contact support.';
+      } else if (error?.code === 'auth/invalid-email') {
+        mensagem = 'The entered email address is not in a valid format.';
+      }
+
       showAlert({
-        title: 'Erro ao Entrar',
-        message: 'E-mail ou senha incorretos. Verifique seus dados e tente novamente.',
+        title: 'Unable to log in',
+        message: mensagem,
         type: 'error',
       });
-
-      console.log(error.message);
     } finally {
       setLoading(false);
     }
@@ -87,23 +101,23 @@ export default function LoginScreen() {
 
           <View style={loginStyles.header}>
             <Text style={loginStyles.title}>
-              Bem-vinda de volta
+              Welcome back
             </Text>
 
             <Text style={loginStyles.subtitle}>
-              Entre na sua conta para continuar usando o SPIE.
+              Sign in to your account to continue using SPIE.
             </Text>
           </View>
 
           <View style={loginStyles.form}>
             <Text style={loginStyles.label}>
-              E-mail
+              Email
             </Text>
 
             <View style={loginStyles.inputContainer}>
               <TextInput
                 style={loginStyles.input}
-                placeholder="Digite seu e-mail"
+                placeholder="Enter your email"
                 placeholderTextColor={
                   cycleColors.textMuted
                 }
@@ -116,13 +130,13 @@ export default function LoginScreen() {
             </View>
 
             <Text style={loginStyles.label}>
-              Senha
+              Password
             </Text>
 
             <View style={loginStyles.inputContainer}>
               <TextInput
                 style={loginStyles.input}
-                placeholder="Digite sua senha"
+                placeholder="Enter your password"
                 placeholderTextColor={
                   cycleColors.textMuted
                 }
@@ -158,7 +172,7 @@ export default function LoginScreen() {
               }
             >
               <Text style={loginStyles.forgotText}>
-                Esqueceu sua senha?
+                Forgot your password?
               </Text>
             </TouchableOpacity>
 
@@ -175,7 +189,7 @@ export default function LoginScreen() {
                   />
                 ) : (
                   <Text style={loginStyles.buttonText}>
-                    Entrar
+                    Log In
                   </Text>
                 )}
               </View>
@@ -189,14 +203,14 @@ export default function LoginScreen() {
             }
           >
             <Text style={loginStyles.footerText}>
-              Ainda não possui uma conta?{' '}
+              Don't have an account yet?{' '}
 
               <Text
                 style={
                   loginStyles.footerTextAccent
                 }
               >
-                Criar conta
+                Sign up
               </Text>
             </Text>
           </TouchableOpacity>

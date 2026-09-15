@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function UterinePolypsScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,265 +31,81 @@ export default function UterinePolypsScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="medkit-outline"
             size={55}
             color="#14B8A6"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Pólipos uterinos
+            Uterine Polyps
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Saiba o que são os pólipos, quais alterações
-            podem causar e quando procurar avaliação.
+            Learn what endometrial polyps are, their symptoms, impact on fertility, and removal options.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que são pólipos uterinos?
+            What are uterine polyps?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Pólipos uterinos são crescimentos de tecido que
-            se desenvolvem no revestimento interno do útero,
-            chamado endométrio.
-
+            Uterine polyps (endometrial polyps) are soft, finger-like growths attached to the inner wall of the uterus that extend into the uterine cavity.
             {'\n\n'}
-
-            Eles podem ter diferentes tamanhos e podem
-            aparecer como uma pequena alteração ou como
-            uma estrutura maior dentro da cavidade uterina.
-
+            They form due to overgrowth of cells in the lining of the uterus (endometrium).
             {'\n\n'}
-
-            A maioria é benigna, mas alguns pólipos podem
-            apresentar alterações que precisam ser avaliadas.
+            The vast majority are benign, although a small percentage may be precancerous or malignant, particularly in postmenopausal individuals.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Podem não causar sintomas
+            Typical symptoms
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas pessoas possuem pólipos sem apresentar
-            nenhuma alteração perceptível.
-
+            Many polyps cause no symptoms at all. When symptoms are present, they commonly include:
             {'\n\n'}
-
-            Em muitos casos, eles são descobertos durante
-            exames realizados por outros motivos.
-
-            {'\n\n'}
-
-            Quando existem sintomas, o mais comum é haver
-            alterações no padrão do sangramento.
+            • Irregular menstrual bleeding or spotting between periods;
+            {'\n'}
+            • Unusually heavy menstrual flows;
+            {'\n'}
+            • Bleeding or spotting after sexual intercourse;
+            {'\n'}
+            • Vaginal bleeding or spotting after menopause;
+            {'\n'}
+            • Infertility or recurrent pregnancy loss.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Possíveis sintomas
+            Diagnosis and hysteroscopy
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Os pólipos podem estar associados a:
-
+            Polyps are diagnosed using transvaginal ultrasound, saline infusion sonography (sonohysterography), or hysteroscopy.
             {'\n\n'}
-
-            • Sangramento entre as menstruações;
-
-            {'\n'}
-
-            • Menstruação mais intensa;
-
-            {'\n'}
-
-            • Menstruação irregular;
-
-            {'\n'}
-
-            • Sangramento após a menopausa;
-
-            {'\n'}
-
-            • Sangramento após relações sexuais;
-
-            {'\n'}
-
-            • Sangramento vaginal inesperado.
-
-            {'\n\n'}
-
-            Nem todo sangramento anormal é causado
-            por pólipos.
+            Hysteroscopy allows a doctor to insert a thin illuminated scope through the cervix into the uterus to directly visualize and remove (polypectomy) polyps during a minor outpatient procedure.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Pólipos e fertilidade
+            When to seek medical attention?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Em algumas situações, pólipos dentro da
-            cavidade uterina podem estar associados a
-            dificuldades para engravidar.
-
-            {'\n\n'}
-
-            Isso não significa que toda pessoa com pólipo
-            terá problemas de fertilidade.
-
-            {'\n\n'}
-
-            A avaliação deve considerar o tamanho,
-            localização e características do pólipo,
-            além dos objetivos reprodutivos da pessoa.
+            Seek a gynecological evaluation if you notice bleeding between periods, heavier bleeding than usual, or any vaginal bleeding after menopause.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Pólipo é câncer?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Na maioria das vezes, os pólipos uterinos
-            são benignos.
-
-            {'\n\n'}
-
-            Entretanto, alguns podem apresentar alterações
-            pré-cancerosas ou cancerosas.
-
-            {'\n\n'}
-
-            Por isso, o profissional de saúde pode recomendar
-            investigação ou acompanhamento, principalmente
-            quando existem fatores de risco ou sangramentos
-            anormais.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como é feito o diagnóstico?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            A investigação pode começar com uma
-            ultrassonografia transvaginal.
-
-            {'\n\n'}
-
-            Dependendo do caso, outros exames podem ser
-            indicados, como a histeroscopia, que permite
-            visualizar diretamente o interior do útero.
-
-            {'\n\n'}
-
-            O profissional escolherá os exames de acordo
-            com os sintomas e a situação de cada pessoa.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Tratamento
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Alguns pólipos pequenos podem ser apenas
-            acompanhados, principalmente quando não
-            provocam sintomas.
-
-            {'\n\n'}
-
-            Quando há sangramento, crescimento do pólipo,
-            alterações suspeitas ou outras indicações,
-            pode ser recomendada a remoção.
-
-            {'\n\n'}
-
-            A retirada pode ser realizada por meio de
-            histeroscopia em muitos casos.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure avaliação profissional se houver:
-
-            {'\n\n'}
-
-            • Sangramento entre as menstruações;
-
-            {'\n'}
-
-            • Menstruação muito intensa ou irregular;
-
-            {'\n'}
-
-            • Sangramento após relações sexuais;
-
-            {'\n'}
-
-            • Sangramento após a menopausa;
-
-            {'\n'}
-
-            • Sangramento vaginal sem causa conhecida;
-
-            {'\n'}
-
-            • Alteração identificada em um exame.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            A maioria dos pólipos uterinos é benigna,
-            mas sangramentos fora do padrão menstrual
-            devem ser avaliados para identificar a causa
-            corretamente.
+            Any bleeding between cycles or after menopause warrants evaluation. Hysteroscopy provides both clear diagnosis and gentle removal of endometrial polyps.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

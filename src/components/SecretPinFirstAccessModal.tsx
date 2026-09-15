@@ -10,10 +10,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { cycleColors } from '@/styles/calendar.styles';
+import { auth } from '@/services/firebaseConfig';
 import { DEFAULT_PIN, pinAuthService } from '@/modules/security-vault/services/pinAuthService';
+import { getTutorialStorageKey } from '@/components/AppTutorial';
 
-const SECRET_PIN_NOTICE_KEY = '@spie_secret_pin_first_notice_seen';
-const TUTORIAL_KEY = '@spie_tutorial_do_not_show_again';
+export const getSecretPinNoticeKey = (uid?: string | null) => {
+  const userId = uid || auth.currentUser?.uid;
+  return userId ? `@spie_secret_pin_first_notice_seen_${userId}` : '@spie_secret_pin_first_notice_seen';
+};
 
 interface SecretPinFirstAccessModalProps {
   forcarExibicao?: boolean;
@@ -32,23 +36,26 @@ export function SecretPinFirstAccessModal({ forcarExibicao = false }: SecretPinF
           return;
         }
 
-        const jaVisto = await AsyncStorage.getItem(SECRET_PIN_NOTICE_KEY);
+        const uid = auth.currentUser?.uid;
+        const noticeKey = getSecretPinNoticeKey(uid);
+        const jaVisto = await AsyncStorage.getItem(noticeKey);
         if (jaVisto === 'true') {
           return;
         }
 
-        const isDefault = await pinAuthService.isDefaultPin();
+        const isDefault = await pinAuthService.isDefaultPin(uid);
         if (!isDefault) {
           return;
         }
 
         // Se o tutorial inicial ainda não foi concluído, aguarda 2.5s para não colidir
-        const tutorialVisto = await AsyncStorage.getItem(TUTORIAL_KEY);
+        const tutorialKey = getTutorialStorageKey(uid);
+        const tutorialVisto = await AsyncStorage.getItem(tutorialKey);
         const delay = tutorialVisto === 'true' ? 600 : 2500;
 
         setTimeout(async () => {
           if (!ativo) return;
-          const statusAtual = await AsyncStorage.getItem(SECRET_PIN_NOTICE_KEY);
+          const statusAtual = await AsyncStorage.getItem(noticeKey);
           if (statusAtual !== 'true') {
             setVisivel(true);
           }
@@ -67,7 +74,8 @@ export function SecretPinFirstAccessModal({ forcarExibicao = false }: SecretPinF
 
   async function fecharAviso(irParaAlterar = false) {
     try {
-      await AsyncStorage.setItem(SECRET_PIN_NOTICE_KEY, 'true');
+      const uid = auth.currentUser?.uid;
+      await AsyncStorage.setItem(getSecretPinNoticeKey(uid), 'true');
     } catch (e) {
       console.warn('[SecretPinFirstAccessModal] Erro ao salvar status:', e);
     } finally {
@@ -99,24 +107,24 @@ export function SecretPinFirstAccessModal({ forcarExibicao = false }: SecretPinF
           </View>
 
           {/* Título */}
-          <Text style={modalStyles.title}>Área Secreta de Segurança</Text>
+          <Text style={modalStyles.title}>Secret Security Vault</Text>
 
           {/* Descrição */}
           <Text style={modalStyles.description}>
-            Para garantir sua proteção e privacidade, o SPIE conta com uma Área Secreta dedicada a contatos de emergência e histórico de alertas.
+            To ensure your safety and privacy, SPIE includes a Secret Vault dedicated to emergency contacts and SOS alert history.
           </Text>
 
           {/* Box de Destaque da Senha Inicial */}
           <View style={modalStyles.pinBox}>
             <View style={modalStyles.pinHeader}>
               <Ionicons name="key" size={14} color={cycleColors.gold} />
-              <Text style={modalStyles.pinLabel}>SUA SENHA PADRÃO INICIAL</Text>
+              <Text style={modalStyles.pinLabel}>YOUR DEFAULT INITIAL PIN</Text>
             </View>
 
             <Text style={modalStyles.pinNumber}>{DEFAULT_PIN.split('').join('  ')}</Text>
 
             <Text style={modalStyles.pinHint}>
-              Use este código para acessar a Área Secreta ou altere para um PIN de sua preferência.
+              Use this PIN to access the Secret Vault or change it to your preferred 4-digit PIN.
             </Text>
           </View>
 
@@ -127,7 +135,7 @@ export function SecretPinFirstAccessModal({ forcarExibicao = false }: SecretPinF
             onPress={() => fecharAviso(true)}
           >
             <Ionicons name="create-outline" size={18} color="#FFFFFF" />
-            <Text style={modalStyles.primaryButtonText}>Alterar Senha Agora</Text>
+            <Text style={modalStyles.primaryButtonText}>Change PIN Now</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -136,7 +144,7 @@ export function SecretPinFirstAccessModal({ forcarExibicao = false }: SecretPinF
             onPress={() => fecharAviso(false)}
           >
             <Text style={modalStyles.secondaryButtonText}>
-              Entendido, manter {DEFAULT_PIN}
+              Got it, keep {DEFAULT_PIN}
             </Text>
           </TouchableOpacity>
         </View>

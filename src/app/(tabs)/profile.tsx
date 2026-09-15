@@ -43,6 +43,7 @@ import {
 } from 'react-native-safe-area-context';
 
 import { profileStyles } from '@/styles/profile.styles';
+import { AppTutorial } from '@/components/AppTutorial';
 
 import {
   cycleColors,
@@ -60,6 +61,7 @@ import {
   updateDoc,
   collection,
   getCountFromServer,
+  getDocs,
 } from 'firebase/firestore';
 
 import {
@@ -170,7 +172,7 @@ export default function ProfileScreen() {
   const [
     userName,
     setUserName,
-  ] = useState('Usuária');
+  ] = useState('User');
 
 
   const [
@@ -203,6 +205,11 @@ export default function ProfileScreen() {
   const [
     salvandoFoto,
     setSalvandoFoto,
+  ] = useState(false);
+
+  const [
+    tutorialVisivel,
+    setTutorialVisivel,
   ] = useState(false);
 
 
@@ -267,7 +274,7 @@ export default function ProfileScreen() {
 
           if (!user) {
 
-            setUserName('Usuária');
+            setUserName('User');
 
             setUserEmail('');
 
@@ -348,28 +355,37 @@ export default function ProfileScreen() {
 
 
           // =================================================
-          // BUSCAR TUDO AO MESMO TEMPO
+          // BUSCA SEGURA COM SUPORTE A MODO OFFLINE
           // =================================================
 
-          const [
-            userSnapshot,
-            alertCountResult,
-            contactsCountResult,
-          ] = await Promise.all([
+          let userSnapshot = null;
+          try {
+            userSnapshot = await getDoc(userRef);
+          } catch (err) {
+            console.log('Aviso ao carregar dados do usuário (modo offline ativo):', err);
+          }
 
-            getDoc(
-              userRef
-            ),
+          let totalAlertas = 0;
+          try {
+            const alertCountResult = await getCountFromServer(alertHistoryRef);
+            totalAlertas = alertCountResult.data().count;
+          } catch {
+            try {
+              const snap = await getDocs(alertHistoryRef);
+              totalAlertas = snap.size;
+            } catch {}
+          }
 
-            getCountFromServer(
-              alertHistoryRef
-            ),
-
-            getCountFromServer(
-              contactsRef
-            ),
-
-          ]);
+          let totalContatos = 0;
+          try {
+            const contactsCountResult = await getCountFromServer(contactsRef);
+            totalContatos = contactsCountResult.data().count;
+          } catch {
+            try {
+              const snap = await getDocs(contactsRef);
+              totalContatos = snap.size;
+            } catch {}
+          }
 
 
           // =================================================
@@ -377,7 +393,7 @@ export default function ProfileScreen() {
           // =================================================
 
           if (
-            userSnapshot.exists()
+            userSnapshot?.exists()
           ) {
 
             const data =
@@ -409,7 +425,7 @@ export default function ProfileScreen() {
             } else {
 
               setUserName(
-                'Usuária'
+                'User'
               );
 
             }
@@ -476,7 +492,7 @@ export default function ProfileScreen() {
           } else {
 
             setUserName(
-              'Usuária'
+              'User'
             );
 
             setUserAvatarId(
@@ -486,52 +502,8 @@ export default function ProfileScreen() {
           }
 
 
-          // =================================================
-          // QUANTIDADE DE ALERTAS
-          // =================================================
-
-          try {
-
-            setQuantidadeAlertas(
-              alertCountResult
-                .data()
-                .count
-            );
-
-          } catch (error) {
-
-            console.log(
-              'Erro ao obter quantidade de alertas:',
-              error
-            );
-
-            setQuantidadeAlertas(0);
-
-          }
-
-
-          // =================================================
-          // QUANTIDADE DE CONTATOS
-          // =================================================
-
-          try {
-
-            setQuantidadeContatos(
-              contactsCountResult
-                .data()
-                .count
-            );
-
-          } catch (error) {
-
-            console.log(
-              'Erro ao obter quantidade de contatos:',
-              error
-            );
-
-            setQuantidadeContatos(0);
-
-          }
+          setQuantidadeAlertas(totalAlertas);
+          setQuantidadeContatos(totalContatos);
 
 
           // =================================================
@@ -661,7 +633,7 @@ export default function ProfileScreen() {
       params: {
 
         destino:
-          '/profile/history',
+          '/security/alert-history',
 
         origem:
           '/(tabs)/profile',
@@ -683,8 +655,8 @@ export default function ProfileScreen() {
       const user = auth.currentUser;
       if (!user) {
         showAlert({
-          title: 'Erro',
-          message: 'Usuário não autenticado.',
+          title: 'Error',
+          message: 'User not authenticated.',
           type: 'error',
         });
         return;
@@ -699,15 +671,15 @@ export default function ProfileScreen() {
       setModalFotoVisivel(false);
 
       showAlert({
-        title: 'Foto Atualizada',
-        message: 'Sua foto de perfil foi alterada com sucesso!',
+        title: 'Photo Updated',
+        message: 'Your profile picture has been updated successfully!',
         type: 'success',
       });
     } catch (error) {
-      console.warn('[Profile] Erro ao salvar foto:', error);
+      console.warn('[Profile] Error saving photo:', error);
       showAlert({
-        title: 'Erro',
-        message: 'Não foi possível salvar a foto de perfil.',
+        title: 'Error',
+        message: 'Could not save profile picture.',
         type: 'error',
       });
     } finally {
@@ -720,8 +692,8 @@ export default function ProfileScreen() {
       const picker = getImagePicker();
       if (!picker) {
         showAlert({
-          title: 'Recompilação Necessária',
-          message: 'Para usar a galeria no seu celular/emulador, recompile o app rodando: npx expo run:android',
+          title: 'Rebuild Required',
+          message: 'To use the gallery on your phone/emulator, rebuild the app by running: npx expo run:android',
           type: 'info',
         });
         return;
@@ -730,8 +702,8 @@ export default function ProfileScreen() {
       const { status } = await picker.requestMediaLibraryPermissionsAsync();
       if (status !== 'granted') {
         showAlert({
-          title: 'Permissão Necessária',
-          message: 'Permita o acesso à galeria para escolher sua foto de perfil.',
+          title: 'Permission Required',
+          message: 'Please allow gallery access to choose your profile picture.',
           type: 'warning',
         });
         return;
@@ -749,10 +721,10 @@ export default function ProfileScreen() {
         await salvarFoto(result.assets[0]);
       }
     } catch (error) {
-      console.warn('[Profile] Erro ao abrir galeria:', error);
+      console.warn('[Profile] Error opening gallery:', error);
       showAlert({
-        title: 'Erro',
-        message: 'Não foi possível abrir a galeria de imagens.',
+        title: 'Error',
+        message: 'Could not open image gallery.',
         type: 'error',
       });
     }
@@ -763,8 +735,8 @@ export default function ProfileScreen() {
       const picker = getImagePicker();
       if (!picker) {
         showAlert({
-          title: 'Recompilação Necessária',
-          message: 'Para usar a câmera no seu celular/emulador, recompile o app rodando: npx expo run:android',
+          title: 'Rebuild Required',
+          message: 'To use the camera on your phone/emulator, rebuild the app by running: npx expo run:android',
           type: 'info',
         });
         return;
@@ -773,8 +745,8 @@ export default function ProfileScreen() {
       const { status } = await picker.requestCameraPermissionsAsync();
       if (status !== 'granted') {
         showAlert({
-          title: 'Permissão Necessária',
-          message: 'Permita o acesso à câmera para tirar sua foto de perfil.',
+          title: 'Permission Required',
+          message: 'Please allow camera access to take your profile picture.',
           type: 'warning',
         });
         return;
@@ -791,10 +763,10 @@ export default function ProfileScreen() {
         await salvarFoto(result.assets[0]);
       }
     } catch (error) {
-      console.warn('[Profile] Erro ao abrir câmera:', error);
+      console.warn('[Profile] Error opening camera:', error);
       showAlert({
-        title: 'Erro',
-        message: 'Não foi possível abrir a câmera.',
+        title: 'Error',
+        message: 'Could not open camera.',
         type: 'error',
       });
     }
@@ -811,15 +783,15 @@ export default function ProfileScreen() {
       setModalFotoVisivel(false);
 
       showAlert({
-        title: 'Foto Removida',
-        message: 'Seu avatar padrão foi restaurado.',
+        title: 'Photo Removed',
+        message: 'Your default avatar has been restored.',
         type: 'info',
       });
     } catch (error) {
-      console.warn('[Profile] Erro ao remover foto:', error);
+      console.warn('[Profile] Error removing photo:', error);
       showAlert({
-        title: 'Erro',
-        message: 'Não foi possível remover a foto.',
+        title: 'Error',
+        message: 'Could not remove photo.',
         type: 'error',
       });
     } finally {
@@ -855,20 +827,20 @@ export default function ProfileScreen() {
     }
 
     showConfirm({
-      title: 'Sair da Conta',
-      message: 'Deseja realmente encerrar a sua sessão no SPIE?',
+      title: 'Log Out',
+      message: 'Are you sure you want to end your SPIE session?',
       type: 'danger',
-      confirmText: 'Sair',
-      cancelText: 'Cancelar',
+      confirmText: 'Log Out',
+      cancelText: 'Cancel',
       onConfirm: async () => {
         try {
           await signOut(auth);
           router.replace('/(auth)/login');
         } catch (error) {
-          console.log('Erro ao sair da conta:', error);
+          console.log('Error logging out:', error);
           showAlert({
-            title: 'Erro',
-            message: 'Não foi possível sair da conta.',
+            title: 'Error',
+            message: 'Could not log out.',
             type: 'error',
           });
         }
@@ -909,7 +881,7 @@ export default function ProfileScreen() {
             profileStyles.eyebrow
           }
         >
-          SUA CONTA
+          YOUR ACCOUNT
         </Text>
 
 
@@ -918,7 +890,7 @@ export default function ProfileScreen() {
             profileStyles.title
           }
         >
-          Perfil
+          Profile
         </Text>
 
       </View>
@@ -1050,7 +1022,7 @@ export default function ProfileScreen() {
                 profileStyles.editButtonText
               }
             >
-              Editar perfil
+              Edit profile
             </Text>
           </View>
         </TouchableOpacity>
@@ -1109,7 +1081,7 @@ export default function ProfileScreen() {
                 profileStyles.statTitle
               }
             >
-              Alertas
+              Alerts
             </Text>
 
           </View>
@@ -1158,7 +1130,7 @@ export default function ProfileScreen() {
                 profileStyles.statTitle
               }
             >
-              Contatos
+              Contacts
             </Text>
 
           </View>
@@ -1207,7 +1179,7 @@ export default function ProfileScreen() {
                 profileStyles.statTitle
               }
             >
-              Desde
+              Since
             </Text>
 
           </View>
@@ -1224,7 +1196,7 @@ export default function ProfileScreen() {
             profileStyles.menuSectionLabel
           }
         >
-          CONTA
+          ACCOUNT
         </Text>
 
 
@@ -1241,7 +1213,7 @@ export default function ProfileScreen() {
 
           <MenuItem
             icon="time-outline"
-            title="Histórico de alertas"
+            title="Alert history"
             iconColor={
               cycleColors.teal
             }
@@ -1261,7 +1233,7 @@ export default function ProfileScreen() {
 
           <MenuItem
             icon="people-outline"
-            title="Contatos de emergência"
+            title="Emergency contacts"
             iconColor={
               cycleColors.lavender
             }
@@ -1281,7 +1253,7 @@ export default function ProfileScreen() {
 
           <MenuItem
             icon="shield-checkmark-outline"
-            title="Privacidade"
+            title="Privacy Policy"
             iconColor={
               cycleColors.gold
             }
@@ -1303,7 +1275,7 @@ export default function ProfileScreen() {
 
           <MenuItem
             icon="information-circle-outline"
-            title="Sobre o SPIE"
+            title="About SPIE / Terms"
             iconColor={
               cycleColors.rose
             }
@@ -1321,11 +1293,31 @@ export default function ProfileScreen() {
           />
 
 
+          {/* COMO USAR / TUTORIAL */}
+
+          <MenuItem
+            icon="help-circle-outline"
+            title="How to use SPIE"
+            iconColor={
+              cycleColors.teal
+            }
+            iconBg={
+              cycleColors.tealSoft
+            }
+            onPress={() =>
+              setTutorialVisivel(true)
+            }
+            disabled={
+              carregando
+            }
+          />
+
+
           {/* SAIR */}
 
           <MenuItem
             icon="log-out-outline"
-            title="Sair da conta"
+            title="Log out"
             iconColor="#FF5C77"
             iconBg="rgba(255, 92, 119, 0.16)"
             isLast
@@ -1357,7 +1349,7 @@ export default function ProfileScreen() {
         >
           <TouchableOpacity activeOpacity={1} style={profileStyles.photoModalContent}>
             <View style={profileStyles.photoModalHandle} />
-            <Text style={profileStyles.photoModalTitle}>Foto de Perfil</Text>
+            <Text style={profileStyles.photoModalTitle}>Profile Picture</Text>
 
             <TouchableOpacity
               style={profileStyles.photoModalOption}
@@ -1365,7 +1357,7 @@ export default function ProfileScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="camera" size={22} color={cycleColors.rose} />
-              <Text style={profileStyles.photoModalOptionText}>Tirar foto agora</Text>
+              <Text style={profileStyles.photoModalOptionText}>Take photo now</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -1374,7 +1366,7 @@ export default function ProfileScreen() {
               activeOpacity={0.7}
             >
               <Ionicons name="images" size={22} color={cycleColors.lavender} />
-              <Text style={profileStyles.photoModalOptionText}>Escolher da galeria</Text>
+              <Text style={profileStyles.photoModalOptionText}>Choose from gallery</Text>
             </TouchableOpacity>
 
             {userPhotoUrl && (
@@ -1385,7 +1377,7 @@ export default function ProfileScreen() {
               >
                 <Ionicons name="trash-outline" size={22} color="#FF5C77" />
                 <Text style={[profileStyles.photoModalOptionText, { color: '#FF5C77' }]}>
-                  Remover foto personalizada
+                  Remove custom photo
                 </Text>
               </TouchableOpacity>
             )}
@@ -1395,11 +1387,16 @@ export default function ProfileScreen() {
               onPress={() => setModalFotoVisivel(false)}
               activeOpacity={0.7}
             >
-              <Text style={profileStyles.photoModalCancelText}>Cancelar</Text>
+              <Text style={profileStyles.photoModalCancelText}>Cancel</Text>
             </TouchableOpacity>
           </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
+
+      <AppTutorial
+        visible={tutorialVisivel}
+        onFinish={() => setTutorialVisivel(false)}
+      />
 
     </SafeAreaView>
 

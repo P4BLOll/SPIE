@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {View,Text,TouchableOpacity,} from 'react-native';
 import { registerStyles } from '../../styles/register.styles';
+import { cycleColors } from '@/constants/Colors';
 
 type Props = {
   goals: string[];
@@ -10,12 +11,12 @@ type Props = {
 };
 
 const options = [
-  'Monitorar meu ciclo',
-  'Engravidar',
-  'Acompanhar gravidez',
-  'Conhecer meu corpo',
-  'Entender minha secreção',
-  'Melhorar minha vida sexual',
+  'Track my cycle',
+  'Get pregnant',
+  'Track pregnancy',
+  'Understand my body',
+  'Monitor cervical mucus',
+  'Improve sexual health',
 ];
 
 export default function StepThree({goals,setGoals,nextStep,previousStep,}: Props) {
@@ -43,17 +44,17 @@ export default function StepThree({goals,setGoals,nextStep,previousStep,}: Props
     <View style={registerStyles.form}>
 
       <Text style={registerStyles.stepTitle}>
-        Objetivos
+        Goals
       </Text>
 
       <Text style={registerStyles.stepSubtitle}>
-        Selecione tudo o que deseja acompanhar no SPIE.
+        Select everything you would like to track with SPIE.
       </Text>
 
       <View
         style={[
           registerStyles.chipsContainer,
-          goalError && {borderColor:'red', borderWidth:1}
+          goalError && { borderColor: cycleColors.danger, borderWidth: 1 }
         ]}
       >
         {options.map(option => {
@@ -84,8 +85,8 @@ export default function StepThree({goals,setGoals,nextStep,previousStep,}: Props
       </View>
 
       {goalError && (
-        <Text style={{color:'red'}}>
-          Selecione pelo menos um objetivo
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Please select at least one goal
         </Text>
       )}
 
@@ -96,7 +97,7 @@ export default function StepThree({goals,setGoals,nextStep,previousStep,}: Props
           onPress={previousStep}
         >
           <Text style={registerStyles.backButtonText}>
-            Voltar
+            Back
           </Text>
         </TouchableOpacity>
 
@@ -105,7 +106,7 @@ export default function StepThree({goals,setGoals,nextStep,previousStep,}: Props
           onPress={handleNext}
         >
           <Text style={registerStyles.nextButtonText}>
-            Próximo
+            Next
           </Text>
         </TouchableOpacity>
 

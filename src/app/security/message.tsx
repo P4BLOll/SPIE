@@ -127,14 +127,14 @@ export default function MessageScreen() {
     mensagemVeridica,
     setMensagemVeridica,
   ] = useState(
-    'Uma pessoa acionou um pedido de ajuda. Entre em contato com ela o mais rápido possível.'
+    'A user has triggered an emergency request for help. Please contact them as soon as possible.'
   );
 
   const [
     mensagemFalsa,
     setMensagemFalsa,
   ] = useState(
-    'O alerta de emergência foi acionado por engano. Não é necessário entrar em contato.'
+    'The emergency alert was triggered by mistake. No action is required.'
   );
 
   const mensagemAtual =
@@ -264,8 +264,8 @@ export default function MessageScreen() {
 
   function salvarMensagens() {
     Alert.alert(
-      'Mensagens salvas',
-      'Suas mensagens de emergência foram atualizadas.'
+      'Messages saved',
+      'Your emergency messages have been updated.'
     );
   }
 
@@ -326,7 +326,7 @@ export default function MessageScreen() {
               styles.pageTitle
             }
           >
-            MENSAGEM DE EMERGÊNCIA
+            EMERGENCY MESSAGE
           </Text>
 
           <View
@@ -444,7 +444,7 @@ export default function MessageScreen() {
                       styles.heroTimestamp
                     }
                   >
-                    agora
+                    now
                   </Text>
 
                 </View>
@@ -482,7 +482,7 @@ export default function MessageScreen() {
                   >
                     {tipoAlerta === 'veridico'
                       ? 'REAL'
-                      : 'FALSO'}
+                      : 'FALSE'}
                   </Text>
 
                 </View>
@@ -524,7 +524,7 @@ export default function MessageScreen() {
                   styles.heroFootnote
                 }
               >
-                É assim que seus contatos verão a mensagem
+                This is how your contacts will see the message
               </Text>
 
             </View>
@@ -602,7 +602,7 @@ export default function MessageScreen() {
                     },
                   ]}
                 >
-                  Verídico
+                  Real Alert
                 </Text>
 
               </TouchableOpacity>
@@ -642,7 +642,7 @@ export default function MessageScreen() {
                     },
                   ]}
                 >
-                  Falso
+                  False Alarm
                 </Text>
 
               </TouchableOpacity>
@@ -658,7 +658,7 @@ export default function MessageScreen() {
                 styles.sectionLabel
               }
             >
-              MENSAGEM
+              MESSAGE
             </Text>
 
             <Text
@@ -666,7 +666,7 @@ export default function MessageScreen() {
                 styles.sectionDescription
               }
             >
-              Edite o conteúdo enviado aos contatos
+              Edit the message sent to your contacts
             </Text>
 
             <View
@@ -686,7 +686,7 @@ export default function MessageScreen() {
                 }
                 multiline
                 textAlignVertical="top"
-                placeholder="Digite a mensagem..."
+                placeholder="Type your message..."
                 placeholderTextColor={
                   cycleColors.textMuted
                 }
@@ -714,7 +714,7 @@ export default function MessageScreen() {
                     styles.editIndicatorText
                   }
                 >
-                  Toque no texto para editar
+                  Tap text to edit
                 </Text>
 
               </View>
@@ -758,7 +758,7 @@ export default function MessageScreen() {
                     styles.infoTitle
                   }
                 >
-                  Como funciona
+                  How it works
                 </Text>
 
                 <Text
@@ -766,9 +766,9 @@ export default function MessageScreen() {
                     styles.infoText
                   }
                 >
-                  O SPIE utiliza uma mensagem diferente para cada situação. Você pode
-                  personalizar o texto do alerta verídico e também o texto utilizado
-                  quando o alerta for considerado falso.
+                  SPIE uses different messages for each situation. You can
+                  customize the real emergency alert text as well as the
+                  follow-up text sent if an alarm is dismissed as a false alarm.
                 </Text>
 
               </View>
@@ -811,7 +811,7 @@ export default function MessageScreen() {
                     styles.saveButtonText
                   }
                 >
-                  Salvar mensagens
+                  Save messages
                 </Text>
 
               </View>

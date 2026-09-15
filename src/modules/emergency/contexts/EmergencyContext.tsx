@@ -6,6 +6,8 @@ import { useDevice } from '@/modules/device/hooks/useDevice';
 import { emergencyRepository } from '../services/emergencyRepository';
 import { locationTrackerService } from '../services/locationTrackerService';
 import { directSmsService } from '../services/directSmsService';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '@/services/firebaseConfig';
 import { EmergencyContact, AlertLocation } from '../types/emergency.types';
 
 interface EmergencyContextData {
@@ -122,9 +124,9 @@ export const EmergencyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
       const mapUrl = `https://maps.google.com/?q=${location.latitude},${location.longitude}`;
       
-      // Dupla mensagem para provocar notificações consecutivas no celular do contato
-      const msg1 = `[SPIE SOS 1/2] SOCORRO URGENTE! Preciso de ajuda imediata. Minha localizacao em tempo real: ${mapUrl}`;
-      const msg2 = `[SPIE SOS 2/2] ATENCAO! O botao de socorro foi acionado. Verifique o link anterior no mapa e tente contato agora!`;
+      // Double message to trigger consecutive notifications on the contact's phone
+      const msg1 = `[SPIE SOS 1/2] URGENT EMERGENCY! I need immediate help. My real-time location: ${mapUrl}`;
+      const msg2 = `[SPIE SOS 2/2] ATTENTION! The emergency SOS button was triggered. Check the previous map link and contact me now!`;
 
       // Extrai todos os números válidos
       const telefones = currentContacts
@@ -211,21 +213,41 @@ export const EmergencyProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   }, [activeAlertId, stopLiveTracking]);
 
   /**
-   * Solicita permissões preventivamente e registra o listener para o botão físico da pulseira.
+   * Solicita permissões preventivamente, sincroniza contatos com o ciclo de vida do usuário (auth)
+   * e registra o listener para o botão físico da pulseira.
    */
   useEffect(() => {
     directSmsService.requestPermission();
-    carregarContatos();
 
-    const unsubscribe = registerSosListener(() => {
+    let unsubscribeContacts: (() => void) | null = null;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        setContacts([]);
+        if (unsubscribeContacts) {
+          unsubscribeContacts();
+          unsubscribeContacts = null;
+        }
+        return;
+      }
+
+      // Usuário autenticado: sincroniza contatos em tempo real
+      unsubscribeContacts = emergencyRepository.subscribeContacts((list) => {
+        setContacts(list);
+      });
+    });
+
+    const unsubscribeSos = registerSosListener(() => {
       dispararAlertaRef.current('panico_silencioso', 'PULSEIRA_SPIE');
     });
 
     return () => {
-      unsubscribe();
+      unsubscribeAuth();
+      if (unsubscribeContacts) unsubscribeContacts();
+      unsubscribeSos();
       stopLiveTracking();
     };
-  }, [registerSosListener, carregarContatos, stopLiveTracking]);
+  }, [registerSosListener, stopLiveTracking]);
 
   return (
     <EmergencyContext.Provider

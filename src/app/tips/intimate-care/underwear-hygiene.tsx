@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,22 +13,15 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function UnderwearHygieneScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={
-          tipsDetailStyles.container
-        }
+        contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
-          onPress={() =>
-            router.back()
-          }
+          onPress={() => router.back()}
         >
           <Ionicons
             name="arrow-back"
@@ -39,232 +30,65 @@ export default function UnderwearHygieneScreen() {
           />
         </TouchableOpacity>
 
-
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="shirt-outline"
             size={55}
             color="#8B5CF6"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Higiene da roupa íntima
+            Underwear Hygiene & Fabric Choices
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Cuidados simples com a roupa íntima que ajudam
-            a manter conforto e higiene no dia a dia.
+            How selecting and caring for your underwear supports vaginal health and daily comfort.
           </Text>
-
         </View>
 
-
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Troque a roupa íntima regularmente
+            Choose breathable natural fabrics
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A roupa íntima entra em contato direto com a
-            região genital e deve ser trocada regularmente.
-
+            Pure cotton and bamboo fibers are highly breathable and absorbent, allowing air circulation and wicking moisture away from delicate vulvar skin.
             {'\n\n'}
-
-            Em geral, uma peça limpa deve ser utilizada
-            diariamente e sempre que estiver úmida, suada
-            ou suja.
-
-            {'\n\n'}
-
-            Após atividades físicas, pode ser confortável
-            trocar a roupa íntima para evitar permanecer
-            com tecido úmido por muito tempo.
+            Synthetic materials like nylon, polyester, and spandex trap heat and perspiration, creating a damp environment where yeast and bacteria thrive.
           </Text>
-
         </View>
 
-
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Lave corretamente
+            Change daily and after workouts
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Lave as peças de acordo com as orientações
-            presentes na etiqueta do fabricante.
-
+            Put on clean underwear at least once a day, and change immediately after vigorous exercise, sweating, or swimming.
             {'\n\n'}
-
-            Utilize produtos de limpeza adequados para
-            roupas e enxágue bem para evitar resíduos.
-
-            {'\n\n'}
-
-            Evite compartilhar roupas íntimas com outras
-            pessoas.
+            Sleeping without underwear or in loose cotton pajama bottoms allows the vulva to air out, reducing friction and moisture accumulation.
           </Text>
-
         </View>
 
-
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Seque completamente
+            Laundering tips
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Antes de guardar ou utilizar uma peça, certifique-se
-            de que ela esteja completamente seca.
-
-            {'\n\n'}
-
-            Guardar roupas úmidas pode favorecer a proliferação
-            de microrganismos e causar odores desagradáveis.
-
-            {'\n\n'}
-
-            Mantenha as peças em um local limpo e seco.
-          </Text>
-
-        </View>
-
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Escolha tecidos confortáveis
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Prefira roupas íntimas que sejam confortáveis
-            e adequadas para o seu corpo.
-
-            {'\n\n'}
-
-            Tecidos respiráveis podem ajudar a reduzir o
-            acúmulo de calor e umidade.
-
-            {'\n\n'}
-
-            O mais importante é evitar peças que causem
-            atrito, aperto ou desconforto.
-          </Text>
-
-        </View>
-
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Evite permanecer com roupas úmidas
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Após nadar, praticar exercícios ou ficar muito
-            tempo com roupas molhadas, troque-as assim que
-            possível.
-
-            {'\n\n'}
-
-            A umidade prolongada pode aumentar o desconforto
-            e favorecer irritações na região íntima.
-
-            {'\n\n'}
-
-            Mantenha a região limpa e seca sem realizar
-            lavagens excessivas.
-          </Text>
-
-        </View>
-
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Cuide do armazenamento
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Guarde as roupas íntimas limpas e completamente
-            secas.
-
-            {'\n\n'}
-
-            Evite deixá-las em locais úmidos, como dentro
-            do banheiro, principalmente quando houver pouca
-            ventilação.
-
-            {'\n\n'}
-
-            Organizar as peças em um local limpo ajuda a
-            preservá-las por mais tempo.
-          </Text>
-
-        </View>
-
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure orientação profissional caso apareçam:
-
-            {'\n\n'}
-
-            • Coceira persistente;
-
+            • Wash intimate apparel with hypoallergenic, fragrance-free detergents;
             {'\n'}
-
-            • Ardência;
-
+            • Avoid heavily scented fabric softeners or dryer sheets, which leave chemical residues on fibers;
             {'\n'}
-
-            • Irritação frequente;
-
-            {'\n'}
-
-            • Feridas ou lesões;
-
-            {'\n'}
-
-            • Dor incomum;
-
-            {'\n'}
-
-            • Corrimento diferente do habitual;
-
-            {'\n'}
-
-            • Odor forte e persistente.
+            • Rinse thoroughly and ensure garments are 100% dry before storing to prevent mildew.
           </Text>
-
         </View>
-
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Higiene não significa lavar a região íntima
-            excessivamente. Manter roupas limpas, secas e
-            confortáveis é mais importante do que realizar
-            lavagens frequentes.
+            Breathable cotton underwear and gentle, fragrance-free laundering protect sensitive vulvar skin and prevent recurrent infections.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

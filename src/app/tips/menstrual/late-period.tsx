@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function LatePeriodScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,252 +31,111 @@ export default function LatePeriodScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="calendar-outline"
             size={55}
             color="#8B5CF6"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Menstruação atrasada
+            Late Period
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda algumas possíveis causas do atraso
-            menstrual e quando é importante investigar.
+            Explore potential causes of delayed menstruation and when to seek medical advice.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que significa uma menstruação atrasada?
+            What does a late period mean?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A menstruação pode não acontecer exatamente
-            no mesmo dia em todos os ciclos.
-
+            Menstruation does not always arrive on the exact same day each cycle.
             {'\n\n'}
-
-            Pequenas variações podem acontecer e nem
-            sempre indicam algum problema.
-
+            Slight variations of a few days are normal and do not automatically indicate a problem.
             {'\n\n'}
-
-            Porém, quando o atraso é diferente do padrão
-            habitual ou acontece repetidamente, é importante
-            observar outras possíveis causas.
+            However, when a delay extends beyond your regular pattern or recurs frequently, looking into potential triggers is recommended.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Gravidez
+            Pregnancy
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Para pessoas que tiveram relações sexuais com
-            possibilidade de gravidez, essa é uma das
-            primeiras possibilidades a ser considerada
-            diante de um atraso.
-
+            For sexually active individuals, pregnancy is one of the most common causes of a delayed or missed period.
             {'\n\n'}
-
-            Um teste de gravidez pode ajudar a esclarecer
-            a situação.
-
+            A home urine pregnancy test or clinical blood hCG test can clarify your status.
             {'\n\n'}
-
-            O momento adequado para realizar o teste pode
-            variar de acordo com o tipo de teste e o período
-            da relação ou do atraso.
+            Testing is most accurate from the first day of your expected missed period onwards.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Estresse e alterações na rotina
+            Stress and lifestyle shifts
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Estresse intenso, mudanças importantes na rotina,
-            falta de sono e alterações emocionais podem
-            interferir na ovulação.
-
+            Intense stress, sudden routine changes, travel, and sleep deprivation can temporarily suppress the hormonal signals that trigger ovulation.
             {'\n\n'}
-
-            Como a menstruação acontece após a ovulação,
-            uma ovulação mais tardia também pode fazer
-            com que o sangramento menstrual aconteça
-            mais tarde.
+            Because menstruation occurs about two weeks after ovulation, delayed ovulation will naturally push back your period.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Alterações hormonais
+            Hormonal fluctuations
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas alterações hormonais podem interferir
-            no ciclo menstrual.
-
+            Several hormonal imbalances can lead to delayed cycles:
             {'\n\n'}
-
-            Entre as possíveis causas estão:
-
-            {'\n\n'}
-
-            • Síndrome dos ovários policísticos (SOP);
-
+            • Polycystic Ovary Syndrome (PCOS);
             {'\n'}
-
-            • Alterações da tireoide;
-
+            • Thyroid disorders (hypo- or hyperthyroidism);
             {'\n'}
-
-            • Alterações relacionadas à prolactina;
-
+            • Elevated prolactin levels;
             {'\n'}
-
-            • Mudanças importantes de peso;
-
-            {'\n'}
-
-            • Outras condições hormonais.
+            • Recent contraceptive discontinuation.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Exercícios e mudanças no peso
+            Exercise and weight changes
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Perdas ou ganhos significativos de peso podem
-            alterar o funcionamento do ciclo menstrual.
-
+            Significant weight loss or gain can disrupt endocrine signaling.
             {'\n\n'}
-
-            Exercícios físicos muito intensos, especialmente
-            quando associados a baixa disponibilidade de
-            energia, também podem fazer a menstruação
-            atrasar ou desaparecer.
-
-            {'\n\n'}
-
-            Essas alterações devem ser avaliadas quando
-            persistentes.
+            Intense endurance training with low energy availability can trigger hypothalamic amenorrhea, delaying or halting cycles.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Medicamentos e anticoncepcionais
+            When to seek medical evaluation?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Alguns medicamentos e métodos contraceptivos
-            podem modificar o padrão menstrual.
-
+            Reach out to a healthcare provider if:
             {'\n\n'}
-
-            Dependendo do método utilizado, pode ocorrer
-            redução, irregularidade ou até ausência de
-            sangramento.
-
-            {'\n\n'}
-
-            Não interrompa um medicamento ou método
-            contraceptivo por conta própria.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar avaliação?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure um profissional de saúde quando:
-
-            {'\n\n'}
-
-            • Os atrasos acontecem repetidamente;
-
+            • Delays happen regularly cycle after cycle;
             {'\n'}
-
-            • O ciclo ficou muito diferente do seu padrão;
-
+            • Your period is more than 7–10 days late and pregnancy tests are negative;
             {'\n'}
-
-            • A menstruação desapareceu por vários meses;
-
+            • Accompanied by severe pelvic pain, fever, or unusual discharge;
             {'\n'}
-
-            • Existem outros sintomas, como dor pélvica,
-            alterações importantes de peso ou secreção
-            mamilar;
-
-            {'\n'}
-
-            • Existe possibilidade de gravidez e o resultado
-            do teste não esclarece a situação.
+            • You suspect pregnancy and need clinical confirmation.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Acompanhe seu ciclo
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Registrar o primeiro dia da menstruação,
-            duração do ciclo, sintomas e alterações pode
-            ajudar a identificar padrões.
-
-            {'\n\n'}
-
-            Essas informações também podem ser úteis
-            durante uma consulta médica.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Um atraso menstrual pode ter várias causas.
-            Se houver possibilidade de gravidez, considere
-            realizar um teste. Atrasos frequentes ou
-            persistentes merecem avaliação profissional.
+            A delayed period has many potential causes. Take a pregnancy test if relevant, and consult a doctor if delays become frequent.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

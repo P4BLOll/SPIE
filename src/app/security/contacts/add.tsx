@@ -46,6 +46,14 @@ export default function AddContact() {
     router.back();
   }
 
+  function formatarTelefone(valor: string) {
+    const numeros = valor.replace(/\D/g, '').slice(0, 11);
+    if (numeros.length <= 2) return numeros;
+    if (numeros.length <= 6) return `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`;
+    if (numeros.length <= 10) return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 6)}-${numeros.slice(6)}`;
+    return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`;
+  }
+
   // =====================================================
   // SALVAR
   // =====================================================
@@ -56,8 +64,18 @@ export default function AddContact() {
 
     if (!nomeLimpo || !telefoneLimpo) {
       showAlert({
-        title: 'Campos Obrigatórios',
-        message: 'Por favor, preencha o nome e o telefone do contato.',
+        title: 'Required Fields',
+        message: 'Please provide both the name and phone number of the contact.',
+        type: 'warning',
+      });
+      return;
+    }
+
+    const digitsOnly = telefoneLimpo.replace(/\D/g, '');
+    if (digitsOnly.length < 10 || digitsOnly.length > 11) {
+      showAlert({
+        title: 'Invalid Phone',
+        message: 'Phone number must include area code and have 10 or 11 digits.',
         type: 'warning',
       });
       return;
@@ -78,10 +96,10 @@ export default function AddContact() {
       setPhone('');
 
       showAlert({
-        title: 'Contato Salvo',
-        message: 'Contato de emergência adicionado com sucesso.',
+        title: 'Contact Saved',
+        message: 'Emergency contact added successfully.',
         type: 'success',
-        buttonText: 'Concluir',
+        buttonText: 'Done',
         onDismiss: () => {
           router.back();
         },
@@ -89,8 +107,8 @@ export default function AddContact() {
     } catch (error) {
       console.log('Erro ao salvar contato:', error);
       showAlert({
-        title: 'Erro',
-        message: 'Não foi possível salvar o contato.',
+        title: 'Error',
+        message: 'Unable to save contact.',
         type: 'error',
       });
     } finally {
@@ -189,7 +207,7 @@ export default function AddContact() {
                       },
                     ]}
                   >
-                    Novo contato
+                    New Contact
                   </Text>
 
                 </View>
@@ -221,7 +239,7 @@ export default function AddContact() {
                       },
                     ]}
                   >
-                    Contato de emergência
+                    Emergency Contact
                   </Text>
 
 
@@ -234,8 +252,7 @@ export default function AddContact() {
                       },
                     ]}
                   >
-                    Essa pessoa poderá receber alertas
-                    quando você precisar de ajuda.
+                    This person will receive alerts whenever you need emergency help.
                   </Text>
 
                 </View>
@@ -256,7 +273,7 @@ export default function AddContact() {
                 >
 
                   <TextInput
-                    placeholder="Nome completo"
+                    placeholder="Full name"
                     placeholderTextColor={
                       cycleColors.textMuted
                     }
@@ -277,13 +294,14 @@ export default function AddContact() {
 
 
                   <TextInput
-                    placeholder="Telefone com DDD"
+                    placeholder="Phone number with area code"
                     placeholderTextColor={
                       cycleColors.textMuted
                     }
                     keyboardType="phone-pad"
                     value={phone}
-                    onChangeText={setPhone}
+                    onChangeText={(text) => setPhone(formatarTelefone(text))}
+                    maxLength={15}
                     style={[
                       styles.input,
                       styles.inputLast,
@@ -338,8 +356,8 @@ export default function AddContact() {
                       ]}
                     >
                       {loading
-                        ? 'Salvando...'
-                        : 'Salvar contato'}
+                        ? 'Saving...'
+                        : 'Save contact'}
                     </Text>
                   </View>
                 </TouchableOpacity>

@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function MenstrualDiscScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,290 +31,101 @@ export default function MenstrualDiscScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="radio-button-off-outline"
             size={55}
             color="#8B5CF6"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Disco menstrual
+            Menstrual Disc
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda como funciona, como utilizar e quais
-            cuidados são importantes.
+            Understand how it functions, insertion technique, and key care instructions.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é?
+            What is a menstrual disc?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O disco menstrual é um produto utilizado
-            durante a menstruação para coletar o sangue.
-
+            A menstrual disc is an internal period product designed to sit in the vaginal fornix right below the cervix to collect menstrual fluid.
             {'\n\n'}
-
-            Ele possui um formato circular e é colocado
-            dentro da vagina, ficando posicionado
-            próximo ao colo do útero.
-
-            {'\n\n'}
-
-            Existem modelos descartáveis e reutilizáveis,
-            dependendo do fabricante.
+            It has a shallow, flexible basin and an elastic rim. Discs come in both disposable single-use and reusable silicone models.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Disco x coletor menstrual
+            Disc vs. Menstrual Cup
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Apesar de serem parecidos, o disco e o coletor
-            possuem formatos e posicionamentos diferentes.
-
+            While both collect blood, they differ in shape and placement:
             {'\n\n'}
-
-            O coletor possui formato semelhante a um
-            pequeno recipiente e cria uma vedação na
-            vagina.
-
+            • A menstrual cup is bell-shaped, sits in the vaginal canal, and stays in place via suction.
             {'\n\n'}
-
-            O disco possui formato mais achatado e fica
-            posicionado próximo ao colo do útero,
-            apoiado atrás do osso púbico.
+            • A disc sits higher up in the vaginal fornix and is tucked securely behind the pubic bone without needing suction.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como colocar?
+            How to insert
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Lave as mãos antes de manipular o produto.
-
+            Wash your hands thoroughly. Pinch the flexible rim in the center to make the disc slender and narrow.
             {'\n\n'}
-
-            O disco deve ser comprimido e inserido
-            suavemente na vagina.
-
-            {'\n\n'}
-
-            Depois de inserido, ele deve ficar posicionado
-            corretamente atrás do osso púbico.
-
-            {'\n\n'}
-
-            Sempre siga as instruções específicas do
-            fabricante, pois o formato pode variar entre
-            os modelos.
+            Slide the disc horizontally back and slightly downward into the vaginal canal. Once inserted deep, push the front edge upward to tuck it behind your pubic bone.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como retirar?
+            How to remove
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Lave as mãos antes da retirada.
-
+            Wash your hands, sit over the toilet, and bear down gently.
             {'\n\n'}
-
-            Encontre a borda do disco com o dedo e
-            puxe suavemente, mantendo o produto
-            nivelado para evitar derramamentos.
-
-            {'\n\n'}
-
-            Retire devagar e descarte ou higienize
-            conforme o tipo de produto.
+            Hook your clean index finger under the front rim to untuck it from behind the pubic bone, then pull it out slowly and horizontally to avoid spilling.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quanto tempo pode ficar?
+            Wear duration
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O tempo de uso depende do modelo e das
-            orientações do fabricante.
-
+            Discs can generally be worn for up to 12 hours depending on flow volume and manufacturer specifications.
             {'\n\n'}
-
-            O disco deve ser retirado e esvaziado
-            regularmente.
-
-            {'\n\n'}
-
-            Nunca ultrapasse o período máximo de uso
-            indicado na embalagem.
+            Never exceed the recommended wear time. Dispose of single-use models properly or clean reusable models with warm water and soap.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Discos reutilizáveis
+            Important precautions
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Os discos reutilizáveis precisam ser
-            higienizados corretamente após o uso.
-
-            {'\n\n'}
-
-            Durante a menstruação, siga as orientações
-            do fabricante para limpeza.
-
-            {'\n\n'}
-
-            Ao final do ciclo, alguns modelos podem
-            precisar de esterilização antes de serem
-            armazenados.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Discos descartáveis
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Alguns discos são desenvolvidos para uma
-            única utilização.
-
-            {'\n\n'}
-
-            Depois de retirados, devem ser descartados
-            corretamente.
-
-            {'\n\n'}
-
-            Nunca reutilize um modelo descartável.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Pode dormir usando?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Alguns discos podem ser utilizados durante
-            o sono.
-
-            {'\n\n'}
-
-            Entretanto, é necessário respeitar o tempo
-            máximo de uso indicado pelo fabricante.
-
-            {'\n\n'}
-
-            Verifique também a capacidade do produto
-            em relação ao seu fluxo menstrual.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            É possível sentir o disco?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Quando colocado corretamente, o disco não
-            deve causar dor.
-
-            {'\n\n'}
-
-            Pode existir um período de adaptação para
-            aprender a posicionar e retirar o produto.
-
-            {'\n\n'}
-
-            Dor persistente, desconforto intenso ou
-            dificuldade para retirar o disco devem ser
-            avaliados por um profissional de saúde.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Cuidados importantes
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            • Lave as mãos antes de manipular o produto;
-
+            • Always handle with clean hands;
             {'\n'}
-
-            • Respeite o tempo máximo de utilização;
-
+            • Never reuse disposable discs;
             {'\n'}
-
-            • Siga as orientações de higienização;
-
+            • Boil reusable models between periods according to instructions;
             {'\n'}
-
-            • Não reutilize discos descartáveis;
-
-            {'\n'}
-
-            • Armazene discos reutilizáveis em local
-            limpo e seco;
-
-            {'\n'}
-
-            • Nunca force a inserção ou retirada.
+            • If you have an IUD, consult your healthcare provider before using internal products.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            O disco menstrual pode precisar de algumas
-            tentativas até que você se acostume com a
-            inserção e retirada. Sempre siga as instruções
-            do fabricante.
+            Tucking the rim behind the pubic bone is key to preventing leaks. Take time to get familiar with your anatomy for comfortable placement.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

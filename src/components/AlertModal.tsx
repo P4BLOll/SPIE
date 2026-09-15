@@ -20,13 +20,13 @@ export function AlertModal() {
             <Ionicons name="warning" size={56} color={Colors.white} />
           </View>
 
-          <Text style={styles.alertTitle}>EMERGÊNCIA ATIVADA</Text>
+          <Text style={styles.alertTitle}>EMERGENCY ACTIVATED</Text>
           <Text style={styles.alertDescription}>
-            Seus contatos de emergência e sua localização em tempo real foram acionados.
+            Your emergency contacts and real-time location have been notified.
           </Text>
 
           <View style={styles.pulseIndicator}>
-            <Text style={styles.pulseText}>🚨 Socorro e localização enviados aos contatos</Text>
+            <Text style={styles.pulseText}>🚨 Help alert and location sent to contacts</Text>
           </View>
 
           <TouchableOpacity 
@@ -34,7 +34,7 @@ export function AlertModal() {
             onPress={desativarAlertaManual}
             activeOpacity={0.8}
           >
-            <Text style={styles.cancelButtonText}>DESATIVAR ALERTA</Text>
+            <Text style={styles.cancelButtonText}>DEACTIVATE ALERT</Text>
           </TouchableOpacity>
         </View>
       </View>

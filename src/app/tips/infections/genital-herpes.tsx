@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function GenitalHerpesScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,268 +31,83 @@ export default function GenitalHerpesScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="shield-outline"
             size={55}
             color="#EC4899"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Herpes genital
+            Genital Herpes
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda essa infecção, seus sintomas,
-            transmissão e cuidados.
+            Understand the herpes simplex virus, outbreak management, transmission, and prevention.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é herpes genital?
+            What is genital herpes?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O herpes genital é uma infecção causada pelo
-            vírus herpes simples, principalmente pelos tipos
-            HSV-1 ou HSV-2.
-
+            Genital herpes is a common viral sexually transmitted infection caused by Herpes Simplex Virus type 1 (HSV-1) or type 2 (HSV-2).
             {'\n\n'}
-
-            O vírus pode permanecer no organismo e,
-            em algumas pessoas, causar novos episódios
-            ao longo do tempo.
+            After initial exposure, the virus resides in nearby nerve ganglia in a dormant state and can periodically reactivate.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Pode não apresentar sintomas?
+            Symptoms and outbreaks
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Sim.
-
+            Many individuals experience mild or unrecognized symptoms. When an active outbreak occurs, signs typically include:
             {'\n\n'}
-
-            Muitas pessoas infectadas podem não perceber
-            sintomas ou apresentar manifestações muito
-            leves.
-
-            {'\n\n'}
-
-            Mesmo sem lesões aparentes, o vírus pode ser
-            transmitido em algumas situações.
+            • Tingling, itching, or shooting nerve sensations prior to lesion appearance (prodrome);
+            {'\n'}
+            • Small, painful blisters on the vulva, cervix, buttocks, or anus;
+            {'\n'}
+            • Blisters rupture into shallow, tender sores that crust and heal over 1 to 2 weeks;
+            {'\n'}
+            • Painful urination if urine touches active sores;
+            {'\n'}
+            • Flu-like symptoms (fever, swollen inguinal lymph nodes, body aches) during the initial outbreak.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Principais sintomas
+            How is it transmitted?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Durante um episódio, podem aparecer:
-
+            Herpes spreads through direct skin-to-skin contact with infected secretions during vaginal, anal, or oral intercourse.
             {'\n\n'}
-
-            • Pequenas bolhas ou feridas na região genital;
-
-            {'\n'}
-
-            • Coceira;
-
-            {'\n'}
-
-            • Ardência;
-
-            {'\n'}
-
-            • Dor ou sensibilidade na região;
-
-            {'\n'}
-
-            • Dor ao urinar quando as lesões estão
-            próximas à saída da urina;
-
-            {'\n'}
-
-            • Mal-estar ou febre em alguns casos,
-            principalmente no primeiro episódio.
+            HSV-1 (oral cold sores) can easily spread to the genitals via oral sex.
+            {'\n\n'}
+            Transmission can also occur via asymptomatic viral shedding when no visible blisters are present.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como é transmitido?
+            Management and treatment
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O herpes genital pode ser transmitido por
-            contato direto com a pele ou mucosas infectadas
-            durante relações sexuais.
-
+            While there is no permanent cure that clears the virus, oral antiviral medications (acyclovir, valacyclovir) dramatically reduce outbreak severity, frequency, and viral shedding.
             {'\n\n'}
-
-            A transmissão pode ocorrer mesmo quando não
-            existem lesões visíveis.
-
-            {'\n\n'}
-
-            O uso de preservativos pode reduzir o risco,
-            mas não elimina completamente a possibilidade
-            de transmissão, pois áreas não cobertas também
-            podem transmitir o vírus.
+            Daily suppressive therapy is available for people with frequent recurrences.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            As lesões sempre aparecem?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Não.
-
-            {'\n\n'}
-
-            Algumas pessoas nunca apresentam lesões
-            perceptíveis.
-
-            {'\n\n'}
-
-            Em outras, podem ocorrer episódios com
-            pequenas bolhas ou feridas que desaparecem
-            depois de alguns dias.
-
-            {'\n\n'}
-
-            A aparência de uma lesão, sozinha, não é
-            suficiente para confirmar o diagnóstico.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Tratamento
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Não existe atualmente um tratamento que elimine
-            definitivamente o vírus do organismo.
-
-            {'\n\n'}
-
-            Entretanto, medicamentos antivirais podem ser
-            prescritos para ajudar a reduzir a duração e a
-            intensidade dos episódios.
-
-            {'\n\n'}
-
-            O tratamento deve ser orientado por um
-            profissional de saúde.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como reduzir o risco de transmissão?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Algumas medidas podem ajudar:
-
-            {'\n\n'}
-
-            • Usar preservativo durante as relações sexuais;
-
-            {'\n'}
-
-            • Evitar relações durante episódios com
-            feridas ou bolhas;
-
-            {'\n'}
-
-            • Informar o parceiro ou parceira sobre o
-            diagnóstico;
-
-            {'\n'}
-
-            • Seguir orientação profissional sobre
-            tratamento e prevenção.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure um serviço de saúde se houver:
-
-            {'\n\n'}
-
-            • Bolhas ou feridas na região genital;
-
-            {'\n'}
-
-            • Dor ou ardência intensa;
-
-            {'\n'}
-
-            • Dor ao urinar;
-
-            {'\n'}
-
-            • Sintomas semelhantes após uma relação
-            sem proteção;
-
-            {'\n'}
-
-            • Episódios que retornam frequentemente;
-
-            {'\n'}
-
-            • Dúvida sobre uma possível IST.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Lesões genitais podem ter diferentes causas.
-            Evite tentar identificar uma infecção apenas
-            pela aparência das lesões e procure avaliação
-            profissional para obter um diagnóstico adequado.
+            Genital herpes is very manageable. Using barrier protection, avoiding intimacy during active outbreaks, and taking antivirals significantly protect partners.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

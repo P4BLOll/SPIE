@@ -9,6 +9,46 @@ interface SymptomFrequencyCardProps {
   metricas: CycleMetrics | null;
 }
 
+const symptomTranslations: Record<string, string> = {
+  head: 'Headache',
+  'Dor de cabeça': 'Headache',
+  back: 'Back pain',
+  'Dor nas costas': 'Back pain',
+  breast: 'Breast tenderness',
+  'Sensibilidade nos seios': 'Breast tenderness',
+  cramp: 'Cramps',
+  'Cólica': 'Cramps',
+  bloating: 'Bloating',
+  'Inchaço': 'Bloating',
+  mood: 'Mood swings',
+  'Alteração de humor': 'Mood swings',
+  tired: 'Fatigue',
+  'Cansaço': 'Fatigue',
+  nausea: 'Nausea',
+  'Náusea': 'Nausea',
+  none: 'No symptoms',
+  'Nenhum sintoma': 'No symptoms',
+};
+
+const phaseTranslations: Record<string, string> = {
+  'Menstruação': 'Menstruation',
+  'Fase Folicular': 'Follicular Phase',
+  'Ovulação': 'Ovulation',
+  'Fase Lútea': 'Luteal Phase',
+  'Em andamento': 'In Progress',
+};
+
+const moodTranslations: Record<string, string> = {
+  'Muito feliz': 'Very happy',
+  'Bem': 'Good',
+  'Normal': 'Normal',
+  'Triste': 'Sad',
+  'Muito triste': 'Very sad',
+  'Irritada': 'Irritable',
+  'Ansiosa': 'Anxious',
+  'Cansada': 'Tired',
+};
+
 export function SymptomFrequencyCard({ metricas }: SymptomFrequencyCardProps) {
   if (!metricas) return null;
 
@@ -19,53 +59,58 @@ export function SymptomFrequencyCard({ metricas }: SymptomFrequencyCardProps) {
     <>
       {/* Sintomas mais frequentes */}
       <View style={insightsStyles.symptomsCard}>
-        <Text style={insightsStyles.sectionTitle}>Sintomas mais frequentes</Text>
+        <Text style={insightsStyles.sectionTitle}>Most frequent symptoms</Text>
 
         {temSintomas ? (
-          metricas.sintomasFrequentes.map((item, index) => (
-            <View
-              key={item.sintoma}
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                paddingVertical: 9,
-              }}
-            >
+          metricas.sintomasFrequentes.map((item, index) => {
+            const nomeSintoma = symptomTranslations[item.sintoma] || item.sintoma;
+            const nomeFase = phaseTranslations[item.fasePredominante] || item.fasePredominante;
+
+            return (
               <View
+                key={item.sintoma}
                 style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: 14,
-                  backgroundColor: cycleColors.roseSoft,
+                  flexDirection: 'row',
                   alignItems: 'center',
-                  justifyContent: 'center',
+                  paddingVertical: 9,
                 }}
               >
-                <Text
+                <View
                   style={{
-                    color: cycleColors.rose,
-                    fontWeight: '800',
-                    fontSize: 12,
+                    width: 28,
+                    height: 28,
+                    borderRadius: 14,
+                    backgroundColor: cycleColors.roseSoft,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
-                  {index + 1}
-                </Text>
-              </View>
+                  <Text
+                    style={{
+                      color: cycleColors.rose,
+                      fontWeight: '800',
+                      fontSize: 12,
+                    }}
+                  >
+                    {index + 1}
+                  </Text>
+                </View>
 
-              <View style={{ flex: 1, marginLeft: 12 }}>
-                <Text style={insightsStyles.eventTitle}>{item.sintoma}</Text>
-                <Text style={insightsStyles.eventDate}>
-                  {item.contagem} {item.contagem === 1 ? 'registro' : 'registros'} • Fase:{' '}
-                  {item.fasePredominante}
-                </Text>
-              </View>
+                <View style={{ flex: 1, marginLeft: 12 }}>
+                  <Text style={insightsStyles.eventTitle}>{nomeSintoma}</Text>
+                  <Text style={insightsStyles.eventDate}>
+                    {item.contagem} {item.contagem === 1 ? 'log' : 'logs'} • Phase:{' '}
+                    {nomeFase}
+                  </Text>
+                </View>
 
-              <Ionicons name="pulse" size={18} color={cycleColors.rose} />
-            </View>
-          ))
+                <Ionicons name="pulse" size={18} color={cycleColors.rose} />
+              </View>
+            );
+          })
         ) : (
           <Text style={{ color: '#B8B8B8', fontSize: 14, lineHeight: 21 }}>
-            Nenhum sintoma registrado ainda. Conforme você registrar no Calendário, os padrões corporais aparecerão aqui.
+            No symptoms recorded yet. As you log in the Calendar, your body patterns will appear here.
           </Text>
         )}
       </View>
@@ -73,7 +118,7 @@ export function SymptomFrequencyCard({ metricas }: SymptomFrequencyCardProps) {
       {/* Humor predominante */}
       {temHumor && (
         <View style={insightsStyles.moodCard}>
-          <Text style={insightsStyles.sectionTitle}>Humor observado</Text>
+          <Text style={insightsStyles.sectionTitle}>Observed mood</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View
               style={{
@@ -90,10 +135,10 @@ export function SymptomFrequencyCard({ metricas }: SymptomFrequencyCardProps) {
 
             <View style={{ flex: 1, marginLeft: 14 }}>
               <Text style={{ color: cycleColors.textMuted, fontSize: 12, textTransform: 'uppercase' }}>
-                HUMOR PREDOMINANTE
+                PREDOMINANT MOOD
               </Text>
               <Text style={{ color: cycleColors.text, fontSize: 17, fontWeight: '700', marginTop: 2 }}>
-                {metricas.humorPredominante}
+                {metricas.humorPredominante ? (moodTranslations[metricas.humorPredominante] || metricas.humorPredominante) : ''}
               </Text>
             </View>
           </View>

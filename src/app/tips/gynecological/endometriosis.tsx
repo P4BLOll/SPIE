@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function EndometriosisScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,272 +31,89 @@ export default function EndometriosisScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="medkit-outline"
             size={55}
             color="#EC4899"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Endometriose
+            Endometriosis
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda o que é a endometriose, seus possíveis
-            sintomas e quando procurar avaliação.
+            Understand what endometriosis is, its symptoms, diagnostic paths, and treatment options.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é endometriose?
+            What is endometriosis?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A endometriose é uma condição em que um tecido
-            semelhante ao endométrio cresce fora do local
-            onde normalmente deveria estar.
-
+            Endometriosis is a chronic inflammatory disease where tissue similar to the lining of the uterus (endometrium) grows outside the uterine cavity.
             {'\n\n'}
-
-            Essas alterações podem ocorrer em diferentes
-            regiões da pelve e podem provocar inflamação
-            e dor.
-
+            These implants most commonly develop on the ovaries, fallopian tubes, outer surface of the uterus, bowel, and pelvic lining (peritoneum).
             {'\n\n'}
-
-            A intensidade dos sintomas pode variar bastante
-            de uma pessoa para outra.
+            Like normal endometrium, this tissue bleeds each month, but with nowhere to exit, it causes chronic inflammation, scar tissue (adhesions), and pain.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Dor menstrual intensa
+            Key symptoms
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Um dos sintomas mais conhecidos da endometriose
-            é a dor associada à menstruação.
-
+            Symptoms can vary widely in severity:
             {'\n\n'}
-
-            A dor pode ser intensa, persistente e interferir
-            nas atividades do dia a dia.
-
-            {'\n\n'}
-
-            Sentir muita dor durante a menstruação não deve
-            ser considerado automaticamente algo normal
-            que precisa ser suportado.
+            • Severe, incapacitating menstrual cramps that disrupt daily living;
+            {'\n'}
+            • Chronic pelvic pain that persists throughout the month;
+            {'\n'}
+            • Deep pain during or after sexual intercourse (dyspareunia);
+            {'\n'}
+            • Painful bowel movements or painful urination, especially during menstruation;
+            {'\n'}
+            • Heavy periods or irregular spotting;
+            {'\n'}
+            • Digestive issues (bloating, diarrhea, nausea) during periods;
+            {'\n'}
+            • Infertility or subfertility.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Outros possíveis sintomas
+            Pain does not equal disease severity
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A endometriose pode estar associada a:
-
+            The amount of pain does not always correlate with the stage of endometriosis.
             {'\n\n'}
-
-            • Dor pélvica;
-
-            {'\n'}
-
-            • Dor durante ou após relações sexuais;
-
-            {'\n'}
-
-            • Dor ao evacuar, especialmente durante a
-            menstruação;
-
-            {'\n'}
-
-            • Dor ao urinar em alguns casos;
-
-            {'\n'}
-
-            • Sangramento menstrual intenso;
-
-            {'\n'}
-
-            • Cansaço;
-
-            {'\n'}
-
-            • Dificuldade para engravidar.
+            Someone with mild, superficial implants may experience debilitating pain, while someone with extensive deep-infiltrating endometriosis might have very mild symptoms.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            A intensidade da dor indica a gravidade?
+            Diagnosis and care
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Nem sempre.
-
+            Diagnosis begins with a clinical history and specialized pelvic ultrasound or MRI performed by experienced endometriosis sonographers.
             {'\n\n'}
-
-            A intensidade da dor não determina sozinha
-            a extensão da endometriose.
-
+            Laparoscopic surgery remains the definitive method for direct visualization and histological confirmation.
             {'\n\n'}
-
-            Algumas pessoas podem apresentar lesões
-            importantes com poucos sintomas, enquanto
-            outras podem sentir dores intensas mesmo
-            com alterações diferentes.
+            Treatments include anti-inflammatories, hormonal therapies (pills, progestins, GnRH modulators), and minimally invasive surgical excision of lesions.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Endometriose e fertilidade
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            A endometriose pode estar associada a
-            dificuldades para engravidar em algumas
-            pessoas.
-
-            {'\n\n'}
-
-            Isso não significa que toda pessoa com
-            endometriose terá infertilidade.
-
-            {'\n\n'}
-
-            Quando existe desejo de engravidar e há
-            dificuldades, o acompanhamento médico pode
-            ajudar a avaliar a situação individualmente.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como é feito o diagnóstico?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O diagnóstico começa com a avaliação dos
-            sintomas e do histórico da pessoa.
-
-            {'\n\n'}
-
-            O profissional pode solicitar exames de
-            imagem, como ultrassonografia ou ressonância
-            magnética, dependendo do caso.
-
-            {'\n\n'}
-
-            Nem sempre um único exame é suficiente para
-            identificar todas as formas da doença.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Tratamento
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O tratamento depende dos sintomas, da extensão
-            da doença e dos objetivos de cada pessoa.
-
-            {'\n\n'}
-
-            Pode envolver medicamentos para controle da
-            dor e tratamentos hormonais.
-
-            {'\n\n'}
-
-            Em algumas situações, procedimentos cirúrgicos
-            podem ser considerados.
-
-            {'\n\n'}
-
-            A escolha deve ser feita junto a um profissional
-            de saúde.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure avaliação profissional se houver:
-
-            {'\n\n'}
-
-            • Cólicas muito fortes ou incapacitantes;
-
-            {'\n'}
-
-            • Dor pélvica persistente;
-
-            {'\n'}
-
-            • Dor durante as relações sexuais;
-
-            {'\n'}
-
-            • Dor ao evacuar ou urinar associada ao ciclo;
-
-            {'\n'}
-
-            • Sangramento menstrual muito intenso;
-
-            {'\n'}
-
-            • Dificuldade para engravidar;
-
-            {'\n'}
-
-            • Dor que interfere nas atividades cotidianas.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Cólicas menstruais podem acontecer normalmente,
-            mas dores muito intensas ou que interferem na
-            rotina merecem atenção. Não é necessário
-            normalizar uma dor incapacitante.
+            Severe menstrual pain is never "just part of being a woman." If cramps force you to miss work, school, or activities, advocate for an endometriosis evaluation with a specialist.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

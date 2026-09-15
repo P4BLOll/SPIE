@@ -1,358 +1,113 @@
 import React from 'react';
-
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-
 import { Background } from '../../../components/Background';
 import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function HeavyMenstrualFlowScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
         >
-          <Ionicons
-            name="arrow-back"
-            size={25}
-            color={Colors.text}
-          />
+          <Ionicons name="arrow-back" size={25} color={Colors.text} />
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
-          <Ionicons
-            name="water-outline"
-            size={55}
-            color="#DC2626"
-          />
-
-          <Text style={tipsDetailStyles.title}>
-            Fluxo menstrual intenso
-          </Text>
-
+          <Ionicons name="trending-up-outline" size={55} color="#EF4444" />
+          <Text style={tipsDetailStyles.title}>Heavy Menstrual Flow</Text>
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda quando o sangramento menstrual pode
-            ser considerado intenso e quando procurar ajuda.
+            Understand when bleeding is considered abnormally heavy and when to seek care.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O que é fluxo menstrual intenso?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>What is heavy menstrual flow?</Text>
           <Text style={tipsDetailStyles.text}>
-            Algumas pessoas naturalmente apresentam um
-            fluxo menstrual maior que outras.
-
-            {'\n\n'}
-
-            Porém, quando o sangramento é muito intenso,
-            dura muitos dias ou interfere significativamente
-            na rotina, é importante investigar a causa.
-
-            {'\n\n'}
-
-            O termo médico usado para esse tipo de
-            sangramento é sangramento menstrual intenso.
+            Clinically known as menorrhagia, heavy menstrual bleeding involves blood loss exceeding 80 ml per cycle or bleeding that interferes with daily living.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como identificar?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>How to identify it?</Text>
           <Text style={tipsDetailStyles.text}>
-            Alguns sinais podem indicar que o fluxo está
-            mais intenso do que o habitual:
-
+            Common signs include:
             {'\n\n'}
-
-            • Precisar trocar absorvente ou outro produto
-            menstrual com muita frequência;
-
+            • Soaking through one or more pads or tampons every hour for multiple hours;
             {'\n'}
-
-            • Acordar durante a noite para trocar o
-            produto menstrual;
-
+            • Needing double protection (e.g., tampon plus pad);
             {'\n'}
-
-            • Sangramento que dura muitos dias;
-
+            • Waking up during the night to change protection;
             {'\n'}
-
-            • Necessidade de utilizar mais de um produto
-            menstrual ao mesmo tempo;
-
-            {'\n'}
-
-            • Coágulos grandes ou frequentes;
-
-            {'\n'}
-
-            • Sangramento que interfere nas atividades
-            do dia a dia.
+            • Bleeding for more than 7 days continuously.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Coágulos menstruais
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Menstrual clots</Text>
           <Text style={tipsDetailStyles.text}>
-            Pequenos coágulos podem aparecer durante
-            menstruações mais intensas e nem sempre
-            representam um problema.
-
-            {'\n\n'}
-
-            Porém, coágulos grandes, frequentes ou
-            acompanhados de sangramento muito intenso
-            merecem avaliação.
-
-            {'\n\n'}
-
-            É importante observar se essa característica
-            acontece repetidamente ao longo dos ciclos.
+            Passing blood clots larger than a coin (2.5 cm) frequently during your period is a strong indicator of heavy bleeding.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Possíveis causas
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Potential causes</Text>
           <Text style={tipsDetailStyles.text}>
-            O sangramento intenso pode ter diferentes
-            causas.
-
+            Heavy bleeding may be caused by:
             {'\n\n'}
-
-            Entre elas estão:
-
-            {'\n\n'}
-
-            • Miomas uterinos;
-
+            • Hormonal imbalances (anovulation, thyroid disorders);
             {'\n'}
-
-            • Adenomiose;
-
+            • Uterine fibroids or polyps;
             {'\n'}
-
-            • Pólipos uterinos;
-
+            • Adenomyosis or endometriosis;
             {'\n'}
-
-            • Alterações hormonais;
-
+            • Copper IUD use;
             {'\n'}
-
-            • Distúrbios da coagulação;
-
-            {'\n'}
-
-            • Algumas alterações da tireoide;
-
-            {'\n'}
-
-            • Uso de determinados medicamentos;
-
-            {'\n'}
-
-            • Outras condições ginecológicas.
+            • Bleeding disorders or anticoagulant medications.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Sangramento intenso pode causar anemia?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Can heavy bleeding cause anemia?</Text>
           <Text style={tipsDetailStyles.text}>
-            Sim.
-
-            {'\n\n'}
-
-            Perder uma quantidade elevada de sangue
-            repetidamente pode reduzir os níveis de ferro
-            e contribuir para o desenvolvimento de anemia.
-
-            {'\n\n'}
-
-            Alguns sinais podem incluir:
-
-            {'\n\n'}
-
-            • Cansaço excessivo;
-
-            {'\n'}
-
-            • Fraqueza;
-
-            {'\n'}
-
-            • Tontura;
-
-            {'\n'}
-
-            • Falta de energia;
-
-            {'\n'}
-
-            • Palidez;
-
-            {'\n'}
-
-            • Falta de ar em alguns casos.
+            Yes. Chronic heavy blood loss often depletes iron reserves, leading to iron-deficiency anemia with symptoms of chronic fatigue, dizziness, shortness of breath, and pale skin.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como investigar?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>How is it investigated?</Text>
           <Text style={tipsDetailStyles.text}>
-            A investigação depende da idade, histórico
-            menstrual e outros sintomas.
-
-            {'\n\n'}
-
-            O profissional pode solicitar exames de sangue,
-            exames hormonais ou exames de imagem, como
-            ultrassonografia.
-
-            {'\n\n'}
-
-            O objetivo é identificar a causa do sangramento
-            e avaliar possíveis consequências, como anemia.
+            A gynecologist may evaluate your condition using pelvic ultrasound, complete blood counts, ferritin levels, and hormonal assays.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>When to seek medical advice?</Text>
           <Text style={tipsDetailStyles.text}>
-            Procure avaliação profissional se:
-
-            {'\n\n'}
-
-            • O fluxo mudou e ficou muito mais intenso;
-
-            {'\n'}
-
-            • A menstruação dura muitos dias;
-
-            {'\n'}
-
-            • Os sangramentos interferem na sua rotina;
-
-            {'\n'}
-
-            • Há coágulos grandes e frequentes;
-
-            {'\n'}
-
-            • Você apresenta cansaço, fraqueza ou tontura;
-
-            {'\n'}
-
-            • O sangramento intenso acontece repetidamente.
+            Schedule an appointment if heavy bleeding occurs across multiple consecutive cycles or causes profound fatigue.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar atendimento urgente?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>When to seek emergency care?</Text>
           <Text style={tipsDetailStyles.text}>
-            Procure atendimento rapidamente se o sangramento
-            for muito intenso e vier acompanhado de:
-
-            {'\n\n'}
-
-            • Tontura intensa;
-
-            {'\n'}
-
-            • Desmaio ou sensação de desmaio;
-
-            {'\n'}
-
-            • Fraqueza importante;
-
-            {'\n'}
-
-            • Falta de ar;
-
-            {'\n'}
-
-            • Palidez intensa;
-
-            {'\n'}
-
-            • Dor forte ou outros sintomas preocupantes.
+            Seek emergency medical care immediately if you soak two or more pads per hour for more than two hours, experience fainting, extreme dizziness, or chest tightness.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
-          <Ionicons
-            name="information-circle-outline"
-            size={25}
-            color="#F59E0B"
-          />
-
+          <Ionicons name="information-circle-outline" size={25} color="#F59E0B" />
           <Text style={tipsDetailStyles.infoText}>
-            Cada pessoa possui um padrão menstrual
-            diferente. O mais importante é perceber
-            mudanças persistentes no seu próprio padrão
-            e procurar avaliação quando o sangramento
-            estiver interferindo na sua rotina.
+            Heavy periods should not be normalized as just 'part of being a woman.' Safe, effective medical treatments are available to restore your health and comfort.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { registerUser } from '@/modules/auth/services/authService';
 import { registerStyles } from '@/styles/register.styles';
-import { Colors } from '@/constants/Colors';
+import { Colors, cycleColors } from '@/constants/Colors';
 import { useDialog } from '@/context/DialogContext';
 
 type Props = {
@@ -67,40 +67,52 @@ export default function StepFive({
 
   async function handleRegister(){
 
-    let error = false;
+    const emailLimpo = email.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if(!email){
+    if (!emailLimpo || !emailRegex.test(emailLimpo)) {
       setEmailError(true);
-      error = true;
-    }
-
-    if(!password){
-      setPasswordError(true);
-      error = true;
-    }
-
-    if(!confirmPassword){
-      setConfirmError(true);
-      error = true;
-    }
-
-    if(error){
-      return;
-    }
-
-    if(password !== confirmPassword){
       showAlert({
-        title: 'Atenção',
-        message: 'As senhas digitadas não coincidem. Por favor, verifique.',
+        title: 'Invalid Email',
+        message: 'Please enter a valid email address.',
         type: 'warning',
       });
       return;
     }
 
-    if(!acceptedTerms){
+    if (!password || password.length < 6) {
+      setPasswordError(true);
       showAlert({
-        title: 'Termos de Uso',
-        message: 'Por favor, aceite os Termos de Uso e a Política de Privacidade para continuar.',
+        title: 'Invalid Password',
+        message: 'Your password must be at least 6 characters.',
+        type: 'warning',
+      });
+      return;
+    }
+
+    if (!confirmPassword) {
+      setConfirmError(true);
+      showAlert({
+        title: 'Confirmation Required',
+        message: 'Please confirm your password.',
+        type: 'warning',
+      });
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      showAlert({
+        title: 'Attention',
+        message: 'The passwords entered do not match. Please verify.',
+        type: 'warning',
+      });
+      return;
+    }
+
+    if (!acceptedTerms) {
+      showAlert({
+        title: 'Terms of Use',
+        message: 'Please accept the Terms of Use and Privacy Policy to continue.',
         type: 'warning',
       });
       return;
@@ -127,17 +139,17 @@ export default function StepFive({
       });
 
       showAlert({
-        title: 'Sucesso!',
-        message: 'Cadastro realizado com sucesso. Faça login para continuar.',
+        title: 'Success!',
+        message: 'Registration completed successfully. Please log in to continue.',
         type: 'success',
-        buttonText: 'Entrar',
+        buttonText: 'Log In',
         onDismiss: () => router.replace('/(auth)/login'),
       });
 
     }catch(error:any){
       showAlert({
-        title: 'Erro no Cadastro',
-        message: error.message || 'Não foi possível concluir o cadastro.',
+        title: 'Registration Error',
+        message: error.message || 'Unable to complete registration.',
         type: 'error',
       });
     }finally{
@@ -150,15 +162,15 @@ export default function StepFive({
     <View style={registerStyles.form}>
 
       <Text style={registerStyles.stepTitle}>
-        Criar conta
+        Create account
       </Text>
 
       <Text style={registerStyles.stepSubtitle}>
-        Sua conta está quase pronta. Crie seu acesso para começar sua jornada com o SPIE.
+        Your account is almost ready. Set up your login to start your journey with SPIE.
       </Text>
 
       <Text style={registerStyles.label}>
-        E-mail
+        Email
       </Text>
 
       <View>
@@ -166,61 +178,59 @@ export default function StepFive({
         <TextInput
           style={[
             registerStyles.input,
-            emailError && {borderColor:'red',borderWidth:1}
+            emailError && { borderColor: cycleColors.danger, borderWidth: 1 }
           ]}
-          placeholder="Digite seu e-mail"
+          placeholder="Enter your email"
           placeholderTextColor={Colors.textMuted}
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
-          onChangeText={(text)=>{
+          onChangeText={(text) => {
             setEmail(text);
             setEmailError(false);
           }}
         />
 
         {emailError && (
-          <Text style={{color:'red'}}>
-            Preencha seu e-mail
+          <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+            Enter a valid email
           </Text>
         )}
 
       </View>
 
       <Text style={registerStyles.label}>
-        Senha
+        Password
       </Text>
 
       <View
         style={[
           registerStyles.passwordContainer,
-          passwordError && {borderColor:'red',borderWidth:1}
+          passwordError && { borderColor: cycleColors.danger, borderWidth: 1 }
         ]}
       >
 
         <TextInput
           style={registerStyles.passwordInput}
-          placeholder="Digite sua senha"
+          placeholder="Enter your password"
           placeholderTextColor={Colors.textMuted}
           secureTextEntry={!showPassword}
           value={password}
-          onChangeText={(text)=>{
+          onChangeText={(text) => {
             setPassword(text);
             setPasswordError(false);
           }}
         />
 
         <TouchableOpacity
-          onPress={()=>setShowPassword(!showPassword)}
+          onPress={() => setShowPassword(!showPassword)}
         >
 
           <Ionicons
             name={
               showPassword
-              ?
-              'eye-off-outline'
-              :
-              'eye-outline'
+                ? 'eye-off-outline'
+                : 'eye-outline'
             }
             size={22}
             color={Colors.textMuted}
@@ -231,44 +241,42 @@ export default function StepFive({
       </View>
 
       {passwordError && (
-        <Text style={{color:'red'}}>
-          Preencha sua senha
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Password must be at least 6 characters
         </Text>
       )}
-            <Text style={registerStyles.label}>
-        Confirmar senha
+      <Text style={registerStyles.label}>
+        Confirm password
       </Text>
 
       <View
         style={[
           registerStyles.passwordContainer,
-          confirmError && {borderColor:'red',borderWidth:1}
+          confirmError && { borderColor: cycleColors.danger, borderWidth: 1 }
         ]}
       >
 
         <TextInput
           style={registerStyles.passwordInput}
-          placeholder="Digite novamente sua senha"
+          placeholder="Re-enter your password"
           placeholderTextColor={Colors.textMuted}
           secureTextEntry={!showConfirmPassword}
           value={confirmPassword}
-          onChangeText={(text)=>{
+          onChangeText={(text) => {
             setConfirmPassword(text);
             setConfirmError(false);
           }}
         />
 
         <TouchableOpacity
-          onPress={()=>setShowConfirmPassword(!showConfirmPassword)}
+          onPress={() => setShowConfirmPassword(!showConfirmPassword)}
         >
 
           <Ionicons
             name={
               showConfirmPassword
-              ?
-              'eye-off-outline'
-              :
-              'eye-outline'
+                ? 'eye-off-outline'
+                : 'eye-outline'
             }
             size={22}
             color={Colors.textMuted}
@@ -279,20 +287,20 @@ export default function StepFive({
       </View>
 
       {confirmError && (
-        <Text style={{color:'red'}}>
-          Confirme sua senha
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Please confirm your password
         </Text>
       )}
 
       <View style={registerStyles.summaryContainer}>
 
             <Text style={registerStyles.summaryTitle}>
-                Verificar dados
+                Review details
             </Text>
 
             <View style={registerStyles.summaryHeader}>
                 <Text style={registerStyles.summaryTitle}>
-                Dados pessoais
+                Personal information
                 </Text>
 
           <TouchableOpacity
@@ -304,29 +312,29 @@ export default function StepFive({
                     fontWeight:'bold',
                 }}
                 >
-                Editar
+                Edit
                 </Text>
           </TouchableOpacity>
 
         </View>
 
         <Text style={registerStyles.summaryItem}>
-          Nome: {fullName || 'Não informado'}
+          Name: {fullName || 'Not specified'}
         </Text>
 
         <Text style={registerStyles.summaryItem}>
-          Ano de nascimento: {birthYear || 'Não informado'}
+          Birth year: {birthYear || 'Not specified'}
         </Text>
 
         <Text style={registerStyles.summaryItem}>
-          Celular: {phone || 'Não informado'}
+          Phone: {phone || 'Not specified'}
         </Text>
 
 
         <View style={registerStyles.summaryHeader}>
 
           <Text style={registerStyles.summaryTitle}>
-            Ciclo menstrual
+            Menstrual cycle
           </Text>
 
           <TouchableOpacity
@@ -338,14 +346,14 @@ export default function StepFive({
                     fontWeight:'bold',
                 }}
                 >
-                Editar
+                Edit
                 </Text>
           </TouchableOpacity>
 
         </View>
 
         <Text style={registerStyles.summaryItem}>
-          Tipo:
+          Type:
           {
             cycleType === 'regular'
             ?
@@ -355,29 +363,29 @@ export default function StepFive({
             ?
             ' Irregular'
             :
-            ' Não informado'
+            ' Not specified'
           }
         </Text>
 
         <Text style={registerStyles.summaryItem}>
-          Duração:
+          Duration:
           {
             periodDuration
             ?
-            ` ${periodDuration} dias`
+            ` ${periodDuration} days`
             :
-            ' Não informado'
+            ' Not specified'
           }
         </Text>
 
         <Text style={registerStyles.summaryItem}>
-          Ciclo:
+          Cycle length:
           {
             cycleLength
             ?
-            ` ${cycleLength} dias`
+            ` ${cycleLength} days`
             :
-            ' Não informado'
+            ' Not specified'
           }
         </Text>
 
@@ -385,7 +393,7 @@ export default function StepFive({
         <View style={registerStyles.summaryHeader}>
 
           <Text style={registerStyles.summaryTitle}>
-            Objetivos
+            Goals
           </Text>
 
           <TouchableOpacity
@@ -397,7 +405,7 @@ export default function StepFive({
                     fontWeight:'bold',
                 }}
                 >
-                Editar
+                Edit
                 </Text>
           </TouchableOpacity>
 
@@ -409,7 +417,7 @@ export default function StepFive({
             ?
             goals.join(', ')
             :
-            'Não informado'
+            'Not specified'
           }
         </Text>
 
@@ -417,7 +425,7 @@ export default function StepFive({
         <View style={registerStyles.summaryHeader}>
 
           <Text style={registerStyles.summaryTitle}>
-            Corpo e saúde
+            Body and health
           </Text>
 
           <TouchableOpacity
@@ -429,78 +437,80 @@ export default function StepFive({
                     fontWeight:'bold',
                 }}
                 >
-                Editar
+                Edit
                 </Text>
           </TouchableOpacity>
 
         </View>
 
         <Text style={registerStyles.summaryItem}>
-          Altura: {height || 'Não informado'}
+          Height: {height || 'Not specified'}
         </Text>
 
         <Text style={registerStyles.summaryItem}>
-          Peso: {weight || 'Não informado'}
+          Weight: {weight || 'Not specified'}
         </Text>
 
         <Text style={registerStyles.summaryItem}>
-          Contraceptivo: {contraceptive || 'Não informado'}
+          Contraceptive: {contraceptive || 'Not specified'}
         </Text>
 
         <Text style={registerStyles.summaryItem}>
-          Saúde:
+          Health conditions:
           {
             healthConditions.length > 0
             ?
             healthConditions.join(', ')
             :
-            'Não informado'
+            ' Not specified'
           }
         </Text>
 
       </View>
 
 
-      <TouchableOpacity
-        style={registerStyles.checkboxContainer}
-        onPress={()=>setAcceptedTerms(!acceptedTerms)}
-      >
+      <View style={[registerStyles.checkboxContainer, { alignItems: 'flex-start' }]}>
+        <TouchableOpacity
+          onPress={() => setAcceptedTerms(!acceptedTerms)}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          style={{ marginRight: 10, marginTop: 2 }}
+          activeOpacity={0.7}
+        >
+          <Ionicons
+            name={
+              acceptedTerms
+                ? 'checkbox'
+                : 'square-outline'
+            }
+            size={24}
+            color={Colors.primary}
+          />
+        </TouchableOpacity>
 
-        <Ionicons
-          name={
-            acceptedTerms
-            ?
-            'checkbox'
-            :
-            'square-outline'
-          }
-          size={24}
-          color={Colors.primary}
-        />
-
-        <Text style={registerStyles.checkboxText}>
-
-          Li e aceito os{' '}
+        <Text style={[registerStyles.checkboxText, { flex: 1 }]}>
+          <Text onPress={() => setAcceptedTerms(!acceptedTerms)}>
+            I have read and agree to the{' '}
+          </Text>
 
           <Text
             style={registerStyles.linkText}
-            onPress={()=>router.push('/legal/terms')}
+            onPress={() => router.push('/legal/terms')}
           >
-            Termos de Uso
+            Terms of Use
           </Text>
 
-          {' '}e a{' '}
+          <Text onPress={() => setAcceptedTerms(!acceptedTerms)}>
+            {' '}and{' '}
+          </Text>
 
           <Text
             style={registerStyles.linkText}
-            onPress={()=>router.push('/legal/privacy-policy')}
+            onPress={() => router.push('/legal/privacy-policy')}
           >
-            Política de Privacidade
+            Privacy Policy
           </Text>
-
         </Text>
-
-      </TouchableOpacity>
+      </View>
 
 
       <View style={registerStyles.buttonRow}>
@@ -511,7 +521,7 @@ export default function StepFive({
         >
 
           <Text style={registerStyles.backButtonText}>
-            Voltar
+            Back
           </Text>
 
         </TouchableOpacity>
@@ -539,7 +549,7 @@ export default function StepFive({
             :
             (
               <Text style={registerStyles.nextButtonText}>
-                Criar conta
+                Create account
               </Text>
             )
           }

@@ -28,6 +28,7 @@ import {
 import {
   useCycle,
 } from '@/modules/cycle/hooks/useCycle';
+import { haptics } from '@/shared/utils/haptics';
 
 // =====================================
 // TIPO
@@ -46,44 +47,44 @@ type Secrecao = {
 export const secrecoesDisponiveis: Secrecao[] = [
   {
     id: 'transparente',
-    nome: 'Transparente e elástica',
+    nome: 'Clear and stretchy',
     descricao:
-      'Parecida com clara de ovo. Pode aparecer perto da ovulação.',
+      'Egg white consistency. Often appears near ovulation.',
   },
 
   {
     id: 'branca',
-    nome: 'Branca cremosa',
+    nome: 'Creamy white',
     descricao:
-      'Comum em várias fases do ciclo.',
+      'Common throughout various phases of the cycle.',
   },
 
   {
     id: 'pastosa',
-    nome: 'Branca pastosa',
+    nome: 'Thick white',
     descricao:
-      'Pode aparecer após a ovulação.',
+      'May appear after ovulation.',
   },
 
   {
     id: 'amarela',
-    nome: 'Amarelada',
+    nome: 'Yellowish',
     descricao:
-      'Observe cheiro forte ou desconforto.',
+      'Pay attention to strong odor or discomfort.',
   },
 
   {
     id: 'verde',
-    nome: 'Esverdeada',
+    nome: 'Greenish',
     descricao:
-      'Pode indicar alteração e merece atenção.',
+      'May indicate an imbalance and deserves medical attention.',
   },
 
   {
     id: 'sangue',
-    nome: 'Com sangue',
+    nome: 'Spotting / Blood-tinged',
     descricao:
-      'Pode ocorrer no início/final da menstruação.',
+      'May occur around the start or end of your period.',
   },
 ];
 
@@ -97,7 +98,7 @@ function formatarDataBR(
   const [ano, mes, dia] =
     dataISO.split('-');
 
-  return `${dia}/${mes}/${ano}`;
+  return `${mes}/${dia}/${ano}`;
 }
 
 // =====================================
@@ -140,14 +141,16 @@ export default function RegisterSecretion() {
 
   function salvar() {
     if (!selecionada) {
+      haptics.warning();
       Alert.alert(
-        'Selecione um tipo',
-        'Escolha o tipo de secreção antes de salvar.'
+        'Select a type',
+        'Choose a cervical fluid type before saving.'
       );
 
       return;
     }
 
+    haptics.success();
     registrarSecrecao({
       data: dataAlvo,
       tipo: selecionada,
@@ -199,7 +202,7 @@ export default function RegisterSecretion() {
               registerSecretionStyles.title
             }
           >
-            Registrar secreção
+            Log Cervical Fluid
           </Text>
 
           <View
@@ -249,9 +252,7 @@ export default function RegisterSecretion() {
                 registerSecretionStyles.subtitle
               }
             >
-              Acompanhe mudanças no
-              seu corpo durante o ciclo
-              menstrual.
+              Track changes in your body throughout your menstrual cycle.
             </Text>
 
             {/* DATA */}
@@ -275,7 +276,7 @@ export default function RegisterSecretion() {
                     registerSecretionStyles.dateBadgeText
                   }
                 >
-                  Registrando para{' '}
+                  Logging for{' '}
                   {formatarDataBR(
                     dataAlvo
                   )}
@@ -298,7 +299,7 @@ export default function RegisterSecretion() {
                 registerSecretionStyles.label
               }
             >
-              Tipo de secreção
+              Fluid Type
             </Text>
 
             {secrecoesDisponiveis.map(
@@ -313,11 +314,12 @@ export default function RegisterSecretion() {
                       item.id &&
                       registerSecretionStyles.optionSelected,
                   ]}
-                  onPress={() =>
+                  onPress={() => {
+                    haptics.selection();
                     setSelecionada(
                       item.id
-                    )
-                  }
+                    );
+                  }}
                 >
                   <Text
                     style={
@@ -370,7 +372,7 @@ export default function RegisterSecretion() {
                   registerSecretionStyles.buttonText
                 }
               >
-                Salvar registro
+                Save record
               </Text>
             </View>
           </TouchableOpacity>

@@ -117,14 +117,14 @@ export default function InsightsScreen() {
             ]}
           >
             <Text style={insightsStyles.subtitle}>
-              Padrões do seu ciclo e orientações personalizadas
+              Cycle patterns and personalized guidance
             </Text>
 
             {carregandoCiclo ? (
               <View style={{ alignItems: 'center', justifyContent: 'center', paddingVertical: 40 }}>
                 <ActivityIndicator size="large" color={cycleColors.rose} />
                 <Text style={{ color: cycleColors.textMuted, marginTop: 12, fontSize: 14 }}>
-                  Carregando dados do ciclo...
+                  Loading cycle data...
                 </Text>
               </View>
             ) : (
@@ -165,7 +165,7 @@ export default function InsightsScreen() {
                       lineHeight: 18,
                     }}
                   >
-                    O SPIE é uma ferramenta de suporte e acompanhamento de bem-estar. As informações exibidas não constituem diagnóstico ou prescrição médica.
+                    SPIE is a wellness tracking and support tool. The information provided does not constitute medical diagnosis or advice.
                   </Text>
                 </View>
               </>

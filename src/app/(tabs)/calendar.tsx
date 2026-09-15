@@ -14,6 +14,7 @@ import {
   Alert,
   Modal,
   Animated,
+  Vibration,
 } from 'react-native';
 
 import {
@@ -27,6 +28,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useCycle } from '@/modules/cycle/hooks/useCycle';
 import { Background } from '@/components/Background';
+import { haptics } from '@/shared/utils/haptics';
 
 import {
   calendarStyles,
@@ -49,15 +51,15 @@ const humorColors = {
 // =====================================
 
 const nomesSintomas: Record<string, string> = {
-  none: 'Nenhum sintoma',
-  head: 'Dor de cabeça',
-  back: 'Dor nas costas',
-  breast: 'Sensibilidade nos seios',
-  cramp: 'Cólica',
-  bloating: 'Inchaço',
-  mood: 'Alteração de humor',
-  tired: 'Cansaço',
-  nausea: 'Náusea',
+  none: 'No symptoms',
+  head: 'Headache',
+  back: 'Back pain',
+  breast: 'Breast tenderness',
+  cramp: 'Cramps',
+  bloating: 'Bloating',
+  mood: 'Mood swings',
+  tired: 'Fatigue',
+  nausea: 'Nausea',
 };
 
 function nomeDoSintoma(id: string) {
@@ -88,64 +90,64 @@ function textoSecrecao(secrecao: unknown): string {
 }
 
 // =====================================
-// CONFIGURAÇÃO DO CALENDÁRIO EM PORTUGUÊS
+// CONFIGURAÇÃO DO CALENDÁRIO EM INGLÊS
 // =====================================
 
-LocaleConfig.locales['pt-br'] = {
+LocaleConfig.locales['en'] = {
   monthNames: [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ],
 
   monthNamesShort: [
     'Jan',
-    'Fev',
+    'Feb',
     'Mar',
-    'Abr',
-    'Mai',
+    'Apr',
+    'May',
     'Jun',
     'Jul',
-    'Ago',
-    'Set',
-    'Out',
+    'Aug',
+    'Sep',
+    'Oct',
     'Nov',
-    'Dez',
+    'Dec',
   ],
 
   dayNames: [
-    'Domingo',
-    'Segunda-feira',
-    'Terça-feira',
-    'Quarta-feira',
-    'Quinta-feira',
-    'Sexta-feira',
-    'Sábado',
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
   ],
 
   dayNamesShort: [
-    'Dom',
-    'Seg',
-    'Ter',
-    'Qua',
-    'Qui',
-    'Sex',
-    'Sáb',
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
   ],
 
-  today: 'Hoje',
+  today: 'Today',
 };
 
-LocaleConfig.defaultLocale = 'pt-br';
+LocaleConfig.defaultLocale = 'en';
 
 // =====================================
 // ROTAS
@@ -224,7 +226,7 @@ function AnimatedPressable({
 function formatarData(data: string) {
   const [ano, mes, dia] = data.split('-');
 
-  return `${dia}/${mes}/${ano}`;
+  return `${mes}/${dia}/${ano}`;
 }
 
 // =====================================
@@ -328,7 +330,7 @@ export default function CalendarScreen() {
 
   const mesAtual =
     hoje.toLocaleDateString(
-      'pt-BR',
+      'en-US',
       {
         month: 'long',
       }
@@ -480,7 +482,7 @@ export default function CalendarScreen() {
       );
 
       return data.toLocaleDateString(
-        'pt-BR'
+        'en-US'
       );
     }, [
       ultimaMenstruacao,
@@ -512,30 +514,11 @@ export default function CalendarScreen() {
         hojeData
       );
 
-    if (diferenca < cicloConfigurado) {
+    if (diferenca <= cicloConfigurado) {
       return null;
     }
 
-    const ciclosCompletos =
-      Math.floor(
-        diferenca /
-          cicloConfigurado
-      );
-
-    const prevista =
-      new Date(inicio);
-
-    prevista.setDate(
-      prevista.getDate() +
-        ciclosCompletos *
-          cicloConfigurado
-    );
-
-    const diasAtraso =
-      diferencaEmDias(
-        prevista,
-        hojeData
-      );
+    const diasAtraso = diferenca - cicloConfigurado;
 
     return diasAtraso > 0
       ? diasAtraso
@@ -853,20 +836,20 @@ export default function CalendarScreen() {
     data: string
   ) {
     Alert.alert(
-      'Registrar menstruação',
+      'Log period',
 
-      `Deseja registrar ${formatarData(
+      `Do you want to log ${formatarData(
         data
-      )} como início da menstruação?`,
+      )} as the start of your period?`,
 
       [
         {
-          text: 'Cancelar',
+          text: 'Cancel',
           style: 'cancel',
         },
 
         {
-          text: 'Registrar',
+          text: 'Log',
 
           onPress: () => {
             setUltimaMenstruacao(
@@ -889,6 +872,7 @@ export default function CalendarScreen() {
   function registrarHumor(
     humor: string
   ) {
+    haptics.selection();
     const data =
       diaSelecionado ??
       hojeString;
@@ -913,6 +897,7 @@ export default function CalendarScreen() {
   function abrirRegistroHumor(
     data?: string
   ) {
+    haptics.impactLight();
     const dataRegistro =
       data ?? hojeString;
 
@@ -930,6 +915,7 @@ export default function CalendarScreen() {
   function abrirRegistroSintomas(
     data?: string
   ) {
+    haptics.impactLight();
     const dataRegistro =
       data ?? hojeString;
 
@@ -950,6 +936,7 @@ export default function CalendarScreen() {
   function abrirRegistroSecrecao(
     data?: string
   ) {
+    haptics.impactLight();
     const dataRegistro =
       data ?? hojeString;
 
@@ -1000,11 +987,11 @@ export default function CalendarScreen() {
 
   const humores = [
     {
-      nome: 'Muito feliz',
+      nome: 'Very happy',
       icon: 'happy',
     },
     {
-      nome: 'Bem',
+      nome: 'Good',
       icon: 'happy-outline',
     },
     {
@@ -1012,23 +999,23 @@ export default function CalendarScreen() {
       icon: 'remove-circle-outline',
     },
     {
-      nome: 'Triste',
+      nome: 'Sad',
       icon: 'sad-outline',
     },
     {
-      nome: 'Muito triste',
+      nome: 'Very sad',
       icon: 'sad',
     },
     {
-      nome: 'Irritada',
+      nome: 'Irritable',
       icon: 'flame-outline',
     },
     {
-      nome: 'Ansiosa',
+      nome: 'Anxious',
       icon: 'pulse-outline',
     },
     {
-      nome: 'Cansada',
+      nome: 'Tired',
       icon: 'moon-outline',
     },
   ];
@@ -1039,7 +1026,7 @@ export default function CalendarScreen() {
 
   const acoesDiarias = [
     {
-      label: 'Menstruação',
+      label: 'Period',
       icon: 'water',
       bg: cycleColors.roseSoft,
       iconBg: cycleColors.rose,
@@ -1051,7 +1038,7 @@ export default function CalendarScreen() {
     },
 
     {
-      label: 'Sintomas',
+      label: 'Symptoms',
       icon: 'happy',
       bg: cycleColors.goldSoft,
       iconBg: cycleColors.gold,
@@ -1062,7 +1049,7 @@ export default function CalendarScreen() {
     },
 
     {
-      label: 'Humor',
+      label: 'Mood',
       icon: 'heart',
       bg: cycleColors.roseSoft,
       iconBg: cycleColors.rose,
@@ -1072,7 +1059,7 @@ export default function CalendarScreen() {
     },
 
     {
-      label: 'Secreção',
+      label: 'Cervical Fluid',
       icon: 'flask',
       bg: cycleColors.lavenderSoft,
       iconBg: cycleColors.lavender,
@@ -1126,10 +1113,21 @@ export default function CalendarScreen() {
             />
           </AnimatedPressable>
 
-          <View
+          <Pressable
             style={
               calendarStyles.dateRow
             }
+            onLongPress={() => {
+              haptics.impactHeavy();
+              router.push({
+                pathname: '/secret',
+                params: {
+                  destino: '/security',
+                  origem: '/(tabs)/calendar',
+                },
+              });
+            }}
+            delayLongPress={1400}
           >
             <Text
               style={
@@ -1144,9 +1142,9 @@ export default function CalendarScreen() {
                 calendarStyles.dateMonth
               }
             >
-              de {mesAtualFormatado}
+              {mesAtualFormatado}
             </Text>
-          </View>
+          </Pressable>
 
           <AnimatedPressable
             style={
@@ -1220,11 +1218,7 @@ export default function CalendarScreen() {
                     calendarStyles.noRecordText
                   }
                 >
-                  Nenhum registro de
-                  menstruação salvo
-                  ainda. Toque em um
-                  dia no calendário
-                  para começar.
+                  No period records saved yet. Tap on a day in the calendar to get started.
                 </Text>
               </View>
             )}
@@ -1282,11 +1276,12 @@ export default function CalendarScreen() {
                   textDayFontWeight:
                     '600',
                 }}
-                onDayPress={(day) =>
+                onDayPress={(day) => {
+                  haptics.selection();
                   setDiaSelecionado(
                     day.dateString
-                  )
-                }
+                  );
+                }}
               />
             </View>
 
@@ -1319,7 +1314,7 @@ export default function CalendarScreen() {
                     calendarStyles.legendText
                   }
                 >
-                  Menstruação
+                  Period
                 </Text>
               </View>
 
@@ -1343,7 +1338,7 @@ export default function CalendarScreen() {
                     calendarStyles.legendText
                   }
                 >
-                  Período fértil
+                  Fertile window
                 </Text>
               </View>
 
@@ -1367,7 +1362,7 @@ export default function CalendarScreen() {
                     calendarStyles.legendText
                   }
                 >
-                  Ovulação
+                  Ovulation
                 </Text>
               </View>
 
@@ -1391,7 +1386,7 @@ export default function CalendarScreen() {
                     calendarStyles.legendText
                   }
                 >
-                  Hoje
+                  Today
                 </Text>
               </View>
             </View>
@@ -1410,7 +1405,7 @@ export default function CalendarScreen() {
                   calendarStyles.dailyEyebrow
                 }
               >
-                HOJE
+                TODAY
               </Text>
 
               <Text
@@ -1418,8 +1413,7 @@ export default function CalendarScreen() {
                   calendarStyles.dailyTitle
                 }
               >
-                O que você quer
-                registrar?
+                What would you like to log?
               </Text>
 
               <View
@@ -1529,7 +1523,7 @@ export default function CalendarScreen() {
                     calendarStyles.infoTitle
                   }
                 >
-                  Informações do ciclo
+                  Cycle details
                 </Text>
 
                 <View
@@ -1550,7 +1544,7 @@ export default function CalendarScreen() {
                       calendarStyles.info
                     }
                   >
-                    Dia do ciclo:
+                    Cycle day:
                   </Text>
 
                   <Text
@@ -1559,7 +1553,7 @@ export default function CalendarScreen() {
                     }
                   >
                     {diaDoCiclo
-                      ? `Dia ${diaDoCiclo}`
+                      ? `Day ${diaDoCiclo}`
                       : '--'}
                   </Text>
                 </View>
@@ -1582,7 +1576,7 @@ export default function CalendarScreen() {
                       calendarStyles.info
                     }
                   >
-                    Última menstruação:
+                    Last period:
                   </Text>
 
                   <Text
@@ -1614,7 +1608,7 @@ export default function CalendarScreen() {
                       calendarStyles.info
                     }
                   >
-                    Próxima:
+                    Next period:
                   </Text>
 
                   <Text
@@ -1644,7 +1638,7 @@ export default function CalendarScreen() {
                       calendarStyles.info
                     }
                   >
-                    Duração:
+                    Period length:
                   </Text>
 
                   <Text
@@ -1653,7 +1647,7 @@ export default function CalendarScreen() {
                     }
                   >
                     {menstruacaoConfigurada}{' '}
-                    dias
+                    days
                   </Text>
                 </View>
 
@@ -1675,7 +1669,7 @@ export default function CalendarScreen() {
                       calendarStyles.info
                     }
                   >
-                    Ciclo:
+                    Cycle length:
                   </Text>
 
                   <Text
@@ -1684,7 +1678,7 @@ export default function CalendarScreen() {
                     }
                   >
                     {cicloConfigurado}{' '}
-                    dias
+                    days
                   </Text>
                 </View>
 
@@ -1694,9 +1688,8 @@ export default function CalendarScreen() {
                       calendarStyles.delay
                     }
                   >
-                    Seu ciclo está{' '}
-                    {atraso} dias além da
-                    previsão.
+                    Your period is{' '}
+                    {atraso} days late.
                   </Text>
                 )}
               </View>
@@ -1742,7 +1735,7 @@ export default function CalendarScreen() {
                 calendarStyles.modalTitle
               }
             >
-              Como você está se sentindo?
+              How are you feeling?
             </Text>
 
             <Text
@@ -1750,7 +1743,7 @@ export default function CalendarScreen() {
                 calendarStyles.modalSubtitle
               }
             >
-              Registre seu humor
+              Log your mood
             </Text>
 
             <View
@@ -1825,7 +1818,7 @@ export default function CalendarScreen() {
                   calendarStyles.modalCloseButtonText
               }
               >
-                Cancelar
+                Cancel
               </Text>
             </TouchableOpacity>
           </Pressable>
@@ -1876,7 +1869,7 @@ export default function CalendarScreen() {
                 criarDataLocal(
                   diaSelecionado
                 ).toLocaleDateString(
-                  'pt-BR',
+                  'en-US',
                   {
                     weekday:
                       'long',
@@ -1891,7 +1884,7 @@ export default function CalendarScreen() {
                 calendarStyles.modalSubtitle
               }
             >
-              Detalhes do dia
+              Day details
             </Text>
 
             {/* =====================================
@@ -1935,7 +1928,7 @@ export default function CalendarScreen() {
                         calendarStyles.modalTagText
                       }
                     >
-                      Menstruação
+                      Period
                     </Text>
                   </View>
                 )}
@@ -1964,7 +1957,7 @@ export default function CalendarScreen() {
                         calendarStyles.modalTagText
                       }
                     >
-                      Ovulação
+                      Ovulation
                     </Text>
                   </View>
                 )}
@@ -1995,7 +1988,7 @@ export default function CalendarScreen() {
                         calendarStyles.modalTagText
                       }
                     >
-                      Período fértil
+                      Fertile window
                     </Text>
                   </View>
                 )}
@@ -2017,7 +2010,7 @@ export default function CalendarScreen() {
                     calendarStyles.modalSectionLabel
                   }
                 >
-                  SINTOMAS
+                  SYMPTOMS
                 </Text>
 
                 <View
@@ -2057,7 +2050,7 @@ export default function CalendarScreen() {
                     calendarStyles.modalSectionLabel
                   }
                 >
-                  SECREÇÃO
+                  CERVICAL FLUID
                 </Text>
 
                 <View
@@ -2096,7 +2089,7 @@ export default function CalendarScreen() {
                     calendarStyles.modalSectionLabel
                   }
                 >
-                  HUMOR
+                  MOOD
                 </Text>
 
                 <View
@@ -2144,113 +2137,221 @@ export default function CalendarScreen() {
                   calendarStyles.modalEmptyText
                 }
               >
-                Nada registrado
-                neste dia ainda.
+                Nothing logged on this day yet.
               </Text>
             )}
 
             {/* =====================================
-                REGISTRAR HUMOR
+                AÇÕES DO DIA (GRID 2x2 MODERNO)
             ===================================== */}
 
-            <AnimatedPressable
-              style={
-                calendarStyles.modalPrimaryButton
-              }
-              onPress={() =>
-                abrirRegistroHumor(
-                  diaSelecionado ??
-                    hojeString
-                )
-              }
-            >
-              <Text
-                style={
-                  calendarStyles.modalPrimaryButtonText
-                }
-              >
-                Registrar humor
-              </Text>
-            </AnimatedPressable>
+            <Text style={calendarStyles.modalActionsHeader}>
+              LOG ON THIS DAY
+            </Text>
 
-            {/* =====================================
-                REGISTRAR SINTOMAS
-            ===================================== */}
-
-            <AnimatedPressable
-              style={
-                calendarStyles.modalPrimaryButton
-              }
-              onPress={() =>
-                abrirRegistroSintomas(
-                  diaSelecionado ??
-                    hojeString
-                )
-              }
-            >
-              <Text
-                style={
-                  calendarStyles.modalPrimaryButtonText
-                }
-              >
-                Registrar sintomas
-              </Text>
-            </AnimatedPressable>
-
-            {/* =====================================
-                REGISTRAR SECREÇÃO
-            ===================================== */}
-
-            <AnimatedPressable
-              style={
-                calendarStyles.modalPrimaryButton
-              }
-              onPress={() =>
-                abrirRegistroSecrecao(
-                  diaSelecionado ??
-                    hojeString
-                )
-              }
-            >
-              <Text
-                style={
-                  calendarStyles.modalPrimaryButtonText
-                }
-              >
-                Registrar secreção
-              </Text>
-            </AnimatedPressable>
-
-            {/* =====================================
-                REGISTRAR MENSTRUAÇÃO
-            ===================================== */}
-
-            {!infoDiaSelecionado
-              ?.menstruacao && (
-              <AnimatedPressable
-                style={
-                  calendarStyles.modalPrimaryButton
-                }
+            <View style={calendarStyles.dayActionGrid}>
+              {/* 1. MENSTRUAÇÃO */}
+              <TouchableOpacity
+                style={[
+                  calendarStyles.dayActionCard,
+                  infoDiaSelecionado?.menstruacao &&
+                    calendarStyles.dayActionCardActive,
+                ]}
+                activeOpacity={0.75}
                 onPress={() => {
-                  if (
-                    diaSelecionado
-                  ) {
-                    registrarMenstruacao(
-                      diaSelecionado
-                    );
+                  haptics.impactLight();
+                  if (diaSelecionado) {
+                    registrarMenstruacao(diaSelecionado);
                   }
                 }}
               >
-                <Text
-                  style={
-                    calendarStyles.modalPrimaryButtonText
-                  }
+                <View
+                  style={[
+                    calendarStyles.dayActionIconRing,
+                    { backgroundColor: cycleColors.roseSoft },
+                  ]}
                 >
-                  Registrar início da
-                  menstruação
-                </Text>
-              </AnimatedPressable>
-            )}
+                  <Ionicons
+                    name="water"
+                    size={22}
+                    color={cycleColors.rose}
+                  />
+                </View>
+                <View style={calendarStyles.dayActionTextContainer}>
+                  <Text style={calendarStyles.dayActionTitle}>
+                    Period
+                  </Text>
+                  <Text
+                    style={calendarStyles.dayActionSubtitle}
+                    numberOfLines={1}
+                  >
+                    {infoDiaSelecionado?.menstruacao
+                      ? 'Period logged'
+                      : 'Log period'}
+                  </Text>
+                </View>
+                {infoDiaSelecionado?.menstruacao && (
+                  <View style={calendarStyles.dayActionCheckBadge}>
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={17}
+                      color={cycleColors.rose}
+                    />
+                  </View>
+                )}
+              </TouchableOpacity>
+
+              {/* 2. SINTOMAS */}
+              <TouchableOpacity
+                style={[
+                  calendarStyles.dayActionCard,
+                  (registroDiaSelecionado?.sintomas?.length ?? 0) > 0 &&
+                    calendarStyles.dayActionCardActive,
+                ]}
+                activeOpacity={0.75}
+                onPress={() => {
+                  haptics.impactLight();
+                  abrirRegistroSintomas(
+                    diaSelecionado ?? hojeString
+                  );
+                }}
+              >
+                <View
+                  style={[
+                    calendarStyles.dayActionIconRing,
+                    { backgroundColor: cycleColors.lavenderSoft },
+                  ]}
+                >
+                  <Ionicons
+                    name="body-outline"
+                    size={22}
+                    color={cycleColors.lavender}
+                  />
+                </View>
+                <View style={calendarStyles.dayActionTextContainer}>
+                  <Text style={calendarStyles.dayActionTitle}>
+                    Symptoms
+                  </Text>
+                  <Text
+                    style={calendarStyles.dayActionSubtitle}
+                    numberOfLines={1}
+                  >
+                    {(registroDiaSelecionado?.sintomas?.length ?? 0) > 0
+                      ? `${registroDiaSelecionado!.sintomas!.length} saved`
+                      : 'Cramps, aches'}
+                  </Text>
+                </View>
+                {(registroDiaSelecionado?.sintomas?.length ?? 0) > 0 && (
+                  <View style={calendarStyles.dayActionCheckBadge}>
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={17}
+                      color={cycleColors.lavender}
+                    />
+                  </View>
+                )}
+              </TouchableOpacity>
+
+              {/* 3. HUMOR */}
+              <TouchableOpacity
+                style={[
+                  calendarStyles.dayActionCard,
+                  !!registroDiaSelecionado?.humor &&
+                    calendarStyles.dayActionCardActive,
+                ]}
+                activeOpacity={0.75}
+                onPress={() => {
+                  haptics.impactLight();
+                  abrirRegistroHumor(
+                    diaSelecionado ?? hojeString
+                  );
+                }}
+              >
+                <View
+                  style={[
+                    calendarStyles.dayActionIconRing,
+                    { backgroundColor: cycleColors.goldSoft },
+                  ]}
+                >
+                  <Ionicons
+                    name="happy-outline"
+                    size={22}
+                    color={cycleColors.gold}
+                  />
+                </View>
+                <View style={calendarStyles.dayActionTextContainer}>
+                  <Text style={calendarStyles.dayActionTitle}>
+                    Mood
+                  </Text>
+                  <Text
+                    style={calendarStyles.dayActionSubtitle}
+                    numberOfLines={1}
+                  >
+                    {registroDiaSelecionado?.humor ?? 'How you feel'}
+                  </Text>
+                </View>
+                {!!registroDiaSelecionado?.humor && (
+                  <View style={calendarStyles.dayActionCheckBadge}>
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={17}
+                      color={cycleColors.gold}
+                    />
+                  </View>
+                )}
+              </TouchableOpacity>
+
+              {/* 4. SECREÇÃO */}
+              <TouchableOpacity
+                style={[
+                  calendarStyles.dayActionCard,
+                  !!registroDiaSelecionado?.secrecao &&
+                    calendarStyles.dayActionCardActive,
+                ]}
+                activeOpacity={0.75}
+                onPress={() => {
+                  haptics.impactLight();
+                  abrirRegistroSecrecao(
+                    diaSelecionado ?? hojeString
+                  );
+                }}
+              >
+                <View
+                  style={[
+                    calendarStyles.dayActionIconRing,
+                    { backgroundColor: cycleColors.tealSoft },
+                  ]}
+                >
+                  <Ionicons
+                    name="sparkles-outline"
+                    size={22}
+                    color={cycleColors.teal}
+                  />
+                </View>
+                <View style={calendarStyles.dayActionTextContainer}>
+                  <Text style={calendarStyles.dayActionTitle}>
+                    Cervical Fluid
+                  </Text>
+                  <Text
+                    style={calendarStyles.dayActionSubtitle}
+                    numberOfLines={1}
+                  >
+                    {registroDiaSelecionado?.secrecao
+                      ? textoSecrecao(registroDiaSelecionado.secrecao)
+                      : 'Cervical fluid'}
+                  </Text>
+                </View>
+                {!!registroDiaSelecionado?.secrecao && (
+                  <View style={calendarStyles.dayActionCheckBadge}>
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={17}
+                      color={cycleColors.teal}
+                    />
+                  </View>
+                )}
+              </TouchableOpacity>
+            </View>
 
             {/* =====================================
                 FECHAR
@@ -2269,7 +2370,7 @@ export default function CalendarScreen() {
                   calendarStyles.modalCloseButtonText
                 }
               >
-                Fechar
+                Close
               </Text>
             </TouchableOpacity>
           </Pressable>

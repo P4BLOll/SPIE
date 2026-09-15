@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,15 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function CandidiasisScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -36,252 +31,89 @@ export default function CandidiasisScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="bug-outline"
             size={55}
             color="#A855F7"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Candidíase vaginal
+            Vaginal Candidiasis (Yeast Infection)
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda o que é a candidíase, seus sintomas
-            e quando procurar ajuda.
+            Learn about yeast infections, characteristic symptoms, triggers, and effective relief.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é candidíase?
+            What is candidiasis?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A candidíase vaginal é uma infecção causada
-            principalmente pelo crescimento excessivo de
-            fungos do gênero Candida.
-
+            Vaginal candidiasis, commonly known as a yeast infection, is caused by an overgrowth of Candida fungi, most often Candida albicans.
             {'\n\n'}
-
-            Esses fungos podem fazer parte naturalmente
-            da microbiota da região íntima. O problema
-            acontece quando ocorre um desequilíbrio que
-            favorece seu crescimento.
+            Candida normally resides harmlessly in small amounts in the vagina, mouth, and digestive tract. When the natural microbiome or pH balance is disrupted, Candida can proliferate rapidly.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Principais sintomas
+            Common symptoms
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Os sintomas podem variar, mas os mais comuns
-            incluem:
-
+            Hallmark symptoms include:
             {'\n\n'}
-
-            • Coceira intensa na região íntima;
-
+            • Intense itching and burning in the vulva and vagina;
             {'\n'}
-
-            • Vermelhidão;
-
+            • Redness, swelling, and irritation of the vulvar skin;
             {'\n'}
-
-            • Ardência;
-
+            • Thick, white, odorless vaginal discharge resembling cottage cheese;
             {'\n'}
-
-            • Irritação;
-
+            • Burning sensation during urination or sexual intercourse;
             {'\n'}
-
-            • Dor ou desconforto durante a relação sexual;
-
-            {'\n'}
-
-            • Ardência ao urinar, principalmente quando
-            a região externa está irritada;
-
-            {'\n'}
-
-            • Corrimento branco e mais espesso em alguns
-            casos.
+            • Skin cracks or small fissures in severe cases.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O corrimento sempre aparece?
+            What triggers yeast overgrowth?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Não necessariamente.
-
+            Frequent predisposing factors include:
             {'\n\n'}
-
-            Algumas pessoas podem apresentar os sintomas
-            principalmente na região externa, enquanto
-            outras podem apresentar alterações na secreção.
-
-            {'\n\n'}
-
-            Por isso, a ausência de corrimento não significa
-            necessariamente que não exista candidíase.
+            • Broad-spectrum antibiotic therapy;
+            {'\n'}
+            • Elevated estrogen levels (pregnancy, high-dose oral contraceptives);
+            {'\n'}
+            • Uncontrolled diabetes or high blood sugar;
+            {'\n'}
+            • Wearing damp swimwear or tight synthetic clothing for prolonged hours;
+            {'\n'}
+            • Weakened immune function.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que pode favorecer a candidíase?
+            Treatment and care
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Alguns fatores podem favorecer o crescimento
-            excessivo do fungo, como:
-
+            Yeast infections are effectively treated with antifungal medications, available as vaginal creams, suppositories, or single-dose oral tablets (such as fluconazole).
             {'\n\n'}
-
-            • Uso recente de alguns antibióticos;
-
-            {'\n'}
-
-            • Alterações hormonais;
-
-            {'\n'}
-
-            • Diabetes não controlada;
-
-            {'\n'}
-
-            • Sistema imunológico enfraquecido;
-
-            {'\n'}
-
-            • Outros fatores que alterem o equilíbrio
-            da microbiota vaginal.
+            If symptoms do not improve within a few days or recur more than 4 times a year, clinical reassessment is required to rule out resistant strains or underlying conditions.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Candidíase é uma IST?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            A candidíase vaginal não é considerada uma
-            infecção sexualmente transmissível.
-
-            {'\n\n'}
-
-            Ela pode ocorrer mesmo em pessoas que não
-            tiveram relações sexuais.
-
-            {'\n\n'}
-
-            Entretanto, atividade sexual pode estar associada
-            à irritação ou ao aparecimento dos sintomas
-            em algumas situações.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Tratamento
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O tratamento depende da avaliação da causa e
-            pode envolver medicamentos antifúngicos.
-
-            {'\n\n'}
-
-            É importante não utilizar medicamentos por
-            conta própria, principalmente porque outras
-            infecções podem apresentar sintomas semelhantes.
-
-            {'\n\n'}
-
-            Quando os episódios são frequentes ou os
-            sintomas não melhoram, uma avaliação médica
-            é especialmente importante.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure orientação profissional se:
-
-            {'\n\n'}
-
-            • For a primeira vez que você apresenta esses
-            sintomas;
-
-            {'\n'}
-
-            • Os sintomas forem intensos;
-
-            {'\n'}
-
-            • O tratamento não funcionar;
-
-            {'\n'}
-
-            • Os sintomas retornarem frequentemente;
-
-            {'\n'}
-
-            • Houver febre ou dor pélvica;
-
-            {'\n'}
-
-            • Existirem feridas ou lesões;
-
-            {'\n'}
-
-            • Houver dúvidas sobre a causa dos sintomas.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Coceira e corrimento podem acontecer em várias
-            condições diferentes. Evite assumir que todo
-            corrimento branco é candidíase. A avaliação
-            profissional ajuda a identificar a causa correta.
+            Intense vulvar itching and cottage-cheese-like discharge point to a yeast infection. Wear breathable cotton underwear and consult your doctor for persistent symptoms.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

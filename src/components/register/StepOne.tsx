@@ -17,15 +17,15 @@ type Props = {
   nextStep: () => void;
 };
 
-// só letras (incluindo acentos) e espaço
-const REGEX_NOME = /^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/;
+// só letras (incluindo acentos), espaços, apóstrofos e hífens
+const REGEX_NOME = /^[A-Za-zÀ-ÖØ-öø-ÿ\s'-]+$/;
 
 const ANO_ATUAL = new Date().getFullYear();
 const ANO_MINIMO = 1900;
 
 function validarNome(nome: string) {
   const nomeLimpo = nome.trim();
-  return nomeLimpo.length > 0 && REGEX_NOME.test(nomeLimpo);
+  return nomeLimpo.length >= 2 && REGEX_NOME.test(nomeLimpo);
 }
 
 function validarAnoNascimento(ano: string) {
@@ -87,20 +87,20 @@ export default function StepOne({
         onPress={() => router.replace('/(auth)/login')}
       >
         <Text style={registerStyles.loginLinkText}>
-          Voltar para o login
+          Back to login
         </Text>
       </TouchableOpacity>
 
       <Text style={registerStyles.stepTitle}>
-        Dados pessoais
+        Personal information
       </Text>
 
       <Text style={registerStyles.stepSubtitle}>
-        Vamos começar conhecendo um pouco sobre você.
+        Let's start by getting to know you.
       </Text>
 
       <Text style={registerStyles.label}>
-        Nome completo
+        Full name
       </Text>
 
       <TextInput
@@ -108,12 +108,11 @@ export default function StepOne({
           registerStyles.input,
           nameError && { borderColor: cycleColors.danger },
         ]}
-        placeholder="Digite seu nome"
+        placeholder="Enter your full name"
         placeholderTextColor={cycleColors.textMuted}
         value={fullName}
         onChangeText={(text) => {
-          // remove números e símbolos enquanto digita — só deixa
-          // passar letras e espaço
+          // remove numbers and symbols while typing
           const somenteLetras = text.replace(/[^A-Za-zÀ-ÖØ-öø-ÿ\s]/g, '');
           setFullName(somenteLetras);
           setNameError(false);
@@ -122,12 +121,12 @@ export default function StepOne({
 
       {nameError && (
         <Text style={{ color: cycleColors.danger }}>
-          Digite um nome válido (somente letras)
+          Please enter a valid name (letters only)
         </Text>
       )}
 
       <Text style={registerStyles.label}>
-        Ano de nascimento
+        Birth year
       </Text>
 
       <TextInput
@@ -135,7 +134,7 @@ export default function StepOne({
           registerStyles.input,
           birthError && { borderColor: cycleColors.danger },
         ]}
-        placeholder="Ex: 2002"
+        placeholder="e.g. 2002"
         placeholderTextColor={cycleColors.textMuted}
         keyboardType="number-pad"
         maxLength={4}
@@ -149,12 +148,12 @@ export default function StepOne({
 
       {birthError && (
         <Text style={{ color: cycleColors.danger }}>
-          Digite um ano válido (entre {ANO_MINIMO} e {ANO_ATUAL})
+          Please enter a valid year (between {ANO_MINIMO} and {ANO_ATUAL})
         </Text>
       )}
 
       <Text style={registerStyles.label}>
-        Celular
+        Phone number
       </Text>
 
       <TextInput
@@ -191,7 +190,7 @@ export default function StepOne({
 
       {phoneError && (
         <Text style={{ color: cycleColors.danger }}>
-          Digite seu celular com DDD (11 números)
+          Please enter your phone number with area code (11 digits)
         </Text>
       )}
 
@@ -203,7 +202,7 @@ export default function StepOne({
         onPress={handleNext}
       >
         <Text style={registerStyles.nextButtonText}>
-          Próximo
+          Next
         </Text>
       </TouchableOpacity>
 

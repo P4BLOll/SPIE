@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {View,Text,TextInput,TouchableOpacity,} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { registerStyles } from '../../styles/register.styles';
-import { Colors } from '../../constants/Colors';
+import { Colors, cycleColors } from '../../constants/Colors';
 
 type Props = {
   weight: string;
@@ -17,22 +17,22 @@ type Props = {
 };
 
 const conditions = [
-  'Nenhuma',
-  'SOP',
-  'Endometriose',
-  'Adenomiose',
+  'None',
+  'PCOS',
+  'Endometriosis',
+  'Adenomyosis',
   'Diabetes',
-  'Hipertensão',
-  'Tireoide',
+  'Hypertension',
+  'Thyroid',
 ];
 
 const contraceptives = [
-  'Nenhum',
-  'Pílula',
-  'DIU',
-  'Implante',
-  'Injeção',
-  'Preservativo',
+  'None',
+  'Birth control pill',
+  'IUD',
+  'Implant',
+  'Injection',
+  'Condom',
 ];
 
 export default function StepFour({
@@ -48,28 +48,27 @@ export default function StepFour({
   previousStep,
 }: Props) {
 
-  const [heightError,setHeightError] = useState(false);
-  const [weightError,setWeightError] = useState(false);
-  const [contraceptiveError,setContraceptiveError] = useState(false);
-  const [healthError,setHealthError] = useState(false);
+  const [heightError, setHeightError] = useState(false);
+  const [weightError, setWeightError] = useState(false);
+  const [contraceptiveError, setContraceptiveError] = useState(false);
+  const [healthError, setHealthError] = useState(false);
 
-  function toggleCondition(condition: string){
-
-    if(condition === 'Nenhuma'){
-      setHealthConditions(['Nenhuma']);
+  function toggleCondition(condition: string) {
+    if (condition === 'None') {
+      setHealthConditions(['None']);
       setHealthError(false);
       return;
     }
 
     let updated = healthConditions.filter(
-      item => item !== 'Nenhuma'
+      item => item !== 'None'
     );
 
-    if(updated.includes(condition)){
+    if (updated.includes(condition)) {
       updated = updated.filter(
         item => item !== condition
       );
-    }else{
+    } else {
       updated.push(condition);
     }
 
@@ -77,27 +76,26 @@ export default function StepFour({
     setHealthError(false);
   }
 
-  function handleNext(){
-
+  function handleNext() {
     let error = false;
 
-    if(height === '' && weight === ''){
-      setHeightError(true);
-      setWeightError(true);
+    if (height === '' || weight === '') {
+      if (height === '') setHeightError(true);
+      if (weight === '') setWeightError(true);
       error = true;
     }
 
-    if(contraceptive === ''){
+    if (contraceptive === '') {
       setContraceptiveError(true);
       error = true;
     }
 
-    if(healthConditions.length === 0){
+    if (healthConditions.length === 0) {
       setHealthError(true);
       error = true;
     }
 
-    if(error){
+    if (error) {
       return;
     }
 
@@ -108,63 +106,63 @@ export default function StepFour({
     <View style={registerStyles.form}>
 
       <Text style={registerStyles.stepTitle}>
-        Sobre seu corpo
+        About your body
       </Text>
 
       <Text style={registerStyles.stepSubtitle}>
-        Essas informações ajudam o SPIE a personalizar sua experiência.
+        This information helps SPIE personalize your experience.
       </Text>
 
       <Text style={registerStyles.label}>
-        Qual sua altura?
+        What is your height?
       </Text>
 
       <View
         style={[
           registerStyles.measureContainer,
-          heightError && {borderColor:'red',borderWidth:1}
+          heightError && { borderColor: cycleColors.danger, borderWidth: 1 }
         ]}
       >
         <TextInput
           style={registerStyles.measureInput}
-          placeholder="Ex: 1,65"
+          placeholder="e.g. 1.65"
           placeholderTextColor={Colors.textMuted}
           keyboardType="decimal-pad"
           value={height}
-          onChangeText={(text)=>{
+          onChangeText={(text) => {
             setHeight(text);
             setHeightError(false);
           }}
         />
 
         <Text style={registerStyles.measureUnit}>
-          metros
+          meters
         </Text>
       </View>
 
       {heightError && (
-        <Text style={{color:'red'}}>
-          Preencha sua altura ou escolha não informar
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Please enter your height or choose to skip
         </Text>
       )}
 
       <Text style={registerStyles.label}>
-        Qual seu peso?
+        What is your weight?
       </Text>
 
       <View
         style={[
           registerStyles.measureContainer,
-          weightError && {borderColor:'red',borderWidth:1}
+          weightError && { borderColor: cycleColors.danger, borderWidth: 1 }
         ]}
       >
         <TextInput
           style={registerStyles.measureInput}
-          placeholder="Ex: 60"
+          placeholder="e.g. 60"
           placeholderTextColor={Colors.textMuted}
           keyboardType="decimal-pad"
           value={weight}
-          onChangeText={(text)=>{
+          onChangeText={(text) => {
             setWeight(text);
             setWeightError(false);
           }}
@@ -176,47 +174,47 @@ export default function StepFour({
       </View>
 
       {weightError && (
-        <Text style={{color:'red'}}>
-          Preencha seu peso ou escolha não informar
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Please enter your weight or choose to skip
         </Text>
       )}
 
       <TouchableOpacity
         style={registerStyles.optionalButton}
         onPress={()=>{
-          setWeight('Não informado');
-          setHeight('Não informado');
+          setWeight('Not specified');
+          setHeight('Not specified');
           setWeightError(false);
           setHeightError(false);
         }}
       >
         <Text style={registerStyles.optionalText}>
-          Prefiro não informar agora
+          Prefer not to say right now
         </Text>
       </TouchableOpacity>
 
       <Text style={registerStyles.label}>
-        Método contraceptivo
+        Birth control method
       </Text>
 
       <View
         style={[
           registerStyles.chipsContainer,
-          contraceptiveError && {borderColor:'red',borderWidth:1}
+          contraceptiveError && { borderColor: cycleColors.danger, borderWidth: 1 }
         ]}
       >
-        {contraceptives.map(item=>{
+        {contraceptives.map(item => {
 
           const selected = contraceptive === item;
 
-          return(
+          return (
             <TouchableOpacity
               key={item}
               style={[
                 registerStyles.chip,
                 selected && registerStyles.chipSelected
               ]}
-              onPress={()=>{
+              onPress={() => {
                 setContraceptive(item);
                 setContraceptiveError(false);
               }}
@@ -235,33 +233,33 @@ export default function StepFour({
       </View>
 
       {contraceptiveError && (
-        <Text style={{color:'red'}}>
-          Selecione uma opção
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Please select an option
         </Text>
       )}
 
       <Text style={registerStyles.label}>
-        Condições de saúde
+        Health conditions
       </Text>
 
       <View
         style={[
           registerStyles.chipsContainer,
-          healthError && {borderColor:'red',borderWidth:1}
+          healthError && { borderColor: cycleColors.danger, borderWidth: 1 }
         ]}
       >
-        {conditions.map(item=>{
+        {conditions.map(item => {
 
           const selected = healthConditions.includes(item);
 
-          return(
+          return (
             <TouchableOpacity
               key={item}
               style={[
                 registerStyles.chip,
                 selected && registerStyles.chipSelected
               ]}
-              onPress={()=>toggleCondition(item)}
+              onPress={() => toggleCondition(item)}
             >
               <Text
                 style={[
@@ -277,8 +275,8 @@ export default function StepFour({
       </View>
 
       {healthError && (
-        <Text style={{color:'red'}}>
-          Selecione uma opção
+        <Text style={{ color: cycleColors.danger, fontSize: 13, marginTop: 4 }}>
+          Please select an option
         </Text>
       )}
 
@@ -289,7 +287,7 @@ export default function StepFour({
           onPress={previousStep}
         >
           <Text style={registerStyles.backButtonText}>
-            Voltar
+            Back
           </Text>
         </TouchableOpacity>
 
@@ -298,7 +296,7 @@ export default function StepFour({
           onPress={handleNext}
         >
           <Text style={registerStyles.nextButtonText}>
-            Próximo
+            Next
           </Text>
         </TouchableOpacity>
 

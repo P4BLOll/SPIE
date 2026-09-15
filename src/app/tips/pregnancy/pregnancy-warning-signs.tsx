@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function PregnancyWarningSignsScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,259 +31,75 @@ export default function PregnancyWarningSignsScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="warning-outline"
             size={55}
             color="#EF4444"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Sinais de alerta
+            Pregnancy Warning Signs
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Conheça alguns sintomas durante a gravidez
-            que precisam de avaliação profissional.
+            Recognize symptoms during pregnancy that require immediate professional medical attention.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Sangramento vaginal
+            Vaginal bleeding
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Qualquer sangramento durante a gravidez
-            deve ser comunicado ao profissional que
-            acompanha a gestação.
-
+            Any vaginal bleeding during pregnancy should be reported to your obstetric provider.
             {'\n\n'}
-
-            Sangramento intenso, presença de coágulos,
-            dor forte ou piora dos sintomas precisam
-            de avaliação médica.
-
-            {'\n\n'}
-
-            Não tente descobrir a causa sozinha.
+            Heavy bleeding, bright red flow, passage of tissue or clots, especially accompanied by cramping, demands urgent clinical evaluation.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Dor abdominal ou pélvica intensa
+            Severe abdominal or pelvic pain
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas dores podem acontecer durante a
-            gravidez, mas dor intensa, persistente ou
-            diferente do habitual merece atenção.
-
-            {'\n\n'}
-
-            Principalmente quando a dor vem acompanhada
-            de sangramento, tontura, desmaio ou outros
-            sintomas.
+            While mild round ligament stretches can occur, sharp, severe, persistent, or one-sided cramping requires urgent medical assessment to rule out ectopic pregnancy or placental complications.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Perda de líquido
+            Fluid leakage
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Uma saída repentina ou contínua de líquido
-            pela vagina durante a gravidez pode indicar
-            perda de líquido amniótico.
-
+            A sudden gush or steady trickle of clear or greenish fluid from the vagina can indicate premature rupture of membranes (water breaking).
             {'\n\n'}
-
-            Se isso acontecer, procure avaliação em
-            um serviço de saúde, especialmente quando
-            ocorre antes do momento esperado para o parto.
+            Seek immediate hospital evaluation if this occurs before term.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Febre
+            High fever and chills
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Febre durante a gravidez pode estar
-            relacionada a uma infecção ou outra
-            condição que precisa ser avaliada.
-
-            {'\n\n'}
-
-            Não tome medicamentos por conta própria
-            para tentar controlar a febre.
-
-            {'\n\n'}
-
-            Procure orientação profissional.
+            A fever of 38°C (100.4°F) or higher during pregnancy may signal a systemic or uterine infection. Contact your healthcare team promptly rather than self-medicating.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Dor de cabeça forte
+            Severe headaches and vision changes
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Dores de cabeça podem acontecer durante
-            a gravidez.
-
-            {'\n\n'}
-
-            Porém, uma dor muito forte, persistente ou
-            acompanhada de alterações na visão, inchaço
-            importante ou pressão arterial elevada
-            precisa ser avaliada rapidamente.
+            Pounding headaches that don't respond to acetaminophen, visual disturbances (flashing lights, blurriness, dark spots), and sudden swelling of face and hands are hallmarks of preeclampsia.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Alterações na visão
+            Decreased fetal movement
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Visão embaçada, pontos luminosos, perda
-            de visão ou outras alterações visuais
-            inesperadas durante a gravidez precisam
-            de avaliação.
-
-            {'\n\n'}
-
-            Principalmente quando aparecem junto com
-            dor de cabeça forte ou outros sintomas.
+            Once regular fetal movements are established (usually after week 24–28), a noticeable reduction or absence of kicks is a red flag. Contact your labor and delivery unit immediately for fetal monitoring.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Inchaço súbito
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Algum grau de inchaço pode ocorrer durante
-            a gravidez.
-
-            {'\n\n'}
-
-            Porém, um inchaço repentino ou muito intenso,
-            principalmente no rosto e nas mãos, pode
-            precisar de avaliação.
-
-            {'\n\n'}
-
-            Procure orientação profissional se essa
-            alteração aparecer de forma inesperada.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Falta de ar ou dor no peito
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Dificuldade intensa para respirar, falta de
-            ar repentina ou dor no peito não devem ser
-            ignoradas.
-
-            {'\n\n'}
-
-            Esses sintomas podem estar relacionados
-            a situações que precisam de atendimento
-            imediato.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Desmaio ou tontura intensa
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Tonturas leves podem acontecer durante a
-            gravidez.
-
-            {'\n\n'}
-
-            Entretanto, desmaio, tontura intensa ou
-            episódios repetidos precisam ser avaliados,
-            principalmente quando acompanhados de
-            sangramento, dor ou falta de ar.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Redução dos movimentos do bebê
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Depois que os movimentos do bebê começam
-            a ser percebidos regularmente, uma redução
-            importante ou ausência de movimentos pode
-            ser um sinal de alerta.
-
-            {'\n\n'}
-
-            Nessa situação, procure imediatamente o
-            serviço de saúde responsável pelo
-            acompanhamento da gestação.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Contrações regulares
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            No final da gravidez, algumas contrações
-            podem acontecer como parte da preparação
-            para o parto.
-
-            {'\n\n'}
-
-            Contrações regulares, cada vez mais fortes
-            e próximas umas das outras podem indicar
-            o início do trabalho de parto.
-
-            {'\n\n'}
-
-            Se acontecerem antes do período esperado,
-            procure atendimento.
-          </Text>
-
         </View>
 
         <View
@@ -298,22 +110,15 @@ export default function PregnancyWarningSignsScreen() {
             },
           ]}
         >
-
           <Ionicons
             name="alert-circle-outline"
             size={25}
             color="#EF4444"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Alguns sinais durante a gravidez precisam
-            de atendimento rápido. Em caso de sintomas
-            intensos, súbitos ou que causem preocupação,
-            procure um serviço de saúde imediatamente.
+            Never wait or hesitate if you experience warning symptoms during pregnancy. Seek immediate emergency obstetrical care or go directly to the nearest hospital.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

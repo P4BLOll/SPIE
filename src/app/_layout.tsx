@@ -9,7 +9,6 @@ import { SecurityProvider } from '@/modules/security-vault/contexts/SecurityCont
 import { BLEProvider } from '@/context/BLEContext';
 import { DialogProvider } from '@/context/DialogContext';
 
-import { AlertModal } from '@/components/AlertModal';
 import { CustomDialogModal } from '@/components/common/CustomDialogModal';
 
 export default function RootLayout() {
@@ -34,7 +33,6 @@ export default function RootLayout() {
                     <Stack.Screen name="legal" />
                   </Stack>
 
-                  <AlertModal />
                   <CustomDialogModal />
                 </DialogProvider>
               </SecurityProvider>

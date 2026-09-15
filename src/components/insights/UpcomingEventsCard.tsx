@@ -9,11 +9,11 @@ interface UpcomingEventsCardProps {
   metricas: CycleMetrics | null;
 }
 
-function formatarDataPtBr(isoStr: string | null): string {
+function formatarDataEn(isoStr: string | null): string {
   if (!isoStr) return '--';
   const partes = isoStr.split('-');
   if (partes.length !== 3) return isoStr;
-  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+  return `${partes[1]}/${partes[2]}/${partes[0]}`;
 }
 
 export function UpcomingEventsCard({ metricas }: UpcomingEventsCardProps) {
@@ -23,16 +23,16 @@ export function UpcomingEventsCard({ metricas }: UpcomingEventsCardProps) {
 
   return (
     <View style={insightsStyles.eventsCard}>
-      <Text style={insightsStyles.sectionTitle}>Próximos eventos</Text>
+      <Text style={insightsStyles.sectionTitle}>Upcoming events</Text>
 
       {/* Ovulação */}
       {metricas.ovulacaoEstimada && (
         <View style={insightsStyles.eventRow}>
           <Ionicons name="flower" size={22} color={cycleColors.gold} />
           <View style={{ flex: 1 }}>
-            <Text style={insightsStyles.eventTitle}>Ovulação estimada</Text>
+            <Text style={insightsStyles.eventTitle}>Estimated ovulation</Text>
             <Text style={insightsStyles.eventDate}>
-              {formatarDataPtBr(metricas.ovulacaoEstimada)}
+              {formatarDataEn(metricas.ovulacaoEstimada)}
             </Text>
           </View>
         </View>
@@ -44,9 +44,9 @@ export function UpcomingEventsCard({ metricas }: UpcomingEventsCardProps) {
       <View style={insightsStyles.eventRow}>
         <Ionicons name="water" size={22} color={cycleColors.rose} />
         <View style={{ flex: 1 }}>
-          <Text style={insightsStyles.eventTitle}>Próxima menstruação</Text>
+          <Text style={insightsStyles.eventTitle}>Next period</Text>
           <Text style={insightsStyles.eventDate}>
-            {formatarDataPtBr(metricas.proximaMenstruacao)}
+            {formatarDataEn(metricas.proximaMenstruacao)}
           </Text>
           {metricas.diasAtraso && metricas.diasAtraso > 0 && (
             <Text
@@ -57,7 +57,7 @@ export function UpcomingEventsCard({ metricas }: UpcomingEventsCardProps) {
                 fontWeight: '700',
               }}
             >
-              {metricas.diasAtraso} {metricas.diasAtraso === 1 ? 'dia' : 'dias'} além da previsão
+              {metricas.diasAtraso} {metricas.diasAtraso === 1 ? 'day' : 'days'} past expected date
             </Text>
           )}
         </View>
@@ -70,10 +70,10 @@ export function UpcomingEventsCard({ metricas }: UpcomingEventsCardProps) {
           <View style={insightsStyles.eventRow}>
             <Ionicons name="flower-outline" size={22} color={cycleColors.lavender} />
             <View style={{ flex: 1 }}>
-              <Text style={insightsStyles.eventTitle}>Período fértil estimado</Text>
+              <Text style={insightsStyles.eventTitle}>Estimated fertile window</Text>
               <Text style={insightsStyles.eventDate}>
-                {formatarDataPtBr(metricas.periodoFertil.inicio)} até{' '}
-                {formatarDataPtBr(metricas.periodoFertil.fim)}
+                {formatarDataEn(metricas.periodoFertil.inicio)} to{' '}
+                {formatarDataEn(metricas.periodoFertil.fim)}
               </Text>
             </View>
           </View>

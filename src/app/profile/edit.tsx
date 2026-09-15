@@ -51,7 +51,7 @@ const cycleTypeOptions = [
     value: 'irregular',
   },
   {
-    label: 'Não sei',
+    label: 'Not sure',
     value: 'unknown',
   },
 ];
@@ -63,7 +63,7 @@ const periodOptions = [
   '6',
   '7',
   '8+',
-  'Não sei',
+  'Not sure',
 ];
 
 const cycleOptions = [
@@ -73,35 +73,35 @@ const cycleOptions = [
   '28',
   '30',
   '35',
-  'Não sei',
+  'Not sure',
 ];
 
 const goalOptions = [
-  'Monitorar meu ciclo',
-  'Engravidar',
-  'Acompanhar gravidez',
-  'Conhecer meu corpo',
-  'Entender minha secreção',
-  'Melhorar minha vida sexual',
+  'Track my cycle',
+  'Get pregnant',
+  'Track pregnancy',
+  'Understand my body',
+  'Monitor cervical mucus',
+  'Improve sexual health',
 ];
 
 const conditions = [
-  'Nenhuma',
-  'SOP',
-  'Endometriose',
-  'Adenomiose',
+  'None',
+  'PCOS',
+  'Endometriosis',
+  'Adenomyosis',
   'Diabetes',
-  'Hipertensão',
-  'Tireoide',
+  'Hypertension',
+  'Thyroid',
 ];
 
 const contraceptives = [
-  'Nenhum',
-  'Pílula',
-  'DIU',
-  'Implante',
-  'Injeção',
-  'Preservativo',
+  'None',
+  'Birth control pill',
+  'IUD',
+  'Implant',
+  'Injection',
+  'Condom',
 ];
 
 
@@ -240,8 +240,8 @@ export default function EditProfile() {
   // =====================================================
 
   const measurementsNotInformed =
-    weight === 'Não informado' &&
-    height === 'Não informado';
+    (weight === 'Não informado' || weight === 'Not specified') &&
+    (height === 'Não informado' || height === 'Not specified');
 
 
   // =====================================================
@@ -261,8 +261,8 @@ export default function EditProfile() {
         if (!user) {
 
           Alert.alert(
-            'Erro',
-            'Usuário não autenticado.'
+            'Error',
+            'User not authenticated.'
           );
 
           router.replace('/(auth)/login');
@@ -287,8 +287,8 @@ export default function EditProfile() {
         if (!snapshot.exists()) {
 
           Alert.alert(
-            'Erro',
-            'Não foi possível encontrar seus dados.'
+            'Error',
+            'Could not find your profile data.'
           );
 
           return;
@@ -410,13 +410,13 @@ export default function EditProfile() {
       } catch (error) {
 
         console.log(
-          'Erro ao carregar perfil:',
+          'Error loading profile:',
           error
         );
 
         Alert.alert(
-          'Erro',
-          'Não foi possível carregar seus dados.'
+          'Error',
+          'Could not load your profile data.'
         );
 
       } finally {
@@ -495,11 +495,11 @@ export default function EditProfile() {
   function naoInformarMedidas() {
 
     setWeight(
-      'Não informado'
+      'Not specified'
     );
 
     setHeight(
-      'Não informado'
+      'Not specified'
     );
 
   }
@@ -518,8 +518,8 @@ export default function EditProfile() {
     ) {
 
       Alert.alert(
-        'Atenção',
-        'Preencha todos os campos de senha.'
+        'Attention',
+        'Please fill in all PIN fields.'
       );
 
       return;
@@ -532,8 +532,8 @@ export default function EditProfile() {
     ) {
 
       Alert.alert(
-        'Senha atual inválida',
-        'A senha atual deve possuir exatamente 4 números.'
+        'Invalid current PIN',
+        'Current PIN must be exactly 4 digits.'
       );
 
       return;
@@ -546,8 +546,8 @@ export default function EditProfile() {
     ) {
 
       Alert.alert(
-        'Nova senha inválida',
-        'A nova senha deve possuir exatamente 4 números.'
+        'Invalid new PIN',
+        'New PIN must be exactly 4 digits.'
       );
 
       return;
@@ -560,8 +560,8 @@ export default function EditProfile() {
     ) {
 
       Alert.alert(
-        'Senhas diferentes',
-        'A confirmação da nova senha não corresponde à nova senha.'
+        'PINs do not match',
+        'The confirmation PIN does not match the new PIN.'
       );
 
       return;
@@ -574,8 +574,8 @@ export default function EditProfile() {
     ) {
 
       Alert.alert(
-        'Atenção',
-        'A nova senha deve ser diferente da senha atual.'
+        'Attention',
+        'The new PIN must be different from current PIN.'
       );
 
       return;
@@ -598,8 +598,8 @@ export default function EditProfile() {
       if (!sucesso) {
 
         Alert.alert(
-          'Senha incorreta',
-          'A senha atual informada está incorreta.'
+          'Incorrect PIN',
+          'The current PIN provided is incorrect.'
         );
 
         setSenhaAtual('');
@@ -615,20 +615,20 @@ export default function EditProfile() {
 
 
       Alert.alert(
-        'Senha alterada',
-        'Sua senha foi alterada com sucesso.'
+        'PIN changed',
+        'Your PIN has been changed successfully.'
       );
 
     } catch (error) {
 
       console.log(
-        'Erro ao alterar senha:',
+        'Error changing PIN:',
         error
       );
 
       Alert.alert(
-        'Erro',
-        'Não foi possível alterar sua senha.'
+        'Error',
+        'Could not change your PIN.'
       );
 
     } finally {
@@ -653,8 +653,8 @@ export default function EditProfile() {
     if (!user) {
 
       Alert.alert(
-        'Erro',
-        'Usuário não autenticado.'
+        'Error',
+        'User not authenticated.'
       );
 
       return;
@@ -665,8 +665,8 @@ export default function EditProfile() {
     if (!fullName.trim()) {
 
       Alert.alert(
-        'Atenção',
-        'Informe seu nome completo.'
+        'Attention',
+        'Please enter your full name.'
       );
 
       return;
@@ -726,8 +726,8 @@ export default function EditProfile() {
 
 
       Alert.alert(
-        'Tudo certo!',
-        'Seus dados foram atualizados com sucesso.',
+        'All set!',
+        'Your details have been updated successfully.',
         [
           {
             text: 'OK',
@@ -742,13 +742,13 @@ export default function EditProfile() {
     } catch (error) {
 
       console.log(
-        'Erro ao salvar perfil:',
+        'Error saving profile:',
         error
       );
 
       Alert.alert(
-        'Erro',
-        'Não foi possível salvar suas alterações.'
+        'Error',
+        'Could not save your changes.'
       );
 
     } finally {
@@ -796,10 +796,10 @@ export default function EditProfile() {
     condition: string
   ) {
 
-    if (condition === 'Nenhuma') {
+    if (condition === 'None' || condition === 'Nenhuma') {
 
       setHealthConditions([
-        'Nenhuma',
+        'None',
       ]);
 
       return;
@@ -810,7 +810,7 @@ export default function EditProfile() {
     let updated =
       healthConditions.filter(
         item =>
-          item !== 'Nenhuma'
+          item !== 'None' && item !== 'Nenhuma'
       );
 
 
@@ -866,7 +866,7 @@ export default function EditProfile() {
               styles.loadingText
             }
           >
-            Carregando seus dados...
+            Loading your data...
           </Text>
 
         </View>
@@ -933,7 +933,7 @@ export default function EditProfile() {
               styles.fixedHeaderTitle
             }
           >
-            Editar perfil
+            Edit profile
           </Text>
 
         </View>
@@ -973,7 +973,7 @@ export default function EditProfile() {
                 styles.eyebrow
               }
             >
-              SUA CONTA
+              YOUR ACCOUNT
             </Text>
 
 
@@ -982,7 +982,7 @@ export default function EditProfile() {
                 styles.subtitle
               }
             >
-              Atualize seus dados sempre que precisar.
+              Update your details whenever you need to.
             </Text>
 
           </View>
@@ -994,23 +994,23 @@ export default function EditProfile() {
 
           <Section
             icon="person-outline"
-            title="Dados pessoais"
+            title="Personal details"
           >
 
             <Field
-              label="Nome completo"
+              label="Full name"
               value={
                 fullName
               }
               onChangeText={
                 setFullName
               }
-              placeholder="Digite seu nome"
+              placeholder="Enter your full name"
             />
 
 
             <Field
-              label="Ano de nascimento"
+              label="Birth year"
               value={
                 birthYear
               }
@@ -1034,13 +1034,13 @@ export default function EditProfile() {
 
                 }
               }
-              placeholder="Ex: 2006"
+              placeholder="e.g. 2006"
               keyboardType="number-pad"
             />
 
 
             <Field
-              label="Celular"
+              label="Phone"
               value={
                 phone
               }
@@ -1086,7 +1086,7 @@ export default function EditProfile() {
 
                 }
               }
-              placeholder="(11) 99999-9999"
+              placeholder="(555) 000-0000"
               keyboardType="number-pad"
             />
 
@@ -1099,18 +1099,18 @@ export default function EditProfile() {
 
           <Section
             icon="mail-outline"
-            title="Conta"
+            title="Account"
           >
 
             <Field
-              label="E-mail"
+              label="Email"
               value={
                 email
               }
               onChangeText={
                 setEmail
               }
-              placeholder="Digite seu e-mail"
+              placeholder="Enter your email"
               keyboardType="email-address"
               autoCapitalize="none"
             />
@@ -1135,10 +1135,7 @@ export default function EditProfile() {
                   styles.infoText
                 }
               >
-                Alterar este campo atualiza o
-                e-mail salvo no perfil. O e-mail
-                usado para autenticação no Firebase
-                Authentication é separado.
+                Changing this field updates the email saved in your profile. The email used for Firebase Authentication sign-in remains separate.
               </Text>
 
             </View>
@@ -1152,7 +1149,7 @@ export default function EditProfile() {
 
           <Section
             icon="lock-closed-outline"
-            title="Segurança"
+            title="Security"
           >
 
             <Text
@@ -1160,7 +1157,7 @@ export default function EditProfile() {
                 styles.label
               }
             >
-              Altere sua senha de acesso à área segura.
+              Change your PIN for access to the secret vault.
             </Text>
 
 
@@ -1175,7 +1172,7 @@ export default function EditProfile() {
                   styles.label
                 }
               >
-                Senha atual
+                Current PIN
               </Text>
 
 
@@ -1206,7 +1203,7 @@ export default function EditProfile() {
                           )
                       )
                   }
-                  placeholder="Digite a senha atual"
+                  placeholder="Enter current PIN"
                   placeholderTextColor={
                     cycleColors.textMuted
                   }
@@ -1263,7 +1260,7 @@ export default function EditProfile() {
                   styles.label
                 }
               >
-                Nova senha
+                New PIN
               </Text>
 
 
@@ -1294,7 +1291,7 @@ export default function EditProfile() {
                           )
                       )
                   }
-                  placeholder="Digite a nova senha"
+                  placeholder="Enter new PIN"
                   placeholderTextColor={
                     cycleColors.textMuted
                   }
@@ -1351,7 +1348,7 @@ export default function EditProfile() {
                   styles.label
                 }
               >
-                Confirmar nova senha
+                Confirm new PIN
               </Text>
 
 
@@ -1382,7 +1379,7 @@ export default function EditProfile() {
                           )
                       )
                   }
-                  placeholder="Digite a nova senha novamente"
+                  placeholder="Confirm new PIN"
                   placeholderTextColor={
                     cycleColors.textMuted
                   }
@@ -1447,9 +1444,7 @@ export default function EditProfile() {
                   styles.infoText
                 }
               >
-                Sua senha deve possuir exatamente
-                4 números. A alteração será aplicada
-                somente à senha da área segura.
+                Your PIN must be exactly 4 digits. This change only applies to your secret vault access.
               </Text>
 
             </View>
@@ -1491,7 +1486,7 @@ export default function EditProfile() {
                         styles.saveButtonText
                       }
                     >
-                      Alterar senha
+                      Change PIN
                     </Text>
                   </>
                 )}
@@ -1507,7 +1502,7 @@ export default function EditProfile() {
 
           <Section
             icon="calendar-outline"
-            title="Ciclo menstrual"
+            title="Menstrual cycle"
           >
 
             <Text
@@ -1515,7 +1510,7 @@ export default function EditProfile() {
                 styles.label
               }
             >
-              Sua menstruação costuma ser:
+              Your period tends to be:
             </Text>
 
 
@@ -1578,7 +1573,7 @@ export default function EditProfile() {
                 styles.label
               }
             >
-              Quantos dias costuma durar sua menstruação?
+              How many days does your period usually last?
             </Text>
 
 
@@ -1641,7 +1636,7 @@ export default function EditProfile() {
                 styles.label
               }
             >
-              Quantos dias costuma durar seu ciclo?
+              How many days does your cycle usually last?
             </Text>
 
 
@@ -1707,7 +1702,7 @@ export default function EditProfile() {
 
           <Section
             icon="flag-outline"
-            title="Objetivos"
+            title="Goals"
           >
 
             <Text
@@ -1715,7 +1710,7 @@ export default function EditProfile() {
                 styles.label
               }
             >
-              Selecione tudo o que deseja acompanhar:
+              Select everything you would like to track:
             </Text>
 
 
@@ -1782,7 +1777,7 @@ export default function EditProfile() {
 
           <Section
             icon="heart-outline"
-            title="Saúde"
+            title="Health"
           >
 
             <Text
@@ -1790,7 +1785,7 @@ export default function EditProfile() {
                 styles.label
               }
             >
-              Qual sua altura?
+              What is your height?
             </Text>
 
 
@@ -1812,25 +1807,25 @@ export default function EditProfile() {
                 onChangeText={
                   setHeight
                 }
-                placeholder="Ex: 1,65"
+                placeholder="e.g. 1.65"
                 placeholderTextColor={
                   cycleColors.textMuted
                 }
                 keyboardType="decimal-pad"
                 editable={
-                  height !== 'Não informado'
+                  height !== 'Não informado' && height !== 'Not specified'
                 }
               />
 
 
-              {height !== 'Não informado' && (
+              {height !== 'Não informado' && height !== 'Not specified' && (
 
                 <Text
                   style={
                     styles.measureUnit
                   }
                 >
-                  metros
+                  meters
                 </Text>
 
               )}
@@ -1843,7 +1838,7 @@ export default function EditProfile() {
                 styles.label
               }
             >
-              Qual seu peso?
+              What is your weight?
             </Text>
 
 
@@ -1865,18 +1860,18 @@ export default function EditProfile() {
                 onChangeText={
                   setWeight
                 }
-                placeholder="Ex: 60"
+                placeholder="e.g. 60"
                 placeholderTextColor={
                   cycleColors.textMuted
                 }
                 keyboardType="decimal-pad"
                 editable={
-                  weight !== 'Não informado'
+                  weight !== 'Não informado' && weight !== 'Not specified'
                 }
               />
 
 
-              {weight !== 'Não informado' && (
+              {weight !== 'Não informado' && weight !== 'Not specified' && (
 
                 <Text
                   style={
@@ -1915,7 +1910,7 @@ export default function EditProfile() {
                     styles.optionalText
                   }
                 >
-                  Informar peso e altura
+                  Enter weight and height
                 </Text>
 
               </TouchableOpacity>
@@ -1936,7 +1931,7 @@ export default function EditProfile() {
                     styles.optionalText
                   }
                 >
-                  Prefiro não informar agora
+                  Prefer not to say right now
                 </Text>
 
               </TouchableOpacity>
@@ -1949,7 +1944,7 @@ export default function EditProfile() {
                 styles.label
               }
             >
-              Método contraceptivo
+              Contraceptive method
             </Text>
 
 
@@ -2012,7 +2007,7 @@ export default function EditProfile() {
                 styles.label
               }
             >
-              Condições de saúde
+              Health conditions
             </Text>
 
 
@@ -2113,7 +2108,7 @@ export default function EditProfile() {
                       styles.saveButtonText
                     }
                   >
-                    Salvar alterações
+                    Save changes
                   </Text>
                 </>
               )}

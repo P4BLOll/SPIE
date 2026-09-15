@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function STIPreventionScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,252 +31,89 @@ export default function STIPreventionScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="shield-checkmark-outline"
             size={55}
             color="#22C55E"
           />
-
           <Text style={tipsDetailStyles.title}>
-            ISTs
+            STI Prevention & Sexual Health
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Prevenção, testagem e cuidados com a saúde sexual.
+            Essential guidelines for prevention, screening, and protecting your sexual wellbeing.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que são ISTs?
+            What are STIs?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            IST significa Infecção Sexualmente Transmissível.
-
+            Sexually Transmitted Infections (STIs) are infections transmitted predominantly through sexual activity (vaginal, anal, or oral).
             {'\n\n'}
-
-            São infecções que podem ser transmitidas
-            principalmente por meio de relações sexuais
-            sem proteção.
-
-            {'\n\n'}
-
-            Algumas ISTs também podem ser transmitidas
-            de outras formas, dependendo da infecção.
+            They are caused by bacteria (chlamydia, gonorrhea, syphilis), viruses (HPV, herpes, HIV, hepatitis B), or parasites (trichomoniasis).
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Muitas ISTs não apresentam sintomas
+            Core prevention strategies
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Uma pessoa pode ter uma IST e não perceber
-            nenhuma alteração no corpo.
-
-            {'\n\n'}
-
-            Por isso, não é possível saber se alguém
-            possui uma infecção apenas observando a
-            aparência ou a presença de sintomas.
-
-            {'\n\n'}
-
-            A testagem é importante quando houver
-            indicação ou possibilidade de exposição.
+            • Consistent and correct use of condoms (external or internal);
+            {'\n'}
+            • Vaccination against HPV and Hepatitis B;
+            {'\n'}
+            • Regular sexual health screenings with your provider;
+            {'\n'}
+            • Open and honest conversations with sexual partners;
+            {'\n'}
+            • Prompt medical evaluation following unprotected intercourse.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como reduzir o risco?
+            When should you get tested?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas medidas ajudam na prevenção:
-
+            Testing is recommended:
             {'\n\n'}
-
-            • Usar preservativo externo ou interno
-            corretamente;
-
+            • Annually if you are sexually active and under 25;
             {'\n'}
-
-            • Manter a vacinação contra HPV e hepatite B
-            em dia, quando indicada;
-
+            • Before starting a sexual relationship with a new partner;
             {'\n'}
-
-            • Realizar testes para ISTs quando recomendado;
-
+            • After any condom failure or unprotected encounter;
             {'\n'}
-
-            • Conversar com parceiros sobre saúde sexual;
-
+            • If a partner tests positive for any STI;
             {'\n'}
-
-            • Procurar atendimento diante de sintomas
-            ou após uma possível exposição.
+            • Whenever you notice unusual discharge, sores, burning, or pelvic pain.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quando fazer testes?
+            Break the stigma
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A necessidade de testagem depende da situação
-            de cada pessoa.
-
+            STIs are very common and nothing to be ashamed of.
             {'\n\n'}
-
-            Pode ser importante procurar um serviço de
-            saúde quando:
-
+            Most STIs are easily cured with antibiotics or effectively managed with antivirals.
             {'\n\n'}
-
-            • Houve relação sexual sem preservativo;
-
-            {'\n'}
-
-            • O preservativo rompeu ou saiu durante a
-            relação;
-
-            {'\n'}
-
-            • Existe suspeita de exposição a uma IST;
-
-            {'\n'}
-
-            • O parceiro ou parceira recebeu diagnóstico
-            de uma IST;
-
-            {'\n'}
-
-            • Apareceram sintomas ou alterações na região
-            genital.
+            Taking charge of your sexual health by testing regularly is a responsible and empowering choice.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Sintomas que merecem atenção
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure avaliação se aparecer:
-
-            {'\n\n'}
-
-            • Corrimento diferente do habitual;
-
-            {'\n'}
-
-            • Odor forte e persistente;
-
-            {'\n'}
-
-            • Coceira ou ardência;
-
-            {'\n'}
-
-            • Feridas, bolhas ou verrugas;
-
-            {'\n'}
-
-            • Dor ao urinar;
-
-            {'\n'}
-
-            • Dor durante a relação sexual;
-
-            {'\n'}
-
-            • Dor pélvica;
-
-            {'\n'}
-
-            • Sangramento fora do período menstrual.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O preservativo é importante
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O uso correto de preservativos ajuda a reduzir
-            o risco de várias ISTs.
-
-            {'\n\n'}
-
-            Porém, ele não elimina completamente o risco
-            de todas as infecções, especialmente aquelas
-            que também podem ser transmitidas pelo contato
-            com áreas da pele não cobertas.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Não tenha vergonha de procurar ajuda
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procurar atendimento para uma possível IST é
-            uma atitude de cuidado com a própria saúde e
-            também com a saúde dos parceiros.
-
-            {'\n\n'}
-
-            Profissionais de saúde estão preparados para
-            orientar, realizar testes e indicar o tratamento
-            adequado quando necessário.
-
-            {'\n\n'}
-
-            Evite a automedicação e não interrompa um
-            tratamento sem orientação profissional.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Ter uma IST não é motivo para vergonha.
-            Informação, prevenção, testagem e tratamento
-            adequado são partes importantes do cuidado
-            com a saúde sexual.
+            Knowledge and prevention empower healthy relationships. Use condoms and get screened regularly to keep yourself and your partners protected.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

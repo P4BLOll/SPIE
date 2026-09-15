@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function MenstrualCupScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,283 +31,109 @@ export default function MenstrualCupScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="water-outline"
             size={55}
             color="#A855F7"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Coletor menstrual
+            Menstrual Cup
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Saiba como funciona, como cuidar e quais
-            cuidados são importantes durante o uso.
+            Learn how it works, insertion and removal techniques, and essential hygiene practices.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é?
+            What is a menstrual cup?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O coletor menstrual é um pequeno recipiente
-            reutilizável feito geralmente de silicone
-            próprio para uso médico.
-
+            A menstrual cup is a reusable, flexible bell-shaped device typically made of medical-grade silicone, elastomer, or latex.
             {'\n\n'}
-
-            Ele é inserido na vagina e, em vez de absorver
-            o sangue, coleta o fluxo menstrual.
-
+            It is inserted into the vagina during menstruation to collect, rather than absorb, menstrual fluid.
             {'\n\n'}
-
-            Existem diferentes tamanhos, formatos e
-            capacidades. A escolha depende das
-            características de cada pessoa e das
-            orientações do fabricante.
+            Cups come in various sizes, firm levels, and capacities. Selecting the right one depends on pelvic anatomy, age, and childbirth history.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como colocar?
+            How to insert
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Antes de colocar o coletor, lave bem as mãos.
-
+            Always wash your hands thoroughly with water and mild soap before handling.
             {'\n\n'}
-
-            O coletor pode ser dobrado para facilitar
-            a inserção.
-
+            Fold the cup (common folds include the C-fold or punch-down fold) to make insertion compact.
             {'\n\n'}
-
-            Depois de inserido, ele deve ficar aberto
-            dentro da vagina para formar uma vedação
-            adequada.
-
+            Gently guide the folded cup into the vagina. Once inside, release the fold so it pops open and forms a light suction seal against the vaginal walls.
             {'\n\n'}
-
-            A posição pode variar de pessoa para pessoa.
-            Nunca force o produto caso esteja causando
-            dor.
+            Never force insertion if you feel sharp pain.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como retirar?
+            How to remove
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Lave as mãos antes de retirar o coletor.
-
+            Wash your hands before removal.
             {'\n\n'}
-
-            Para removê-lo, não puxe apenas pela haste.
-
+            Never pull solely on the stem. Reach up to the base of the cup and gently pinch it to break the suction seal.
             {'\n\n'}
-
-            Primeiro, alcance a base do coletor e
-            comprima suavemente a parte inferior para
-            desfazer a vedação.
-
-            {'\n\n'}
-
-            Depois, retire lentamente.
+            Once the seal is released, gently wiggle the cup downward, keeping it upright to prevent spills, and empty it into the toilet.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quanto tempo pode ficar?
+            Wear duration
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O tempo de uso varia de acordo com o produto,
-            o fluxo menstrual e as orientações do fabricante.
-
+            Menstrual cups can typically be worn for up to 8 to 12 hours depending on your flow and manufacturer instructions.
             {'\n\n'}
-
-            O coletor deve ser esvaziado regularmente e
-            nunca deve permanecer no corpo por mais tempo
-            do que o recomendado.
-
-            {'\n\n'}
-
-            Em fluxos mais intensos, pode ser necessário
-            esvaziá-lo com maior frequência.
+            On heavy flow days, you may need to empty and rinse it more frequently. Never exceed the recommended time limit.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como higienizar?
+            Sanitization and care
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A higiene correta é fundamental porque o
-            coletor é reutilizado.
-
+            Between uses during your cycle, rinse the cup thoroughly with drinking water and fragrance-free, oil-free soap.
             {'\n\n'}
-
-            Durante o ciclo, lave o coletor conforme as
-            orientações do fabricante.
-
-            {'\n\n'}
-
-            Ao final do ciclo, alguns fabricantes
-            recomendam a esterilização do coletor em
-            água fervente pelo período indicado.
-
-            {'\n\n'}
-
-            Sempre siga as instruções específicas
-            do produto.
+            At the end of your cycle, sterilize the cup by boiling it in water for 5 to 10 minutes according to manufacturer instructions, then store it in a breathable pouch.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Pode dormir com o coletor?
+            Benefits
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Alguns coletores podem ser utilizados durante
-            o sono, desde que o tempo máximo de uso
-            recomendado pelo fabricante seja respeitado.
-
-            {'\n\n'}
-
-            Antes de dormir, considere o seu fluxo e
-            a capacidade do coletor.
-
-            {'\n\n'}
-
-            Se houver qualquer desconforto, retire o
-            produto e procure uma alternativa.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            É normal sentir o coletor?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Quando colocado corretamente, o coletor
-            geralmente não deve causar dor.
-
-            {'\n\n'}
-
-            Algumas pessoas podem precisar de um
-            período de adaptação para aprender a
-            inserir, posicionar e retirar o produto.
-
-            {'\n\n'}
-
-            Dor persistente, desconforto intenso ou
-            dificuldade frequente para utilizar o coletor
-            devem ser avaliados.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quem pode usar?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O coletor pode ser uma opção para muitas
-            pessoas que menstruam.
-
-            {'\n\n'}
-
-            Entretanto, algumas situações podem exigir
-            orientação profissional antes do uso.
-
-            {'\n\n'}
-
-            Pessoas que passaram recentemente por
-            procedimentos ginecológicos ou que possuem
-            alguma condição específica devem conversar
-            com um profissional de saúde.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Vantagens
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Algumas pessoas escolhem o coletor porque:
-
-            {'\n\n'}
-
-            • Pode ser reutilizado;
-
+            • Reusable and durable for several years;
             {'\n'}
-
-            • Pode reduzir a quantidade de resíduos;
-
+            • Eco-friendly, generating minimal waste;
             {'\n'}
-
-            • Pode permanecer em uso por várias horas,
-            respeitando as orientações do fabricante;
-
+            • Cost-effective over time;
             {'\n'}
-
-            • Pode ser uma alternativa econômica
-            a longo prazo;
-
+            • Can be worn overnight safely when within recommended hours;
             {'\n'}
-
-            • Existem diferentes tamanhos e modelos.
+            • Preserves natural vaginal moisture balance.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            O coletor exige um período de adaptação.
-            Leia as instruções do fabricante, mantenha
-            uma boa higiene e nunca force a inserção ou
-            retirada do produto.
+            A learning curve is completely normal. It often takes 2–3 cycles to master insertion and removal. Always follow manufacturer safety guidelines.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

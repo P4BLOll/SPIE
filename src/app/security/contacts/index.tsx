@@ -73,19 +73,19 @@ export default function ContactsScreen() {
 
   function deleteContact(id: string, name: string) {
     showConfirm({
-      title: 'Excluir Contato',
-      message: `Deseja realmente remover ${name} dos seus contatos de emergência?`,
+      title: 'Delete Contact',
+      message: `Are you sure you want to remove ${name} from your emergency contacts?`,
       type: 'danger',
-      confirmText: 'Excluir',
-      cancelText: 'Cancelar',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
       onConfirm: async () => {
         try {
           await emergencyRepository.deleteContact(id);
         } catch (error) {
           console.log('Erro ao excluir contato:', error);
           showAlert({
-            title: 'Erro',
-            message: 'Não foi possível excluir o contato.',
+            title: 'Error',
+            message: 'Unable to delete contact.',
             type: 'error',
           });
         }
@@ -172,7 +172,7 @@ export default function ContactsScreen() {
                   },
                 ]}
               >
-                Contatos de emergência
+                Emergency Contacts
               </Text>
 
 
@@ -185,7 +185,7 @@ export default function ContactsScreen() {
                   },
                 ]}
               >
-                Pessoas que receberão alertas do SPIE
+                People who will receive alerts from SPIE
               </Text>
 
             </View>
@@ -224,7 +224,7 @@ export default function ContactsScreen() {
                 <Text
                   style={styles.addButtonText}
                 >
-                  Adicionar contato
+                  Add contact
                 </Text>
               </View>
             </AnimatedPressable>
@@ -271,7 +271,7 @@ export default function ContactsScreen() {
                   },
                 ]}
               >
-                Nenhum contato cadastrado
+                No contacts registered
               </Text>
 
               <Text
@@ -283,8 +283,7 @@ export default function ContactsScreen() {
                   },
                 ]}
               >
-                Toque em "Adicionar contato" para
-                cadastrar o primeiro.
+                Tap "Add contact" to register your first emergency contact.
               </Text>
 
             </View>
@@ -355,7 +354,7 @@ export default function ContactsScreen() {
                         ]}
                         numberOfLines={1}
                       >
-                        {item.nome || 'Contato'}
+                        {item.nome || (item as any).name || 'Contact'}
                       </Text>
 
                       <Text
@@ -367,7 +366,7 @@ export default function ContactsScreen() {
                           },
                         ]}
                       >
-                        {item.telefone || ''}
+                        {item.telefone || (item as any).phone || ''}
                       </Text>
 
                     </View>
@@ -426,7 +425,7 @@ export default function ContactsScreen() {
                       onPress={() =>
                         deleteContact(
                           (item as any).id || '',
-                          (item as any).nome || (item as any).name || 'Contato'
+                          (item as any).nome || (item as any).name || 'Contact'
                         )
                       }
                     >

@@ -1,241 +1,105 @@
 import React from 'react';
-
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-
 import { Background } from '../../../components/Background';
 import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function FlowScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={
-          tipsDetailStyles.container
-        }
+        contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
-          onPress={() =>
-            router.back()
-          }
+          onPress={() => router.back()}
         >
-          <Ionicons
-            name="arrow-back"
-            size={25}
-            color={Colors.text}
-          />
+          <Ionicons name="arrow-back" size={25} color={Colors.text} />
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
-          <Ionicons
-            name="water-outline"
-            size={55}
-            color="#EF4444"
-          />
-
-          <Text style={tipsDetailStyles.title}>
-            Fluxo menstrual
-          </Text>
-
+          <Ionicons name="water-outline" size={55} color="#F43F5E" />
+          <Text style={tipsDetailStyles.title}>Menstrual Flow</Text>
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda as variações da quantidade de sangue
-            durante a menstruação.
+            Understand bleeding volume variations during your period.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O que é o fluxo menstrual?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>What is menstrual flow?</Text>
           <Text style={tipsDetailStyles.text}>
-            O fluxo menstrual corresponde à quantidade de
-            sangue e tecido eliminado durante a menstruação.
-
+            Menstrual flow refers to the volume and intensity of blood and tissue expelled during menstruation.
             {'\n\n'}
-
-            A quantidade pode mudar ao longo dos dias.
-            Geralmente, o fluxo pode ser diferente no início,
-            no meio e no final da menstruação.
+            On average, a person loses between 30 to 80 milliliters of fluid throughout an entire period.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Fluxo leve
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Light flow</Text>
           <Text style={tipsDetailStyles.text}>
-            Um fluxo leve apresenta uma pequena quantidade
-            de sangue.
-
+            Characterized by minimal blood loss, often requiring only panty liners or regular pads changed less frequently.
             {'\n\n'}
-
-            Pode acontecer no início ou no final da
-            menstruação e também pode fazer parte do
-            padrão normal de algumas pessoas.
+            Common at the very start or end of a period, or when using hormonal contraception.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Fluxo moderado
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Moderate flow</Text>
           <Text style={tipsDetailStyles.text}>
-            Um fluxo moderado apresenta uma quantidade
-            intermediária de sangue.
-
-            {'\n\n'}
-
-            Para algumas pessoas, essa pode ser a
-            característica predominante durante boa parte
-            da menstruação.
+            The typical flow level for most people on peak days, requiring pad or tampon changes every 3 to 4 hours.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Fluxo intenso
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Heavy flow</Text>
           <Text style={tipsDetailStyles.text}>
-            Um fluxo intenso apresenta uma quantidade
-            maior de sangue e pode exigir trocas mais
-            frequentes do produto menstrual.
-
+            Blood loss is substantial, requiring high-absorbency products changed frequently.
             {'\n\n'}
-
-            O que é considerado intenso pode variar,
-            mas mudanças importantes em relação ao seu
-            padrão habitual merecem atenção.
+            Often seen during the first 1 to 2 days of menstruation.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O fluxo pode mudar durante o ciclo?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Can flow fluctuate during the cycle?</Text>
           <Text style={tipsDetailStyles.text}>
-            Sim.
-
+            Yes. Flow usually starts light, peaks on days 1–2, and gradually tapers off until it stops completely.
             {'\n\n'}
-
-            É comum que a quantidade de sangue varie
-            durante os dias da menstruação.
-
-            {'\n\n'}
-
-            Algumas pessoas apresentam maior fluxo nos
-            primeiros dias e uma redução gradual depois.
-            Outras podem apresentar padrões diferentes.
+            Stress, travel, diet, exercise, and hormonal changes can also cause month-to-month variations.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando o fluxo merece atenção?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>When does flow warrant attention?</Text>
           <Text style={tipsDetailStyles.text}>
-            Procure orientação profissional se houver:
-
+            Seek medical guidance if:
             {'\n\n'}
-
-            • Sangramento muito intenso;
-
+            • You soak through a pad or tampon every hour for two consecutive hours;
             {'\n'}
-
-            • Necessidade de trocar o produto menstrual
-            com frequência incomum;
-
+            • Your period lasts longer than 7 days;
             {'\n'}
-
-            • Sangramento que dura muito mais tempo
-            do que o habitual;
-
+            • You pass large clots frequently;
             {'\n'}
-
-            • Coágulos grandes ou frequentes;
-
-            {'\n'}
-
-            • Cansaço, fraqueza ou tontura associados
-            ao sangramento;
-
-            {'\n'}
-
-            • Mudança persistente no padrão menstrual.
+            • You experience dizziness, shortness of breath, or pale skin.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Acompanhar o fluxo
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Tracking your flow</Text>
           <Text style={tipsDetailStyles.text}>
-            Observar a quantidade e a duração do
-            sangramento pode ajudar você a conhecer
-            melhor seu padrão menstrual.
-
-            {'\n\n'}
-
-            Registrar essas informações no SPIE também
-            pode facilitar a identificação de mudanças
-            ao longo dos ciclos.
+            Logging your daily flow intensity in SPIE helps you establish a baseline and identify changes that may be worth discussing with your doctor.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
-          <Ionicons
-            name="information-circle-outline"
-            size={25}
-            color="#F59E0B"
-          />
-
+          <Ionicons name="information-circle-outline" size={25} color="#F59E0B" />
           <Text style={tipsDetailStyles.infoText}>
-            Não existe uma quantidade de fluxo exatamente
-            igual para todas as pessoas. O mais importante
-            é conhecer o seu padrão e observar mudanças
-            significativas ou persistentes.
+            Every body is unique. Paying attention to your individual pattern is the most reliable way to monitor your reproductive wellness.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );
 }
-

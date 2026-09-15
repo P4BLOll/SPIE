@@ -1,0 +1,101 @@
+<mxfile host="app.diagrams.net" modified="2026-09-15T23:00:00.000Z" agent="Mozilla/5.0" version="21.6.8" type="device">
+  <diagram id="spie-architecture" name="Arquitetura de Enlaces e Redes - SPIE">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1800" pageHeight="1100" background="#0B0E14" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TÍTULO -->
+        <mxCell id="title" value="ARQUITETURA DE REDES, ENLACES E FLUXO DE DADOS - SISTEMA SPIE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1;fontColor=#FFFFFF;" vertex="1" parent="1">
+          <mxGeometry x="350" y="30" width="900" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="subtitle" value="Setas indicam o sentido de QUEM INICIA A CONVERSA em cada enlace. Nós indicam meio de armazenamento local." style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=12;fontColor=#A0AEC0;" vertex="1" parent="1">
+          <mxGeometry x="350" y="65" width="900" height="25" as="geometry" />
+        </mxCell>
+
+        <!-- NÓ 1: SENSOR ESP32 -->
+        <mxCell id="node_esp32" value="&lt;b style=&quot;font-size: 14px;&quot;&gt;NÓ 1: SENSOR DE EMERGÊNCIA&lt;/b&gt;&lt;br&gt;&lt;b&gt;Pulseira Wearable (ESP32-S3)&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#FF8DA1&quot;&gt;Microcontrolador Xtensa + Botão Táctil&lt;/font&gt;&lt;hr&gt;&lt;b&gt;Onde o dado é guardado:&lt;/b&gt;&lt;br&gt;• SRAM Volátil (estado de interrupção)&lt;br&gt;• SPI Flash (firmware / MAC BLE)&lt;br&gt;&lt;i&gt;*Sem retenção de histórico offline*&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1A202C;strokeColor=#FF5C8D;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=top;spacingTop=10;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="60" y="340" width="240" height="150" as="geometry" />
+        </mxCell>
+
+        <!-- NÓ 2: SMARTPHONE GATEWAY (SPOF) -->
+        <mxCell id="node_smartphone" value="&lt;b style=&quot;font-size: 14px;&quot;&gt;NÓ 2: SMARTPHONE DO USUÁRIO&lt;/b&gt;&lt;br&gt;&lt;b&gt;Gateway Móvel (App SPIE)&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#FFD166&quot;&gt;React Native + Módulos Nativos&lt;/font&gt;&lt;hr&gt;&lt;b&gt;Onde o dado é guardado:&lt;/b&gt;&lt;br&gt;• Memória RAM volátil da aplicação&lt;br&gt;• AsyncStorage (banco SQLite local)&lt;br&gt;• Cache local do Firestore (IndexedDB)&lt;hr&gt;&lt;b style=&quot;color: #FF5555; background-color: #3B1111; padding: 3px 6px; border-radius: 4px;&quot;&gt;[!] PONTO ÚNICO DE FALHA (SPOF)&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#FF9999&quot; style=&quot;font-size: 10px;&quot;&gt;Se bateria acabar, SO matar em background ou sem sinal, todos os enlaces a jusante caem.&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#231B2A;strokeColor=#FF4444;strokeWidth=3;strokeDasharray=4 4;fontColor=#FFFFFF;align=center;verticalAlign=top;spacingTop=8;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="460" y="295" width="290" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- NÓ 3: SATÉLITES GNSS -->
+        <mxCell id="node_gnss" value="&lt;b style=&quot;font-size: 13px;&quot;&gt;NÓ 3: CONSTELAÇÃO GNSS&lt;/b&gt;&lt;br&gt;&lt;b&gt;Satélites GPS / GLONASS / Galileo&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#06D6A0&quot;&gt;Órbita MEO (~20.200 km)&lt;/font&gt;&lt;hr&gt;&lt;b&gt;Onde o dado é guardado:&lt;/b&gt;&lt;br&gt;• Relógio Atômico / Efemérides bordo&lt;br&gt;&lt;i&gt;*Não recebe nem guarda dados do app*&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#132326;strokeColor=#06D6A0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=top;spacingTop=10;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="485" y="110" width="240" height="110" as="geometry" />
+        </mxCell>
+
+        <!-- NÓ 4: REDE CELULAR / OPERADORA -->
+        <mxCell id="node_carrier" value="&lt;b style=&quot;font-size: 13px;&quot;&gt;NÓ 4: OPERADORA CELULAR&lt;/b&gt;&lt;br&gt;&lt;b&gt;ERB (eNodeB) + SMSC / PSTN&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#FFD166&quot;&gt;Infraestrutura de Terceiros (Claro/Vivo/TIM)&lt;/font&gt;&lt;hr&gt;&lt;b&gt;Onde o dado é guardado:&lt;/b&gt;&lt;br&gt;• Buffer transitório em disco do SMSC&lt;br&gt;• Registro de bilhetagem (CDR)&lt;br&gt;&lt;i&gt;*Retenção temporária até entrega ou timeout*&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#232219;strokeColor=#FFD166;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=top;spacingTop=10;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="930" y="210" width="260" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- NÓ 5: CONTATO DE EMERGÊNCIA -->
+        <mxCell id="node_contacts" value="&lt;b style=&quot;font-size: 13px;&quot;&gt;NÓ 5: CONTATO DE EMERGÊNCIA&lt;/b&gt;&lt;br&gt;&lt;b&gt;Telefone do Destinatário&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#118AB2&quot;&gt;Aparelho Celular do Guardião&lt;/font&gt;&lt;hr&gt;&lt;b&gt;Onde o dado é guardado:&lt;/b&gt;&lt;br&gt;• App de Mensagens SMS (SQLite do SO)&lt;br&gt;• Histórico de chamadas da operadora&lt;br&gt;• Memória interna do SIM Card / Telefone" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#13202C;strokeColor=#118AB2;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=top;spacingTop=10;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="210" width="250" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- NÓ 6: NUVEM FIREBASE (FIRESTORE) -->
+        <mxCell id="node_firebase" value="&lt;b style=&quot;font-size: 13px;&quot;&gt;NÓ 6: NUVEM FIREBASE (GCP)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Cloud Firestore &amp; Auth&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#FF8DA1&quot;&gt;Google Cloud Platform (São Paulo)&lt;/font&gt;&lt;hr&gt;&lt;b&gt;Onde o dado é guardado:&lt;/b&gt;&lt;br&gt;• Cloud Firestore (NoSQL distribuído persistente)&lt;br&gt;• Log de auditoria Cloud Logging&lt;br&gt;• Tokens de autenticação JWT / Auth Cache" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#231520;strokeColor=#FF5C8D;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=top;spacingTop=10;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="930" y="440" width="260" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- NÓ 7: BACKEND SERVERLESS E IA -->
+        <mxCell id="node_functions" value="&lt;b style=&quot;font-size: 13px;&quot;&gt;NÓ 7: BACKEND SERVERLESS &amp; IA&lt;/b&gt;&lt;br&gt;&lt;b&gt;Cloud Functions + Gemini 1.5&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#8338EC&quot;&gt;Node.js 20 + Google AI Logic&lt;/font&gt;&lt;hr&gt;&lt;b&gt;Onde o dado é guardado:&lt;/b&gt;&lt;br&gt;• Memória RAM efêmera do container isolado&lt;br&gt;• Sem disco de estado persistente&lt;br&gt;&lt;i&gt;*Gera insights e grava de volta no Firestore*&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1C152B;strokeColor=#8338EC;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=top;spacingTop=10;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="930" y="680" width="260" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- NÓ 8: PAINEL DE MONITORAMENTO / WEB -->
+        <mxCell id="node_dashboard" value="&lt;b style=&quot;font-size: 13px;&quot;&gt;NÓ 8: PAINEL DE MONITORAMENTO&lt;/b&gt;&lt;br&gt;&lt;b&gt;Dashboard Web / App Guardião&lt;/b&gt;&lt;br&gt;&lt;font color=&quot;#06D6A0&quot;&gt;Recepção em Tempo Real&lt;/font&gt;&lt;hr&gt;&lt;b&gt;Onde o dado é guardado:&lt;/b&gt;&lt;br&gt;• Memória da aba do navegador (DOM / Redux)&lt;br&gt;• Cache local Web Storage (LocalStorage)&lt;br&gt;&lt;i&gt;*Atualização reativa via snapshot listener*&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#132326;strokeColor=#06D6A0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=top;spacingTop=10;arcSize=10;" vertex="1" parent="1">
+          <mxGeometry x="1350" y="440" width="250" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- CONEXÕES / ENLACES COM TECNOLOGIA E PROTOCOLO EM CIMA DA LINHA -->
+
+        <!-- ENLACE 1: ESP32 -> SMARTPHONE -->
+        <mxCell id="edge_1" value="&lt;b style=&quot;color:#FF5C8D;&quot;&gt;ENLACE 1 (PAN)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Tecnologia:&lt;/b&gt; BLE 5.0 (2.4 GHz ISM)&lt;br&gt;&lt;b&gt;Protocolo:&lt;/b&gt; GATT / ATT Notification&lt;br&gt;&lt;i style=&quot;color:#A0AEC0;&quot;&gt;Iniciado por: ESP32-S3 (Push Assíncrono)&lt;/i&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#FF5C8D;strokeWidth=3;fontColor=#FFFFFF;fontSize=11;labelBackgroundColor=#0B0E14;" edge="1" parent="1" source="node_esp32" target="node_smartphone">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ENLACE 2: GNSS -> SMARTPHONE -->
+        <mxCell id="edge_2" value="&lt;b style=&quot;color:#06D6A0;&quot;&gt;ENLACE 2 (RADIONAVEGAÇÃO)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Tecnologia:&lt;/b&gt; RF L-Band 1575.42 MHz (L1 C/A)&lt;br&gt;&lt;b&gt;Protocolo:&lt;/b&gt; GNSS Navigation Frame / NMEA-0183&lt;br&gt;&lt;i style=&quot;color:#A0AEC0;&quot;&gt;Iniciado por: Satélites (Broadcast Contínuo)&lt;/i&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#06D6A0;strokeWidth=2;fontColor=#FFFFFF;fontSize=11;labelBackgroundColor=#0B0E14;" edge="1" parent="1" source="node_gnss" target="node_smartphone">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ENLACE 3: SMARTPHONE -> OPERADORA -->
+        <mxCell id="edge_3" value="&lt;b style=&quot;color:#FFD166;&quot;&gt;ENLACE 3 (TELEFONIA CELULAR)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Tecnologia:&lt;/b&gt; 2G/3G/4G LTE (Modem Baseband)&lt;br&gt;&lt;b&gt;Protocolo:&lt;/b&gt; 3GPP TS 23.040 (SMS-PDU) + SIP/VoLTE&lt;br&gt;&lt;i style=&quot;color:#A0AEC0;&quot;&gt;Iniciado por: Smartphone (App SPIE)&lt;/i&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#FFD166;strokeWidth=3;fontColor=#FFFFFF;fontSize=11;labelBackgroundColor=#0B0E14;" edge="1" parent="1" source="node_smartphone" target="node_carrier">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ENLACE 4: OPERADORA -> CONTATO -->
+        <mxCell id="edge_4" value="&lt;b style=&quot;color:#118AB2;&quot;&gt;ENLACE 4 (ENTREGA TELEFONIA)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Tecnologia:&lt;/b&gt; Rede Celular SMPP / SS7 / GSM&lt;br&gt;&lt;b&gt;Protocolo:&lt;/b&gt; MAP MT-Forward-SM + ISUP Chamada&lt;br&gt;&lt;i style=&quot;color:#A0AEC0;&quot;&gt;Iniciado por: SMSC da Operadora&lt;/i&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#118AB2;strokeWidth=2;fontColor=#FFFFFF;fontSize=11;labelBackgroundColor=#0B0E14;" edge="1" parent="1" source="node_carrier" target="node_contacts">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ENLACE 5: SMARTPHONE -> FIREBASE NUVEM -->
+        <mxCell id="edge_5" value="&lt;b style=&quot;color:#FF5C8D;&quot;&gt;ENLACE 5 (INTERNET WAN)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Tecnologia:&lt;/b&gt; Wi-Fi 802.11ac ou 4G/5G TCP/IP&lt;br&gt;&lt;b&gt;Protocolo:&lt;/b&gt; gRPC / HTTP/2 + TLS 1.3 (WSS)&lt;br&gt;&lt;i style=&quot;color:#A0AEC0;&quot;&gt;Iniciado por: Smartphone (App SPIE)&lt;/i&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#FF5C8D;strokeWidth=3;fontColor=#FFFFFF;fontSize=11;labelBackgroundColor=#0B0E14;" edge="1" parent="1" source="node_smartphone" target="node_firebase">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ENLACE 6: FIREBASE -> CLOUD FUNCTIONS -->
+        <mxCell id="edge_6" value="&lt;b style=&quot;color:#8338EC;&quot;&gt;ENLACE 6 (VPC NUVEM)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Tecnologia:&lt;/b&gt; Fibra 100 Gbps Datacenter GCP&lt;br&gt;&lt;b&gt;Protocolo:&lt;/b&gt; Eventarc Trigger + Google RPC&lt;br&gt;&lt;i style=&quot;color:#A0AEC0;&quot;&gt;Iniciado por: Firestore Eventarc&lt;/i&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#8338EC;strokeWidth=2;fontColor=#FFFFFF;fontSize=11;labelBackgroundColor=#0B0E14;" edge="1" parent="1" source="node_firebase" target="node_functions">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ENLACE 7: CLOUD FUNCTIONS -> GEMINI / VOLTA FIRESTORE -->
+        <mxCell id="edge_7" value="&lt;b style=&quot;color:#8338EC;&quot;&gt;ENLACE 7 (MUTATION RETORNO)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Tecnologia:&lt;/b&gt; Google Internal VPC / HTTPS REST&lt;br&gt;&lt;b&gt;Protocolo:&lt;/b&gt; Gemini AI SDK + Firestore Admin gRPC&lt;br&gt;&lt;i style=&quot;color:#A0AEC0;&quot;&gt;Iniciado por: Cloud Functions&lt;/i&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;strokeColor=#8338EC;strokeWidth=2;strokeDasharray=3 3;fontColor=#FFFFFF;fontSize=11;labelBackgroundColor=#0B0E14;" edge="1" parent="1" source="node_functions" target="node_firebase">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ENLACE 8: FIREBASE NUVEM -> DASHBOARD MONITORAMENTO -->
+        <mxCell id="edge_8" value="&lt;b style=&quot;color:#06D6A0;&quot;&gt;ENLACE 8 (STREAMING MONITOR)&lt;/b&gt;&lt;br&gt;&lt;b&gt;Tecnologia:&lt;/b&gt; Internet Banda Larga / 4G&lt;br&gt;&lt;b&gt;Protocolo:&lt;/b&gt; WebSocket Seguro (WSS) / gRPC-Web&lt;br&gt;&lt;i style=&quot;color:#A0AEC0;&quot;&gt;Iniciado por: Painel Web (onSnapshot Stream)&lt;/i&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#06D6A0;strokeWidth=2;fontColor=#FFFFFF;fontSize=11;labelBackgroundColor=#0B0E14;" edge="1" parent="1" source="node_firebase" target="node_dashboard">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

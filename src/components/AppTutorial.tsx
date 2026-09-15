@@ -8,14 +8,19 @@ import {
 } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '@/services/firebaseConfig';
 
 import { Ionicons } from '@expo/vector-icons';
-
-import { LinearGradient } from 'expo-linear-gradient';
-
 import { cycleColors } from '@/styles/calendar.styles';
 
-const TUTORIAL_KEY = '@spie_tutorial_do_not_show_again';
+export const TUTORIAL_KEY = '@spie_tutorial_do_not_show_again';
+
+export function getTutorialStorageKey(userId?: string | null): string {
+  const uid = userId || auth.currentUser?.uid;
+  return uid ? `@spie_tutorial_seen_${uid}` : TUTORIAL_KEY;
+}
 
 type TutorialItem = {
   icon: keyof typeof Ionicons.glyphMap;
@@ -26,44 +31,44 @@ type TutorialItem = {
 const tutorialItems: TutorialItem[] = [
   {
     icon: 'heart-outline',
-    title: 'Bem-vinda ao SPIE',
+    title: 'Welcome to SPIE',
     description:
-      'O SPIE foi desenvolvido para ajudar você a acompanhar seu ciclo menstrual, registrar informações importantes e ter acesso a recursos de segurança em situações de emergência.',
+      'SPIE was designed to help you track your menstrual cycle, log important symptoms, and access discrete security features in emergency situations.',
   },
 
   {
     icon: 'calendar-outline',
-    title: 'Acompanhe seu ciclo',
+    title: 'Track your cycle',
     description:
-      'No calendário, você pode registrar o primeiro dia da menstruação, informar a duração do ciclo e acompanhar as previsões das próximas fases.',
+      'On the calendar, you can log the first day of your period, set your cycle duration, and view forecasts for your upcoming phases.',
   },
 
   {
     icon: 'fitness-outline',
-    title: 'Registre como você está',
+    title: 'Log how you feel',
     description:
-      'Registre sintomas, intensidade, secreção, observações e humor em cada dia. Essas informações ajudam você a acompanhar as mudanças ao longo do ciclo.',
+      'Record symptoms, intensity, cervical fluid, notes, and mood each day. These entries help you understand your body throughout each cycle.',
   },
 
   {
     icon: 'analytics-outline',
-    title: 'Veja seus insights',
+    title: 'View smart insights',
     description:
-      'A partir dos seus registros, você poderá acompanhar padrões e informações sobre o seu ciclo de forma simples e organizada.',
+      'Based on your logged data, track patterns and meaningful health insights in a simple, organized way.',
   },
 
   {
     icon: 'shield-checkmark-outline',
-    title: 'Área Secreta e Segurança',
+    title: 'Secret Vault & Security',
     description:
-      'O SPIE conta com uma Área Secreta protegida para contatos de emergência e histórico. Sua senha padrão inicial é 1234 e você pode alterá-la quando desejar.',
+      'For your protection, SPIE operates in disguise. To open your emergency contacts and SOS history, press and hold the date at the top of the Calendar for 1.5 seconds (or access it via Profile). On first access, you will set your personal 4-digit PIN.',
   },
 
   {
     icon: 'checkmark-circle-outline',
-    title: 'Tudo pronto!',
+    title: "You're all set!",
     description:
-      'Agora você já conhece as principais funções do SPIE. Explore o aplicativo e registre suas informações conforme sua rotina.',
+      "Now you're familiar with the core features of SPIE. Explore the app and track your health at your own pace.",
   },
 ];
 
@@ -82,109 +87,118 @@ export function AppTutorial({
   useEffect(() => {
     let ativo = true;
 
-    async function verificarTutorial() {
+    async function verificarParaUsuario(uid?: string | null) {
       try {
-        const naoMostrarNovamente =
-          await AsyncStorage.getItem(TUTORIAL_KEY);
-
         if (!ativo) return;
 
-        /*
-         * Se o usuário marcou "Não aparecer novamente",
-         * o tutorial NUNCA mais será aberto automaticamente.
-         */
-        if (naoMostrarNovamente === 'true') {
+        // Explicit manual open (e.g. from Profile menu)
+        if (visible === true) {
+          setEtapa(0);
+          setInternoVisible(true);
+          return;
+        }
+
+        if (visible === false) {
           setInternoVisible(false);
           return;
         }
 
-        /*
-         * Caso ainda não tenha marcado a opção,
-         * o tutorial pode aparecer.
-         */
-        setEtapa(0);
+        const effectiveUid = uid !== undefined ? uid : auth.currentUser?.uid;
+        const storageKey = getTutorialStorageKey(effectiveUid);
+        const jaVistoLocal = await AsyncStorage.getItem(storageKey);
 
-        if (visible === undefined || visible === true) {
-          setInternoVisible(true);
-        } else {
+        if (!ativo) return;
+
+        if (jaVistoLocal === 'true') {
           setInternoVisible(false);
+          return;
         }
-      } catch (error) {
-        console.error(
-          'Erro ao verificar preferência do tutorial:',
-          error
-        );
 
-        /*
-         * Se houver erro ao consultar o AsyncStorage,
-         * mantemos o comportamento padrão de mostrar.
-         */
+        // If user is authenticated, also check Firestore (in case user logged in on a new device)
+        if (effectiveUid) {
+          try {
+            const userDoc = await getDoc(doc(db, 'users', effectiveUid));
+            if (userDoc.exists() && userDoc.data()?.tutorialSeen === true) {
+              await AsyncStorage.setItem(storageKey, 'true');
+              if (ativo) setInternoVisible(false);
+              return;
+            }
+          } catch (cloudErr) {
+            console.warn('[AppTutorial] Warning checking Firestore tutorial status:', cloudErr);
+          }
+        }
+
+        // New user has not seen the tutorial yet: show it!
         if (ativo) {
           setEtapa(0);
-          setInternoVisible(
-            visible === undefined || visible === true
-          );
+          setInternoVisible(true);
         }
+      } catch (error) {
+        console.error('Error checking tutorial preference:', error);
       }
     }
 
-    verificarTutorial();
+    if (visible !== undefined) {
+      if (visible) {
+        setEtapa(0);
+        setInternoVisible(true);
+      } else {
+        setInternoVisible(false);
+      }
+      return;
+    }
+
+    // Subscribe to auth state so new accounts trigger the tutorial immediately
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      verificarParaUsuario(user?.uid);
+    });
 
     return () => {
       ativo = false;
+      unsubscribe();
     };
   }, [visible]);
 
-  /*
-   * Apenas fecha o tutorial.
-   *
-   * NÃO salva preferência.
-   *
-   * Portanto, ele poderá aparecer novamente
-   * quando for aberto pelo componente.
-   */
+  async function marcarComoVisto() {
+    try {
+      const uid = auth.currentUser?.uid;
+      const storageKey = getTutorialStorageKey(uid);
+      await AsyncStorage.setItem(storageKey, 'true');
+
+      if (uid) {
+        try {
+          await updateDoc(doc(db, 'users', uid), {
+            tutorialSeen: true,
+            tutorialSeenAt: new Date().toISOString(),
+          });
+        } catch (cloudErr) {
+          console.warn('[AppTutorial] Warning saving tutorial completion to Firestore:', cloudErr);
+        }
+      }
+    } catch (err) {
+      console.warn('[AppTutorial] Error saving tutorial completion:', err);
+    }
+  }
+
   function fecharTutorial() {
     setInternoVisible(false);
     setEtapa(0);
     onFinish?.();
   }
 
-  /*
-   * Salva definitivamente a preferência.
-   *
-   * Depois disso, o AsyncStorage conterá:
-   *
-   * @spie_tutorial_do_not_show_again = true
-   *
-   * E o tutorial não será mais exibido automaticamente.
-   */
+  async function finalizarTutorial() {
+    await marcarComoVisto();
+    fecharTutorial();
+  }
+
   async function naoMostrarNovamente() {
-    try {
-      await AsyncStorage.setItem(
-        TUTORIAL_KEY,
-        'true'
-      );
-
-      setInternoVisible(false);
-      setEtapa(0);
-
-      onFinish?.();
-    } catch (error) {
-      console.error(
-        'Erro ao salvar preferência do tutorial:',
-        error
-      );
-    }
+    await marcarComoVisto();
+    fecharTutorial();
   }
 
   function proximaEtapa() {
-    /*
-     * Na última etapa, apenas fecha.
-     *
-     * Não salva "não mostrar novamente".
-     */
     if (etapa === tutorialItems.length - 1) {
-      fecharTutorial();
+      finalizarTutorial();
       return;
     }
 
@@ -200,10 +214,7 @@ export function AppTutorial({
   }
 
   function pularTutorial() {
-    /*
-     * Pular não significa "não mostrar novamente".
-     */
-    fecharTutorial();
+    finalizarTutorial();
   }
 
   const atual = tutorialItems[etapa];
@@ -262,7 +273,7 @@ export function AppTutorial({
                   fontWeight: '600',
                 }}
               >
-                Pular
+                Skip
               </Text>
             </TouchableOpacity>
           </View>
@@ -386,7 +397,7 @@ export function AppTutorial({
                     fontWeight: '700',
                   }}
                 >
-                  Anterior
+                  Previous
                 </Text>
               </TouchableOpacity>
             )}
@@ -417,8 +428,8 @@ export function AppTutorial({
                   }}
                 >
                   {ultimaEtapa
-                    ? 'Começar a usar'
-                    : 'Próximo'}
+                    ? 'Get Started'
+                    : 'Next'}
                 </Text>
 
                 <Ionicons
@@ -452,7 +463,7 @@ export function AppTutorial({
                 fontWeight: '600',
               }}
             >
-              Não aparecer novamente
+              Don't show again
             </Text>
           </TouchableOpacity>
 
@@ -466,7 +477,7 @@ export function AppTutorial({
               marginTop: 10,
             }}
           >
-            {etapa + 1} de {tutorialItems.length}
+            {etapa + 1} of {tutorialItems.length}
           </Text>
         </View>
       </View>

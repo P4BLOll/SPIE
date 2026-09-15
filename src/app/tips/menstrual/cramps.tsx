@@ -1,13 +1,10 @@
-
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -16,22 +13,15 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function CrampsScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={
-          tipsDetailStyles.container
-        }
+        contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
-          onPress={() =>
-            router.back()
-          }
+          onPress={() => router.back()}
         >
           <Ionicons
             name="arrow-back"
@@ -41,225 +31,120 @@ export default function CrampsScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="pulse-outline"
             size={55}
             color="#F97316"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Cólicas menstruais
+            Menstrual Cramps
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda por que as cólicas acontecem e quando
-            elas podem precisar de atenção.
+            Understand why cramps happen, effective relief strategies, and when they require medical evaluation.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que são as cólicas?
+            What are menstrual cramps?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            As cólicas menstruais são dores ou desconfortos
-            que podem aparecer antes ou durante a menstruação.
-
+            Menstrual cramps (dysmenorrhea) are aching or throbbing pains in the lower abdomen that occur just before or during menstruation.
             {'\n\n'}
-
-            Elas acontecem principalmente por causa das
-            contrações do útero, que ajudam a eliminar o
-            endométrio durante o período menstrual.
+            They are primarily caused by uterine muscle contractions that help shed the uterine lining during your period.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Por que o útero se contrai?
+            Why does the uterus contract?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Durante a menstruação, o organismo produz
-            substâncias chamadas prostaglandinas.
-
+            During menstruation, the body produces chemical messengers called prostaglandins.
             {'\n\n'}
-
-            Elas participam das contrações do útero e podem
-            estar relacionadas à intensidade da dor.
-
-            {'\n\n'}
-
-            Quanto maior a atividade dessas substâncias,
-            mais intensas as contrações podem ser para
-            algumas pessoas.
+            Prostaglandins trigger uterine muscle contractions to expel menstrual fluid. Higher levels of prostaglandins are directly associated with more severe cramping.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como a cólica pode ser sentida?
+            How do cramps feel?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A intensidade pode variar bastante.
-
+            Intensity varies greatly from person to person. While some feel mild tension, others may experience:
             {'\n\n'}
-
-            Algumas pessoas sentem apenas um leve
-            desconforto, enquanto outras podem apresentar:
-
-            {'\n\n'}
-
-            • Dor ou pressão na parte inferior do abdômen;
-
+            • Aching pain or deep pressure in the lower abdomen;
             {'\n'}
-
-            • Dor na região lombar;
-
+            • Pain radiating to the lower back and thighs;
             {'\n'}
-
-            • Dor que pode irradiar para as pernas;
-
+            • Nausea or digestive upset;
             {'\n'}
-
-            • Náusea;
-
+            • Headaches or dizziness;
             {'\n'}
-
-            • Dor de cabeça;
-
-            {'\n'}
-
-            • Cansaço ou indisposição.
+            • Fatigue and overall malaise.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que pode ajudar?
+            What can help relieve cramps?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas medidas podem ajudar a aliviar o
-            desconforto, dependendo da pessoa:
-
+            Several everyday strategies can soothe discomfort:
             {'\n\n'}
-
-            • Aplicar calor na região abdominal;
-
+            • Applying a warm heating pad or hot water bottle to the abdomen;
             {'\n'}
-
-            • Descansar quando necessário;
-
+            • Getting adequate rest and gentle stretching;
             {'\n'}
-
-            • Manter-se hidratada;
-
+            • Staying well hydrated with warm teas or water;
             {'\n'}
-
-            • Praticar atividades físicas leves, se estiver
-            se sentindo bem;
-
+            • Engaging in light physical activity or walking if comfortable;
             {'\n'}
-
-            • Buscar orientação profissional sobre o uso
-            de medicamentos, quando necessário.
+            • Seeking medical advice regarding over-the-counter anti-inflammatory medications.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quando a cólica merece atenção?
+            When are cramps a warning sign?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A dor deve ser avaliada por um profissional
-            quando:
-
+            Cramps should be medically evaluated when:
             {'\n\n'}
-
-            • É muito intensa ou incapacitante;
-
+            • The pain is severe, debilitating, or prevents daily activities;
             {'\n'}
-
-            • Impede atividades do dia a dia;
-
+            • Pain worsens progressively cycle after cycle;
             {'\n'}
-
-            • Piora progressivamente ao longo dos ciclos;
-
+            • Standard pain relievers provide little or no relief;
             {'\n'}
-
-            • Não melhora com medidas habituais;
-
+            • Accompanied by unusually heavy menstrual flow or large clots;
             {'\n'}
-
-            • Surge acompanhada de sangramento muito
-            intenso;
-
-            {'\n'}
-
-            • Está associada a outros sintomas importantes.
+            • Cramping occurs outside of your period or during intercourse.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Cólicas muito fortes podem ter uma causa?
+            Could severe cramps have a medical cause?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Nem toda cólica intensa significa que existe
-            uma doença.
-
+            Severe or chronic pelvic pain can sometimes be linked to underlying conditions such as endometriosis, adenomyosis, or uterine fibroids.
             {'\n\n'}
-
-            Porém, dores muito fortes ou persistentes podem
-            estar relacionadas a condições como endometriose,
-            adenomiose ou miomas.
-
-            {'\n\n'}
-
-            Por isso, quando a dor é diferente do habitual
-            ou interfere na rotina, é importante buscar uma
-            avaliação profissional.
+            If your cramps interfere with your quality of life, discussing your symptoms with a gynecologist is essential.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Sentir algum desconforto durante a menstruação
-            pode ser comum, mas uma dor intensa que interfere
-            na sua rotina não deve ser ignorada. Conhecer
-            seu padrão ajuda a perceber mudanças.
+            Mild discomfort during your period can be normal, but severe pain that disrupts your life should never be normalized. Tracking symptoms helps your doctor pinpoint the cause.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );
 }
-

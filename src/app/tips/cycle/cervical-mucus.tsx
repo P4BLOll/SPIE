@@ -1,200 +1,109 @@
 import React from 'react';
-
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-
 import { Background } from '../../../components/Background';
 import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function CervicalMucusScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
         >
-          <Ionicons
-            name="arrow-back"
-            size={25}
-            color={Colors.text}
-          />
+          <Ionicons name="arrow-back" size={25} color={Colors.text} />
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
-          <Ionicons
-            name="water-outline"
-            size={55}
-            color="#14B8A6"
-          />
-
-          <Text style={tipsDetailStyles.title}>
-            Muco cervical
-          </Text>
-
+          <Ionicons name="water-outline" size={55} color="#14B8A6" />
+          <Text style={tipsDetailStyles.title}>Cervical Mucus</Text>
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda como o muco muda ao longo do ciclo menstrual.
+            Understand how mucus changes throughout the menstrual cycle.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O que é o muco cervical?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>What is cervical mucus?</Text>
           <Text style={tipsDetailStyles.text}>
-            O muco cervical é uma secreção produzida pelo colo do útero.
-
+            Cervical mucus is a fluid produced by the cervix.
             {'\n\n'}
-
-            Ele ajuda a proteger a vagina, manter sua lubrificação e também sofre mudanças naturais durante o ciclo menstrual.
+            It protects the vaginal canal, provides natural lubrication, and undergoes distinct changes across the menstrual cycle.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Logo após a menstruação
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Right after menstruation</Text>
           <Text style={tipsDetailStyles.text}>
-            Nos dias seguintes à menstruação, algumas pessoas podem perceber pouca secreção ou uma sensação de ressecamento.
-
+            In the days following your period, you may notice very little discharge or a sensation of dryness.
             {'\n\n'}
-
-            Isso faz parte das variações naturais do ciclo.
+            This is a normal part of the cycle's natural rhythm.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Próximo da ovulação
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Approaching ovulation</Text>
           <Text style={tipsDetailStyles.text}>
-            Conforme a ovulação se aproxima, o muco costuma ficar mais abundante, transparente e elástico.
-
+            As ovulation draws near, mucus becomes more abundant, clear, and stretchy.
             {'\n\n'}
-
-            Muitas pessoas o descrevem como semelhante à clara de ovo, uma característica comum dessa fase do ciclo.
+            Often described as similar to raw egg whites, this texture creates an optimal environment for sperm survival and mobility.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Depois da ovulação
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>After ovulation</Text>
           <Text style={tipsDetailStyles.text}>
-            Após a ovulação, o muco geralmente volta a ficar mais espesso, cremoso ou em menor quantidade.
-
+            Once ovulation passes, progesterone causes mucus to thicken, turn creamy or cloudy, and decrease in volume.
             {'\n\n'}
-
-            Essas mudanças acontecem principalmente por causa das alterações hormonais.
+            These changes reflect healthy hormonal shifts during the luteal phase.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O que é considerado normal?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>What is considered normal?</Text>
           <Text style={tipsDetailStyles.text}>
-            O muco pode variar em:
-
+            Mucus naturally varies in:
             {'\n\n'}
-
-            • Quantidade;
-
+            • Volume;
             {'\n'}
-
-            • Textura;
-
+            • Texture;
             {'\n'}
-
-            • Cor;
-
+            • Color (from clear to creamy white);
             {'\n'}
-
-            • Elasticidade.
-
+            • Stretchiness.
             {'\n\n'}
-
-            Essas mudanças podem acontecer naturalmente ao longo do ciclo e nem sempre indicam um problema.
+            These shifts occur naturally and typically reflect healthy hormone fluctuations.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>When to seek medical advice?</Text>
           <Text style={tipsDetailStyles.text}>
-            Procure orientação profissional se houver:
-
+            Consult a healthcare provider if you notice:
             {'\n\n'}
-
-            • Mau cheiro persistente;
-
+            • Persistent foul or fishy odor;
             {'\n'}
-
-            • Cor incomum acompanhada de outros sintomas;
-
+            • Unusual greenish, grayish, or clumpy texture;
             {'\n'}
-
-            • Coceira ou ardência;
-
+            • Itching, burning, or redness;
             {'\n'}
-
-            • Dor durante a relação sexual;
-
+            • Pain during intercourse or urination;
             {'\n'}
-
-            • Alterações que persistem por vários dias ou ciclos.
+            • Changes that persist across multiple cycles.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
-          <Ionicons
-            name="information-circle-outline"
-            size={25}
-            color="#F59E0B"
-          />
-
+          <Ionicons name="information-circle-outline" size={25} color="#F59E0B" />
           <Text style={tipsDetailStyles.infoText}>
-            Observar o muco cervical pode ajudar você a entender melhor seu ciclo, mas ele não deve ser usado sozinho para diagnosticar doenças ou determinar fertilidade.
+            Observing cervical mucus helps you understand your fertility patterns, but should not be relied upon as your sole method of contraception or diagnosis.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

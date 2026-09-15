@@ -58,8 +58,8 @@ export default function DeviceScreen() {
       const success = await connect(deviceId);
       if (!success) {
         showAlert({
-          title: 'Falha na Conexão',
-          message: 'Não foi possível conectar ao dispositivo selecionado. Verifique se ele está ligado e próximo.',
+          title: 'Connection Failed',
+          message: 'Unable to connect to the selected device. Make sure it is turned on and nearby.',
           type: 'warning',
         });
       }
@@ -70,11 +70,11 @@ export default function DeviceScreen() {
 
   function handleDisconnect() {
     showConfirm({
-      title: 'Desconectar Pulseira',
-      message: 'Deseja realmente desconectar da pulseira atual?',
+      title: 'Disconnect Smartband',
+      message: 'Are you sure you want to disconnect from the current smartband?',
       type: 'danger',
-      confirmText: 'Desconectar',
-      cancelText: 'Cancelar',
+      confirmText: 'Disconnect',
+      cancelText: 'Cancel',
       onConfirm: async () => {
         await disconnect();
         startScan();
@@ -83,9 +83,9 @@ export default function DeviceScreen() {
   }
 
   function getStatusLabel() {
-    if (isConnected) return 'Conectada';
-    if (isScanning || status === 'connecting') return 'Buscando / Conectando...';
-    return 'Desconectada';
+    if (isConnected) return 'Connected';
+    if (isScanning || status === 'connecting') return 'Searching / Connecting...';
+    return 'Disconnected';
   }
 
   return (
@@ -134,7 +134,7 @@ export default function DeviceScreen() {
                 },
               ]}
             >
-              Meu Dispositivo
+              My Device
             </Text>
 
             <Text
@@ -145,7 +145,7 @@ export default function DeviceScreen() {
                 },
               ]}
             >
-              Gerencie a conexão com a sua pulseira SPIE
+              Manage the connection to your SPIE smartband
             </Text>
           </View>
         </View>
@@ -177,7 +177,7 @@ export default function DeviceScreen() {
             />
 
             <Text style={deviceStyles.statusLabel}>
-              Status do Hardware
+              Hardware Status
             </Text>
 
             <Text
@@ -199,7 +199,7 @@ export default function DeviceScreen() {
             {isConnected && (
               <View style={deviceStyles.hardwareSpecs}>
                 <Text style={deviceStyles.specText}>
-                  Nome: {device?.name || 'Pulseira SPIE'}
+                  Name: {device?.name || 'SPIE Smartband'}
                 </Text>
                 <Text style={deviceStyles.specText}>
                   ID: {device?.id}
@@ -212,7 +212,7 @@ export default function DeviceScreen() {
                 >
                   <Ionicons name="close-circle-outline" size={16} color={cycleColors.rose} />
                   <Text style={deviceStyles.disconnectButtonText}>
-                    Desconectar Pulseira
+                    Disconnect Smartband
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -225,7 +225,7 @@ export default function DeviceScreen() {
           <View style={deviceStyles.sectionHeader}>
             <View style={deviceStyles.sectionTitleRow}>
               <Text style={deviceStyles.sectionTitle}>
-                Dispositivos Próximos
+                Nearby Devices
               </Text>
               <View style={deviceStyles.countBadge}>
                 <Text style={deviceStyles.countBadgeText}>
@@ -248,12 +248,12 @@ export default function DeviceScreen() {
               {isScanning ? (
                 <>
                   <ActivityIndicator size="small" color={cycleColors.rose} />
-                  <Text style={deviceStyles.scanActionButtonText}>Buscando...</Text>
+                  <Text style={deviceStyles.scanActionButtonText}>Searching...</Text>
                 </>
               ) : (
                 <>
                   <Ionicons name="refresh" size={16} color={cycleColors.rose} />
-                  <Text style={deviceStyles.scanActionButtonText}>Buscar</Text>
+                  <Text style={deviceStyles.scanActionButtonText}>Search</Text>
                 </>
               )}
             </TouchableOpacity>
@@ -287,7 +287,7 @@ export default function DeviceScreen() {
 
                       <View style={deviceStyles.deviceItemDetails}>
                         <Text style={deviceStyles.deviceItemName}>
-                          {item.name || 'Dispositivo SPIE'}
+                          {item.name || 'SPIE Device'}
                         </Text>
                         <Text style={deviceStyles.deviceItemMac}>
                           {item.id}
@@ -296,7 +296,7 @@ export default function DeviceScreen() {
                           <View style={deviceStyles.deviceSignalBadge}>
                             <Ionicons name="cellular" size={12} color={cycleColors.textMuted} />
                             <Text style={deviceStyles.deviceSignalText}>
-                              Sinal: {item.rssi} dBm
+                              Signal: {item.rssi} dBm
                             </Text>
                           </View>
                         )}
@@ -316,7 +316,7 @@ export default function DeviceScreen() {
                             deviceStyles.deviceItemButtonTextConnected,
                           ]}
                         >
-                          Conectado
+                          Connected
                         </Text>
                       </View>
                     ) : (
@@ -330,7 +330,7 @@ export default function DeviceScreen() {
                           <ActivityIndicator size="small" color="#FFFFFF" />
                         ) : (
                           <Text style={deviceStyles.deviceItemButtonText}>
-                            Conectar
+                            Connect
                           </Text>
                         )}
                       </TouchableOpacity>
@@ -342,20 +342,20 @@ export default function DeviceScreen() {
               <View style={deviceStyles.emptyCard}>
                 <ActivityIndicator size="large" color={cycleColors.rose} />
                 <Text style={deviceStyles.emptyCardText}>
-                  Procurando pulseiras SPIE próximas...
+                  Searching for nearby SPIE smartbands...
                 </Text>
                 <Text style={deviceStyles.emptyCardSubtext}>
-                  Certifique-se de que sua pulseira ou simulador ESP32 está ligado e com o Bluetooth ativado.
+                  Ensure your smartband or ESP32 simulator is powered on and Bluetooth is enabled.
                 </Text>
               </View>
             ) : (
               <View style={deviceStyles.emptyCard}>
                 <Ionicons name="bluetooth-outline" size={48} color={cycleColors.textMuted} />
                 <Text style={deviceStyles.emptyCardText}>
-                  Nenhuma pulseira encontrada
+                  No smartbands found
                 </Text>
                 <Text style={deviceStyles.emptyCardSubtext}>
-                  Toque no botão abaixo para buscar dispositivos Bluetooth por perto.
+                  Tap the button below to search for nearby Bluetooth devices.
                 </Text>
                 <TouchableOpacity
                   style={deviceStyles.fullScanButton}
@@ -364,7 +364,7 @@ export default function DeviceScreen() {
                 >
                   <Ionicons name="search" size={16} color="#FFFFFF" />
                   <Text style={deviceStyles.fullScanButtonText}>
-                    Buscar Dispositivos
+                    Search Devices
                   </Text>
                 </TouchableOpacity>
               </View>

@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,15 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function BacterialVaginosisScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -36,241 +31,96 @@ export default function BacterialVaginosisScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="git-network-outline"
             size={55}
             color="#06B6D4"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Vaginose bacteriana
+            Bacterial Vaginosis (BV)
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda o que é a vaginose bacteriana,
-            seus sinais e quando procurar ajuda.
+            Understand the causes, distinctive symptoms, and treatment of bacterial vaginosis.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é vaginose bacteriana?
+            What is bacterial vaginosis?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A vaginose bacteriana acontece quando ocorre
-            um desequilíbrio entre os microrganismos que
-            normalmente vivem na vagina.
-
+            Bacterial vaginosis (BV) is a common condition caused by an imbalance of the natural bacteria in the vagina.
             {'\n\n'}
-
-            Esse desequilíbrio pode provocar uma alteração
-            na composição da microbiota vaginal.
+            Healthy vaginal flora is dominated by protective lactobacilli. When lactobacilli levels drop, anaerobic bacteria (such as Gardnerella vaginalis) overgrow, causing symptoms.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Principais sinais
+            Key symptoms
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas pessoas não apresentam sintomas.
-
+            Up to 50% of people with BV experience no symptoms. When present, signs include:
             {'\n\n'}
-
-            Quando aparecem, os sinais podem incluir:
-
-            {'\n\n'}
-
-            • Corrimento fino ou mais fluido;
-
+            • Thin, watery, grayish-white vaginal discharge;
             {'\n'}
-
-            • Corrimento esbranquiçado ou acinzentado;
-
+            • Distinct "fishy" odor, which is often more noticeable after sexual intercourse or during periods;
             {'\n'}
-
-            • Odor vaginal forte, que pode ficar mais
-            perceptível após relações sexuais;
-
+            • Mild vaginal irritation or burning during urination;
             {'\n'}
-
-            • Em alguns casos, irritação ou desconforto.
+            • Unlike yeast infections, BV rarely causes intense itching or swelling.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Vaginose causa muita coceira?
+            Is BV a sexually transmitted infection?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A coceira intensa não é o sintoma mais
-            característico da vaginose bacteriana.
-
+            No, BV is not classified as an STI. It can develop in individuals who are not sexually active.
             {'\n\n'}
-
-            Quando existe muita coceira, especialmente
-            acompanhada de vermelhidão e irritação, outras
-            condições também precisam ser consideradas,
-            como a candidíase.
-
-            {'\n\n'}
-
-            Apenas os sintomas não são suficientes para
-            confirmar o diagnóstico.
+            However, having a new sexual partner, multiple partners, or having sex without condoms can disrupt the vaginal pH and increase susceptibility.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            É uma infecção sexualmente transmissível?
+            Common triggers
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A vaginose bacteriana não é classificada como
-            uma infecção sexualmente transmissível.
-
+            Factors that alter vaginal acidity and trigger BV include:
             {'\n\n'}
-
-            Ela pode ocorrer independentemente da atividade
-            sexual.
-
-            {'\n\n'}
-
-            Entretanto, alguns fatores relacionados à vida
-            sexual podem estar associados a um maior risco
-            de desenvolver a condição.
+            • Vaginal douching or internal cleansing;
+            {'\n'}
+            • Scented feminine hygiene washes, sprays, or bath additives;
+            {'\n'}
+            • Recent antibiotic usage;
+            {'\n'}
+            • Smoking.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que pode favorecer a vaginose?
+            Medical treatment
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Alguns fatores podem aumentar a possibilidade
-            de alteração da microbiota vaginal, como:
-
+            BV is treated with prescription antibiotics such as metronidazole or clindamycin, available in oral pills or vaginal gels.
             {'\n\n'}
-
-            • Duchas vaginais;
-
-            {'\n'}
-
-            • Alterações na microbiota;
-
-            {'\n'}
-
-            • Novo parceiro sexual ou múltiplos parceiros;
-
-            {'\n'}
-
-            • Relações sexuais sem preservativo.
-
-            {'\n\n'}
-
-            Ter um desses fatores não significa que a
-            pessoa necessariamente desenvolverá vaginose.
+            Always complete the full prescribed antibiotic course, even if symptoms subside within a couple of days, to prevent recurrence.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Tratamento
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            A vaginose bacteriana pode ser tratada com
-            antibióticos prescritos por um profissional
-            de saúde.
-
-            {'\n\n'}
-
-            É importante seguir corretamente o tratamento
-            indicado e evitar a automedicação.
-
-            {'\n\n'}
-
-            Usar medicamentos inadequados pode dificultar
-            a identificação e o tratamento da causa correta.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure orientação profissional se houver:
-
-            {'\n\n'}
-
-            • Odor forte e persistente;
-
-            {'\n'}
-
-            • Corrimento diferente do habitual;
-
-            {'\n'}
-
-            • Irritação ou desconforto;
-
-            {'\n'}
-
-            • Sintomas que continuam ou retornam;
-
-            {'\n'}
-
-            • Dor pélvica;
-
-            {'\n'}
-
-            • Febre;
-
-            {'\n'}
-
-            • Gravidez associada a sintomas ou preocupação
-            com uma possível infecção.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            O odor e a aparência do corrimento podem
-            fornecer pistas, mas não permitem confirmar
-            sozinhos uma vaginose bacteriana. O diagnóstico
-            deve ser feito por um profissional de saúde.
+            A fishy odor and thin discharge are characteristic of BV. Seek medical advice for an accurate prescription rather than attempting over-the-counter yeast remedies.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

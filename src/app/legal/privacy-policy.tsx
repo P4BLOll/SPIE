@@ -80,7 +80,7 @@ export default function PrivacyScreen() {
                 privacyStyles.title
               }
             >
-              Política de Privacidade
+              Privacy Policy
             </Text>
 
           </View>
@@ -100,51 +100,61 @@ export default function PrivacyScreen() {
               style={privacyStyles.text}
             >
 
-              O SPIE respeita a privacidade e a segurança das informações fornecidas pelas usuárias.
+              SPIE respects the privacy and security of all information provided by users.
 
               {'\n\n'}
 
-              Durante o uso do aplicativo podem ser coletadas informações como nome, e-mail, idade, dados relacionados ao ciclo menstrual, sintomas, registros de saúde íntima e informações fornecidas voluntariamente.
+              During the use of the app, information such as name, email, age, menstrual cycle logs, symptoms, intimate health records, and voluntarily provided details may be collected.
 
               {'\n\n'}
 
-              Essas informações são utilizadas para:
+              This information is used to:
 
               {'\n\n'}
 
-              • Personalizar o acompanhamento do ciclo.
+              • Personalize menstrual cycle tracking.
 
               {'\n'}
 
-              • Melhorar previsões e análises.
+              • Improve cycle predictions and health analytics.
 
               {'\n'}
 
-              • Disponibilizar recursos de segurança e acompanhamento menstrual.
+              • Deliver emergency safety features and menstrual health tools.
 
               {'\n\n'}
 
-              Informações relacionadas à saúde menstrual são consideradas dados sensíveis e recebem medidas de proteção adequadas.
+              Menstrual health records are classified as sensitive personal data and receive rigorous security protection measures.
 
               {'\n\n'}
 
-              O SPIE não vende dados pessoais e não compartilha informações das usuárias sem autorização ou sem uma base legal adequada.
+              Safety & Geolocation Features (Protection of Life & Physical Safety):
+              {'\n'}
+              • When triggering the emergency SOS (on-screen button or hardware smartband), the application captures real-time GPS coordinates exclusively for the protection of life and physical safety.
+              {'\n'}
+              • Geolocation coordinates are transmitted immediately via SMS to the emergency contacts configured by the user.
+              {'\n'}
+              • Alert and location history records remain confidential and strictly protected by the user's private PIN.
 
               {'\n\n'}
 
-              A usuária pode solicitar:
+              SPIE never sells personal data and does not share user information with third-party advertisers without explicit consent or strict statutory requirements.
 
               {'\n\n'}
 
-              • Acesso aos seus dados.
+              Users may request at any time:
+
+              {'\n\n'}
+
+              • Access to their personal data.
 
               {'\n'}
 
-              • Correção de informações.
+              • Correction of their information.
 
               {'\n'}
 
-              • Exclusão da conta e dos dados associados.
+              • Permanent deletion of their account and all associated data.
 
             </Text>
 

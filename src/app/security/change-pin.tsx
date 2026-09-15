@@ -38,24 +38,24 @@ export default function ChangePinScreen() {
   async function handleSalvar() {
     // 1. Validações do Novo PIN
     if (novaSenha.length !== 4 || !/^\d{4}$/.test(novaSenha)) {
-      Alert.alert('Novo PIN inválido', 'O novo PIN deve ter exatamente 4 números.');
+      Alert.alert('Invalid new PIN', 'The new PIN must be exactly 4 digits.');
       return;
     }
 
     if (confirmarSenha.length !== 4 || !/^\d{4}$/.test(confirmarSenha)) {
-      Alert.alert('Confirmação inválida', 'Digite novamente o novo PIN com 4 números.');
+      Alert.alert('Invalid confirmation', 'Please re-enter the 4-digit new PIN.');
       return;
     }
 
     if (novaSenha !== confirmarSenha) {
-      Alert.alert('PINs diferentes', 'O novo PIN e a confirmação precisam ser iguais.');
+      Alert.alert('PINs do not match', 'The new PIN and confirmation must match.');
       return;
     }
 
     // 2. Fluxo com Senha da Conta (Esqueci o PIN)
     if (modoEsqueciPin) {
       if (!senhaConta.trim()) {
-        Alert.alert('Senha da conta necessária', 'Digite a senha da sua conta para validar seu acesso.');
+        Alert.alert('Account password required', 'Enter your account password to authorize reset.');
         return;
       }
 
@@ -64,7 +64,7 @@ export default function ChangePinScreen() {
         const resultado = await redefinirPinComSenhaDaConta(senhaConta, novaSenha);
 
         if (!resultado.sucesso) {
-          Alert.alert('Falha na validação', resultado.mensagem || 'Senha da conta incorreta.');
+          Alert.alert('Validation failed', resultado.mensagem || 'Incorrect account password.');
           return;
         }
 
@@ -73,18 +73,18 @@ export default function ChangePinScreen() {
         setConfirmarSenha('');
 
         Alert.alert(
-          'PIN redefinido!',
-          'Seu PIN de segurança foi atualizado com sucesso.',
+          'PIN reset!',
+          'Your security PIN was updated successfully.',
           [
             {
-              text: 'Concluir',
+              text: 'Done',
               onPress: () => router.back(),
             },
           ]
         );
       } catch (error) {
         console.warn('[ChangePinScreen] Erro ao redefinir PIN:', error);
-        Alert.alert('Erro', 'Não foi possível redefinir o PIN no momento.');
+        Alert.alert('Error', 'Unable to reset PIN at this time.');
       } finally {
         setProcessando(false);
       }
@@ -93,12 +93,12 @@ export default function ChangePinScreen() {
 
     // 3. Fluxo Normal com PIN Atual
     if (senhaAtual.length !== 4 || !/^\d{4}$/.test(senhaAtual)) {
-      Alert.alert('PIN atual inválido', 'Digite o seu PIN atual com 4 números.');
+      Alert.alert('Invalid current PIN', 'Enter your current 4-digit PIN.');
       return;
     }
 
     if (senhaAtual === novaSenha) {
-      Alert.alert('PIN igual', 'O novo PIN precisa ser diferente do PIN atual.');
+      Alert.alert('Same PIN', 'The new PIN must be different from the current PIN.');
       return;
     }
 
@@ -108,8 +108,8 @@ export default function ChangePinScreen() {
 
       if (!sucesso) {
         Alert.alert(
-          'PIN incorreto',
-          'O PIN atual informado está incorreto. Se você esqueceu seu PIN, utilize a opção de recuperar com a senha da conta.'
+          'Incorrect PIN',
+          'The current PIN is incorrect. If you forgot your PIN, use the account password recovery option.'
         );
         setSenhaAtual('');
         return;
@@ -120,8 +120,8 @@ export default function ChangePinScreen() {
       setConfirmarSenha('');
 
       Alert.alert(
-        'PIN alterado',
-        'Seu PIN foi alterado com sucesso.',
+        'PIN updated',
+        'Your PIN was updated successfully.',
         [
           {
             text: 'OK',
@@ -131,7 +131,7 @@ export default function ChangePinScreen() {
       );
     } catch (error) {
       console.warn('[ChangePinScreen] Erro ao alterar PIN:', error);
-      Alert.alert('Erro', 'Não foi possível alterar o PIN.');
+      Alert.alert('Error', 'Unable to update PIN.');
     } finally {
       setProcessando(false);
     }
@@ -182,7 +182,7 @@ export default function ChangePinScreen() {
           </TouchableOpacity>
 
           <Text style={styles.headerTitle}>
-            {modoEsqueciPin ? 'Recuperar PIN' : 'Alterar PIN'}
+            {modoEsqueciPin ? 'Recover PIN' : 'Change PIN'}
           </Text>
         </View>
 
@@ -203,13 +203,13 @@ export default function ChangePinScreen() {
 
           {/* TÍTULO E SUBTÍTULO */}
           <Text style={styles.title}>
-            {modoEsqueciPin ? 'Recupere com sua Conta' : 'Atualize seu PIN'}
+            {modoEsqueciPin ? 'Recover with your Account' : 'Update your PIN'}
           </Text>
 
           <Text style={styles.subtitle}>
             {modoEsqueciPin
-              ? 'Confirme a senha da sua conta para criar um novo PIN de emergência.'
-              : 'Altere o PIN usado para proteger sua área de emergência.'}
+              ? 'Confirm your account password to set a new emergency PIN.'
+              : 'Change the PIN used to protect your emergency vault.'}
           </Text>
 
           {/* FORMULÁRIO */}
@@ -232,12 +232,12 @@ export default function ChangePinScreen() {
                 >
                   <Ionicons name="shield-checkmark" size={18} color={cycleColors.rose} />
                   <Text style={{ fontSize: 12, color: '#E0E0E0', flex: 1, lineHeight: 16 }}>
-                    Digite a senha de login da sua conta no SPIE para autorizar a redefinição.
+                    Enter your SPIE account login password to authorize the reset.
                   </Text>
                 </View>
 
                 <View style={styles.field}>
-                  <Text style={styles.label}>Senha da sua conta SPIE</Text>
+                  <Text style={styles.label}>Your SPIE account password</Text>
                   <View style={styles.pinContainer}>
                     <Ionicons name="lock-closed-outline" size={20} color={cycleColors.rose} />
                     <TextInput
@@ -247,7 +247,7 @@ export default function ChangePinScreen() {
                       ]}
                       value={senhaConta}
                       onChangeText={setSenhaConta}
-                      placeholder="Senha do login"
+                      placeholder="Account password"
                       placeholderTextColor={cycleColors.textMuted}
                       secureTextEntry={!mostrarSenhaConta}
                       autoCapitalize="none"
@@ -275,7 +275,7 @@ export default function ChangePinScreen() {
                   style={{ alignSelf: 'flex-start', marginTop: -6, marginBottom: 16, paddingHorizontal: 4 }}
                 >
                   <Text style={{ fontSize: 13, color: cycleColors.gold, fontWeight: '700' }}>
-                    ← Voltar e usar o PIN atual
+                    ← Back to current PIN
                   </Text>
                 </TouchableOpacity>
               </>
@@ -283,17 +283,17 @@ export default function ChangePinScreen() {
               /* MODO NORMAL: CAMPO DE PIN ATUAL */
               <>
                 {renderPinField(
-                  'PIN atual',
+                  'Current PIN',
                   senhaAtual,
                   setSenhaAtual,
-                  'Digite seu PIN atual'
+                  'Enter current PIN'
                 )}
 
                 {/* Dica da senha padrão apenas enquanto o usuário ainda não tiver alterado */}
                 {isDefaultPin && (
                   <View style={{ marginTop: -8, marginBottom: 12, paddingHorizontal: 4 }}>
                     <Text style={{ fontSize: 12, color: cycleColors.gold, fontWeight: '600' }}>
-                      💡 Primeira vez alterando? Seu PIN inicial padrão é 1234
+                      💡 First time changing? Your default initial PIN is 1234
                     </Text>
                   </View>
                 )}
@@ -308,7 +308,7 @@ export default function ChangePinScreen() {
                   style={{ alignSelf: 'flex-start', marginTop: -4, marginBottom: 16, paddingHorizontal: 4 }}
                 >
                   <Text style={{ fontSize: 13, color: cycleColors.rose, fontWeight: '700' }}>
-                    Esqueceu o PIN? Usar a senha da conta
+                    Forgot PIN? Use account password
                   </Text>
                 </TouchableOpacity>
               </>
@@ -316,18 +316,18 @@ export default function ChangePinScreen() {
 
             {/* NOVO PIN */}
             {renderPinField(
-              'Novo PIN',
+              'New PIN',
               novaSenha,
               setNovaSenha,
-              'Digite o novo PIN (4 dígitos)'
+              'Enter new PIN (4 digits)'
             )}
 
             {/* CONFIRMAR NOVO PIN */}
             {renderPinField(
-              'Confirmar novo PIN',
+              'Confirm new PIN',
               confirmarSenha,
               setConfirmarSenha,
-              'Digite novamente o novo PIN'
+              'Re-enter new PIN'
             )}
 
             {/* INFORMAÇÃO */}
@@ -338,7 +338,7 @@ export default function ChangePinScreen() {
                 color={cycleColors.textMuted}
               />
               <Text style={styles.infoText}>
-                O PIN deve conter exatamente 4 números e será exigido para abrir sua área de emergência.
+                The PIN must be exactly 4 digits and will be required to open your emergency area.
               </Text>
             </View>
           </View>
@@ -360,7 +360,7 @@ export default function ChangePinScreen() {
                     color={cycleColors.white}
                   />
                   <Text style={styles.saveButtonText}>
-                    {modoEsqueciPin ? 'REDEFINIR PIN' : 'SALVAR PIN'}
+                    {modoEsqueciPin ? 'RESET PIN' : 'SAVE PIN'}
                   </Text>
                 </>
               )}

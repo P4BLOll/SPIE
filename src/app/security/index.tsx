@@ -31,6 +31,7 @@ import { emergencyRepository } from '@/modules/emergency/services/emergencyRepos
 import { secretStyles as styles } from '@/styles/secret.styles';
 import { cycleColors } from '@/styles/calendar.styles';
 import { useDialog } from '@/context/DialogContext';
+import { haptics } from '@/shared/utils/haptics';
 
 
 // =====================================================
@@ -187,10 +188,10 @@ export default function SecurityScreen() {
 
   const status =
     bleStatus === 'connected'
-      ? 'Pulseira Conectada'
+      ? 'Band Connected'
       : bleStatus === 'connecting'
-      ? 'Conectando...'
-      : 'Desconectado';
+      ? 'Connecting...'
+      : 'Disconnected';
 
 
   // =====================================================
@@ -293,13 +294,13 @@ export default function SecurityScreen() {
     } catch (error) {
 
       console.log(
-        'Erro ao criar alerta de emergência:',
+        'Error creating emergency alert:',
         error
       );
 
       showAlert({
-        title: 'Erro',
-        message: 'Não foi possível registrar o alerta de emergência.',
+        title: 'Error',
+        message: 'Could not trigger the emergency alert.',
         type: 'error',
       });
 
@@ -350,6 +351,7 @@ export default function SecurityScreen() {
     inicioPressaoRef.current =
       Date.now();
 
+    haptics.impactMedium();
     setPressionandoSOS(true);
 
     setContagemSOS(3);
@@ -399,6 +401,7 @@ export default function SecurityScreen() {
           alertaAtivadoRef.current =
             true;
 
+          haptics.impactHeavy();
           setContagemSOS(0);
 
           setPressionandoSOS(false);
@@ -498,8 +501,8 @@ export default function SecurityScreen() {
       setContagemSOS(3);
 
       showAlert({
-        title: 'Aviso',
-        message: 'Segure o botão SOS por 3 segundos para ativar o alarme de socorro.',
+        title: 'Notice',
+        message: 'Hold the SOS button for 3 seconds to activate the emergency alarm.',
         type: 'warning',
       });
 
@@ -518,7 +521,7 @@ export default function SecurityScreen() {
       quantidadeContatos === 0
     ) {
 
-      return 'Nenhum contato';
+      return 'No contacts';
 
     }
 
@@ -527,12 +530,12 @@ export default function SecurityScreen() {
       quantidadeContatos === 1
     ) {
 
-      return '1 contato';
+      return '1 contact';
 
     }
 
 
-    return `${quantidadeContatos} contatos`;
+    return `${quantidadeContatos} contacts`;
 
   }
 
@@ -591,7 +594,7 @@ export default function SecurityScreen() {
         <Text
           style={styles.eyebrow}
         >
-          ÁREA SEGURA
+          SECURE AREA
         </Text>
 
 
@@ -630,8 +633,8 @@ export default function SecurityScreen() {
           >
 
             {conectado
-              ? 'Pulseira conectada'
-              : 'Pulseira desconectada'}
+              ? 'Smartband connected'
+              : 'Smartband disconnected'}
 
           </Text>
 
@@ -700,8 +703,8 @@ export default function SecurityScreen() {
             >
 
               {alertaAtivo
-                ? 'Alerta de emergência'
-                : 'Sistema protegido'}
+                ? 'Emergency Alert'
+                : 'System Protected'}
 
             </Text>
 
@@ -713,8 +716,8 @@ export default function SecurityScreen() {
             >
 
               {alertaAtivo
-                ? 'A pulseira enviou um sinal crítico.'
-                : 'Nenhuma ameaça detectada no momento.'}
+                ? 'The smartband sent a critical signal.'
+                : 'No threats detected at the moment.'}
 
             </Text>
 
@@ -788,7 +791,7 @@ export default function SecurityScreen() {
                 styles.statTitle
               }
             >
-              Pulseira
+              Smartband
             </Text>
 
           </TouchableOpacity>
@@ -857,9 +860,76 @@ export default function SecurityScreen() {
                 styles.statTitle
               }
             >
-              Emergência
+              Emergency
             </Text>
 
+          </TouchableOpacity>
+
+        </View>
+
+        {/* =================================================
+            HISTÓRICO E SEGURANÇA
+        ================================================= */}
+
+        <View
+          style={[
+            styles.statsContainer,
+            { marginTop: -14 },
+          ]}
+        >
+
+          <TouchableOpacity
+            style={styles.statCard}
+            activeOpacity={0.85}
+            onPress={() => router.push('/security/alert-history')}
+          >
+            <View
+              style={[
+                styles.statIconWrap,
+                { backgroundColor: cycleColors.goldSoft },
+              ]}
+            >
+              <Ionicons
+                name="time-outline"
+                size={18}
+                color={cycleColors.gold}
+              />
+            </View>
+
+            <Text style={styles.statNumber}>
+              History
+            </Text>
+
+            <Text style={styles.statTitle}>
+              SOS Alerts
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.statCard}
+            activeOpacity={0.85}
+            onPress={() => router.push('/security/change-pin')}
+          >
+            <View
+              style={[
+                styles.statIconWrap,
+                { backgroundColor: 'rgba(139, 127, 232, 0.15)' },
+              ]}
+            >
+              <Ionicons
+                name="key-outline"
+                size={18}
+                color={cycleColors.lavender}
+              />
+            </View>
+
+            <Text style={styles.statNumber}>
+              PIN
+            </Text>
+
+            <Text style={styles.statTitle}>
+              Security
+            </Text>
           </TouchableOpacity>
 
         </View>
@@ -888,18 +958,21 @@ export default function SecurityScreen() {
               />
             </View>
             <View style={styles.settingContent}>
-              <Text style={styles.settingTitle}>Ligação de Emergência</Text>
+              <Text style={styles.settingTitle}>Emergency Call</Text>
               <Text style={styles.settingDesc}>
                 {ligacaoEmergenciaAtiva
-                  ? 'Discar automaticamente após envio do SMS'
-                  : 'Modo silencioso (apenas SMS com GPS)'}
+                  ? 'Automatically dial after sending SMS'
+                  : 'Silent mode (SMS with GPS only)'}
               </Text>
             </View>
           </View>
 
           <Switch
             value={ligacaoEmergenciaAtiva}
-            onValueChange={(val) => alternarLigacaoEmergencia(val)}
+            onValueChange={(val) => {
+              haptics.selection();
+              alternarLigacaoEmergencia(val);
+            }}
             trackColor={{
               false: 'rgba(255, 255, 255, 0.15)',
               true: cycleColors.teal,
@@ -918,7 +991,7 @@ export default function SecurityScreen() {
             styles.sosSectionLabel
           }
         >
-          EMERGÊNCIA
+          EMERGENCY
         </Text>
 
 
@@ -934,8 +1007,8 @@ export default function SecurityScreen() {
             }
           >
             {pressionandoSOS
-              ? 'Continue segurando...'
-              : 'Segure o botão por 3 segundos em caso de perigo'}
+              ? 'Keep holding...'
+              : 'Hold the button for 3 seconds in case of danger'}
           </Text>
 
 
@@ -998,7 +1071,7 @@ export default function SecurityScreen() {
                         styles.sosText
                       }
                     >
-                      ENVIANDO
+                      SENDING
                     </Text>
 
                     <Text
@@ -1006,7 +1079,7 @@ export default function SecurityScreen() {
                         styles.sosSubText
                       }
                     >
-                      Aguarde...
+                      Please wait...
                     </Text>
                   </>
                 ) : pressionandoSOS ? (
@@ -1028,7 +1101,7 @@ export default function SecurityScreen() {
                         styles.sosSubText
                       }
                     >
-                      Continue segurando
+                      Keep holding
                     </Text>
                   </>
                 ) : (
@@ -1055,7 +1128,7 @@ export default function SecurityScreen() {
                         styles.sosSubText
                       }
                     >
-                      Segure por 3s
+                      Hold for 3s
                     </Text>
                   </>
                 )}

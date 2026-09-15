@@ -1,238 +1,104 @@
 import React from 'react';
-
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-
 import { Background } from '../../../components/Background';
 import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function ClotsScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={
-          tipsDetailStyles.container
-        }
+        contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
-          onPress={() =>
-            router.back()
-          }
+          onPress={() => router.back()}
         >
-          <Ionicons
-            name="arrow-back"
-            size={25}
-            color={Colors.text}
-          />
+          <Ionicons name="arrow-back" size={25} color={Colors.text} />
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
-          <Ionicons
-            name="water-outline"
-            size={55}
-            color="#DC2626"
-          />
-
-          <Text style={tipsDetailStyles.title}>
-            Coágulos menstruais
-          </Text>
-
+          <Ionicons name="ellipse-outline" size={55} color="#EC4899" />
+          <Text style={tipsDetailStyles.title}>Menstrual Clots</Text>
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda por que os coágulos podem aparecer
-            durante a menstruação.
+            Understand why clots can form during menstrual bleeding.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O que são coágulos menstruais?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>What are menstrual clots?</Text>
           <Text style={tipsDetailStyles.text}>
-            Coágulos menstruais são pequenas massas que
-            podem aparecer junto ao sangue durante a
-            menstruação.
-
+            Menstrual clots are gel-like clumps of blood, tissue, and proteins expelled during your period.
             {'\n\n'}
-
-            Eles podem ser formados por uma combinação
-            de sangue e partes do endométrio que estão
-            sendo eliminadas pelo útero.
+            They are a natural byproduct of the body shedding the uterine lining.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Por que eles aparecem?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Why do they appear?</Text>
           <Text style={tipsDetailStyles.text}>
-            Durante um fluxo mais intenso, o sangue pode
-            ser eliminado mais rapidamente do que o
-            organismo consegue impedir sua coagulação.
-
+            During heavy flow days, blood builds up in the uterus faster than anti-clotting enzymes can break it down.
             {'\n\n'}
-
-            Por isso, pequenos coágulos podem aparecer
-            principalmente nos dias de maior fluxo.
+            As a result, coagulation proteins bind the blood into small clusters before it is expelled.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Coágulos pequenos
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Small clots</Text>
           <Text style={tipsDetailStyles.text}>
-            Pequenos coágulos podem acontecer durante a
-            menstruação e, isoladamente, nem sempre
-            indicam um problema.
-
+            Small, dime-sized clots that appear on the heaviest flow days are common and usually benign.
             {'\n\n'}
-
-            Eles podem ser mais perceptíveis durante os
-            dias em que o fluxo está mais intenso.
+            They typically range from bright crimson to dark maroon.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando os coágulos merecem atenção?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>When do clots warrant attention?</Text>
           <Text style={tipsDetailStyles.text}>
-            É importante procurar orientação profissional
-            quando os coágulos:
-
+            Contact a doctor if you observe:
             {'\n\n'}
-
-            • São grandes ou aparecem com frequência;
-
+            • Clots larger than a quarter (2.5 cm);
             {'\n'}
-
-            • Surgem junto com sangramento muito intenso;
-
+            • Clots accompanied by severe, debilitating pain;
             {'\n'}
-
-            • Estão associados a dor muito forte;
-
+            • Clots appearing continuously throughout the entire period;
             {'\n'}
-
-            • Aparecem acompanhados de tontura ou fraqueza;
-
-            {'\n'}
-
-            • Representam uma mudança importante em
-            relação ao seu padrão habitual.
+            • Need to change pads/tampons every hour for two or more consecutive hours.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Coágulos e fluxo intenso
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Clots and heavy flow</Text>
           <Text style={tipsDetailStyles.text}>
-            A presença de coágulos pode estar relacionada
-            a um fluxo menstrual mais intenso.
-
+            Frequent large clots combined with very heavy flow (menorrhagia) can cause fatigue, dizziness, and iron-deficiency anemia.
             {'\n\n'}
-
-            Quando o sangramento é muito intenso ou
-            interfere nas atividades do dia a dia, é
-            importante investigar a causa.
-
-            {'\n\n'}
-
-            Algumas condições ginecológicas podem estar
-            associadas a sangramentos intensos, por isso
-            uma avaliação profissional pode ser necessária.
+            Underlying conditions such as uterine fibroids, adenomyosis, or hormonal imbalances may be responsible.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O que observar?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>What to observe?</Text>
           <Text style={tipsDetailStyles.text}>
-            Ao acompanhar sua menstruação, observe:
-
+            Keep track of:
             {'\n\n'}
-
-            • Frequência dos coágulos;
-
+            • Size and frequency of the clots;
             {'\n'}
-
-            • Tamanho aproximado;
-
+            • Which days of the cycle they appear;
             {'\n'}
-
-            • Intensidade do fluxo;
-
-            {'\n'}
-
-            • Presença de dor;
-
-            {'\n'}
-
-            • Mudanças em relação aos ciclos anteriores.
-
-            {'\n\n'}
-
-            Essas informações podem ser úteis caso seja
-            necessário conversar com um profissional
-            de saúde.
+            • Associated pain or unusual fatigue.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
-          <Ionicons
-            name="information-circle-outline"
-            size={25}
-            color="#F59E0B"
-          />
-
+          <Ionicons name="information-circle-outline" size={25} color="#F59E0B" />
           <Text style={tipsDetailStyles.infoText}>
-            Pequenos coágulos podem ocorrer durante a
-            menstruação, especialmente em períodos de
-            maior fluxo. Coágulos grandes, frequentes ou
-            acompanhados de sintomas importantes devem
-            ser avaliados por um profissional.
+            Occasional small clots are common. However, persistent large clots or bleeding accompanied by weakness warrant medical evaluation.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );
 }
-

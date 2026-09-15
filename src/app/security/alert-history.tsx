@@ -44,9 +44,9 @@ export default function AlertHistory() {
           id: itemData.id,
           data: formatDateTimeBR(rawTime),
           timestampRaw: rawTime,
-          tipo: itemData.tipo || itemData.type || 'SOS Silencioso',
-          status: itemData.status || 'Disparado',
-          origem: itemData.device || itemData.source || 'Pulseira SPIE',
+          tipo: itemData.tipo || itemData.type || 'Silent SOS',
+          status: itemData.status || 'Triggered',
+          origem: itemData.device || itemData.source || 'SPIE Smartband',
           latitude: itemData.latitude ?? itemData.location?.latitude ?? null,
           longitude: itemData.longitude ?? itemData.location?.longitude ?? null,
           linkMapa: itemData.linkMapa ?? itemData.mapUrl ?? null,
@@ -71,7 +71,7 @@ export default function AlertHistory() {
   };
 
   function voltar() {
-    router.replace('/(tabs)/profile');
+    router.back();
   }
 
   async function abrirMapa(alerta: Alerta) {
@@ -86,15 +86,15 @@ export default function AlertHistory() {
         await Linking.openURL(url);
       } catch (err) {
         showAlert({
-          title: 'Erro',
-          message: 'Não foi possível abrir o aplicativo de mapas.',
+          title: 'Error',
+          message: 'Unable to open the map application.',
           type: 'error',
         });
       }
     } else {
       showAlert({
-        title: 'Localização',
-        message: 'As coordenadas de GPS não estavam disponíveis para este alerta.',
+        title: 'Location',
+        message: 'GPS coordinates were not available for this alert.',
         type: 'info',
       });
     }
@@ -102,18 +102,18 @@ export default function AlertHistory() {
 
   function excluirAlerta(id: string) {
     showConfirm({
-      title: 'Excluir Alerta',
-      message: 'Deseja realmente remover este registro do seu histórico?',
+      title: 'Delete Alert',
+      message: 'Are you sure you want to remove this record from your history?',
       type: 'danger',
-      confirmText: 'Excluir',
-      cancelText: 'Cancelar',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
       onConfirm: async () => {
         try {
           await emergencyRepository.deleteAlert(id);
         } catch (err) {
           showAlert({
-            title: 'Erro',
-            message: 'Não foi possível excluir o alerta.',
+            title: 'Error',
+            message: 'Unable to delete the alert.',
             type: 'error',
           });
         }
@@ -125,18 +125,18 @@ export default function AlertHistory() {
     if (alertas.length === 0) return;
 
     showConfirm({
-      title: 'Limpar Todo o Histórico',
-      message: 'Tem certeza de que deseja apagar todos os registros de alerta? Esta ação não pode ser desfeita.',
+      title: 'Clear All History',
+      message: 'Are you sure you want to delete all alert records? This action cannot be undone.',
       type: 'danger',
-      confirmText: 'Apagar Tudo',
-      cancelText: 'Cancelar',
+      confirmText: 'Clear All',
+      cancelText: 'Cancel',
       onConfirm: async () => {
         try {
           await emergencyRepository.clearAllAlerts();
         } catch (err) {
           showAlert({
-            title: 'Erro',
-            message: 'Não foi possível limpar o histórico.',
+            title: 'Error',
+            message: 'Unable to clear history.',
             type: 'error',
           });
         }
@@ -181,18 +181,18 @@ export default function AlertHistory() {
                 onPress={limparTodoHistorico}
               >
                 <Ionicons name="trash-outline" size={14} color="#EF4444" />
-                <Text style={styles.clearButtonText}>Limpar Tudo</Text>
+                <Text style={styles.clearButtonText}>Clear All</Text>
               </TouchableOpacity>
             )}
           </View>
 
-          <Text style={styles.eyebrow}>SEGURANÇA PESSOAL</Text>
-          <Text style={styles.title}>Histórico de Alertas</Text>
+          <Text style={styles.eyebrow}>PERSONAL SECURITY</Text>
+          <Text style={styles.title}>Alert History</Text>
 
           {carregando ? (
             <View style={styles.card}>
               <ActivityIndicator size="large" color={cycleColors.rose} />
-              <Text style={styles.text}>Carregando histórico...</Text>
+              <Text style={styles.text}>Loading history...</Text>
             </View>
           ) : (
             <ScrollView
@@ -211,9 +211,9 @@ export default function AlertHistory() {
                   <View style={styles.iconRing}>
                     <Ionicons name="shield-checkmark" size={38} color={cycleColors.teal} />
                   </View>
-                  <Text style={styles.text}>Nenhum alerta registrado</Text>
+                  <Text style={styles.text}>No alerts recorded</Text>
                   <Text style={styles.sub}>
-                    Quando a pulseira ou o botão SOS forem acionados, o registro aparecerá aqui com rota e horário.
+                    When the smartband or SOS button is triggered, records will appear here with location and timestamp.
                   </Text>
                 </View>
               ) : (
@@ -259,7 +259,7 @@ export default function AlertHistory() {
                         <Text style={styles.locationText}>
                           {alerta.latitude && alerta.longitude
                             ? `${alerta.latitude.toFixed(4)}, ${alerta.longitude.toFixed(4)}`
-                            : 'GPS registrado'}
+                            : 'GPS recorded'}
                         </Text>
                       </View>
 
@@ -270,7 +270,7 @@ export default function AlertHistory() {
                           onPress={() => abrirMapa(alerta)}
                         >
                           <Ionicons name="map-outline" size={14} color={cycleColors.rose} />
-                          <Text style={styles.mapButtonText}>Ver no mapa</Text>
+                          <Text style={styles.mapButtonText}>View on map</Text>
                         </TouchableOpacity>
                       )}
                     </View>

@@ -28,6 +28,7 @@ import {
 import {
   useCycle,
 } from '@/modules/cycle/hooks/useCycle';
+import { haptics } from '@/shared/utils/haptics';
 
 // =====================================
 // TIPOS
@@ -49,9 +50,9 @@ type SintomaSelecionado = {
 // =====================================
 
 const niveisIntensidade = [
-  'leve',
-  'moderada',
-  'forte',
+  { id: 'leve', label: 'Mild' },
+  { id: 'moderada', label: 'Moderate' },
+  { id: 'forte', label: 'Severe' },
 ];
 
 // =====================================
@@ -64,55 +65,55 @@ const niveisIntensidade = [
 export const sintomasDisponiveis: Sintoma[] = [
   {
     id: 'none',
-    nome: 'Nenhum sintoma',
+    nome: 'No symptoms',
     icon: 'happy-outline',
   },
 
   {
     id: 'head',
-    nome: 'Dor de cabeça',
+    nome: 'Headache',
     icon: 'medical-outline',
   },
 
   {
     id: 'back',
-    nome: 'Dor nas costas',
+    nome: 'Back pain',
     icon: 'body-outline',
   },
 
   {
     id: 'breast',
-    nome: 'Sensibilidade nos seios',
+    nome: 'Breast tenderness',
     icon: 'heart-outline',
   },
 
   {
     id: 'cramp',
-    nome: 'Cólica',
+    nome: 'Cramps',
     icon: 'flash-outline',
   },
 
   {
     id: 'bloating',
-    nome: 'Inchaço',
+    nome: 'Bloating',
     icon: 'ellipse-outline',
   },
 
   {
     id: 'mood',
-    nome: 'Alteração de humor',
+    nome: 'Mood swings',
     icon: 'sad-outline',
   },
 
   {
     id: 'tired',
-    nome: 'Cansaço',
+    nome: 'Fatigue',
     icon: 'moon-outline',
   },
 
   {
     id: 'nausea',
-    nome: 'Náusea',
+    nome: 'Nausea',
     icon: 'fitness-outline',
   },
 ];
@@ -142,7 +143,7 @@ function formatarDataBR(
   const [ano, mes, dia] =
     dataISO.split('-');
 
-  return `${dia}/${mes}/${ano}`;
+  return `${mes}/${dia}/${ano}`;
 }
 
 // =====================================
@@ -188,6 +189,7 @@ export default function Symptoms() {
   function selecionar(
     id: string
   ) {
+    haptics.selection();
     // -------------------------------
     // NENHUM SINTOMA
     // -------------------------------
@@ -252,6 +254,7 @@ export default function Symptoms() {
     id: string,
     nivel: string
   ) {
+    haptics.selection();
     setSintomasSelecionados(
       sintomasSelecionados.map(
         (item) =>
@@ -270,6 +273,7 @@ export default function Symptoms() {
   // =====================================
 
   function salvar() {
+    haptics.success();
     registrarSintomas({
       data: dataAlvo,
       sintomas:
@@ -346,7 +350,7 @@ export default function Symptoms() {
               symptomsStyles.pageTitle
             }
           >
-            Sintomas
+            Symptoms
           </Text>
 
           {/* ESPAÇO PARA CENTRALIZAR */}
@@ -398,7 +402,7 @@ export default function Symptoms() {
                 symptomsStyles.title
               }
             >
-              Como você está hoje?
+              How are you feeling today?
             </Text>
 
             <Text
@@ -406,9 +410,7 @@ export default function Symptoms() {
                 symptomsStyles.subtitle
               }
             >
-              Registre seus sintomas
-              para acompanhar seu
-              ciclo menstrual.
+              Log your symptoms to track your menstrual cycle.
             </Text>
 
             {/* DATA */}
@@ -432,7 +434,7 @@ export default function Symptoms() {
                     symptomsStyles.dateBadgeText
                   }
                 >
-                  Registrando para{' '}
+                  Logging for{' '}
                   {formatarDataBR(
                     dataAlvo
                   )}
@@ -455,7 +457,7 @@ export default function Symptoms() {
                 symptomsStyles.sectionTitle
               }
             >
-              Selecione os sintomas
+              Select symptoms
             </Text>
 
             <View
@@ -535,7 +537,7 @@ export default function Symptoms() {
                   symptomsStyles.sectionTitle
                 }
               >
-                Intensidade
+                Intensity
               </Text>
 
               {sintomasSelecionados.map(
@@ -582,11 +584,11 @@ export default function Symptoms() {
                           (nivel) => {
                             const ativo =
                               item.intensidade ===
-                              nivel;
+                              nivel.id;
 
                             return (
                               <TouchableOpacity
-                                key={nivel}
+                                key={nivel.id}
                                 activeOpacity={
                                   0.7
                                 }
@@ -599,7 +601,7 @@ export default function Symptoms() {
                                 onPress={() =>
                                   alterarIntensidade(
                                     item.id,
-                                    nivel
+                                    nivel.id
                                   )
                                 }
                               >
@@ -611,14 +613,7 @@ export default function Symptoms() {
                                       symptomsStyles.intensityTextSelected,
                                   ]}
                                 >
-                                  {nivel
-                                    .charAt(
-                                      0
-                                    )
-                                    .toUpperCase() +
-                                    nivel.slice(
-                                      1
-                                    )}
+                                  {nivel.label}
                                 </Text>
                               </TouchableOpacity>
                             );
@@ -663,7 +658,7 @@ export default function Symptoms() {
                   symptomsStyles.buttonText
                 }
               >
-                Salvar sintomas
+                Save symptoms
               </Text>
             </View>
           </TouchableOpacity>

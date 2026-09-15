@@ -1,256 +1,102 @@
 import React from 'react';
-
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-
 import { Background } from '../../../components/Background';
 import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function MenstrualPhaseScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={
-          tipsDetailStyles.container
-        }
+        contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
-          onPress={() =>
-            router.back()
-          }
+          onPress={() => router.back()}
         >
-          <Ionicons
-            name="arrow-back"
-            size={25}
-            color={Colors.text}
-          />
+          <Ionicons name="arrow-back" size={25} color={Colors.text} />
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
-          <Ionicons
-            name="water-outline"
-            size={55}
-            color="#E91E63"
-          />
-
-          <Text style={tipsDetailStyles.title}>
-            Fase menstrual
-          </Text>
-
+          <Ionicons name="water-outline" size={55} color="#E11D48" />
+          <Text style={tipsDetailStyles.title}>Menstrual Phase</Text>
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda o que acontece no corpo durante a menstruação.
+            Understand what happens in your body during menstruation.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O que é a fase menstrual?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>What is the menstrual phase?</Text>
           <Text style={tipsDetailStyles.text}>
-            A fase menstrual é o período em que ocorre a
-            eliminação do revestimento interno do útero,
-            conhecido como endométrio.
-
+            The menstrual phase marks the beginning of each cycle, characterized by the shedding of blood and tissue through the vagina.
             {'\n\n'}
-
-            Esse processo acontece quando não ocorre uma
-            gravidez e os níveis de determinados hormônios
-            diminuem, levando ao início do sangramento
-            menstrual.
+            Day 1 of full flow is considered day 1 of your menstrual cycle.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O que acontece no corpo?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>What happens in the body?</Text>
           <Text style={tipsDetailStyles.text}>
-            Durante essa fase, o útero elimina o endométrio
-            que havia se preparado ao longo do ciclo.
-
+            When pregnancy does not occur, estrogen and progesterone levels reach their lowest point.
             {'\n\n'}
-
-            Os níveis de estrogênio e progesterona ficam
-            mais baixos, e um novo ciclo menstrual começa.
+            This drop signals the uterus to break down and eliminate the thickened endometrial lining.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Sintomas comuns
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Common symptoms</Text>
           <Text style={tipsDetailStyles.text}>
-            Algumas pessoas podem apresentar:
-
+            Common experiences include:
             {'\n\n'}
-
-            • Cólicas ou desconforto abdominal;
-
+            • Mild to moderate uterine cramps;
             {'\n'}
-
-            • Cansaço;
-
+            • Fatigue and desire for rest;
             {'\n'}
-
-            • Dor nas costas;
-
+            • Low back discomfort;
             {'\n'}
-
-            • Sensibilidade nas mamas;
-
-            {'\n'}
-
-            • Alterações de humor;
-
-            {'\n'}
-
-            • Dor de cabeça;
-
-            {'\n'}
-
-            • Inchaço.
+            • Light digestive changes.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quanto tempo dura?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>How long does it last?</Text>
           <Text style={tipsDetailStyles.text}>
-            A duração da menstruação pode variar de pessoa
-            para pessoa e também entre diferentes ciclos.
-
+            Bleeding typically lasts between 3 and 7 days.
             {'\n\n'}
-
-            Por isso, pequenas diferenças na duração ou no
-            fluxo podem acontecer sem necessariamente
-            significarem um problema de saúde.
-
-            {'\n\n'}
-
-            Observar o próprio padrão ao longo dos ciclos
-            pode ajudar a identificar mudanças importantes.
+            The heaviest flow is usually concentrated during the first 2 to 3 days, gradually tapering off.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Cuidados durante a menstruação
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Care during menstruation</Text>
           <Text style={tipsDetailStyles.text}>
-            Durante esse período, alguns cuidados podem
-            ajudar no bem-estar:
-
+            Support your body by:
             {'\n\n'}
-
-            • Manter uma boa hidratação;
-
+            • Changing pads, tampons, or cups regularly to prevent irritation and infection;
             {'\n'}
-
-            • Ter uma alimentação equilibrada;
-
+            • Prioritizing restful sleep and light restorative movement;
             {'\n'}
-
-            • Descansar quando necessário;
-
-            {'\n'}
-
-            • Praticar atividades físicas de acordo com
-            sua disposição;
-
-            {'\n'}
-
-            • Manter uma boa higiene menstrual;
-
-            {'\n'}
-
-            • Observar mudanças diferentes do seu padrão
-            habitual.
+            • Staying hydrated and eating iron- and magnesium-rich foods.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>When to seek help?</Text>
           <Text style={tipsDetailStyles.text}>
-            Procure orientação profissional se apresentar:
-
-            {'\n\n'}
-
-            • Sangramento muito intenso;
-
-            {'\n'}
-
-            • Dor forte ou incapacitante;
-
-            {'\n'}
-
-            • Sangramento por um período muito diferente
-            do habitual;
-
-            {'\n'}
-
-            • Tontura ou fraqueza associada ao sangramento;
-
-            {'\n'}
-
-            • Mudanças persistentes no padrão menstrual.
+            Speak with a healthcare provider if bleeding lasts longer than 7 days, requires changing protection every hour, or causes severe, debilitating pain.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
-          <Ionicons
-            name="information-circle-outline"
-            size={25}
-            color="#F59E0B"
-          />
-
+          <Ionicons name="information-circle-outline" size={25} color="#F59E0B" />
           <Text style={tipsDetailStyles.infoText}>
-            Cada pessoa possui um ciclo menstrual diferente.
-            Conhecer o seu próprio padrão ajuda a perceber
-            mudanças e conversar melhor com um profissional
-            de saúde quando necessário.
+            Menstruation is a natural vital sign of reproductive health. Keeping track of your cycle dates and flow helps identify your personal baseline.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );
 }
-

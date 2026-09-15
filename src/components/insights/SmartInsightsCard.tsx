@@ -24,12 +24,12 @@ export function SmartInsightsCard({
         <View style={insightsStyles.aiHeader}>
           <View style={insightsStyles.aiBadge}>
             <Ionicons name="sparkles" size={14} color={cycleColors.rose} />
-            <Text style={insightsStyles.aiBadgeText}>INSIGHTS INTELIGENTES</Text>
+            <Text style={insightsStyles.aiBadgeText}>SMART INSIGHTS</Text>
           </View>
         </View>
 
         <Text style={insightsStyles.aiSummaryText}>
-          Registre seus dias e sintomas no Calendário para ativar a análise personalizada.
+          Log your cycle days and symptoms in the Calendar to activate personalized insights.
         </Text>
 
         <TouchableOpacity
@@ -43,7 +43,7 @@ export function SmartInsightsCard({
           ) : (
             <>
               <Ionicons name="sync" size={15} color={cycleColors.rose} />
-              <Text style={insightsStyles.refreshButtonText}>Gerar análise agora</Text>
+              <Text style={insightsStyles.refreshButtonText}>Generate analysis now</Text>
             </>
           )}
         </TouchableOpacity>
@@ -58,7 +58,7 @@ export function SmartInsightsCard({
         <View style={insightsStyles.aiBadge}>
           <Ionicons name="sparkles" size={14} color={cycleColors.rose} />
           <Text style={insightsStyles.aiBadgeText}>
-            {origem === 'ia' ? 'ANÁLISE INTELIGENTE (IA)' : 'ANÁLISE ESTRUTURADA'}
+            {origem === 'ia' ? 'SMART ANALYSIS (AI)' : 'STRUCTURED ANALYSIS'}
           </Text>
         </View>
 
@@ -82,7 +82,7 @@ export function SmartInsightsCard({
       <View style={insightsStyles.aiSectionBox}>
         <View style={insightsStyles.aiSectionHeader}>
           <Ionicons name="analytics" size={16} color={cycleColors.teal} />
-          <Text style={insightsStyles.aiSectionTitle}>Padrão identificado</Text>
+          <Text style={insightsStyles.aiSectionTitle}>Identified pattern</Text>
         </View>
         <Text style={insightsStyles.aiSectionBody}>{insight.padraoObservado}</Text>
       </View>
@@ -91,7 +91,7 @@ export function SmartInsightsCard({
       <View style={insightsStyles.aiSectionBox}>
         <View style={insightsStyles.aiSectionHeader}>
           <Ionicons name="leaf" size={16} color={cycleColors.gold} />
-          <Text style={insightsStyles.aiSectionTitle}>Dica de bem-estar</Text>
+          <Text style={insightsStyles.aiSectionTitle}>Wellness tip</Text>
         </View>
         <Text style={insightsStyles.aiSectionBody}>{insight.dicaBemEstar}</Text>
       </View>
@@ -101,7 +101,7 @@ export function SmartInsightsCard({
         <View style={insightsStyles.medicalNoteCard}>
           <View style={insightsStyles.medicalNoteHeader}>
             <Ionicons name="shield-checkmark" size={16} color={cycleColors.rose} />
-            <Text style={insightsStyles.medicalNoteTitle}>Acompanhamento preventivo</Text>
+            <Text style={insightsStyles.medicalNoteTitle}>Preventive care note</Text>
           </View>
           <Text style={insightsStyles.medicalNoteText}>
             {insight.notaAcompanhamento}
@@ -112,8 +112,8 @@ export function SmartInsightsCard({
       {/* Tag de Auditoria e Origem */}
       <Text style={insightsStyles.sourceTag}>
         {origem === 'ia'
-          ? '✨ Análise contextual gerada com apoio de IA e validada clinicamente'
-          : '📋 Análise estruturada pelas regras determinísticas do SPIE'}
+          ? '✨ Contextual analysis generated with AI assistance and health guidelines'
+          : '📋 Structured analysis guided by SPIE clinical rules'}
       </Text>
     </View>
   );

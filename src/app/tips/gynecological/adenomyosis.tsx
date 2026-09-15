@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function AdenomyosisScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,273 +31,96 @@ export default function AdenomyosisScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="medkit-outline"
             size={55}
             color="#A855F7"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Adenomiose
+            Adenomyosis
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda essa condição do útero, seus sintomas
-            e quando procurar avaliação.
+            Understand this uterine condition, its distinctive symptoms, and when to seek medical evaluation.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é adenomiose?
+            What is adenomyosis?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A adenomiose é uma condição em que o tecido
-            semelhante ao endométrio cresce dentro da
-            parede muscular do útero.
-
+            Adenomyosis is a gynecological condition in which tissue resembling the inner uterine lining (endometrium) grows into the muscular wall of the uterus (myometrium).
             {'\n\n'}
-
-            Esse tecido pode responder às alterações
-            hormonais do ciclo menstrual e provocar
-            inflamação, aumento do útero e dor.
-
-            {'\n\n'}
-
-            A intensidade dos sintomas pode variar bastante
-            entre as pessoas.
+            This misplaced tissue continues to thicken, break down, and bleed during each menstrual cycle, causing localized inflammation, uterine enlargement, and pain.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Principais sintomas
+            Common symptoms
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A adenomiose pode causar:
-
-            {'\n\n'}
-
-            • Cólicas menstruais intensas;
-
+            • Severe, sharp, or throbbing menstrual cramps (dysmenorrhea);
             {'\n'}
-
-            • Sangramento menstrual intenso;
-
+            • Heavy menstrual bleeding (menorrhagia) with large clots;
             {'\n'}
-
-            • Menstruação prolongada;
-
+            • Prolonged menstrual bleeding lasting over a week;
             {'\n'}
-
-            • Dor pélvica;
-
+            • Chronic pelvic aching or lower back pressure;
             {'\n'}
-
-            • Dor durante as relações sexuais;
-
+            • Pain during or after sexual intercourse (dyspareunia);
             {'\n'}
-
-            • Sensação de pressão ou peso na pelve;
-
-            {'\n'}
-
-            • Aumento da sensibilidade durante a menstruação.
+            • Enlarged, tender uterus causing a swollen or tender lower abdomen.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Adenomiose pode não causar sintomas
+            Adenomyosis vs. Endometriosis
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas pessoas com adenomiose não apresentam
-            sintomas perceptíveis.
-
+            While both involve endometrial-like tissue, their location differs:
             {'\n\n'}
-
-            Em outras, a condição pode provocar dores
-            importantes e alterações no fluxo menstrual.
-
+            • In adenomyosis, the tissue invades the uterine muscle wall itself.
             {'\n\n'}
-
-            Por isso, a intensidade dos sintomas varia
-            bastante de uma pessoa para outra.
+            • In endometriosis, the tissue grows outside the uterus entirely (on ovaries, fallopian tubes, or bowel).
+            {'\n\n'}
+            It is possible to have both conditions simultaneously.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Adenomiose x Endometriose
+            Risk of anemia
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            As duas condições envolvem tecido semelhante
-            ao endométrio, mas não são a mesma doença.
-
+            Heavy, prolonged blood loss from adenomyosis can lead to iron deficiency anemia.
             {'\n\n'}
-
-            Na adenomiose, esse tecido cresce dentro da
-            parede muscular do útero.
-
-            {'\n\n'}
-
-            Na endometriose, o tecido semelhante ao
-            endométrio aparece fora do útero.
-
-            {'\n\n'}
-
-            Uma mesma pessoa pode apresentar as duas
-            condições ao mesmo tempo.
+            If you experience chronic exhaustion, lightheadedness, pale skin, or shortness of breath alongside heavy periods, request a blood panel and ferritin check.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Sangramento intenso
+            Diagnosis and management
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            O aumento do fluxo menstrual pode acontecer
-            em pessoas com adenomiose.
-
+            Diagnosis involves a pelvic examination and high-resolution transvaginal ultrasound or pelvic MRI.
             {'\n\n'}
-
-            Sangramentos muito intensos ou prolongados
-            podem contribuir para anemia.
-
-            {'\n\n'}
-
-            Cansaço excessivo, fraqueza ou falta de energia
-            associados a sangramentos frequentes merecem
-            avaliação profissional.
+            Management options range from anti-inflammatory pain medications to hormonal treatments (such as a levonorgestrel-releasing IUD or birth control pills) that suppress bleeding.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como é feito o diagnóstico?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O diagnóstico começa com a avaliação dos
-            sintomas e do histórico menstrual.
-
-            {'\n\n'}
-
-            Exames de imagem, principalmente ultrassonografia
-            e, em alguns casos, ressonância magnética,
-            podem ajudar na investigação.
-
-            {'\n\n'}
-
-            A avaliação deve ser feita por um profissional
-            de saúde.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Tratamento
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            O tratamento depende dos sintomas, da idade,
-            dos objetivos reprodutivos e de outros fatores.
-
-            {'\n\n'}
-
-            Podem ser utilizados medicamentos para controlar
-            a dor e o sangramento, incluindo opções hormonais.
-
-            {'\n\n'}
-
-            Em casos específicos, outros procedimentos podem
-            ser considerados.
-
-            {'\n\n'}
-
-            A escolha do tratamento deve ser feita com
-            orientação profissional.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure avaliação se houver:
-
-            {'\n\n'}
-
-            • Cólicas muito fortes;
-
-            {'\n'}
-
-            • Sangramento menstrual muito intenso;
-
-            {'\n'}
-
-            • Menstruação prolongada;
-
-            {'\n'}
-
-            • Dor pélvica persistente;
-
-            {'\n'}
-
-            • Dor durante relações sexuais;
-
-            {'\n'}
-
-            • Cansaço ou fraqueza associados a sangramentos;
-
-            {'\n'}
-
-            • Alterações menstruais que interferem na rotina.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Cólicas muito intensas e sangramentos que
-            interferem na rotina não devem ser simplesmente
-            normalizados. Uma avaliação profissional pode
-            ajudar a identificar a causa dos sintomas.
+            Severe cramps and flooding menstrual flow are not things you simply have to endure. Consult a gynecologist to evaluate whether adenomyosis may be the cause.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

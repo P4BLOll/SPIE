@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,15 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function ChlamydiaScreen() {
-
   return (
-
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -36,292 +31,94 @@ export default function ChlamydiaScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="shield-outline"
             size={55}
             color="#3B82F6"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Clamídia
+            Chlamydia
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Conheça essa infecção sexualmente transmissível
-            e saiba quais sinais merecem atenção.
+            Understand this prevalent STI, its silent nature, diagnosis, and treatment.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é clamídia?
+            What is chlamydia?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A clamídia é uma infecção sexualmente
-            transmissível causada pela bactéria
-            Chlamydia trachomatis.
-
+            Chlamydia is one of the most common sexually transmitted infections, caused by the bacterium Chlamydia trachomatis.
             {'\n\n'}
-
-            Ela pode afetar principalmente o colo do útero,
-            a uretra, o reto e outras regiões do sistema
-            reprodutivo.
+            It infects the cervix, urethra, rectum, and throat through unprotected vaginal, anal, or oral sexual contact.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Pode não apresentar sintomas
+            The silent infection
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Muitas pessoas infectadas não apresentam
-            sintomas.
-
+            Up to 70–80% of infected women and 50% of men show no symptoms at all.
             {'\n\n'}
-
-            Isso faz com que a infecção possa passar
-            despercebida e ser transmitida para outras
-            pessoas.
-
-            {'\n\n'}
-
-            Por esse motivo, testes são importantes quando
-            existe indicação ou possibilidade de exposição.
+            Because it is often asymptomatic, people unknowingly transmit it to partners, and the infection can remain undetected for months or years without regular screening.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Possíveis sintomas
+            Potential symptoms
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Quando aparecem, os sintomas podem incluir:
-
+            When symptoms do occur, they may include:
             {'\n\n'}
-
-            • Corrimento vaginal diferente do habitual;
-
+            • Abnormal, yellowish vaginal discharge;
             {'\n'}
-
-            • Ardência ao urinar;
-
+            • Burning or stinging sensation while urinating;
             {'\n'}
-
-            • Dor ou desconforto durante a relação sexual;
-
+            • Bleeding between periods or after sexual intercourse;
             {'\n'}
-
-            • Dor na parte inferior do abdômen;
-
+            • Deep pelvic or lower abdominal pain;
             {'\n'}
-
-            • Sangramento entre as menstruações;
-
-            {'\n'}
-
-            • Sangramento após a relação sexual.
+            • Painful sexual intercourse (dyspareunia).
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como é transmitida?
+            Risks of untreated chlamydia
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A clamídia pode ser transmitida durante relações
-            sexuais vaginais, anais ou orais sem proteção
-            com uma pessoa infectada.
-
+            Left untreated, chlamydial infection can spread upward into the uterus and fallopian tubes, causing Pelvic Inflammatory Disease (PID).
             {'\n\n'}
-
-            A transmissão também pode acontecer mesmo
-            quando a pessoa infectada não apresenta
-            sintomas.
-
-            {'\n\n'}
-
-            O uso correto de preservativos ajuda a reduzir
-            o risco de transmissão.
+            PID can result in chronic pelvic pain, fallopian tube scarring, ectopic pregnancy risks, and tubal infertility.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Por que o diagnóstico é importante?
+            Testing and treatment
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Quando não tratada, a clamídia pode causar
-            complicações no sistema reprodutivo.
-
+            Diagnosis is simple, painless, and accurate using a urine test or vaginal/cervical swab (NAAT testing).
             {'\n\n'}
-
-            Em algumas pessoas, a infecção pode contribuir
-            para doença inflamatória pélvica e problemas
-            relacionados à fertilidade.
-
+            Chlamydia is easily cured with specific prescription antibiotics (such as azithromycin or doxycycline).
             {'\n\n'}
-
-            O diagnóstico e o tratamento precoces ajudam
-            a reduzir o risco dessas complicações.
+            All recent sexual partners must be treated simultaneously, and sexual activity should be paused for 7 days post-treatment.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Diagnóstico
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Como a clamídia frequentemente não apresenta
-            sintomas, não é possível identificá-la apenas
-            observando o corpo.
-
-            {'\n\n'}
-
-            Testes laboratoriais podem ser utilizados para
-            confirmar a infecção.
-
-            {'\n\n'}
-
-            O profissional de saúde pode orientar qual exame
-            é mais adequado para cada situação.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Tratamento
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            A clamídia é uma infecção bacteriana e pode
-            ser tratada com antibióticos prescritos por
-            um profissional de saúde.
-
-            {'\n\n'}
-
-            É importante seguir corretamente o tratamento
-            e não interromper o uso do medicamento por
-            conta própria.
-
-            {'\n\n'}
-
-            Parceiros sexuais também podem precisar de
-            avaliação e tratamento.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como prevenir?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Algumas medidas ajudam a reduzir o risco:
-
-            {'\n\n'}
-
-            • Usar preservativo corretamente;
-
-            {'\n'}
-
-            • Realizar testes para ISTs quando indicado;
-
-            {'\n'}
-
-            • Manter acompanhamento de saúde sexual;
-
-            {'\n'}
-
-            • Buscar atendimento após uma possível
-            exposição;
-
-            {'\n'}
-
-            • Seguir o tratamento indicado quando houver
-            diagnóstico.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure um serviço de saúde se houver:
-
-            {'\n\n'}
-
-            • Suspeita de exposição a uma IST;
-
-            {'\n'}
-
-            • Corrimento diferente do habitual;
-
-            {'\n'}
-
-            • Ardência ao urinar;
-
-            {'\n'}
-
-            • Dor pélvica;
-
-            {'\n'}
-
-            • Sangramento fora do período menstrual;
-
-            {'\n'}
-
-            • Dor durante a relação sexual;
-
-            {'\n'}
-
-            • Preocupação após uma relação sem proteção.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            A clamídia pode não causar sintomas. Por isso,
-            observar alterações no corpo não substitui os
-            testes de IST quando eles são recomendados.
+            Because chlamydia is usually silent, annual screening is recommended for all sexually active individuals under 25 or anyone with new or multiple partners.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

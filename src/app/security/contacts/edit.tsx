@@ -73,8 +73,8 @@ export default function EditContact() {
       if (!id) {
         if (ativo) setLoading(false);
         showAlert({
-          title: 'Erro',
-          message: 'Contato não encontrado.',
+          title: 'Error',
+          message: 'Contact not found.',
           type: 'error',
           onDismiss: voltarParaContatos,
         });
@@ -92,8 +92,8 @@ export default function EditContact() {
           setPhone(found.telefone || '');
         } else {
           showAlert({
-            title: 'Contato Não Encontrado',
-            message: 'Esse contato não existe mais.',
+            title: 'Contact Not Found',
+            message: 'This contact no longer exists.',
             type: 'warning',
             onDismiss: voltarParaContatos,
           });
@@ -102,8 +102,8 @@ export default function EditContact() {
         if (!ativo) return;
         console.log('Erro ao carregar contato:', error);
         showAlert({
-          title: 'Erro',
-          message: 'Não foi possível carregar o contato.',
+          title: 'Error',
+          message: 'Unable to load contact.',
           type: 'error',
         });
       } finally {
@@ -118,6 +118,14 @@ export default function EditContact() {
     };
   }, [id]);
 
+  function formatarTelefone(valor: string) {
+    const numeros = valor.replace(/\D/g, '').slice(0, 11);
+    if (numeros.length <= 2) return numeros;
+    if (numeros.length <= 6) return `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`;
+    if (numeros.length <= 10) return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 6)}-${numeros.slice(6)}`;
+    return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`;
+  }
+
   // =====================================================
   // SALVAR ALTERAÇÕES
   // =====================================================
@@ -127,8 +135,8 @@ export default function EditContact() {
 
     if (!id) {
       showAlert({
-        title: 'Erro',
-        message: 'Contato não encontrado.',
+        title: 'Error',
+        message: 'Contact not found.',
         type: 'error',
       });
       return;
@@ -139,8 +147,18 @@ export default function EditContact() {
 
     if (!nomeLimpo || !telefoneLimpo) {
       showAlert({
-        title: 'Campos Obrigatórios',
-        message: 'Por favor, preencha o nome e o telefone.',
+        title: 'Required Fields',
+        message: 'Please provide both the name and phone number.',
+        type: 'warning',
+      });
+      return;
+    }
+
+    const digitsOnly = telefoneLimpo.replace(/\D/g, '');
+    if (digitsOnly.length < 10 || digitsOnly.length > 11) {
+      showAlert({
+        title: 'Invalid Phone',
+        message: 'Phone number must include area code and have 10 or 11 digits.',
         type: 'warning',
       });
       return;
@@ -155,10 +173,10 @@ export default function EditContact() {
       });
 
       showAlert({
-        title: 'Atualizado',
-        message: 'Contato alterado com sucesso.',
+        title: 'Updated',
+        message: 'Contact updated successfully.',
         type: 'success',
-        buttonText: 'Concluir',
+        buttonText: 'Done',
         onDismiss: () => {
           router.back();
         },
@@ -166,8 +184,8 @@ export default function EditContact() {
     } catch (error) {
       console.log('Erro ao atualizar contato:', error);
       showAlert({
-        title: 'Erro',
-        message: 'Não foi possível atualizar o contato.',
+        title: 'Error',
+        message: 'Unable to update contact.',
         type: 'error',
       });
     } finally {
@@ -316,7 +334,7 @@ export default function EditContact() {
                       },
                     ]}
                   >
-                    Editar contato
+                    Edit Contact
                   </Text>
 
                 </View>
@@ -339,7 +357,7 @@ export default function EditContact() {
                   <TextInput
                     value={name}
                     onChangeText={setName}
-                    placeholder="Nome completo"
+                    placeholder="Full name"
                     placeholderTextColor={
                       cycleColors.textMuted
                     }
@@ -358,8 +376,9 @@ export default function EditContact() {
 
                   <TextInput
                     value={phone}
-                    onChangeText={setPhone}
-                    placeholder="Telefone"
+                    onChangeText={(text) => setPhone(formatarTelefone(text))}
+                    maxLength={15}
+                    placeholder="Phone number with area code"
                     placeholderTextColor={
                       cycleColors.textMuted
                     }
@@ -416,8 +435,8 @@ export default function EditContact() {
                       ]}
                     >
                       {saving
-                        ? 'Salvando...'
-                        : 'Salvar alterações'}
+                        ? 'Saving...'
+                        : 'Save changes'}
                     </Text>
                   </View>
                 </TouchableOpacity>

@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function PeriodUnderwearScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,279 +31,87 @@ export default function PeriodUnderwearScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="shirt-outline"
             size={55}
             color="#EC4899"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Calcinha menstrual
+            Period Underwear
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda como funciona, como utilizar e quais
-            cuidados são importantes.
+            Discover how leak-proof period underwear works, how to choose absorbencies, and washing instructions.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é?
+            What is period underwear?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A calcinha menstrual é uma roupa íntima
-            desenvolvida com camadas absorventes
-            capazes de reter o sangue menstrual.
-
+            Period underwear looks and feels like regular underwear but includes built-in layered fabric technology designed to absorb menstrual blood and prevent leaks.
             {'\n\n'}
-
-            Ela pode ser utilizada sozinha ou combinada
-            com outros produtos menstruais, dependendo
-            do fluxo e da preferência de cada pessoa.
-
-            {'\n\n'}
-
-            Existem modelos com diferentes níveis de
-            absorção.
+            It can be worn as standalone period protection on light-to-medium days or as a backup with cups or tampons on heavy days.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como funciona?
+            How does it work?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A região absorvente da calcinha possui
-            diferentes camadas.
-
+            The gusset features multiple technical fabric layers:
             {'\n\n'}
-
-            Essas camadas ajudam a absorver o sangue
-            e manter a umidade afastada da pele.
-
-            {'\n\n'}
-
-            A capacidade de absorção varia de acordo
-            com o modelo e o fabricante.
+            • Moisture-wicking top layer: draws moisture away from the skin to keep you dry;
+            {'\n'}
+            • Super-absorbent core: locks fluid and minimizes odor;
+            {'\n'}
+            • Waterproof outer barrier: prevents fluid from leaking through to clothes.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Como escolher?
+            How to wash and care
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Antes de comprar uma calcinha menstrual,
-            observe:
-
+            Proper washing extends product longevity:
             {'\n\n'}
-
-            • Capacidade de absorção;
-
+            1. Rinse in cold water immediately after wearing until water runs clear;
             {'\n'}
-
-            • Tamanho;
-
+            2. Machine wash on a gentle cold cycle with mild detergent;
             {'\n'}
-
-            • Formato;
-
+            3. Do not use fabric softeners or bleach, as they coat the fibers and degrade absorbency;
             {'\n'}
-
-            • Tipo de tecido;
-
-            {'\n'}
-
-            • Seu fluxo menstrual;
-
-            {'\n'}
-
-            • Instruções de lavagem do fabricante.
-
-            {'\n\n'}
-
-            Para fluxos intensos, procure modelos
-            desenvolvidos especificamente para maior
-            absorção.
+            4. Hang dry thoroughly before storing.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Quando trocar?
+            Benefits
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            A frequência de troca depende do fluxo
-            menstrual e da capacidade de absorção
-            do modelo.
-
-            {'\n\n'}
-
-            Troque quando a calcinha estiver próxima
-            da capacidade máxima ou quando estiver
-            causando sensação de umidade ou desconforto.
-
-            {'\n\n'}
-
-            Siga sempre as recomendações do fabricante.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como lavar?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            A calcinha menstrual deve ser lavada após
-            cada utilização.
-
-            {'\n\n'}
-
-            O método de lavagem depende do fabricante,
-            por isso é importante seguir as instruções
-            da etiqueta.
-
-            {'\n\n'}
-
-            Em geral, recomenda-se enxaguar bem a peça
-            e lavá-la de acordo com as orientações
-            indicadas.
-
-            {'\n\n'}
-
-            Depois, deixe secar completamente antes
-            de guardá-la.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Pode usar durante a noite?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Sim, algumas pessoas utilizam a calcinha
-            menstrual durante a noite.
-
-            {'\n\n'}
-
-            Porém, é importante considerar a capacidade
-            de absorção do modelo e a intensidade do
-            seu fluxo.
-
-            {'\n\n'}
-
-            Para fluxos muito intensos, pode ser necessário
-            utilizar outro produto ou uma combinação
-            de produtos.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Vantagens
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Algumas pessoas escolhem a calcinha menstrual
-            porque:
-
-            {'\n\n'}
-
-            • É reutilizável;
-
+            • Completely reusable and sustainable;
             {'\n'}
-
-            • Pode reduzir o uso de produtos descartáveis;
-
+            • Comfortable and non-intrusive without plastic pads;
             {'\n'}
-
-            • Pode ser confortável;
-
+            • Great for sleep, workouts, and unpredictable spotting;
             {'\n'}
-
-            • Não precisa ser inserida na vagina;
-
-            {'\n'}
-
-            • Pode ser utilizada sozinha ou combinada
-            com outros produtos.
+            • Available in diverse styles, cuts, and absorbencies.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Cuidados importantes
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            • Lave a peça após cada utilização;
-
-            {'\n'}
-
-            • Siga as instruções da etiqueta;
-
-            {'\n'}
-
-            • Deixe secar completamente;
-
-            {'\n'}
-
-            • Não guarde a peça úmida;
-
-            {'\n'}
-
-            • Observe sinais de desgaste;
-
-            {'\n'}
-
-            • Substitua a peça quando o fabricante
-            indicar ou quando ela perder sua capacidade
-            de absorção.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            A calcinha menstrual pode ser uma alternativa
-            prática e reutilizável. Escolha um modelo
-            adequado ao seu fluxo e siga corretamente
-            as instruções de lavagem e conservação.
+            Period underwear provides reliable comfort and sustainability. Check absorbency ratings and always air dry to maintain the waterproof barrier.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

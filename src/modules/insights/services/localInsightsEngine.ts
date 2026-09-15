@@ -2,15 +2,15 @@ import { DadosCalendario } from '@/modules/cycle/types/cycle.types';
 import { CycleMetrics, SmartInsightResult, StoredInsightCache } from '../types/insights.types';
 
 const nomesSintomas: Record<string, string> = {
-  none: 'Nenhum sintoma',
-  head: 'Dor de cabeça',
-  back: 'Dor nas costas',
-  breast: 'Sensibilidade nos seios',
-  cramp: 'Cólica',
-  bloating: 'Inchaço',
-  mood: 'Alteração de humor',
-  tired: 'Cansaço',
-  nausea: 'Náusea',
+  none: 'No symptoms',
+  head: 'Headache',
+  back: 'Back pain',
+  breast: 'Breast tenderness',
+  cramp: 'Cramps',
+  bloating: 'Bloating',
+  mood: 'Mood swings',
+  tired: 'Fatigue',
+  nausea: 'Nausea',
 };
 
 function formatarDataISO(data: Date): string {
@@ -36,11 +36,11 @@ function calcularFasePorDia(diaDoCiclo: number, duracaoMenstruacao: number, dura
   const diaOvulacao = Math.max(1, duracaoCiclo - 14);
   const inicioFertil = Math.max(duracaoMenstruacao + 1, diaOvulacao - 5);
 
-  if (diaDoCiclo <= duracaoMenstruacao) return 'Menstruação';
-  if (diaDoCiclo === diaOvulacao) return 'Ovulação';
-  if (diaDoCiclo >= inicioFertil && diaDoCiclo < diaOvulacao) return 'Período fértil';
-  if (diaDoCiclo < diaOvulacao) return 'Fase folicular';
-  return 'Fase lútea';
+  if (diaDoCiclo <= duracaoMenstruacao) return 'Menstruation';
+  if (diaDoCiclo === diaOvulacao) return 'Ovulation';
+  if (diaDoCiclo >= inicioFertil && diaDoCiclo < diaOvulacao) return 'Fertile window';
+  if (diaDoCiclo < diaOvulacao) return 'Follicular phase';
+  return 'Luteal phase';
 }
 
 export const localInsightsEngine = {
@@ -57,7 +57,7 @@ export const localInsightsEngine = {
     let diasAtraso: number | null = null;
     let ovulacaoEstimada: string | null = null;
     let periodoFertil: { inicio: string; fim: string } | null = null;
-    let faseAtual = 'Sem dados';
+    let faseAtual = 'No data';
 
     if (dados.ultimaMenstruacao) {
       const dataInicio = parseDataSemHorario(dados.ultimaMenstruacao);
@@ -105,7 +105,7 @@ export const localInsightsEngine = {
       if (!temDados) continue;
       totalDiasRegistrados++;
 
-      let faseDoRegistro = 'Geral';
+      let faseDoRegistro = 'General';
       if (dados.ultimaMenstruacao) {
         const dReg = parseDataSemHorario(dataStr);
         const dIni = parseDataSemHorario(dados.ultimaMenstruacao);
@@ -120,7 +120,7 @@ export const localInsightsEngine = {
         for (const s of reg.sintomas) {
           const id = typeof s === 'string' ? s : s.id;
           const nome = nomesSintomas[id] ?? id;
-          if (!nome || nome === 'Nenhum sintoma') continue;
+          if (!nome || nome === 'No symptoms' || nome === 'Nenhum sintoma') continue;
 
           if (!sintomaFrequencia[nome]) {
             sintomaFrequencia[nome] = { contagem: 0, fases: {} };
@@ -138,7 +138,7 @@ export const localInsightsEngine = {
 
     const sintomasFrequentes = Object.entries(sintomaFrequencia)
       .map(([sintoma, info]) => {
-        let fasePredominante = 'Geral';
+        let fasePredominante = 'General';
         let maxFase = 0;
         for (const [fase, count] of Object.entries(info.fases)) {
           if (count > maxFase) {
@@ -176,41 +176,46 @@ export const localInsightsEngine = {
     };
 
     // Gerar texto do insight determinístico
-    let resumoFase = 'Continue registrando suas informações para acompanhar suas fases.';
-    if (diaDoCiclo && faseAtual !== 'Sem dados') {
-      resumoFase = `Você está no dia ${diaDoCiclo} do seu ciclo de ${duracaoCiclo} dias (${faseAtual.toLowerCase()}).`;
+    let resumoFase = 'Keep logging your cycle details to track your phases.';
+    if (diaDoCiclo && faseAtual !== 'No data' && faseAtual !== 'Sem dados') {
+      resumoFase = `You are on day ${diaDoCiclo} of your ${duracaoCiclo}-day cycle (${faseAtual.toLowerCase()}).`;
     }
 
-    let padraoObservado = 'Mapeando padrões com base nos seus registros diários.';
+    let padraoObservado = 'Mapping patterns based on your daily logs.';
     const principalSintoma = sintomasFrequentes[0];
     if (principalSintoma && humorPredominante) {
-      padraoObservado = `Sintoma mais registrado: ${principalSintoma.sintoma.toLowerCase()} (${principalSintoma.contagem}x), com humor predominante de ${humorPredominante.toLowerCase()}.`;
+      padraoObservado = `Most logged symptom: ${principalSintoma.sintoma.toLowerCase()} (${principalSintoma.contagem}x), with predominant mood ${humorPredominante.toLowerCase()}.`;
     } else if (principalSintoma) {
-      padraoObservado = `Sintoma mais frequente: ${principalSintoma.sintoma.toLowerCase()} (${principalSintoma.contagem} registros).`;
+      padraoObservado = `Most frequent symptom: ${principalSintoma.sintoma.toLowerCase()} (${principalSintoma.contagem} logs).`;
     } else if (humorPredominante) {
-      padraoObservado = `Humor mais presente nos registros recentes: ${humorPredominante.toLowerCase()}.`;
+      padraoObservado = `Predominant mood in recent logs: ${humorPredominante.toLowerCase()}.`;
     }
 
-    let dicaBemEstar = 'Mantenha a hidratação e um bom descanso para apoiar seu bem-estar.';
+    let dicaBemEstar = 'Stay hydrated and get adequate rest to support your well-being.';
     switch (faseAtual) {
+      case 'Menstruation':
       case 'Menstruação':
-        dicaBemEstar = 'Priorize repouso, hidratação constante e calor local suave na região pélvica.';
+        dicaBemEstar = 'Prioritize rest, steady hydration, and gentle pelvic warmth.';
         break;
+      case 'Follicular phase':
       case 'Fase folicular':
-        dicaBemEstar = 'Fase de renovação de energia. Ótimo momento para manter atividades físicas prazerosas.';
+        dicaBemEstar = 'Energy renewal phase. Great time for enjoyable physical activities and balanced nutrition.';
         break;
+      case 'Fertile window':
       case 'Período fértil':
+      case 'Ovulation':
       case 'Ovulação':
-        dicaBemEstar = 'Período de vitalidade. Mantenha boa nutrição e atenção aos sinais do seu corpo.';
+        dicaBemEstar = 'Vitality peak. Maintain balanced nutrition and listen to your body signals.';
         break;
+      case 'Luteal phase':
       case 'Fase lútea':
-        dicaBemEstar = 'Alimentos leves e chás relaxantes auxiliam no conforto desta fase que antecede a menstruação.';
+        dicaBemEstar = 'Light meals and calming herbal teas can provide comfort ahead of your next period.';
         break;
     }
 
     let notaAcompanhamento: string | null = null;
     if (diasAtraso && diasAtraso >= 7) {
-      notaAcompanhamento = `Atraso de ${diasAtraso} dias em relação à previsão. Se persistir, consulte seu ginecologista.`;
+      notaAcompanhamento = `Your period is ${diasAtraso} days past the expected date. If it persists, consult your gynecologist.`;
     }
 
     const insight: SmartInsightResult = {

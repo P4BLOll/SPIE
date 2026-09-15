@@ -19,37 +19,37 @@ export default function PcosScreen() {
 
     {
       icon: 'information-circle-outline',
-      title: 'O que é SOP?',
+      title: 'What is PCOS?',
       text:
-        'A Síndrome dos Ovários Policísticos (SOP) é uma condição hormonal que pode afetar a ovulação, os ciclos menstruais e outros aspectos do funcionamento do organismo.'
+        'Polycystic Ovary Syndrome (PCOS) is a hormonal condition that can affect ovulation, menstrual cycles, and other aspects of bodily function.'
     },
 
     {
       icon: 'calendar-outline',
-      title: 'Ciclos irregulares',
+      title: 'Irregular cycles',
       text:
-        'Algumas pessoas com SOP podem apresentar ciclos mais longos, atrasos menstruais ou períodos em que a ovulação não acontece regularmente.'
+        'Some people with PCOS may experience longer cycles, delayed periods, or cycles where ovulation does not occur regularly.'
     },
 
     {
       icon: 'body-outline',
-      title: 'Possíveis sinais',
+      title: 'Common signs',
       text:
-        'Os sinais podem incluir acne, aumento de pelos, pele mais oleosa, alterações no peso e mudanças no padrão menstrual.'
+        'Signs may include acne, excess facial/body hair, oilier skin, weight fluctuations, and changes in menstrual frequency.'
     },
 
     {
       icon: 'water-outline',
-      title: 'Alterações no ciclo',
+      title: 'Cycle variations',
       text:
-        'A SOP pode influenciar a frequência da menstruação e a previsão da ovulação, tornando importante acompanhar os padrões do próprio corpo.'
+        'PCOS can influence period predictability and ovulation timing, making it valuable to track your personal patterns.'
     },
 
     {
       icon: 'medical-outline',
-      title: 'Diagnóstico e acompanhamento',
+      title: 'Diagnosis and care',
       text:
-        'O diagnóstico deve ser realizado por um profissional de saúde considerando sintomas, histórico e exames quando necessário.'
+        'Diagnosis should be evaluated by a healthcare professional based on medical history, clinical symptoms, and lab tests.'
     },
   ];
 
@@ -83,12 +83,11 @@ export default function PcosScreen() {
           />
 
           <Text style={pcosStyles.title}>
-            Síndrome dos Ovários Policísticos
+            Polycystic Ovary Syndrome
           </Text>
 
           <Text style={pcosStyles.subtitle}>
-            Entenda a SOP, seus possíveis sinais
-            e a importância do acompanhamento.
+            Learn about PCOS, common signs, and the importance of medical evaluation.
           </Text>
         </View>
 
@@ -128,11 +127,9 @@ export default function PcosScreen() {
           />
 
           <Text style={pcosStyles.warningText}>
-            Ter alguns desses sinais não significa
-            necessariamente ter SOP.
+            Experiencing some of these signs does not necessarily mean you have PCOS.
 
-            Somente uma avaliação profissional pode
-            confirmar o diagnóstico.
+            Only a comprehensive evaluation by a doctor can confirm a diagnosis.
           </Text>
         </View>
 
@@ -144,9 +141,7 @@ export default function PcosScreen() {
           />
 
           <Text style={pcosStyles.warningText}>
-            Registrar sintomas e alterações do ciclo no SPIE
-            pode ajudar você a observar padrões importantes
-            para conversar com um profissional de saúde.
+            Logging symptoms and cycle changes in SPIE helps you identify meaningful patterns to share with your healthcare provider.
           </Text>
         </View>
       </ScrollView>

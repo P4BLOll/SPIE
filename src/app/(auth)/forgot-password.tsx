@@ -22,8 +22,11 @@ import { cycleColors } from '@/styles/calendar.styles';
 import { loginStyles } from '@/styles/login.styles';
 import { recoverPassword } from '@/modules/auth/services/authService';
 
+import { useDialog } from '@/context/DialogContext';
+
 export default function ForgotPassword() {
   const router = useRouter();
+  const { showAlert } = useDialog();
 
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,7 +38,11 @@ export default function ForgotPassword() {
     const emailLimpo = email.trim();
 
     if (!emailLimpo) {
-      Alert.alert('Atenção', 'Digite seu endereço de e-mail.');
+      showAlert({
+        title: 'Attention',
+        message: 'Please enter your registered email address.',
+        type: 'warning',
+      });
       return;
     }
 
@@ -45,23 +52,28 @@ export default function ForgotPassword() {
       // Envia o link de redefinição de senha via Firebase Auth
       await recoverPassword(emailLimpo);
 
-      Alert.alert(
-        'E-mail enviado!',
-        `Enviamos um link para ${emailLimpo}. Verifique sua caixa de entrada ou pasta de spam para redefinir sua senha.`,
-        [
-          {
-            text: 'Ir para Login',
-            onPress: () => router.replace('/(auth)/login'),
-          },
-        ]
-      );
+      showAlert({
+        title: 'Email Sent!',
+        message: `We sent password reset instructions to ${emailLimpo}. Please check your inbox and spam folder.`,
+        type: 'success',
+        buttonText: 'Go to Login',
+        onDismiss: () => router.replace('/(auth)/login'),
+      });
     } catch (error: any) {
       console.log('Erro ao recuperar senha:', error);
 
-      Alert.alert(
-        'Erro na recuperação',
-        error?.message || 'Não foi possível enviar o e-mail de recuperação.'
-      );
+      let msg = 'Unable to send recovery email. Please verify the email address.';
+      if (error?.code === 'auth/user-not-found') {
+        msg = 'No registered account found with this email.';
+      } else if (error?.code === 'auth/invalid-email') {
+        msg = 'The entered email format is invalid.';
+      }
+
+      showAlert({
+        title: 'Reset Error',
+        message: msg,
+        type: 'error',
+      });
     } finally {
       setLoading(false);
     }
@@ -94,23 +106,23 @@ export default function ForgotPassword() {
 
           <View style={loginStyles.header}>
             <Text style={loginStyles.title}>
-              Recuperar senha
+              Reset password
             </Text>
 
             <Text style={loginStyles.subtitle}>
-              Digite seu e-mail e enviaremos um link para criar uma nova senha.
+              Enter your email and we'll send you a link to create a new password.
             </Text>
           </View>
 
           <View style={loginStyles.form}>
             <Text style={loginStyles.label}>
-              E-mail
+              Email
             </Text>
 
             <View style={loginStyles.inputContainer}>
               <TextInput
                 style={loginStyles.input}
-                placeholder="Digite seu e-mail"
+                placeholder="Enter your email"
                 placeholderTextColor={Colors.textMuted}
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -130,7 +142,7 @@ export default function ForgotPassword() {
                   <ActivityIndicator color={Colors.white} />
                 ) : (
                   <Text style={loginStyles.buttonText}>
-                    Enviar link
+                    Send link
                   </Text>
                 )}
               </View>
@@ -141,9 +153,9 @@ export default function ForgotPassword() {
               onPress={() => router.back()}
             >
               <Text style={loginStyles.footerText}>
-                Lembrou sua senha?{' '}
+                Remember your password?{' '}
                 <Text style={loginStyles.footerTextAccent}>
-                  Entrar
+                  Log In
                 </Text>
               </Text>
             </TouchableOpacity>

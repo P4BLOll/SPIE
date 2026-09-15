@@ -1,327 +1,103 @@
 import React from 'react';
-
-import {
-  ScrollView,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
-
+import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-
 import { Background } from '../../../components/Background';
 import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
-export default function PMDDscreen() {
-
+export default function PmddScreen() {
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
         >
-          <Ionicons
-            name="arrow-back"
-            size={25}
-            color={Colors.text}
-          />
+          <Ionicons name="arrow-back" size={25} color={Colors.text} />
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
-          <Ionicons
-            name="heart-outline"
-            size={55}
-            color="#EC4899"
-          />
-
-          <Text style={tipsDetailStyles.title}>
-            TDPM
-          </Text>
-
+          <Ionicons name="warning-outline" size={55} color="#8B5CF6" />
+          <Text style={tipsDetailStyles.title}>PMDD</Text>
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda o Transtorno Disfórico Pré-Menstrual,
-            seus sintomas e quando procurar ajuda.
+            Understand Premenstrual Dysphoric Disorder, symptoms, and when to seek support.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            O que é TDPM?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>What is PMDD?</Text>
           <Text style={tipsDetailStyles.text}>
-            TDPM significa Transtorno Disfórico
-            Pré-Menstrual.
-
-            {'\n\n'}
-
-            É uma condição relacionada ao ciclo menstrual
-            que pode provocar sintomas emocionais e físicos
-            intensos nos dias que antecedem a menstruação.
-
-            {'\n\n'}
-
-            Os sintomas podem interferir significativamente
-            na rotina, nos relacionamentos, nos estudos
-            ou no trabalho.
+            Premenstrual Dysphoric Disorder (PMDD) is a severe, chronic medical condition where the brain reacts with heightened sensitivity to normal hormonal fluctuations during the luteal phase.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            TDPM x TPM
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>PMDD vs. PMS</Text>
           <Text style={tipsDetailStyles.text}>
-            TPM e TDPM não são exatamente a mesma coisa.
-
-            {'\n\n'}
-
-            A TPM pode provocar alterações físicas e
-            emocionais antes da menstruação.
-
-            {'\n\n'}
-
-            No TDPM, os sintomas emocionais tendem a ser
-            mais intensos e podem causar prejuízos
-            significativos na vida cotidiana.
-
-            {'\n\n'}
-
-            Apenas um profissional pode fazer o diagnóstico
-            corretamente.
+            While PMS involves mild to moderate physical and emotional symptoms, PMDD causes intense emotional distress and functional impairment that interferes with work, relationships, and daily life.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Sintomas emocionais
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Emotional symptoms</Text>
           <Text style={tipsDetailStyles.text}>
-            Podem aparecer:
-
+            Key emotional symptoms include:
             {'\n\n'}
-
-            • Irritabilidade intensa;
-
+            • Intense irritability, anger, or interpersonal conflicts;
             {'\n'}
-
-            • Mudanças de humor;
-
+            • Severe mood swings, sudden sadness, or crying spells;
             {'\n'}
-
-            • Tristeza ou sensação de desesperança;
-
+            • Overwhelming anxiety, tension, or panic;
             {'\n'}
-
-            • Ansiedade ou tensão;
-
-            {'\n'}
-
-            • Maior sensibilidade emocional;
-
-            {'\n'}
-
-            • Dificuldade de concentração;
-
-            {'\n'}
-
-            • Sensação de perda de controle;
-
-            {'\n'}
-
-            • Falta de interesse em atividades habituais.
+            • Feelings of hopelessness or severe self-criticism.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Sintomas físicos
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Physical symptoms</Text>
           <Text style={tipsDetailStyles.text}>
-            Também podem ocorrer sintomas físicos, como:
-
-            {'\n\n'}
-
-            • Cólicas;
-
-            {'\n'}
-
-            • Inchaço;
-
-            {'\n'}
-
-            • Sensibilidade ou dor nas mamas;
-
-            {'\n'}
-
-            • Dor de cabeça;
-
-            {'\n'}
-
-            • Cansaço;
-
-            {'\n'}
-
-            • Alterações no sono;
-
-            {'\n'}
-
-            • Alterações no apetite.
+            Physical symptoms may include extreme fatigue, brain fog, food cravings, insomnia, breast tenderness, and severe headaches.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Os sintomas acontecem durante todo o mês?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Do symptoms occur all month long?</Text>
           <Text style={tipsDetailStyles.text}>
-            Normalmente, os sintomas do TDPM apresentam
-            uma relação clara com o ciclo menstrual.
-
-            {'\n\n'}
-
-            Eles costumam aparecer durante a fase anterior
-            à menstruação e melhorar após o início ou
-            durante os primeiros dias do fluxo.
-
-            {'\n\n'}
-
-            Observar essa relação ao longo de vários ciclos
-            pode ajudar o profissional de saúde na avaliação.
+            No. Symptoms strictly emerge during the luteal phase (1–2 weeks before your period) and dissipate within a few days of full menstrual flow.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Como é feito o diagnóstico?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>How is PMDD diagnosed?</Text>
           <Text style={tipsDetailStyles.text}>
-            Não existe um único exame que confirme o TDPM.
-
-            {'\n\n'}
-
-            O diagnóstico é baseado principalmente nos
-            sintomas, na intensidade deles e na relação
-            com o ciclo menstrual.
-
-            {'\n\n'}
-
-            Registrar os sintomas durante vários ciclos
-            pode ajudar a identificar um padrão.
-
-            {'\n\n'}
-
-            Outras condições que podem causar sintomas
-            semelhantes também precisam ser consideradas.
+            Diagnosis requires prospectively tracking symptoms across at least two consecutive menstrual cycles to confirm their timing aligns with the luteal phase.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Tratamento e cuidados
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>Treatment and care</Text>
           <Text style={tipsDetailStyles.text}>
-            O tratamento depende da intensidade dos
-            sintomas e das necessidades de cada pessoa.
-
-            {'\n\n'}
-
-            Podem ser considerados medicamentos,
-            tratamentos hormonais e mudanças no estilo
-            de vida.
-
-            {'\n\n'}
-
-            Atividade física regular, sono adequado,
-            alimentação equilibrada e acompanhamento
-            profissional podem fazer parte dos cuidados.
-
-            {'\n\n'}
-
-            Não é recomendado iniciar medicamentos
-            por conta própria.
+            Effective medical approaches include lifestyle adjustments, cognitive behavioral therapy, selective serotonin reuptake inhibitors (SSRIs), and hormonal therapies prescribed by specialists.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
+          <Text style={tipsDetailStyles.sectionTitle}>When to seek help?</Text>
           <Text style={tipsDetailStyles.text}>
-            Procure um profissional de saúde se os sintomas:
-
-            {'\n\n'}
-
-            • Interferirem nos estudos ou trabalho;
-
-            {'\n'}
-
-            • Prejudicarem relacionamentos;
-
-            {'\n'}
-
-            • Causarem sofrimento emocional significativo;
-
-            {'\n'}
-
-            • Voltarem de forma intensa em vários ciclos;
-
-            {'\n'}
-
-            • Tornarem difícil realizar atividades
-            normalmente.
+            Seek immediate medical and psychiatric support if you experience persistent despair or thoughts of self-harm. PMDD is treatable, and compassionate help is available.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
-          <Ionicons
-            name="information-circle-outline"
-            size={25}
-            color="#F59E0B"
-          />
-
+          <Ionicons name="information-circle-outline" size={25} color="#F59E0B" />
           <Text style={tipsDetailStyles.infoText}>
-            Sintomas emocionais intensos relacionados ao
-            ciclo menstrual não devem ser ignorados.
-            Registrar os sintomas por alguns ciclos pode
-            ajudar na avaliação profissional.
+            PMDD is a genuine neurobiological condition, not a personality flaw or weakness. Seeking medical support is a vital step toward reclaiming your quality of life.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

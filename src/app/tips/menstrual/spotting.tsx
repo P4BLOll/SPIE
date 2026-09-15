@@ -1,12 +1,10 @@
 import React from 'react';
-
 import {
   ScrollView,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
@@ -15,14 +13,12 @@ import { Colors } from '../../../constants/Colors';
 import { tipsDetailStyles } from '../../../styles/tips-detail.styles';
 
 export default function SpottingScreen() {
-
   return (
     <Background>
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tipsDetailStyles.container}
       >
-
         <TouchableOpacity
           style={tipsDetailStyles.backButton}
           onPress={() => router.back()}
@@ -35,296 +31,108 @@ export default function SpottingScreen() {
         </TouchableOpacity>
 
         <View style={tipsDetailStyles.header}>
-
           <Ionicons
             name="water-outline"
             size={55}
             color="#F43F5E"
           />
-
           <Text style={tipsDetailStyles.title}>
-            Sangramento entre menstruações
+            Intermenstrual Bleeding (Spotting)
           </Text>
-
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda o que pode causar pequenos sangramentos
-            fora do período menstrual.
+            Understand what causes light bleeding between menstrual periods.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é spotting?
+            What is spotting?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Spotting é o nome usado para descrever um
-            pequeno sangramento vaginal que acontece
-            fora do período menstrual habitual.
-
+            Spotting refers to light vaginal bleeding or staining that occurs outside of your regular menstrual period.
             {'\n\n'}
-
-            Ele pode aparecer como algumas gotas de sangue
-            ou uma pequena quantidade de secreção rosada,
-            avermelhada ou amarronzada.
-
+            It typically appears as a few drops of blood or pinkish, brownish discharge that only requires a panty liner.
             {'\n\n'}
-
-            Nem sempre significa que existe algum problema,
-            mas a causa depende do momento do ciclo e
-            de outros fatores.
+            While often harmless, the significance of spotting depends on your cycle phase and health history.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Possíveis causas
+            Common causes
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Existem várias causas possíveis para o
-            sangramento fora da menstruação:
-
+            Possible reasons for spotting between periods include:
             {'\n\n'}
-
-            • Alterações hormonais;
-
+            • Mid-cycle ovulation bleeding;
             {'\n'}
-
-            • Ovulação;
-
+            • Starting or adjusting hormonal contraceptives;
             {'\n'}
-
-            • Início ou mudança de anticoncepcional;
-
+            • Missed or delayed contraceptive pills;
             {'\n'}
-
-            • Esquecimento ou uso incorreto de
-            anticoncepcionais hormonais;
-
+            • Emergency contraception use;
             {'\n'}
-
-            • Uso de contracepção de emergência;
-
+            • Early pregnancy implantation bleeding;
             {'\n'}
-
-            • Irritação ou pequenas lesões no colo do útero;
-
+            • Cervical or vaginal irritation following sex or an exam;
             {'\n'}
-
-            • Infecções sexualmente transmissíveis;
-
+            • Sexually transmitted infections (STIs);
             {'\n'}
-
-            • Pólipos;
-
-            {'\n'}
-
-            • Miomas;
-
-            {'\n'}
-
-            • Outras condições ginecológicas.
+            • Cervical or uterine polyps and fibroids.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Sangramento durante a ovulação
+            Ovulation spotting
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Algumas pessoas podem apresentar um pequeno
-            sangramento próximo ao período da ovulação.
-
+            Some individuals experience very light spotting around the midpoint of their cycle when an egg is released.
             {'\n\n'}
-
-            Geralmente é uma quantidade pequena e pode
-            durar pouco tempo.
-
-            {'\n\n'}
-
-            Porém, nem todo sangramento no meio do ciclo
-            está relacionado à ovulação.
+            This occurs due to a brief dip in estrogen levels right around ovulation and generally resolves in 1 to 2 days.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Anticoncepcionais podem causar escape?
+            Contraceptive breakthrough bleeding
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Sim.
-
+            Starting a new birth control pill, implant, or IUD commonly triggers breakthrough bleeding during the first 3 to 6 months of adaptation.
             {'\n\n'}
-
-            Sangramentos irregulares podem acontecer
-            principalmente nos primeiros meses após
-            iniciar ou mudar alguns métodos hormonais.
-
-            {'\n\n'}
-
-            Esquecer doses ou utilizar o método de forma
-            diferente da recomendada também pode
-            aumentar a chance de sangramento irregular.
-
-            {'\n\n'}
-
-            Não interrompa o método por conta própria.
+            Missing a pill or taking it late can also cause sudden spotting. Do not discontinue contraceptives without consulting your doctor.
           </Text>
-
         </View>
 
         <View style={tipsDetailStyles.card}>
-
           <Text style={tipsDetailStyles.sectionTitle}>
-            Pode estar relacionado a uma infecção?
+            When to seek medical evaluation?
           </Text>
-
           <Text style={tipsDetailStyles.text}>
-            Sim.
-
+            Consult a healthcare professional if:
             {'\n\n'}
-
-            Algumas infecções, incluindo determinadas
-            infecções sexualmente transmissíveis, podem
-            provocar sangramento fora do período menstrual.
-
-            {'\n\n'}
-
-            Se o sangramento estiver acompanhado de
-            corrimento diferente, mau cheiro, dor pélvica,
-            ardência ao urinar ou dor durante as relações,
-            procure avaliação profissional.
+            • Spotting occurs frequently or progressively increases;
+            {'\n'}
+            • Bleeding occurs consistently after sexual intercourse;
+            {'\n'}
+            • Accompanied by pelvic pain, foul-smelling discharge, or burning during urination;
+            {'\n'}
+            • There is a chance of pregnancy;
+            {'\n'}
+            • Any bleeding occurs after menopause.
           </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            E durante a gravidez?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Sangramento durante a gravidez pode ter
-            diferentes causas.
-
-            {'\n\n'}
-
-            Se houver possibilidade ou confirmação de
-            gravidez, qualquer sangramento deve ser
-            comunicado a um profissional de saúde,
-            principalmente quando acompanhado de dor.
-
-            {'\n\n'}
-
-            Sangramento intenso ou dor forte durante uma
-            possível gravidez precisa de avaliação urgente.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar ajuda?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure avaliação profissional se:
-
-            {'\n\n'}
-
-            • O sangramento acontece frequentemente;
-
-            {'\n'}
-
-            • A quantidade está aumentando;
-
-            {'\n'}
-
-            • O sangramento aparece após relações
-            sexuais repetidamente;
-
-            {'\n'}
-
-            • Existe dor pélvica;
-
-            {'\n'}
-
-            • Há corrimento ou odor diferente;
-
-            {'\n'}
-
-            • Existe possibilidade de gravidez;
-
-            {'\n'}
-
-            • O sangramento começou após a menopausa.
-          </Text>
-
-        </View>
-
-        <View style={tipsDetailStyles.card}>
-
-          <Text style={tipsDetailStyles.sectionTitle}>
-            Quando procurar atendimento urgente?
-          </Text>
-
-          <Text style={tipsDetailStyles.text}>
-            Procure atendimento rapidamente se houver:
-
-            {'\n\n'}
-
-            • Sangramento muito intenso;
-
-            {'\n'}
-
-            • Tontura intensa ou desmaio;
-
-            {'\n'}
-
-            • Dor abdominal ou pélvica forte;
-
-            {'\n'}
-
-            • Febre;
-
-            {'\n'}
-
-            • Sangramento durante uma possível gravidez
-            acompanhado de dor ou fraqueza.
-          </Text>
-
         </View>
 
         <View style={tipsDetailStyles.infoBox}>
-
           <Ionicons
             name="information-circle-outline"
             size={25}
             color="#F59E0B"
           />
-
           <Text style={tipsDetailStyles.infoText}>
-            Pequenos escapes podem acontecer por diversos
-            motivos. Observe quando aparecem, quanto
-            duram e se existem outros sintomas. Sangramentos
-            recorrentes devem ser avaliados.
+            Light occasional spotting can be benign, but recurring or unexplained bleeding between periods should always be evaluated by a healthcare professional.
           </Text>
-
         </View>
-
       </ScrollView>
     </Background>
   );

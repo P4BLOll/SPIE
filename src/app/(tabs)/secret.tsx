@@ -28,6 +28,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { cycleColors } from '@/styles/calendar.styles';
 import { useSecurity } from '@/modules/security-vault/contexts/SecurityContext';
 import { secretStyles as styles } from '@/styles/secret.styles';
+import { haptics } from '@/shared/utils/haptics';
 
 
 // =====================================================
@@ -204,8 +205,8 @@ export default function SecretScreen() {
     ) {
 
       Alert.alert(
-        'Senha inválida',
-        'Digite exatamente 4 números.'
+        'Invalid PIN',
+        'Enter exactly 4 digits.'
       );
 
       return;
@@ -224,17 +225,17 @@ export default function SecretScreen() {
 
 
       if (!sucesso) {
-
+        haptics.error();
         Alert.alert(
-          'Erro',
-          'Não foi possível criar sua senha.'
+          'Error',
+          'Could not create your PIN.'
         );
 
         return;
 
       }
 
-
+      haptics.success();
       // -----------------------------------------------
       // PIN CRIADO E ESTA ENTRADA FOI AUTORIZADA
       // -----------------------------------------------
@@ -246,14 +247,14 @@ export default function SecretScreen() {
     } catch (error) {
 
       console.log(
-        'Erro ao criar PIN:',
+        'Error creating PIN:',
         error
       );
 
-
+      haptics.error();
       Alert.alert(
-        'Erro',
-        'Não foi possível criar sua senha.'
+        'Error',
+        'Could not create your PIN.'
       );
 
     } finally {
@@ -276,9 +277,10 @@ export default function SecretScreen() {
       !/^\d{4}$/.test(senhaDigitada)
     ) {
 
+      haptics.warning();
       Alert.alert(
-        'Senha inválida',
-        'Digite os 4 números do seu PIN.'
+        'Invalid PIN',
+        'Enter your 4-digit PIN.'
       );
 
       return;
@@ -298,9 +300,10 @@ export default function SecretScreen() {
 
       if (!sucesso) {
 
+        haptics.error();
         Alert.alert(
-          'Senha incorreta',
-          'O PIN informado está errado.'
+          'Incorrect PIN',
+          'The PIN entered is incorrect.'
         );
 
 
@@ -311,6 +314,7 @@ export default function SecretScreen() {
       }
 
 
+      haptics.success();
       // -----------------------------------------------
       // PIN CORRETO
       // -----------------------------------------------
@@ -322,14 +326,14 @@ export default function SecretScreen() {
     } catch (error) {
 
       console.log(
-        'Erro ao verificar PIN:',
+        'Error verifying PIN:',
         error
       );
 
-
+      haptics.error();
       Alert.alert(
-        'Erro',
-        'Não foi possível verificar o PIN.'
+        'Error',
+        'Could not verify PIN.'
       );
 
     } finally {
@@ -399,7 +403,7 @@ export default function SecretScreen() {
           <Text
             style={styles.lockTitle}
           >
-            Carregando...
+            Loading...
           </Text>
 
         </View>
@@ -526,8 +530,8 @@ export default function SecretScreen() {
             >
 
               {criandoSenha
-                ? 'Crie seu PIN secreto'
-                : 'Digite seu PIN'}
+                ? 'Create your secret PIN'
+                : 'Enter your PIN'}
 
             </Text>
 
@@ -543,8 +547,8 @@ export default function SecretScreen() {
             >
 
               {criandoSenha
-                ? 'Essa senha protege sua área de emergência. Use 4 números fáceis de lembrar.'
-                : 'Digite o PIN de 4 números para acessar sua área segura.'}
+                ? 'This PIN protects your emergency area. Use 4 digits you can easily remember.'
+                : 'Enter your 4-digit PIN to access your secure area.'}
 
             </Text>
 
@@ -573,9 +577,13 @@ export default function SecretScreen() {
                 value={
                   senhaDigitada
                 }
-                onChangeText={
-                  setSenhaDigitada
-                }
+                onChangeText={(text) => {
+                  const cleaned = text.replace(/[^0-9]/g, '');
+                  if (cleaned.length !== senhaDigitada.length) {
+                    haptics.selection();
+                  }
+                  setSenhaDigitada(cleaned);
+                }}
                 autoFocus
                 editable={
                   !processando
@@ -622,46 +630,24 @@ export default function SecretScreen() {
                   }
                 >
                   {processando
-                    ? 'AGUARDE...'
+                    ? 'PLEASE WAIT...'
                     : criandoSenha
-                      ? 'CRIAR SENHA'
-                      : 'ENTRAR'}
+                      ? 'CREATE PIN'
+                      : 'UNLOCK'}
                 </Text>
               </View>
             </TouchableOpacity>
 
-            {/* DICA DE PRIMEIRO ACESSO E ALTERAÇÃO DE PIN */}
+            {/* DICA DE RECUPERAÇÃO / ALTERAÇÃO DE PIN */}
             {!criandoSenha && (
               <View style={{ marginTop: 24, alignItems: 'center', width: '100%' }}>
-                {isDefaultPin && (
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 8,
-                      backgroundColor: 'rgba(255, 92, 141, 0.12)',
-                      paddingHorizontal: 16,
-                      paddingVertical: 10,
-                      borderRadius: 20,
-                      marginBottom: 14,
-                      borderWidth: 1,
-                      borderColor: 'rgba(255, 92, 141, 0.25)',
-                    }}
-                  >
-                    <Ionicons name="key-outline" size={16} color={cycleColors.rose} />
-                    <Text style={{ fontSize: 13, color: cycleColors.rose, fontWeight: '700' }}>
-                      Senha padrão inicial: <Text style={{ fontWeight: '900', color: '#FFFFFF' }}>1234</Text>
-                    </Text>
-                  </View>
-                )}
-
                 <TouchableOpacity
                   activeOpacity={0.7}
                   onPress={() => router.push('/security/change-pin')}
                   style={{ paddingVertical: 6 }}
                 >
                   <Text style={{ fontSize: 13, color: cycleColors.gold, fontWeight: '700', textDecorationLine: 'underline' }}>
-                    Esqueceu ou deseja alterar seu PIN?
+                    Forgot or want to change your PIN?
                   </Text>
                 </TouchableOpacity>
               </View>

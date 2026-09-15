@@ -49,12 +49,11 @@ export default function CycleOverviewScreen() {
           />
 
           <Text style={tipsDetailStyles.title}>
-            O ciclo completo
+            The Complete Cycle
           </Text>
 
           <Text style={tipsDetailStyles.subtitle}>
-            Entenda como as diferentes fases do ciclo
-            menstrual se conectam.
+            Understand how each phase of the menstrual cycle connects.
           </Text>
 
         </View>
@@ -62,19 +61,15 @@ export default function CycleOverviewScreen() {
         <View style={tipsDetailStyles.card}>
 
           <Text style={tipsDetailStyles.sectionTitle}>
-            O que é o ciclo menstrual?
+            What is the menstrual cycle?
           </Text>
 
           <Text style={tipsDetailStyles.text}>
-            O ciclo menstrual é uma sequência de mudanças
-            hormonais e físicas que acontece no organismo
-            ao longo do tempo.
+            The menstrual cycle is a dynamic sequence of hormonal and physical changes that takes place in the body over time.
 
             {'\n\n'}
 
-            Essas mudanças envolvem principalmente os
-            ovários e o útero e preparam o corpo para uma
-            possível gravidez.
+            These changes primarily involve the ovaries and uterus, preparing the body for potential pregnancy.
           </Text>
 
         </View>
@@ -82,22 +77,19 @@ export default function CycleOverviewScreen() {
         <View style={tipsDetailStyles.card}>
 
           <Text style={tipsDetailStyles.sectionTitle}>
-            1. Fase menstrual
+            1. Menstrual phase
           </Text>
 
           <Text style={tipsDetailStyles.text}>
-            É o período em que ocorre o sangramento
-            menstrual.
+            The period when menstrual bleeding occurs.
 
             {'\n\n'}
 
-            O endométrio, que havia se preparado durante
-            o ciclo anterior, é eliminado quando não
-            ocorre uma gravidez.
+            The endometrium, which thickened during the previous cycle, sheds when pregnancy has not occurred.
 
             {'\n\n'}
 
-            Essa fase marca o início de um novo ciclo.
+            This phase marks day 1 and the start of a new cycle.
           </Text>
 
         </View>
@@ -105,22 +97,19 @@ export default function CycleOverviewScreen() {
         <View style={tipsDetailStyles.card}>
 
           <Text style={tipsDetailStyles.sectionTitle}>
-            2. Fase folicular
+            2. Follicular phase
           </Text>
 
           <Text style={tipsDetailStyles.text}>
-            Durante essa fase, os folículos presentes nos
-            ovários começam a se desenvolver.
+            During this phase, follicles inside the ovaries begin developing under the influence of FSH.
 
             {'\n\n'}
 
-            Um dos folículos geralmente se torna dominante
-            e continua seu desenvolvimento até a ovulação.
+            One follicle typically becomes dominant and continues maturing until ovulation.
 
             {'\n\n'}
 
-            Os níveis de estrogênio também aumentam
-            gradualmente durante esse processo.
+            Estrogen levels rise steadily throughout this process, boosting energy and rebuilding the uterine lining.
           </Text>
 
         </View>
@@ -128,23 +117,19 @@ export default function CycleOverviewScreen() {
         <View style={tipsDetailStyles.card}>
 
           <Text style={tipsDetailStyles.sectionTitle}>
-            3. Ovulação
+            3. Ovulation
           </Text>
 
           <Text style={tipsDetailStyles.text}>
-            A ovulação acontece quando um óvulo é liberado
-            por um dos ovários.
+            Ovulation occurs when a mature egg is released from an ovary.
 
             {'\n\n'}
 
-            O momento da ovulação pode variar de pessoa
-            para pessoa e entre diferentes ciclos.
+            The exact day of ovulation varies between people and across cycles.
 
             {'\n\n'}
 
-            Essa é a fase em que existe maior possibilidade
-            de ocorrer uma gravidez caso haja relação sexual
-            sem contracepção.
+            This is the window of peak fertility, with the highest probability of pregnancy occurring from unprotected intercourse.
           </Text>
 
         </View>
@@ -152,23 +137,19 @@ export default function CycleOverviewScreen() {
         <View style={tipsDetailStyles.card}>
 
           <Text style={tipsDetailStyles.sectionTitle}>
-            4. Fase lútea
+            4. Luteal phase
           </Text>
 
           <Text style={tipsDetailStyles.text}>
-            Depois da ovulação, começa a fase lútea.
+            After ovulation, the luteal phase begins.
 
             {'\n\n'}
 
-            O corpo lúteo passa a produzir principalmente
-            progesterona, ajudando a manter o endométrio
-            preparado para uma possível gravidez.
+            The corpus luteum secretes progesterone to maintain the uterine lining prepared for possible implantation.
 
             {'\n\n'}
 
-            Quando não ocorre uma gravidez, os níveis
-            hormonais diminuem e uma nova menstruação
-            começa.
+            If conception does not occur, hormone levels drop, triggering menstruation and a new cycle.
           </Text>
 
         </View>
@@ -176,23 +157,19 @@ export default function CycleOverviewScreen() {
         <View style={tipsDetailStyles.card}>
 
           <Text style={tipsDetailStyles.sectionTitle}>
-            O ciclo se repete
+            The cycle repeats
           </Text>
 
           <Text style={tipsDetailStyles.text}>
-            Depois da fase lútea, quando não ocorre uma
-            gravidez, o endométrio é eliminado e uma nova
-            menstruação começa.
+            After the luteal phase, absent pregnancy, the endometrial lining is shed, and bleeding begins anew.
 
             {'\n\n'}
 
-            Assim, o ciclo recomeça e as fases voltam a
-            acontecer em sequência.
+            The cycle starts over and progresses through the four distinct phases in sequence.
 
             {'\n\n'}
 
-            Cada pessoa pode apresentar um ciclo com
-            características e duração diferentes.
+            Every person experiences a unique cycle rhythm with natural variations in length and symptoms.
           </Text>
 
         </View>
@@ -200,23 +177,19 @@ export default function CycleOverviewScreen() {
         <View style={tipsDetailStyles.card}>
 
           <Text style={tipsDetailStyles.sectionTitle}>
-            O ciclo não é igual para todas
+            Cycles vary for everyone
           </Text>
 
           <Text style={tipsDetailStyles.text}>
-            A duração do ciclo pode variar entre pessoas
-            e também entre diferentes ciclos da mesma pessoa.
+            Cycle length can vary from person to person and even month to month for the same individual.
 
             {'\n\n'}
 
-            Por isso, não é necessário que todas as fases
-            aconteçam exatamente nos mesmos dias todos
-            os meses.
+            It is completely natural for phases not to fall on the exact same calendar day every month.
 
             {'\n\n'}
 
-            Observar seu próprio padrão pode ajudar a
-            compreender melhor as mudanças do seu corpo.
+            Observing your personal trends helps you better understand and support your body.
           </Text>
 
         </View>
@@ -230,11 +203,7 @@ export default function CycleOverviewScreen() {
           />
 
           <Text style={tipsDetailStyles.infoText}>
-            O ciclo menstrual é contínuo e pode apresentar
-            variações naturais. As fases ajudam a entender
-            o que acontece no organismo, mas não devem ser
-            usadas isoladamente para determinar o período
-            fértil ou diagnosticar problemas de saúde.
+            The menstrual cycle is continuous and experiences natural fluctuations. Understanding these phases helps you navigate your wellness, but should not replace professional medical guidance or be used as sole contraception.
           </Text>
 
         </View>
